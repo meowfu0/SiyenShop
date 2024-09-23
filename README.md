@@ -1,64 +1,172 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="images/logo.png" alt="Laravel Logo">
 </p>
 
-## About Laravel
+# SiyenSHOP: AN INTEGRATED E-COMMERCE PLATFORM FOR MERCHANDISE SHOPS WITHIN BICOL UNIVERSITY COLLEGE OF SCIENCE
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## DESCRIPTION
+This project is a **web-based e-commerce system** designed to provide a student-friendly platform for students of Bicol University to browse and purchase all kinds of merchandise from various student organizations within the Bicol University College of Science. It allows users to choose products to buy effectively, add them to the cart, and track orders.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## FEATURES
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## 1. User Profile and Authentication
+Users are able to secure login and registration of accounts for the website. They can access the Products page which shows their personal information such as:
+- **Profile picture**
+- **Name**
+- **Email**
+- **Course**
+- **Block**
+- **Phone number**
+- **Password**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## 2. Navigation Menu
+Provides easy access for customers to navigate through the main features of the system, including:
+- **Home page**
+- **Product Catalog page**
+- **FAQs page**
+- **Cart**
+- **Profile page**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+This menu is located at the upper part of the screen, improving user experience and usability by allowing quick transitions between pages.
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
+## 3. FAQs Page
+Allows customers to view common questions and answers regarding SiyenSHOP and its purchasing processes.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 4. Product Catalogue and Product Details
+Offers a user-friendly interface displaying a dynamic catalog of products being sold. Key product details include:
+- **Images**
+- **Descriptions**
+- **Pricing**
+- **Reviews**
 
-## Security Vulnerabilities
+Users can also choose product specifications (quantity and variant) before adding items to the cart or proceeding to checkout.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 5. Search and Filter
+Customers can easily search for products using the search bar located at the top of the **Home** and **Product Catalogue** pages. Filters by:
+- **Organization type**
+- **Category**
+
+This helps narrow down options based on specific criteria, making it easier to find products suited to their preferences.
+
+
+
+## 6. Cart Page
+Displays the items added to the cart, along with the subtotal price and a checkout button. Customers can:
+- **Update product specifications** (quantity and variant)
+- **Remove items**
+
+This feature allows users to review and modify their order before proceeding to checkout.
+
+
+
+## 7. Checkout Page
+Customers can complete their purchase on this page, which includes:
+- **Order summary**
+- **Total amount**
+- **Organization's name**
+- **G-Cash number**
+
+Input fields are provided for uploading proof of payment (payment screenshot and reference number). An invoice will be sent to the user's email containing the order's receipt.
+
+
+
+## 8. Order Tracking
+Users can view their order history on the **My Purchases** page and track the status of their purchases.
+
+
+
+## 9. Product Management
+Business managers of the organization are able to:
+- **Add**
+- **Edit**
+- **Delete**
+
+These actions apply to the products displayed in the **Product Catalogue**.
+
+
+
+## 10. Order Management
+Business managers can:
+- **View customer orders**
+- **Change the status of orders**
+
+This feature enhances efficiency in managing the order fulfillment process and helps maintain customer satisfaction by keeping clients informed about order progress.
+
+
+
+## 11. Admin and Business Manager Dashboard
+Provides a dashboard overview of sales for each organization.
+
+
+
+## 12. Create Shops
+Admins can create a shop linked to an organization.
+
+
+
+## 13. Chat Function
+Enables communication between:
+- **Customers**
+- **Business managers**
+- **Admins**
+
+This feature facilitates better customer service and operational coordination.
+
+
+## INSTALLATION AND USAGE INSTRUCTIONS
+
+### Prerequisites
+- PHP >= 8.0
+- Composer
+- MySQL
+- Node.js & npm
+- Git
+
+## Steps
+#### 1. Clone the repository: First, clone the project from your Git repository
+    git clone https://github.com/meowfu0/SiyenShop
+    cd siyen-shop
+#### 2. Install PHP Dependencies: Use Composer to install the required PHP dependencies for Laravel
+    composer install
+#### 3. Install JavaScript Dependencies: Install the required JavaScript packages (Bootstrap, etc.) using npm
+    npm install
+#### 4. Set Up Environment Variables: Create a .env file by copying the example file
+    cp .env.example .env
+#### 5. Open the .env file and update the following variables to match your local environment
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE= siyenshop1
+    DB_USERNAME=root
+    DB_PASSWORD=""
+#### 6. Run the Artisan Key Generate Command
+    php artisan key:generate
+#### 7. Run the Application: Finally, run the application locally
+    php artisan serve
+The application will be available at http://localhost:8000
+#### 8. For more in-depth instructions, check out the YouTube tutorial.
+**Watch the Installation Videos**  
+   Follow the guide in this [Laravel 8 Installation Video](https://youtu.be/bbO8IzgPcu8?si=usrZY_1eJrwTWT6s) for detailed steps.  
+   For more insights, you can also watch this [Laravel Tutorial](https://youtu.be/RclRaq3by7o?si=pb--_P03r3VT2V8O).
+
+## CONTRIBUTIONS
+
+Contributions to this project are **restricted** to students enrolled in **BSIT - 3B of Bicol University College of Science**. If you are a member of this class and would like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with descriptive messages.
+4. Push your branch to your forked repository.
+5. Create a pull request to the main repository.
+
+## Note
+Contributions from outside the class are currently not being accepted. Thank you for your understanding.
