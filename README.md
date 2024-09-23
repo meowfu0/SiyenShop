@@ -145,7 +145,7 @@ This feature facilitates better customer service and operational coordination.
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE= siyenshop1
+    DB_DATABASE= siyenshopdb
     DB_USERNAME=root
     DB_PASSWORD=""
 #### 6. Run the Artisan Key Generate Command
