@@ -134,7 +134,7 @@ This feature facilitates better customer service and operational coordination.
 #### 1. Clone the repository: First, clone the project from your Git repository
 
     git clone https://github.com/meowfu0/SiyenShop
-    cd siyen-shop
+    cd SiyenShop
 
 #### 2. Install PHP Dependencies: Use Composer to install the required PHP dependencies for Laravel
 
