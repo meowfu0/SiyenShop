@@ -16,13 +16,13 @@
             
             <ul class="navbar-nav al justify-content-center flex-grow-1">
                 <li class="nav-item ">
-                    <a class="nav-link font-weight-bold text-primary fw-normal" href="#">Home</a>
+                    <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-normal" href="#">Products</a>
+                    <a class="nav-link text-primary fw-medium" href="#">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-normal" href="{{ url('/faq') }}">FAQs</a>
+                    <a class="nav-link text-primary fw-medium" href="{{ url('/faq') }}">FAQs</a>
                 </li>
             </ul>
 
@@ -39,7 +39,7 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item me-3">
-                            <a class="text-white bg-secondary btn fw-bold ms-2 px-4 py-0 py-md-2" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="text-white bg-secondary btn fw-medium ms-2 px-4 py-0 py-md-2" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
                 @endguest
