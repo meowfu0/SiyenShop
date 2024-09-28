@@ -46,6 +46,7 @@
 }
 
 
+
 @media only screen and (min-width: 768px) {
     .navbar {
      height: 80px !important; 
@@ -57,4 +58,17 @@
         width: 16px;
         height: 16px;
     }
+}
+
+/*FAQs Section*/
+
+.custom-width-h2 {
+    width: 90%; 
+    
+}
+.custom-width-p {
+    width: 60%;
+    display: flex; 
+    margin: 0;
+    font-size: 14px;
 }
