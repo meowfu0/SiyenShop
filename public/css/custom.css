@@ -60,3 +60,25 @@
 }
 
 /* ends here */
+.sidenav-link {
+    padding: 12px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sidenav-link:hover, 
+.sidenav-link:active {
+    background-color: #E2B93B;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.sidenav-link:hover img, 
+.sidenav-link:active img {
+    filter: brightness(0) invert(1); /* Turns the image to white */
+}
+
+
