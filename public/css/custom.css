@@ -1,4 +1,4 @@
-/* this custom code is for navbar */
+
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
@@ -58,5 +58,3 @@
         height: 16px;
     }
 }
-
-/* ends here */
