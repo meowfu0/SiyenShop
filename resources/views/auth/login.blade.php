@@ -65,6 +65,7 @@
                             </div>
                         </div>
                     </form>
+                    <a class="text-white bg-secondary btn fw-bold ms-2 px-4 py-0 py-md-2" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </div>
             </div>
         </div>
