@@ -19,6 +19,10 @@ Route::get('/', function () {
 Route::get('/faq', function () {
     return view('faq');
 });
+Route::get('/userprofile', function () {
+    return view('userprofile');
+});
+
 
 Auth::routes();
 
