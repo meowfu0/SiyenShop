@@ -59,6 +59,11 @@
     }
 }
 
+.nav-link:hover,
+.nav-link.active{
+    color: #E2B93B!important;
+}
+
 /* ends here */
 .sidenav-link {
     padding: 12px;
@@ -69,7 +74,8 @@
 }
 
 .sidenav-link:hover, 
-.sidenav-link:active {
+.sidenav-link:active,
+.sidenav-link.active {
     background-color: #E2B93B;
     color: white;
     font-weight: 600;
@@ -77,7 +83,8 @@
 }
 
 .sidenav-link:hover img, 
-.sidenav-link:active img {
+.sidenav-link:active img, 
+.sidenav-link.active img{
     filter: brightness(0) invert(1); /* Turns the image to white */
 }
 
