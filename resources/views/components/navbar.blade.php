@@ -52,7 +52,7 @@
                     </a>
 
                     <div class="d-flex align-items-center">
-                        <a class="icons me-2" href="{{ url('/user') }}">
+                        <a class="icons me-2" href="{{ url('/userprofile') }}">
                             <img src="{{ asset('images/user.svg') }}" class="user-img">
                         </a>
                         <div class="text-primary fw-normal d-none d-md-block">
