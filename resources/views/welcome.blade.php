@@ -19,7 +19,7 @@
     @include('styleguide') --}}
 
     <div class="d-flex">
-            {{-- @livewire('shop-sidenav') --}}
+            @livewire('shop-sidenav') 
         <main class="min-vh-100 d-flex flex-grow-1 ">
             @yield('content')
             {{-- CONTENT WILL SHOW HERE --}}
