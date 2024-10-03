@@ -10,7 +10,7 @@
         <button class="btn btn-danger">Danger Button</button>
         <button class="btn btn-warning">Warning Button</button>
         <button class="btn btn-info">Info Button</button>
-        <button class="btn btn-light">Light Button</button>
+        <button class="btn btn-light">Light ButtonN</button>
         <button class="btn btn-dark">Dark Button</button>
     </div>
 
