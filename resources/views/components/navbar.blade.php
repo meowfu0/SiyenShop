@@ -19,7 +19,7 @@
                     <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="#">Products</a>
+                    <a class="nav-link text-primary fw-medium" href="{{route('shopPage')}}">Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-primary fw-medium" href="{{ url('/faq') }}">FAQs</a>
