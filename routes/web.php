@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\shopPage;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+/*Route::get('/', function() {
+    return view ('shopPage');
+});*/
+
+
+Route::get('/shopPage', [shopPage::class, 'index'])->name('shopPage');
