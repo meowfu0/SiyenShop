@@ -144,11 +144,26 @@ This feature facilitates better customer service and operational coordination.
 
     npm install
 
-#### 4. Set Up Environment Variables: Create a .env file by copying the example file
+#### 4. Install Laravel Mix through NPM
+
+    npm init -y
+    npm install laravel-mix --save-dev
+
+#### 5. Open the webpack.mix.js file and add this following code (if it's not yet there)
+
+    let mix = require('laravel-mix');
+
+    mix.js('src/app.js', 'dist').setPublicPath('dist');
+
+#### 6. Install Livewire
+
+    composer require livewire/livewire
+
+#### 7. Set Up Environment Variables: Create a .env file by copying the example file
 
     cp .env.example .env
 
-#### 5. Open the .env file and update the following variables to match your local environment
+#### 8. Open the .env file and update the following variables to match your local environment
 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -157,27 +172,27 @@ This feature facilitates better customer service and operational coordination.
     DB_USERNAME=root
     DB_PASSWORD=""
 
-### 6. Go to your xampp and create a database named "siyenshopdb", make sure your xampp server is running
+### 9. Go to your xampp and create a database named "siyenshopdb", make sure your xampp server is running
 
-#### 7. Run the Artisan Key Generate Command
+#### 10. Run the Artisan Key Generate Command
 
     php artisan key:generate
 
-### 8. Run the artisan migrate to migrate the database to your local machine
+### 11. Run the artisan migrate to migrate the database to your local machine
 
     php artisan migrate
 
-### 9. Run the database seed command to populate your database
+### 12. Run the database seed command to populate your database
 
     php artisan db:seed
 
-#### 10. Run the Application: Finally, run the application locally
+#### 13. Run the Application: Finally, run the application locally
 
     php artisan serve
 
 The application will be available at http://localhost:8000
 
-#### 11. For more in-depth instructions, check out the YouTube tutorial.
+#### 14. For more in-depth instructions, check out the YouTube tutorial.
 
 **Watch the Installation Videos**  
  Follow the guide in this [Laravel 8 Installation Video](https://youtu.be/bbO8IzgPcu8?si=usrZY_1eJrwTWT6s) for detailed steps.  

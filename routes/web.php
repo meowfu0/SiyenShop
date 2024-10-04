@@ -5,6 +5,8 @@ use App\Http\Livewire\ShopDashboard;
 use App\Http\Livewire\ShopOrders;
 use App\Http\Livewire\ShopProducts;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Admin\AdminUsers;
+use App\Http\Livewire\Admin\AdminSidenav;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +32,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
+    Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
 });
