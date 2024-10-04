@@ -1,12 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 
 
-=======
-use App\Http\Controllers\shopPage;
->>>>>>> 025361c332b2cb5e7fb460983529dba163dd5755
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,21 +20,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-<<<<<<< HEAD
 use App\Http\Controllers\shopPageController; // Use PascalCase
 
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
-
-
-
-
-=======
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-/*Route::get('/', function() {
-    return view ('shopPage');
-});*/
-
-
-Route::get('/shopPage', [shopPage::class, 'index'])->name('shopPage');
->>>>>>> 025361c332b2cb5e7fb460983529dba163dd5755
