@@ -23,6 +23,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
 // Shop Routes Group 
 //add middleware for authentication purposes
 Route::prefix('shop')->group(function () {

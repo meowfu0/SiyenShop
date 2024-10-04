@@ -19,7 +19,7 @@
         </div>
         <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
      </div>
- 
+
     <div class="d-flex justify-content-between px-5 py-3">
         <h2 class="fw-bold m-0 text-primary">Sales Analytics</h2>
         <div class="d-flex align-items-center gap-2">
@@ -31,24 +31,24 @@
     <div class="d-flex gap-4 px-5">
         <div class="border border-primary rounded-4 p-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Gross Sales</h4>
-            <h3 class="text-primary fw-bold">P 99,999.00</h3>
+            <h3 class="text-primary fw-bolder">P 99,999.00</h3>
         </div>
         <div class="border border-primary rounded-4 p-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Net Income</h4>
-            <h3 class="text-primary fw-bold">P 99,999.00</h3>
+            <h3 class="text-primary fw-bolder">P 99,999.00</h3>
         </div>
         <div class="border border-primary rounded-4 p-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Orders</h4>
-            <h3 class="text-primary fw-bold">P 99,999.00</h3>
+            <h3 class="text-primary fw-bolder">P 99,999.00</h3>
         </div>
         <div class="border border-primary rounded-4 p-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Total Orders</h4>
-            <h3 class="text-primary fw-bold">P 99,999.00</h3>
+            <h3 class="text-primary fw-bolder">P 99,999.00</h3>
         </div>
     </div>
   
   
-    <div class="d-flex px-5 py-4 gap-4 flex-grow-1 " style="display: table-row;">
+    <div class="d-flex px-5 py-4 gap-4 flex-grow-1 " style="max-height: 60%">
         <div class=" border border-primary rounded-4 p-4 " style="flex:4;">
              <div class="d-flex justify-content-between">
                 <h4 class="text-secondary fw-bold">Recent  Orders</h4>
