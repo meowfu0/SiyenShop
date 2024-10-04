@@ -18,7 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('role_name', 255);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('modified_at')->nullable()->useCurrentOnUpdate();
-            $table->timestamp('deleted_at')->nullable(); // suggest if add or not
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
