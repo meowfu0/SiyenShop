@@ -140,9 +140,9 @@ This feature facilitates better customer service and operational coordination.
 
     composer install
 
-#### 2.1 Install PHP Dependencies: Use Composer to install the required PHP dependencies for Laravel
+#### 2.1 Install Doctrine DBAL: This package is often required for database migrations and schema management.
 
-    composer install
+    composer require doctrine/dbal
 
 #### 3. Install JavaScript Dependencies: Install the required JavaScript packages (Bootstrap, etc.) using npm
 
