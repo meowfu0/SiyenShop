@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('layouts.app')
 
 @section('content')
@@ -17,6 +16,3 @@
     </div>
 </div>
 @endsection
-=======
-<h1>THIS IS A PRODUCT PAGE!</h1>
->>>>>>> 025361c332b2cb5e7fb460983529dba163dd5755
