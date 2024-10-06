@@ -2,14 +2,12 @@
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
-       
     }
     .d-flex.ms-auto {
         position: absolute;
         top: 12px; 
         right: 10px; 
     }
-
     .logo-img {
         margin-left: 15px;
     }
@@ -21,8 +19,8 @@
         padding: 0; 
         margin: 0 auto; 
     }
-    
 }
+
 @media (max-width: 768px) {
     .navbar .order-1 {
         order: 1;
@@ -32,6 +30,18 @@
     }
     .navbar .order-3 {
         order: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .card {
+        width: 100% !important; /* Set card width to 100% to fit mobile screens */
     }
 }
 
@@ -45,11 +55,10 @@
     box-shadow: none;
 }
 
-
 @media only screen and (min-width: 768px) {
     .navbar {
-     height: 80px !important; 
-   } 
+        height: 80px !important; 
+    }
 }
 
 @media (max-width: 768px) {
@@ -57,4 +66,116 @@
         width: 16px;
         height: 16px;
     }
+}
+.card-body .row .flex-container{
+    left: 119px; 
+    top: 148px; 
+    position: absolute; 
+    justify-content: space-between; 
+    display: inline-flex
+}
+.block-7 {
+    border-radius: 4px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    height: 350px;
+    width: 200px;
+    text-align: left;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 14px;
+    border: 2px solid #cccccc;
+    font-family: Satoshi;
+    display: inline-block;
+    position: relative;
+}
+.block-7 .img {
+    height: 150px;
+    width: 170px;
+}
+.block-7 .heading-2 {
+    font-size: 8px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-align: left;
+}
+.block-7 .price {
+    margin: 0;
+    padding: 0;
+    display: block;
+    text-align: left;
+}
+.block-7 .price sup {
+    font-size: 8px;
+    color: #b3b3b3;
+}
+.block-7 .price .number {
+    font-size: 15px;
+    font-weight: 400;
+    color: #000000;
+}
+.block-7 .excerpt {
+    color: #363636;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+}
+.block-7 .label2 {
+    text-transform: uppercase;
+}
+.block-7 .pricing-text li {
+    list-style: none;
+    padding-bottom: 10px;
+    color: #000000;
+}
+.block-7 .pricing-text li:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.05);
+}
+.block-7 .pricing-text li span.fa {
+    color: #207dff;
+}
+.block-7 .btn-primary {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    width: 150px;
+    margin: 0 auto;
+    height: 35px;
+}
+.block-7 .btn-primary:hover,
+.block-7 .btn-primary:focus {
+    background: #fefefe !important;
+    color: #092C4C;
+}
+.block-7:hover,
+.block-7:focus {
+    -webkit-box-shadow: 0px 24px 48px -13px rgba(0, 0, 0, 0.11);
+    -moz-box-shadow: 0px 24px 48px -13px rgba(0, 0, 0, 0.11);
+    box-shadow: 0px 24px 48px -13px rgba(0, 0, 0, 0.11);
+}
+
+.card {
+    width: 1300px;
+}
+form{
+    padding-left: 13px;
+}
+select {
+    height: 35px;
+    text-align: center;
+    border-radius: 3px;
+    color:#092C4C;
+    font-weight: 500;
+    border-color: #092C4C;
+}
+.organization{
+    padding-left: 15px;
+    padding-top: 15px;
+}
+.category{
+    padding-top: 15px;
+    padding-left: 15px;
 }

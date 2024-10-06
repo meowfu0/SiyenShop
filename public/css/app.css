@@ -4392,6 +4392,7 @@ textarea.form-control-lg {
 }
 
 .card-body {
+  width: 1000px;
   flex: 1 1 auto;
   padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
   color: var(--bs-card-color);
@@ -4420,8 +4421,9 @@ textarea.form-control-lg {
   padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
   margin-bottom: 0;
   color: var(--bs-card-cap-color);
-  background-color: var(--bs-card-cap-bg);
+  background-color: #fff;
   border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  border: none;
 }
 .card-header:first-child {
   border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
@@ -4430,7 +4432,7 @@ textarea.form-control-lg {
 .card-footer {
   padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
   color: var(--bs-card-cap-color);
-  background-color: var(--bs-card-cap-bg);
+  background-color: #fff;
   border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
 }
 .card-footer:last-child {

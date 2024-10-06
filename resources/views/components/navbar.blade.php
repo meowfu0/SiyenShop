@@ -16,7 +16,7 @@
             
             <ul class="navbar-nav al justify-content-center flex-grow-1">
                 <li class="nav-item ">
-                    <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
+                    <a class="nav-link font-weight-bold text-primary fw-medium" href="{{url('/')}}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-primary fw-medium" href="{{url('shopPage')}}">Products</a>
