@@ -18,14 +18,7 @@
     {{-- delete if landing page is ready
     @include('styleguide') --}}
 
-    <div class="d-flex">
-        @livewire('shop-sidenav')
-        <main class="min-vh-100 d-flex flex-grow-1 ">
-            @yield('content')
-            {{-- CONTENT WILL SHOW HERE --}}
-        {{-- @livewire('shop-dashboard') --}}
-        </main>
-    </div>
+
     @livewireScripts
     <script src="{{ asset('livewire/livewire.js') }}" defer></script>
 

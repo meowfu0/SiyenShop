@@ -1,12 +1,10 @@
 <?php
 
-use App\Http\Controllers\ShopController;
 use App\Http\Livewire\ShopChat;
 use App\Http\Livewire\ShopDashboard;
 use App\Http\Livewire\ShopOrders;
 use App\Http\Livewire\ShopProducts;
 use Illuminate\Support\Facades\Route;
-use PHPUnit\TextUI\Help;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +22,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 
 // Shop Routes Group
 //add middleware for authenticatio'n purposes

@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('layouts.shop')
 
 @section('content')
 <div class="fs-12">

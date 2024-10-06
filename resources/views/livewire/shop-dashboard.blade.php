@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('layouts.shop')
 
 @section('content')
 <div class="flex-grow-1" style="width: 100%!important;">
@@ -233,7 +233,6 @@
                 </div>
             </div>
         </div>
-
 </div>
 
 @endsection
