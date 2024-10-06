@@ -19,4 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/business-manager-dashboard', function () {
+    return view('OrderManagement.Business_Manager_Dashboard');
+}); 
