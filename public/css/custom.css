@@ -33,7 +33,10 @@
     .navbar .order-3 {
         order: 2;
     }
+
+    
 }
+
 
 .logo-img{
     height: 31px;
@@ -88,4 +91,122 @@
     filter: brightness(0) invert(1); /* Turns the image to white */
 }
 
+.page-header{
+    margin-left: 15px;
+    color: #092C4C;
+    margin-bottom: 20px;
+}
+.shops-table-section{
+    margin: auto;
+    width: 85%;
+    padding: 5px;
+    border: 2px solid #adb5bd;
+    border-radius: 10px;
+    text-align: center;
+    
+}
 
+.table th{
+    color: #092C4C;
+}
+
+.table td{
+    color: #092C4C;
+}
+
+
+.data-table-section{
+    width: 100%;
+}
+.top-bar{
+    width: 85%;
+    margin-left: 7.5%;
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.search-container{
+    border-radius: 10px;
+    border: 2px solid #adb5bd;
+    width: 230px;
+    padding: 3px 5px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+.searchbox{
+    border: none;
+    margin-left: 5px;
+    outline: none;
+    flex-grow: -1;
+    font-size: 12px;
+    width: 100%;
+}
+.searchbox::placeholder{
+    color: #adb5bd;
+    
+}
+
+
+
+.button-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-btn{
+    padding: 5px 25px;
+    border: 2px solid rgb(3.6, 17.6, 30.4);
+    font-size: 12px;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.create-btn:hover{
+    background-color: rgb(18.8, 51.2, 94.8);
+    color: white;
+    border: 2px solid;
+}
+
+.btn-create:hover{
+    background-color: rgb(18.8, 51.2, 94.8);
+    color: white;
+    border: 2px solid;
+
+}
+
+
+
+.fa.fa-search{
+    color: #ced4da;
+    cursor: pointer;
+}
+
+
+.dropdown-container{
+    margin-left: 5%;
+}
+.course-dropdown{
+    padding: 5px 20px 5px 20px;
+    border: 2px solid #092C4C;
+    border-radius: 5px;
+    color: #092C4C;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+
+.view-shop-btn{
+    border: 2px solid #092C4C;
+    border-radius: 5px;
+    background-color: transparent;
+    font-size: 12px;
+}
+
+.view-shop-btn:hover{
+    background-color:rgb(18.8, 51.2, 94.8);
+    color: white;
+}
