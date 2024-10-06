@@ -55,18 +55,147 @@
                 <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
             </div>
             <div>
-                    {{-- Content here --}}
+                <table class="table table-hover  table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order Number</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">Item(s)</th>
+                        <th scope="col">Total</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Ian Gabriel Villame</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Vicente Bercasio</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Archie Onoya</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>John Robert Rodejo</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>John Dave Banas</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Jay Bombales</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Jucel Christopher</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Adornado Cabalbag</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Danielle Rubis</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Shakira Regalado</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Ron Peter Mortega</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+                      <tr>
+                        <td>09102024001</td>
+                        <td>Mark James Barreda</td>
+                        <td>BSIT</td>
+                        <td>3</td>
+                        <td>P 750.00</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
             </div>
          </div>
     
-            <div class="d-flex flex-column gap-4 " style="flex:2; ">
+            <div class="d-flex flex-column gap-4 " style="flex:3; ">
                 <div class="border border-primary rounded-4 p-4 flex-grow-1">
                     <div class="d-flex justify-content-between">
                         <h4 class="text-secondary fw-bold">Unverified Payments</h4>
                         <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
                     </div>
                     <div>
-                        {{-- Content here --}}
+                        <table class="table table-hover  table-borderless">
+                            <thead>
+                              <tr>
+                                <th scope="col">Order No.</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Referene No.</th>
+        
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>09102024001</td>
+                                <td>John Robert Rodejo</td>
+                                <td>536754683287432</td>
+                              </tr>
+                              <tr>
+                                <td>09102024001</td>
+                                <td>Ian AGbriel Villame</td>
+                                <td>536754683287432</td>
+                              </tr>
+                              <tr>
+                                <td>09102024001</td>
+                                <td>Vicente Bercasio</td>
+                                <td>536754683287432</td>
+                              </tr>
+                              <tr>
+                                <td>09102024001</td>
+                                <td>Archie Onoya</td>
+                                <td>536754683287432</td>
+                              </tr>
+                            </tbody>
+                          </table>
                     </div>
                     
                 </div>
@@ -77,7 +206,28 @@
                         <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
                     </div>
                     <div>
-                        {{-- Content here --}}
+                        <table class="table table-hover  table-borderless">
+                            <thead>
+                              <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Stock</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Circuits Tshirt (Black)</td>
+                                <td>10</td>
+                              </tr>
+                              <tr>
+                                <td>Circuits Tshirt (Black)</td>
+                                <td>10</td>
+                              </tr>
+                              <tr>
+                                <td>Circuits Tshirt (Black)</td>
+                                <td>10</td>
+                              </tr>
+                            </tbody>
+                          </table>
                     </div>
                     
                 </div>
@@ -85,4 +235,5 @@
         </div>
 
 </div>
+
 @endsection
