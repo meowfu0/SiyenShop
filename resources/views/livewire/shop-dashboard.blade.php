@@ -59,30 +59,30 @@
             </div>
          </div>
     
-            <div class="d-flex flex-column gap-4 " style="flex:2; ">
-                <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="text-secondary fw-bold">Unverified Payments</h4>
-                        <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
-                    </div>
-                    <div>
-                        {{-- Content here --}}
-                    </div>
-                    
+        <div class="d-flex flex-column gap-4 " style="flex:2; ">
+            <div class="border border-primary rounded-4 p-4 flex-grow-1">
+                <div class="d-flex justify-content-between">
+                    <h4 class="text-secondary fw-bold">Unverified Payments</h4>
+                    <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
                 </div>
-    
-                <div class="border border-primary rounded-4 p-4 flex-grow-1" >
-                    <div class="d-flex justify-content-between">
-                        <h4 class="text-secondary fw-bold">Stock Alert</h4>
-                        <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
-                    </div>
-                    <div>
-                        {{-- Content here --}}
-                    </div>
-                    
+                <div>
+                    {{-- Content here --}}
                 </div>
+                
+            </div>
+
+            <div class="border border-primary rounded-4 p-4 flex-grow-1" >
+                <div class="d-flex justify-content-between">
+                    <h4 class="text-secondary fw-bold">Stock Alert</h4>
+                    <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
+                </div>
+                <div>
+                    {{-- Content here --}}
+                </div>
+                
             </div>
         </div>
+    </div>
 
 </div>
 @endsection
