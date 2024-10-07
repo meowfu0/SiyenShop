@@ -42,7 +42,7 @@
                                 <div class="text-center p-4">
                                     <span class="excerpt d-block">CirCUITS T-Shirt</span>
                                     <span class="price"><span class="number">₱250.00</span></span>
-                                    <a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
+                                    <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3" >View Details</a>
                                 </div>
                             </div>
                             <div class="block-7">

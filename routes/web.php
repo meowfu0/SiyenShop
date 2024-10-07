@@ -21,5 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 use App\Http\Controllers\shopPageController; // Use PascalCase
+use App\Http\Controllers\ProductDetailsController;
 
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
+Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');

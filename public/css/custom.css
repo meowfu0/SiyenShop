@@ -72,7 +72,10 @@
     top: 148px; 
     position: absolute; 
     justify-content: space-between; 
-    display: inline-flex
+    display: flex; 
+    flex-direction: column;
+    gap: 1%; 
+    justify-content: space-between;
 }
 .block-7 {
     border-radius: 4px;
@@ -178,4 +181,108 @@ select {
 .category{
     padding-top: 15px;
     padding-left: 15px;
+}
+
+
+/* Product Detail Page */
+.productcard{
+    width: 900px;
+    height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    padding-top: 30px;
+}
+.grid-child {
+    margin: 10px; 
+}
+.left{
+    border: none;
+}
+.right{
+    /*margin-left: 20px;*/
+    display: grid;
+    grid-template-rows: 10% 65% 25%;
+    padding-left: 20px;
+}
+.two .title{
+    font-family: Satoshi;
+    font-weight: 600;
+    font-size: 40px;
+}
+.price{
+    font-family: Satoshi;
+    font-weight: 500;
+    font-size: 30px; 
+    color: #363636;  
+}
+.status{
+    width: 110px;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    font-family: Satoshi;
+    color: #092C4C;
+    display: inline-block;
+    margin-top: 5px;
+    margin-right: 15px;
+}
+.sample-img{
+    width: 450px;
+    height: 500px;
+    border-radius: 10px;
+}
+.quantity-btn {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #000000; /* Light border */
+    padding: 5px;
+    border-radius: 5px;
+    height: 45px;
+}
+
+.quantity-btn button {
+    background-color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.quantity-btn .quantity{
+    margin: 0 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.minus-btn .plus-btn{
+    font-weight: 500;
+}
+.rating-sold-container {
+    display: flex;
+    justify-content: space-between; /* Space between stars and sold text */
+    align-items: center; /* Vertically center the content */
+}
+
+.rating label {
+    font-size: 20px; /* Adjust the star size */
+    color: gold; /* Change star color */
+    cursor: pointer;
+    margin-left: 5px; /* Space between stars */
+}
+
+.sold {
+    margin-left: 15px; /* Add some space from the stars if needed */
+    font-size: 16px;
+    color: #333;
+}
+
+.rating input[type="radio"]:checked ~ label {
+    color: gold; /* Highlight checked stars */
+}
+
+/* To hide radio buttons */
+.d-none {
+    display: none;
 }
