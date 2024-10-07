@@ -198,6 +198,63 @@
     cursor: pointer;
 }
 
+/* Users */
+
+.view-users-btn{
+    border: 2px solid #092C4C;
+    border-radius: 5px;
+    background-color: transparent;
+    font-size: 12px;
+}
+
+.user-name{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 41px;
+}
+
+.profile-picture-container {
+    width: 251px;
+    height: 251px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #FFF8E4;
+    margin-top: 46px;
+    margin-left: 42px;
+}
+
+div.profile-picture-container {
+    background-color: #FFF8E4 !important;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 35px;
+}
+
+.modal-body {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-modal-size .modal-content {
+    height: 600px; /* Adjust the height */
+    width: 696px;
+    padding: 0;
+}
+
+/* Shops*/
 
 .view-shop-btn{
     border: 2px solid #092C4C;
