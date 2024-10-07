@@ -1,4 +1,4 @@
-/* this custom code is for navbar */
+
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
@@ -62,6 +62,7 @@
 .nav-link:hover,
 .nav-link.active{
     color: #E2B93B!important;
+    
 }
 
 /* ends here */
