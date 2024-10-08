@@ -1,4 +1,4 @@
-
+/* this custom code is for navbar */
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
@@ -57,4 +57,52 @@
         width: 16px;
         height: 16px;
     }
+}
+
+/* ends here */
+.sidenav-link {
+    padding: 12px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sidenav-link:hover, 
+.sidenav-link:active {
+    background-color: #E2B93B;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.sidenav-link:hover img, 
+.sidenav-link:active img {
+    filter: brightness(0) invert(1); /* Turns the image to white */
+}
+
+.side-navbar .sidenav {
+    width: 240px;
+    background-color: #FFFF; 
+    border-right: 1px solid #E6EAED;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; 
+    padding-top: 20px;
+    z-index: 999; 
+}
+.top-navbar {
+    margin-left: 240px; 
+    width: calc(100% - 240px); 
+    position: fixed; 
+    top: 0; 
+    background-color: #FFF;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 20px;
+    border-bottom: 1px solid #E6EAED; 
+    z-index: 999; 
 }

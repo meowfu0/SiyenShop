@@ -19,16 +19,21 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
 
 </head>
 <body>
     <div id="app">
-    @include('components.navbar')
-
+        <div id="sidebar">
+            @include('components.sidenavUser')
+        </div>
+        <div id="navigation">
+            @include('components.navbar') 
+        </div>
+    
         <main class="py-4 min-vh-100">
-            @yield('content')
+           
         </main>
-    @include('components.footer')
     </div>
 </body>
 </html>
