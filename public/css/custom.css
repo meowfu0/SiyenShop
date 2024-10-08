@@ -98,6 +98,7 @@
 }
 .shops-table-section{
     margin: auto;
+    margin-top: 12px;
     width: 85%;
     padding: 5px;
     border: 2px solid #adb5bd;
@@ -135,6 +136,7 @@
     align-items: center;
     height: 30px;
 }
+
 .searchbox{
     border: none;
     margin-left: 5px;
@@ -151,6 +153,7 @@
 .button-container{
     width: 100%;
     display: flex;
+    justify-content: space-between;
 }
 
 .create-btn{
@@ -185,6 +188,7 @@
 .dropdown-container{
     margin-left: 5%;
 }
+
 .course-dropdown{
     padding: 5px 20px 5px 20px;
     border: 2px solid #092C4C;
@@ -196,6 +200,24 @@
 }
 
 /* Users */
+
+.top-section{
+    width: 90%;
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.users-table-section{
+    margin: auto;
+    margin-top: 12px;
+    width: 90%;
+    padding: 5px;
+    border: 2px solid #adb5bd;
+    border-radius: 10px;
+    text-align: center;
+    
+}
 
 .view-users-btn{
     border: 2px solid #092C4C;
@@ -246,9 +268,40 @@ div.profile-picture-container {
 }
 
 .custom-modal-size .modal-content {
-    height: 600px; /* Adjust the height */
+    height: 500px; /* Adjust the height */
     width: 696px;
     padding: 0;
+}
+
+.user-info-table {
+    border-collapse: collapse; /* Ensure that borders do not collapse */
+    width: 100%; /* Optional: make the table full width */
+    margin: 0;
+}
+
+.user-info-table td {
+    border: none; /* No visible border */
+    padding: 0 10px 10px 0; /* Adjust padding as necessary */
+    margin: 0; /* Remove margin from table cells */
+}
+
+.user-info-table tr {
+    border: none; /* No visible border for rows */
+}
+
+
+.modal-body.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.custom-btn{
+    border-radius: 8px;
+    border: 0.5px solid var(--Primary-Color, #092C4C);
+    width: 110px; 
+    height: 40px;
 }
 
 /* Shops*/
