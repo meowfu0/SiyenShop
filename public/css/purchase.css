@@ -113,7 +113,7 @@
     height: 40px !important;
     border: none !important;
     border-spacing: 30px !important;
-    color: #092C4C;
+    color: #092C4C !important;
 }
 
 .dets tr td:first-child, .dets tr th:first-child{

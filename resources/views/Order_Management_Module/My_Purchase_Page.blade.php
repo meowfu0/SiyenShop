@@ -36,13 +36,12 @@
             <tr>
                 <td>
                     <div class="other-content-high">
-                        <button class="shopName">CIRCUITS</button>
+                        <button class="shopName">Mr. Sapote</button>
                         <button class="status-box">Pending</button>
                     </div>
                     <div class="item-img"></div>
                     <table class="dets">
                         <tr>
-                            
                             <th>Item</th>
                             <th>Category</th>
                             <th>Variant/Size</th>
@@ -50,17 +49,16 @@
                             <th>Price</th>
                         </tr>
                         <tr>
-                            
                             <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Parang Human</td>
+                            <td>Small</td>
+                            <td>1</td>
+                            <td>P2.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">P2.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -90,15 +88,15 @@
                         <tr>
                             
                             <td>Biology Student</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Student</td>
+                            <td>Small Height</td>
+                            <td>1</td>
+                            <td>Priceless</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">Imissyou</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -127,16 +125,16 @@
                         </tr>
                         <tr>
                             
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Baby Oil</td>
+                            <td>Oil</td>
+                            <td>100ML</td>
+                            <td>1</td>
+                            <td>P200.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">P200.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -167,7 +165,7 @@
                         <tr>    
                             <td>Guinobatan Biokid</td>
                             <td>Student</td>
-                            <td>Chinita</td>
+                            <td>Chinita - 3rd Yr</td>
                             <td>1</td>
                             <td>Secret</td>
                         </tr>
@@ -201,16 +199,52 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Eraser sa B4</td>
+                            <td>Board Eraser</td>
+                            <td>Small</td>
+                            <td>2</td>
+                            <td>P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">P80.00</p>
+                        <p class="itemLab">Item(s): </p>
+                        <p class="itemCount">2</p>
+                        <p class="dateLabel">Date: </p>
+                        <p class="date">08-10-2024</p>
+                        <p class="time">12:51 am</p>
+                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
+                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <div class="other-content-high">
+                            <button class="shopName">CIRCUITS</button>
+                            <button class="status-box">Received Payment</button>
+                        </div>
+                        <div class="item-img"></div>
+                        <table class="dets">
+                            <tr>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Variant/Size</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                        </tr>
+                        <tr>    
+                            <td>Peter Nailcuts</td>
+                            <td>Nails</td>
+                            <td>Dirty - L</td>
+                            <td>10</td>
+                            <td>P100.00</td>
+                        </tr>
+                    </table>
+                    <div class="other-content-low">
+                        <h5>TOTAL: </h5>
+                        <p class="costPrice">P1000.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -237,88 +271,16 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Circuits Lanyard</td>
+                            <td>Id Lanyard</td>
+                            <td>Blue</td>
+                            <td>1</td>
+                            <td>P120.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Received Payment</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Received Payment</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">P120.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -348,16 +310,16 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Guinobatan Biology</td>
+                            <td>Student</td>
+                            <td>3rd Year</td>
+                            <td>1</td>
+                            <td>Hi</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">Hi</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -384,16 +346,16 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Peter Sweat</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td>Buunja</td>
+                            <td>Student</td>
+                            <td>IT - 2</td>
+                            <td>1</td>
+                            <td>Omsimnida</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
+                        <p class="costPrice">Omsimnida</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
