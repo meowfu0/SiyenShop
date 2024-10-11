@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\cartPageController; 
+use App\Http\Controllers\checkOutPageController;
+use App\Http\Controllers\paymentPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +23,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
+
+
