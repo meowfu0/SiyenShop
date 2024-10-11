@@ -29,14 +29,19 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Shop Routes Group 
-//add middleware for authentication purposes
+// Shop Routes Group
+//add middleware for authenticatio'n purposes
+Route::get('/shop', function () {
+    return redirect()->route('shop.dashboard');
+})->name('Shop');
+
 Route::prefix('shop')->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 });
+
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
@@ -46,3 +51,4 @@ Route::prefix('admin')->group(function () {
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
 });
+

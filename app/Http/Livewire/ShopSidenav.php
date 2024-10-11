@@ -1,17 +1,16 @@
 <?php
-
+// app/Http/Livewire/ShopSidenav.php
 namespace App\Http\Livewire;
 
 use Livewire\Component;
 
 class ShopSidenav extends Component
 {
-    public $currentRoute;
-
-    public function mount()
+    public function navigateTo($route)
     {
-        $this->currentRoute = request()->route()->getName();
+        return redirect()->route($route);
     }
+
     public function render()
     {
         return view('livewire.shop-sidenav');
