@@ -88,3 +88,14 @@
 .size-input{
     height:33px; width:100px;
 }
+
+/*--------------CHECKOUT PAGE CSS-----------------*/
+.noBorder td {
+    border: none; /* Remove border from tbody */
+    padding: 12px;
+    
+    
+}
+.table-head th{
+    padding-left: 12px;
+}
