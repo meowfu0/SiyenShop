@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'string', 'max:15'],
-            'course_bloc' => ['required', 'in:A,B,C,D,E,F'], // Updated from 'block' to 'course_bloc'
+            'course_bloc' => ['required', 'in:A,B,C,D,E,F'], 
             'course_id' => ['required', 'exists:courses,id'],
             'year' => ['required', 'in:1st,2nd,3rd,4th,5th'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'phone_number' => $data['phone_number'],
-            'course_bloc' => $data['course_bloc'], // Updated from 'block' to 'course_bloc'
+            'course_bloc' => $data['course_bloc'],
             'course_id' => $data['course_id'],
             'year' => $data['year'],
             'email' => $data['email'],
