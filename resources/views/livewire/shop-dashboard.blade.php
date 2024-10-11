@@ -156,7 +156,7 @@
                   </table>
             </div>
          </div>
-    
+
             <div class="d-flex flex-column gap-4 " style="flex:3; ">
                 <div class="border border-primary rounded-4 p-4 flex-grow-1">
                     <div class="d-flex justify-content-between">
@@ -231,6 +231,7 @@
                     </div>
                     
                 </div>
+                
             </div>
         </div>
 </div>

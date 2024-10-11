@@ -133,22 +133,41 @@ This feature facilitates better customer service and operational coordination.
 
 #### 1. Clone the repository: First, clone the project from your Git repository
 
-    git clone https://github.com/meowfu0/SiyenShop
+    git clone --branch admin/shops-page --single-branch https://github.com/meowfu0/SiyenShop.git
     cd SiyenShop
 
 #### 2. Install PHP Dependencies: Use Composer to install the required PHP dependencies for Laravel
 
     composer install
 
+#### 2.1 Install Doctrine DBAL: This package is often required for database migrations and schema management.
+
+    composer require doctrine/dbal
+
 #### 3. Install JavaScript Dependencies: Install the required JavaScript packages (Bootstrap, etc.) using npm
 
     npm install
 
-#### 4. Set Up Environment Variables: Create a .env file by copying the example file
+#### 3.1 Install Laravel Mix through NPM
+
+    npm init -y
+    npm install laravel-mix --save-dev
+
+#### 4. Open the webpack.mix.js file and add this following code (if it's not yet there)
+
+    let mix = require('laravel-mix');
+
+    mix.js('src/app.js', 'dist').setPublicPath('dist');
+
+#### 5. Install Livewire
+
+    composer require livewire/livewire
+
+#### 6. Set Up Environment Variables: Create a .env file by copying the example file
 
     cp .env.example .env
 
-#### 5. Open the .env file and update the following variables to match your local environment
+#### 7. Open the .env file and update the following variables to match your local environment
 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -157,27 +176,27 @@ This feature facilitates better customer service and operational coordination.
     DB_USERNAME=root
     DB_PASSWORD=""
 
-### 6. Go to your xampp and create a database named "siyenshopdb", make sure your xampp server is running
+### 8. Go to your xampp and create a database named "siyenshopdb", make sure your xampp server is running
 
-#### 7. Run the Artisan Key Generate Command
+#### 9. Run the Artisan Key Generate Command
 
     php artisan key:generate
 
-### 8. Run the artisan migrate to migrate the database to your local machine
+### 10. Run the artisan migrate to migrate the database to your local machine
 
     php artisan migrate
 
-### 9. Run the database seed command to populate your database
+### 11. Run the database seed command to populate your database
 
     php artisan db:seed
 
-#### 10. Run the Application: Finally, run the application locally
+#### 12. Run the Application: Finally, run the application locally
 
     php artisan serve
 
 The application will be available at http://localhost:8000
 
-#### 11. For more in-depth instructions, check out the YouTube tutorial.
+#### 13. For more in-depth instructions, check out the YouTube tutorial.
 
 **Watch the Installation Videos**  
  Follow the guide in this [Laravel 8 Installation Video](https://youtu.be/bbO8IzgPcu8?si=usrZY_1eJrwTWT6s) for detailed steps.  
