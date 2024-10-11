@@ -36,5 +36,6 @@ Route::get('/userprofile', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('customer_support/admin');
+Route::get('/chat', [App\Http\Controllers\UserController::class, 'index'])->name('customer_support/user');
 Route::get('/busmngr', [App\Http\Controllers\BusmngrController::class, 'index'])->name('busmngr');
