@@ -13,14 +13,18 @@
 </head>
 
 <body class="antialiased">
-    {{-- @include('components.navbar')
-
-    {{-- delete if landing page is ready
-    @include('styleguide') --}}
-
-
+    <div class="d-none d-lg-flex">
+        @livewire('shop-sidenav')
+        <main class="min-vh-100 d-flex flex-grow-1">
+            @yield('content')
+            {{-- CONTENT WILL SHOW HERE --}}
+        </main>
+    </div>
+    
+    <div class="d-lg-none text-center">
+        @include('components.screen-prompt')
+    </div>
     @livewireScripts
-    <script src="{{ asset('livewire/livewire.js') }}" defer></script>
 
 </body>
 
