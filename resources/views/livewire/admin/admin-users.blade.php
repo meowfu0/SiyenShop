@@ -24,7 +24,7 @@
                 <div class="d-flex align-items-center ms-5">
                     <span class="me-2">Organization</span>
                     <select class="form-select custom-dropdown px-3 py-1 fw-bold rounded fs-2"
-                        style="width: 116px; cursor: pointer;">
+                        style="width: 116px;">
                         <option value="course1" selected>CirCUITS</option>
                         <option value="course2">ACCeSS</option>
                         <option value="course3">CheSS</option>
@@ -256,7 +256,7 @@
                                 <tr>
                                     <td class="fw-bold">Role:</td>
                                     <td>
-                                        <select class="form-select custom-dropdown" style="width: 165px; cursor: pointer;"
+                                        <select class="form-select custom-dropdown" style="width: 165px;"
                                             id="modalRole">
                                             <option value="role1" selected>Student</option>
                                             <option value="role2">Business Manager</option>
