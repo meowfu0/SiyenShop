@@ -42,6 +42,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 });
 
+Route::get('/admin', function () {
+    return redirect()->route('admin.dashboard');
+})->name('Admin');
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');

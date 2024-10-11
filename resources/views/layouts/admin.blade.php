@@ -10,15 +10,21 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!--for icons-->
-
 </head>
 
 <body class="antialiased">
-    {{-- @include('components.navbar')
-
-    {{-- delete if landing page is ready
-    @include('styleguide') --}}
+    <div class="d-none d-lg-flex">
+        @livewire('admin.admin-sidenav')
+        <main class="min-vh-100 d-flex flex-grow-1">
+            @yield('content')
+            {{-- CONTENT WILL SHOW HERE --}}
+        </main>
+    </div>
+    
+    <div class="d-lg-none text-center">
+        @include('components.screen-prompt')
+    </div>
+    @livewireScripts
 
 </body>
 
