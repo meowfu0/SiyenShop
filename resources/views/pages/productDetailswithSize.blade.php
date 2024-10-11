@@ -10,13 +10,21 @@
         <div class="grid-child right">
             <div class="box one">
                 <p class="status">CIRCUITS</p>
-                <p class="status">Lanyard</p>
+                <p class="status">T-Shirt</p>
                 <p class="status">Pre-Order</p>
             </div>
             <div class="box two">
-                <p class="title">CirCUITS Lanyard</p>
+                <p class="title">CirCUITS T-Shirt</p>
                     <p class="sold">40 sold</p>
                 <p class="price">₱250.00</p>
+                <div class="size-variation">
+                    <p class="size">Size</p>
+                    <button>XS</button>
+                    <button>S</button>
+                    <button>M</button>
+                    <button>L</button>
+                    <button>XL</button>
+                </div>
                 <div class="quantity">
                     <p class="quantity-text">Quantity</p>
                     <div class="quantity-selector">

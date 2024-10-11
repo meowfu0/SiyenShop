@@ -1,4 +1,6 @@
-
+*{
+    font-family: Satoshi;
+}
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
@@ -197,6 +199,7 @@ select {
 }
 .grid-child {
     margin: 10px; 
+    height: 580px;
 }
 .left{
     border: none;
@@ -220,7 +223,7 @@ select {
 }
 .status{
     width: 110px;
-    border: 1px solid black;
+    border: 1px solid #092C4C;
     border-radius: 5px;
     text-align: center;
     font-family: Satoshi;
@@ -234,37 +237,66 @@ select {
     height: 500px;
     border-radius: 10px;
 }
-.quantity-btn {
+.size{
+    font-size: 15px;
+}
+.size-variation button{
+    border-color: 1px solid #092C4C;
+    color: #092C4C;
+    background-color: white;
+    width: 55px;
+    height: 37px;
+    border-radius: 7px;
+}
+.quantity-selector {
     display: inline-flex;
     align-items: center;
-    border: 1px solid #000000; /* Light border */
-    padding: 5px;
-    border-radius: 5px;
-    height: 45px;
-}
-
-.quantity-btn button {
-    background-color: white;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
+    border: 1px solid #092C4C;
+    border-radius: 8px;
     padding: 5px 10px;
 }
-
-.quantity-btn .quantity{
-    margin: 0 10px;
-    font-size: 18px;
-    font-weight: bold;
+.quantity-selector button {
+    border: none;
+    background-color: transparent;
+    font-size: 20px;
+    cursor: pointer;
 }
-.minus-btn .plus-btn{
-    font-weight: 500;
+.quantity-selector input {
+    border: none;
+    text-align: center;
+    width: 40px;
+    font-size: 18px;
+    outline: none;
+}
+.quantity-selector button:focus {
+    outline: none;
+}
+.quantity-selector button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.quantity-text{
+    color: #363636;
+    font-size: 20px;
+}
+.chat-icon{
+    width: 25px;
+    height: 25px;
+    margin-left: 20px;
+}
+.three button{
+    width: 140px;
+    height: 50px;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 20px;
+    border: none;
 }
 .rating-sold-container {
     display: flex;
     justify-content: space-between; /* Space between stars and sold text */
     align-items: center; /* Vertically center the content */
 }
-
 .rating label {
     font-size: 20px; /* Adjust the star size */
     color: gold; /* Change star color */
@@ -272,10 +304,39 @@ select {
     margin-left: 5px; /* Space between stars */
 }
 
+.productdetails{
+    width: 900px;
+    align-items: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 80px;
+    color: #092C4C;
+}
 .sold {
     margin-left: 15px; /* Add some space from the stars if needed */
     font-size: 16px;
     color: #333;
+}
+.customerreview{
+    width: 900px;
+    align-items: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 30px;
+    color: #092C4C;
+}
+.review{
+    width: 900;
+    border: 1px solid #092C4C;
+    border-radius: 5px;
+    height: 70px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .rating input[type="radio"]:checked ~ label {

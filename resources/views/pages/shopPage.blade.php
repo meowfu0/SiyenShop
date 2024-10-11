@@ -40,7 +40,7 @@
                             <div class="block-7">
                                 <div class="img" style="background-image: url(https://www.bootdey.com/image/350x280/87CEFA/000000);"></div>
                                 <div class="text-center p-4">
-                                    <span class="excerpt d-block">CirCUITS T-Shirt</span>
+                                    <span class="excerpt d-block">CirCUITS Lanyard</span>
                                     <span class="price"><span class="number">₱250.00</span></span>
                                     <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3" >View Details</a>
                                 </div>
@@ -50,7 +50,7 @@
                                 <div class="text-center p-4">
                                     <span class="excerpt d-block">CirCUITS T-Shirt</span>
                                     <span class="price"><span class="number">₱250.00</span></span>
-                                    <a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
+                                    <a href="{{url('productDetailswithSize')}}" class="btn btn-primary d-block px-2 py-3">Get Started</a>
                                 </div>
                             </div>
                             <div class="block-7">
