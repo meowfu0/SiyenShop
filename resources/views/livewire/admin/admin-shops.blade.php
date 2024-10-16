@@ -58,12 +58,14 @@
             </thead>
             <tbody>
                 <tr>
-                <th scope="row">image</th>
-                <td>CitcUITS</td>
-                <td>BS Information Technology</td>
-                <td>Juan Dela Cruz</td>
-                <td>Active</td>
-                <td><button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shopModal">View Shop</button></td>
+                <th scope="row" style="width: 150px;" class="text-center align-middle">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s" alt="Placeholder Image" class="profile-data-table">
+                </th>
+                <td class="text-center align-middle">CircUITS</td>
+                <td class="text-center align-middle">BS Information Technology</td>
+                <td class="text-center align-middle">Juan Dela Cruz</td>
+                <td class="text-center align-middle">Active</td>
+                <td class="text-center align-middle"><button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shopModal">View Shop</button></td>
                 </tr>
             </tbody>
             </table>

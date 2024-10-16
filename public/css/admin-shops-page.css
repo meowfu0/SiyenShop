@@ -125,7 +125,11 @@
 }
 
 
-
+.profile-data-table{
+    width:20%;
+    border-radius:50%;
+    border: none;
+}
 
 
 

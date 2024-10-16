@@ -27,8 +27,8 @@
         <div class="col-lg-6">
              <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
-            class="profile-picture1"
-            alt=""
+            class="profile-picture1" style="margin-right: 20px;"
+            alt="Profile Picture"
             />
             
             <button class="btn btn-outline-secondary">Upload Profile Picture <i class="fa fa-plus"></i></button>
@@ -44,12 +44,17 @@
                         <select class="form-control" id="course">
                             <option selected>Choose...</option>
                             <option>BS Information Technology</option>
+                            <option value="course1">BS Information Technology</option>
+                            <option value="course2">BS Computer Science</option>
+                            <option value="course3">BS Biology</option>
+                            <option value="course4">BS Chemistry</option>
+                            <option value="course5">BS Meteorology</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="businessManager">Assign Business Manager(s)</label>
                         <div class="d-flex align-items-center">
-                            <input type="text" class="form-control" id="businessManager" placeholder="Enter Business Manager(s)">
+                            <input type="text" class="form-control" id="businessManager" placeholder="Enter Business Manager Name">
                             <button class="btn btn-outline-primary" id="trash-btn"><i class="fa fa-trash"></i></button><!--Palitan ng trash-->    
                         </div>
                        

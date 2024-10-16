@@ -98,3 +98,8 @@
 .footer{
     margin-top: 5%;
 }
+
+.form-control:focus{
+    box-shadow: none;
+    outline: none;
+}
