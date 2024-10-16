@@ -1,5 +1,5 @@
 <!-- resources/views/livewire/navigation.blade.php -->
-<nav class="d-flex nav flex-column p-4 border-end min-vh-100 gap-2" style="width: 240px">
+<nav class="d-flex nav flex-column p-4 border-end gap-2" style="width: 240px; position: sticky; top: 0; height: 100vh;">
     <a class="nav-link d-flex gap-4 fs-5 fw-medium mb-5 justify-content-center" href="/home" wire:navigate>
         <img class="logo-img" src="{{ asset('images/logo.png') }}" alt="">
     </a>
