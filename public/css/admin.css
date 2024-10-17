@@ -178,6 +178,13 @@
 }
 
 
+.modal-body.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 
 .fa.fa-search{
     color: #ced4da;
@@ -590,7 +597,7 @@ div.profile-picture-container {
 
 
 .profile-data-table{
-    width:20%;
+    width:30%;
     border-radius:50%;
     border: none;
 }
@@ -601,13 +608,13 @@ div.profile-picture-container {
 VIEW SHOP MODAL CSS
 -----------------------------------*/
 
-.modal-footer{
-    border-top: none;
+.custom.modal-footer{
+    border: none;
     justify-content: center;
     padding-bottom: 40px;
 }
 .modal-header{
-    border-bottom: none;
+    border: none;
 }
 
 

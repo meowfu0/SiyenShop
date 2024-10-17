@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     
-                    <div class="modal-footer">
+                    <div class="custom modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="showDisableAccountModal()">Disable Shop</button>
                         <button type="button" class="btn btn-primary" onclick="updateShop()">Update Shop</button>
                     </div>
