@@ -1,4 +1,5 @@
 /* this custom code is for navbar */
+
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
@@ -33,7 +34,9 @@
     .navbar .order-3 {
         order: 2;
     }
-
+    .preview-container{
+        display: none;
+    }
     
 }
 
@@ -92,9 +95,10 @@
 }
 
 .page-header{
-    margin-left: 15px;
+    margin-left: 5%;
     color: #092C4C;
     margin-bottom: 20px;
+    
 }
 .shops-table-section{
     margin: auto;
