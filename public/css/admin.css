@@ -1,5 +1,4 @@
 /* this custom code is for navbar */
-
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
@@ -34,9 +33,7 @@
     .navbar .order-3 {
         order: 2;
     }
-    .preview-container{
-        display: none;
-    }
+
     
 }
 
@@ -95,10 +92,9 @@
 }
 
 .page-header{
-    margin-left: 5%;
+    margin-left: 15px;
     color: #092C4C;
     margin-bottom: 20px;
-    
 }
 .shops-table-section{
     margin: auto;
@@ -278,8 +274,13 @@ div.profile-picture-container {
 
 .custom-modal-size .modal-content {
     height: 500px; /* Adjust the height */
-    width: 696px;
+    width: 750px;
     padding: 0;
+}
+
+.custom-modal-size {
+    max-width: 750px; /* Adjust this to your preferred width */
+    width: 100%; /* Ensure it takes up full width */
 }
 
 .user-info-table {
@@ -311,6 +312,29 @@ div.profile-picture-container {
     border: 0.5px solid var(--Primary-Color, #092C4C);
     width: 110px; 
     height: 40px;
+}
+
+.custom-dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+#editPermissionsLink {
+    display: none;
+    margin-left: 10px;
+    margin-top: 0;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.custom-modal-size1 .modal-content {
+    height: 550px; /* Adjust the height */
+    width: 800px;
+    padding: 0;
+}
+
+.custom-modal-size1 {
+    max-width: 750px; /* Adjust this to your preferred width */
+    width: 100%; /* Ensure it takes up full width */
 }
 
 /* Shops*/
