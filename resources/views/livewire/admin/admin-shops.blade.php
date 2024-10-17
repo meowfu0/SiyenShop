@@ -98,7 +98,7 @@
                                  <h3>CirCUITS</h3>
                                     <p>Bachelor of Science in Information Technology</p>
                                     
-                                    <div class="d-flex justify-content-center">
+                                    <div class="d-flex">
                                         <div class="text-start">
                                             <p><strong>Archie Onoya</strong></p>
                                             <p>GCash Number: 09123456789</p>
