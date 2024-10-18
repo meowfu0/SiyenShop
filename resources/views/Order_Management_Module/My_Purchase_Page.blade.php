@@ -1,4 +1,4 @@
-<html lang="en">
+    <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +46,7 @@
             <tr>
                 <td>
                     <div class="other-content-high">
-                        <button class="shopName">Mr. Sapote</button>
+                        <button class="shopName">CIRCUITS</button>
                         <button class="status-box">Pending</button>
                     </div>
                     <div class="item-img"></div>
@@ -59,8 +59,8 @@
                             <th>Price</th>
                         </tr>
                         <tr>
-                            <td>Peter's Sweat Juice</td>
-                            <td>Parang Human</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
                             <td>Small</td>
                             <td>1</td>
                             <td>P2.00</td>
@@ -70,7 +70,7 @@
                         <h5>TOTAL: </h5>
                         <p class="costPrice">P2.00</p>
                         <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
+                        <p class="itemCount">3</p>
                         <p class="dateLabel">Date: </p>
                         <p class="date">08-10-2024</p>
                         <p class="time">12:51 am</p>
@@ -99,16 +99,16 @@
                         </tr>
                         <tr>
                             
-                            <td>Biology Student</td>
-                            <td>Student</td>
-                            <td>Small Height</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
+                            <td>Small</td>
                             <td>1</td>
-                            <td>Priceless</td>
+                            <td>P2.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">Imissyou</p>
+                        <p class="costPrice">P2.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -175,16 +175,16 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Guinobatan Biokid</td>
-                            <td>Student</td>
-                            <td>Chinita - 3rd Yr</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
+                            <td>Small</td>
                             <td>1</td>
-                            <td>Secret</td>
+                            <td>P2.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">Secret</p>
+                        <p class="costPrice">P2.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -212,8 +212,8 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Eraser sa B4</td>
-                            <td>Board Eraser</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
                             <td>Small</td>
                             <td>2</td>
                             <td>P40.00</td>
@@ -248,8 +248,8 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Peter Nailcuts</td>
-                            <td>Nails</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
                             <td>Dirty - L</td>
                             <td>10</td>
                             <td>P100.00</td>
@@ -313,7 +313,7 @@
                             <button class="shopName">CIRCUITS</button>
                             <button class="status-box">For Pickup</button>
                         </div>
-                        <div class="item-img"><img src="{{ asset('images/ivan-belaro.jpg') }}" class="ivan" style="width: 100%; height: 100%; border-radius: 7px;"></div>
+                        <div class="item-img"></div>
                         <table class="dets">
                             <tr>
                                 <th>Item</th>
@@ -323,11 +323,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Ryan Gosling</td>
-                            <td>IT Student</td>
-                            <td>3rd Year</td>
+                            <td>ID lanyard</td>
+                            <td>Lanyard</td>
+                            <td>Pink</td>
                             <td>1</td>
-                            <td>Hi</td>
+                            <td>P100.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -359,16 +359,16 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Buunja</td>
-                            <td>Student</td>
-                            <td>IT - 2</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
+                            <td>XL</td>
                             <td>1</td>
-                            <td>Omsimnida</td>
+                            <td>P1.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">Omsimnida</p>
+                        <p class="costPrice">P1.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -398,7 +398,7 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Peter Sweat</td>
+                            <td>T-Shirt</td>
                             <td>Category Name</td>
                             <td>Variant/Size Value</td>
                             <td>Quantity Value</td>
@@ -438,9 +438,9 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Frank Ocean Unreleased Album</td>
-                            <td>Music</td>
-                            <td>Music Album</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
+                            <td>XS</td>
                             <td>1</td>
                             <td>P1,200.00</td>
                         </tr>
@@ -475,9 +475,9 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Pritong Burog</td>
-                            <td>Food</td>
-                            <td>Ewan</td>
+                            <td>Merch</td>
+                            <td>T-Shirt</td>
+                            <td>M</td>
                             <td>1</td>
                             <td>P100.00</td>
                         </tr>
@@ -507,7 +507,7 @@
             <div class="modal-header">
                 <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
                 <h5 class="modal-title" id="orderDetailsLabel">
-                    Mr. Sapote
+                Circle of Unified Information Technology Students (CIRCUITS)
                 </h5>
                 <div class="p-3 mb-2 bg-light text-dark">Pending</div>
                 
@@ -530,8 +530,8 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Peter's Sweat Juice</td>
-                                        <td>Parang Human</td>
+                                        <td>Merch</td>
+                                        <td>T-Shirt</td>
                                         <td>Small</td>
                                         <td>1</td>
                                         <td>P2.00</td>
@@ -552,8 +552,8 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Peter's Shoes</td>
-                                        <td>Vintage Shoes</td>
+                                        <td>Merch</td>
+                                        <td>T-Shirt</td>
                                         <td>Small</td>
                                         <td>1</td>
                                         <td>P2.00</td>
@@ -652,11 +652,11 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Guinobata Biokid</td>
-                                        <td>Student</td>
-                                        <td>Chinita - 3rd Yr</td>
+                                        <td>Merch</td>
+                                        <td>T-Shirt</td>
+                                        <td>Small</td>
                                         <td>1</td>
-                                        <td>Secret</td>
+                                        <td>P2.00</td>
                                     </tr>
                                 </table>
                             </td>
@@ -673,7 +673,7 @@
                 </div>
                 <div class="transact-col2">
                     <p>0123123</p>
-                    <p>secret</p>
+                    <p>P2.00</p>
                     <p>GCASH</p>
                     <p>screenshot101.jpeg</p>
                     <p>901234871</p>
@@ -719,7 +719,7 @@
                         <tr class="modal-rows">
                             <td class="modal-td">
                                 <div class="img-holder">
-                                    <img src="{{ asset('images/ivan-belaro.jpg') }}" class="ivan" style="width: 100%; height: 100%">
+                               
                                 </div>
                                 <table class="modal-item-details">
                                     <tr>
@@ -730,9 +730,9 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Ryan Gosling</td>
-                                        <td>IT Student</td>
-                                        <td>3rd Yr</td>
+                                        <td>ID lanyard</td>
+                                        <td>Lanyard</td>
+                                        <td>Pink</td>
                                         <td>1</td>
                                         <td>P100.00</td>
                                     </tr>
@@ -807,11 +807,11 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Guinobatan Biology</td>
-                                        <td>Student</td>
-                                        <td>3rd Yr</td>
-                                        <td>1</td>
-                                        <td>Hi</td>
+                                        <td>T-Shirt</td>
+                                        <td>Catergory Name</td>
+                                        <td>Variant/SizeValue</td>
+                                        <td>Quantity Value</td>
+                                        <td>Price Value</td>
                                     </tr>
                                 </table>
                             </td>
@@ -828,7 +828,7 @@
                 </div>
                 <div class="transact-col2">
                     <p>0123123</p>
-                    <p>Hi</p>
+                    <p>Price Value</p>
                     <p>GCASH</p>
                     <p>screenshot101.jpeg</p>
                     <p>901234871</p>
@@ -884,9 +884,9 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Frank Ocean Unreleased Album</td>
-                                        <td>Music</td>
-                                        <td>Music Album</td>
+                                        <td>Merch</td>
+                                        <td>T-Shirt</td>
+                                        <td>XS</td>
                                         <td>1</td>
                                         <td>P1200.00</td>
                                     </tr>
@@ -905,7 +905,7 @@
                 </div>
                 <div class="transact-col2">
                     <p>0123123</p>
-                    <p>Hi</p>
+                    <p>P1200.00</p>
                     <p>GCASH</p>
                     <p>screenshot101.jpeg</p>
                     <p>901234871</p>
@@ -920,7 +920,7 @@
                     <p>08-10-24</p>
                     <p>12:51am</p>
                     <p>1</p>
-                    <p>Tirhan mo naman kame bro</p>
+                    <p>Insufficient Payment</p>
                 </div>
             </div>
             <!-- Modal Footer -->
