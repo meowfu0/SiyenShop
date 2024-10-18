@@ -20,19 +20,23 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/customer_support.css') }}" rel="stylesheet">
-
+    @livewireStyles
 </head>
 <body>
-    <div id="app">
-    @include('components.navbar')
 
-        <main class="py-4 min-vh-100">
+    <div class="d-none d-lg-flex">
+        @livewire('admin.admin-sidenav')
+        <main class="min-vh-100 d-flex flex-grow-1">
             @yield('content')
+            {{-- CONTENT WILL SHOW HERE --}}
         </main>
-    
-    @include('components.footer')
-   
-
     </div>
+
+    <div class="d-lg-none text-center">
+        @include('components.screen-prompt')
+    </div>
+    
+    @livewireScripts
+
 </body>
 </html>
