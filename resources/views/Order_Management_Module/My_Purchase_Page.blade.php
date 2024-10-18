@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Purchases/title>
+    <title>My Purchases</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
@@ -310,10 +310,10 @@
             <tr>
                 <td>
                     <div class="other-content-high">
-                            <button class="shopName">Symbiosis</button>
+                            <button class="shopName">CIRCUITS</button>
                             <button class="status-box">For Pickup</button>
                         </div>
-                        <div class="item-img"></div>
+                        <div class="item-img"><img src="{{ asset('images/ivan-belaro.jpg') }}" class="ivan" style="width: 100%; height: 100%; border-radius: 7px;"></div>
                         <table class="dets">
                             <tr>
                                 <th>Item</th>
@@ -323,8 +323,8 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Guinobatan Biology</td>
-                            <td>Student</td>
+                            <td>Ryan Gosling</td>
+                            <td>IT Student</td>
                             <td>3rd Year</td>
                             <td>1</td>
                             <td>Hi</td>
@@ -332,7 +332,7 @@
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
-                        <p class="costPrice">Hi</p>
+                        <p class="costPrice">P100.00</p>
                         <p class="itemLab">Item(s): </p>
                         <p class="itemCount">1</p>
                         <p class="dateLabel">Date: </p>
@@ -564,6 +564,7 @@
                         <tr class="modal-rows">
                             <td class="modal-td">
                                 <div class="img-holder">
+                                    <img src="{{ asset('images/manok.jpg') }}" class="logo-img" style="width: 100%; height: 100%">
                                 </div>
                                 <table class="modal-item-details">
                                     <tr>
@@ -705,7 +706,7 @@
             <div class="modal-header">
                 <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
                 <h5 class="modal-title" id="orderDetailsLabel">
-                    BU Symbiosis
+                    Circle of Unified Information Technology Students (CIRCUITS)
                 </h5>
                 <div class="p-3 mb-2 bg-light text-dark">For Pickup</div>
                 
@@ -718,6 +719,7 @@
                         <tr class="modal-rows">
                             <td class="modal-td">
                                 <div class="img-holder">
+                                    <img src="{{ asset('images/ivan-belaro.jpg') }}" class="ivan" style="width: 100%; height: 100%">
                                 </div>
                                 <table class="modal-item-details">
                                     <tr>
@@ -728,11 +730,11 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Guinobatan Biology</td>
-                                        <td>Student</td>
+                                        <td>Ryan Gosling</td>
+                                        <td>IT Student</td>
                                         <td>3rd Yr</td>
                                         <td>1</td>
-                                        <td>Hi</td>
+                                        <td>P100.00</td>
                                     </tr>
                                 </table>
                             </td>
@@ -749,7 +751,7 @@
                 </div>
                 <div class="transact-col2">
                     <p>0123123</p>
-                    <p>Hi</p>
+                    <p>P100.00</p>
                     <p>GCASH</p>
                     <p>screenshot101.jpeg</p>
                     <p>901234871</p>

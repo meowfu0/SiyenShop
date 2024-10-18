@@ -85,6 +85,9 @@
     width: 200px;
     background-color:#ffc107;
 }
+.img-holder, .img-holder img{
+    border-radius: 7px;
+}
 #pendTab, #precTab, #fpickTab, #ocompTab, #denTab{
     position: absolute;
     left: 125px;
@@ -369,6 +372,7 @@
     top:60px;
     left: 160px;
     height: 40px;
+    table-layout: fixed;
 }
 .transact-col1{
     margin-left: 40px;
@@ -494,4 +498,29 @@
     margin-left:620px;
     font-size: 13px;
     color: #092C4C;
+}
+/* Customize column widths in pixels */
+.modal-item-details th:nth-child(1),
+.modal-item-details td:nth-child(1) {
+    width: 150px; /* Width for the 'Item' column */
+}
+
+.modal-item-details th:nth-child(2),
+.modal-item-details td:nth-child(2) {
+    width: 120px; /* Width for the 'Category' column */
+}
+
+.modal-item-details th:nth-child(3),
+.modal-item-details td:nth-child(3) {
+    width: 100px; /* Width for the 'Variant/Size' column */
+}
+
+.modal-item-details th:nth-child(4),
+.modal-item-details td:nth-child(4) {
+    width: 100px; /* Width for the 'Quantity' column */
+}
+
+.modal-item-details th:nth-child(5),
+.modal-item-details td:nth-child(5) {
+    width: 80px; /* Width for the 'Price' column */
 }
