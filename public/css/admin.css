@@ -191,7 +191,6 @@
 .custom-dropdown{
     border: 1px solid #092C4C;
     cursor: pointer;
-    
 }
 
 .top-section{
@@ -260,8 +259,14 @@ div.profile-picture-container {
     margin: 0;
 }
 
+.modal-body1 {
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
 .custom-modal-size .modal-content {
-    height: 500px; /* Adjust the height */
+    height: 480px; /* Adjust the height */
     width: 750px;
     padding: 0;
 }
@@ -299,6 +304,12 @@ div.profile-picture-container {
 .custom-dropdown-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.show-edit-link {
+    visibility: visible; /* Show the link when needed without affecting layout */
 }
 
 #editPermissionsLink {

@@ -21,9 +21,9 @@
                     <i class="fa fa-search"></i>
                     <input type="search" class="searchbox ms-2" placeholder="Search" />
                 </div>
-                <div class="d-flex align-items-center ms-5" style="width: 23%;">
+                <div class="d-flex align-items-center ms-5 w-25">
                     <span class="me-2">Course</span>
-                    <select class="form-select custom-dropdown px-3 py-1 fw-bold rounded fs-2 w-100" style="width: 116px;">
+                    <select class="form-select custom-dropdown px-3 py-1 fw-bold rounded fs-2">
                         <option value="course1" selected>BS Information Technology</option>
                         <option value="course2">BS Computer Science</option>
                         <option value="course3">BS Biology</option>
@@ -222,7 +222,7 @@
                     <h5 class="modal-title" style="color:#092C4C;" id="userInfoModalLabel">User Account</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-flex align-items-start">
+                <div class="modal-body1 d-flex align-items-start">
                     <!-- Profile Picture Section -->
                     <div class="profile-picture-container me-4">
                         <img src="{{ asset('path_to_profile_picture.jpg') }}" alt="User Profile Picture"
@@ -274,7 +274,7 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer mt-5">
                     <button type="button" class="btn fs-2 fw-bold" id="deactivateBtn">Deactivate Account</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="editBtn">Edit Account</button>
@@ -293,10 +293,10 @@
                         Permissions</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body mt-4 align-items-start">
+                <div class="mt-4 align-items-start">
                     <div class="row">
                         <!-- Left Div -->
-                        <div class="col-md-6" style="flex: 3;">
+                        <div class="col-md-6 ms-4" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Account & Profile</h6>
                                 <input class="form-check-input ms-3" type="checkbox" id="manageUsers">
@@ -388,7 +388,7 @@
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="modal-footer">
+                <div class="modal-footer mt-4">
                     <button type="button" class="btn fs-2 fw-bold" id="closeBtn">Cancel</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="saveChangesBtn">Save Changes</button>
