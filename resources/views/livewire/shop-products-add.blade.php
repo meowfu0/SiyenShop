@@ -2,7 +2,7 @@
 
 @section('content')
 <head>
-    <link rel="stylesheet" href="{{ asset('css/products.add.edit.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/toggleswitch.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
@@ -60,7 +60,8 @@
                 <div class="col-md-6 d-flex flex-column gap-3"> 
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category
+                            <img src="{{ asset('images/add.svg') }}" alt=""></button>
                     </div>
         
                     <div class="form-group mb-1">
@@ -81,7 +82,7 @@
                         <label for="shop_id" class="fw-bold text-primary">Organization</label>
                        <!-- <input type="text" id="organization" class="form-control" 
                             value="{{ Auth::user()->organization ?? 'No organization assigned' }}" readonly disabled> for backend part-->
-                            <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonlyd disabled> <!-- For frontend part only-->
+                            <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
                     </div>
 
                    
@@ -129,34 +130,38 @@
                         </div>
 
                         <!-- Hidden Fields -->
-                        <div class="row g-2">
-                            <div id="hiddenFields" style="display:none;">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td class="col-md-6">
-                                                <div id="sizeInput" style="display:none;">
-                                                    <div class="form-group">
-                                                        <label for="size" class="fw-bold text-primary">Size</label>
-                                                        <input type="text" id="size" class="form-control" placeholder="e.g. XL">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="col-md-6">
-                                                <div id="quantityInput" style="display:none;">
-                                                    <div class="form-group">
-                                                        <label for="quantity" class="fw-bold text-primary">Quantity</label>
-                                                        <div class="input-group quantity-selector quantity-selector-sm">
-                                                            <input type="number" id="quantity" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <div class="row g-3">
+                            <div id="inputContainer" class="col-md-12">
+                                <div id="hiddenFields" style="display:none;">
+                                    <div class="col-md-12">
+                                    <a href="#" id="addNewField" class="text-primary" style="cursor: pointer;">
+                                        <img src="{{ asset('images/search.svg') }}" alt="Add" style="width: 16px; height: 16px;"> Add New Size
+                                    </a>
+                                    <div class="row g-3 mb-3" id="inputRow_1">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="size_1" class="fw-bold text-primary">Size</label>
+                                                <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group" id="quantity_1">
+                                                <label for="quantity_1" class="fw-bold text-primary">Quantity</label>
+                                                <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
+                                            <button type="button" class="btn btn-sm removeField" data-row-id="inputRow_1">
+                                                <img src="{{ asset('images/search.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                </div>
                             </div>
                         </div>
+
 
                         <div class="row g-2"> 
                             <div class="col-md-6 mt-3 mb-1"> 
@@ -177,7 +182,7 @@
                                 <div class="form-group">
                                     <label for="quantity" class="fw-bold text-primary">Quantity</label>
                                     <div class="input-group quantity-selector quantity-selector-sm">
-                                        <input type="number" id="quantity_id" class="form-control" aria-live="polite" data-bs-step="counter" name="quantity" title="quantity" value="0" min="0" max="10" step="1" data-bs-round="0" aria-label="Quantity selector" required>
+                                        <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
                                     </div>
                                 </div>
                             </div>
@@ -219,68 +224,73 @@
   </div>
 </div>
 
+
+
+
+
+
+
+
+
+
+
 <script>
-    document.getElementById('variationToggle').addEventListener('change', function () {
-        if (this.checked) {
-            console.log('Toggle is ON');
-        } else {
-            console.log('Toggle is OFF');
-        }
-    });
-
     document.addEventListener('DOMContentLoaded', function() {
-    const statusSelect = document.getElementById('status_id');
-    const categorySelect = document.getElementById('category');
-    const variationToggle = document.getElementById('variationToggle');
-    const hiddenFields = document.getElementById('hiddenFields');
-    const sizeInput = document.getElementById('sizeInput');
-    const quantityInput = document.getElementById('quantityInput');
-    const disabledInput = document.getElementById('disabledInput');
-    const quantity = document.getElementById('quantity_id');
+        const statusSelect = document.getElementById('status_id');
+        const categorySelect = document.getElementById('category');
+        const variationToggle = document.getElementById('variationToggle');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const sizeInput = document.getElementById('size_1');
+        const quantityInput = document.getElementById('quantity_1');
+        const disabledInput = document.getElementById('disabledInput');
+        const quantity = document.getElementById('quantity_id');
+        
 
-    // Function to enable or disable the toggle based on category and status
-    function checkToggleAvailability() {
-        const category = categorySelect.value;
-        const status = statusSelect.value;
+        // Function to enable or disable the toggle based on category and status
+        function checkToggleAvailability() {
+            const category = categorySelect.value;
+            const status = statusSelect.value;
 
-        if (category === 'T-Shirt' && (status === 'on-hand' || status === 'pre-order')) {
-            variationToggle.removeAttribute('disabled');
-        } else {
-            variationToggle.checked = false; // Reset toggle to off
-            variationToggle.setAttribute('disabled', 'disabled');
-            hiddenFields.style.display = 'none'; 
-            sizeInput.style.display = 'none';
-            quantityInput.style.display = 'none';
-            quantity.removeAttribute('disabled'); // Enable quantity when toggle is off
-        }
-    }
-
-    categorySelect.addEventListener('change', checkToggleAvailability);
-    statusSelect.addEventListener('change', checkToggleAvailability);
-
-    // Function to handle the toggle switch behavior
-    variationToggle.addEventListener('change', function() {
-        if (this.checked) {
-            disabledInput.style.display = 'none';
-            hiddenFields.style.display = 'block';
-
-            if (statusSelect.value === 'pre-order') {
-                sizeInput.style.display = 'block'; 
+            if (category === 'T-Shirt' && (status === 'on-hand' || status === 'pre-order')) {
+                variationToggle.removeAttribute('disabled');
+                quantity.setAttribute('disabled', 'disabled');
+            } else {
+                variationToggle.checked = false; // Reset toggle to off
+                variationToggle.setAttribute('disabled', 'disabled');
+                hiddenFields.style.display = 'none'; 
+                sizeInput.style.display = 'none';
                 quantityInput.style.display = 'none';
-            } else if (statusSelect.value === 'on-hand') {
-                sizeInput.style.display = 'block';
-                quantityInput.style.display = 'block';
+                quantity.removeAttribute('disabled'); // Enable quantity when toggle is off
             }
-            quantity.setAttribute('disabled', 'disabled');
-        } else {
-            hiddenFields.style.display = 'none';
-            sizeInput.style.display = 'none';
-            quantityInput.style.display = 'none';
-            disabledInput.style.display = 'block';
-            quantity.removeAttribute('disabled');
         }
+
+        categorySelect.addEventListener('change', checkToggleAvailability);
+        statusSelect.addEventListener('change', checkToggleAvailability);
+
+        // Function to handle the toggle switch behavior
+        variationToggle.addEventListener('change', function() {
+            if (this.checked) {
+                disabledInput.style.display = 'none';
+                hiddenFields.style.display = 'block';
+
+                if (statusSelect.value === 'pre-order') {
+                    sizeInput.style.display = 'block'; 
+                    quantityInput.style.display = 'none';
+                } else if (statusSelect.value === 'on-hand') {
+                    sizeInput.style.display = 'block';
+                    quantityInput.style.display = 'block';
+                }
+                quantity.setAttribute('disabled', 'disabled');
+            } else {
+                hiddenFields.style.display = 'none';
+                sizeInput.style.display = 'none';
+                quantityInput.style.display = 'none';
+                disabledInput.style.display = 'block';
+                quantity.removeAttribute('disabled');
+            }
+        });
     });
-});
+
     document.addEventListener('DOMContentLoaded', function() {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('image_upload');
@@ -326,6 +336,51 @@
             }
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let fieldCount = 1; // Initialize counter, starting from 1 as the first row is already present
+
+        // Click event for adding new input fields
+        document.getElementById('addNewField').addEventListener('click', function () {
+            fieldCount++; // Increment field count
+
+            // Create a new input field row
+            const newFieldRow = document.createElement('div');
+            newFieldRow.classList.add('row', 'g-3', 'mb-3');
+            newFieldRow.id = `inputRow_${fieldCount}`; // Assign unique ID
+            newFieldRow.innerHTML = `
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="size_${fieldCount}" class="fw-bold text-primary">Size</label>
+                        <input type="text" id="size_${fieldCount}" class="form-control" placeholder="e.g. XL">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="quantity_${fieldCount}" class="fw-bold text-primary">Quantity</label>
+                        <input type="number" id="quantity_${fieldCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                    </div>
+                </div>
+                <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn removeField" data-row-id="inputRow_${fieldCount}">
+                        <img src="{{ asset('images/search.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
+                    </button>
+                </div>
+            `;
+
+            // Append the new input field row to the container
+            document.getElementById('inputContainer').appendChild(newFieldRow);
+        });
+
+        // Event delegation to handle the "Move to Trash" (delete) button
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('removeField')) {
+                const rowId = e.target.getAttribute('data-row-id');
+                document.getElementById(rowId).remove(); // Remove the selected input row
+            }
+        });
+    });
+
 
 </script>
 
