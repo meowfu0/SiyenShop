@@ -1,0 +1,194 @@
+*{
+    font-family: Satoshi;
+}
+@media screen and (max-width: 768px) {
+    .navbar-nav.al {
+        margin: 0;
+    }
+    .d-flex.ms-auto {
+        position: absolute;
+        top: 12px; 
+        right: 10px; 
+    }
+    .logo-img {
+        margin-left: 15px;
+    }
+    .navbar-nav.ac {
+        display: flex; 
+        flex-direction: row; 
+        justify-content: center; 
+        align-items: center; 
+        padding: 0; 
+        margin: 0 auto; 
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar .order-1 {
+        order: 1;
+    }
+    .navbar .order-2 {
+        order: 3;
+    }
+    .navbar .order-3 {
+        order: 2;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .card {
+        width: 100% !important; /* Set card width to 100% to fit mobile screens */
+    }
+
+}
+
+.logo-img{
+    height: 31px;
+    width: 110px;
+}
+
+.navbar-toggler:focus, .navbar-toggler:active {
+    outline: none;
+    box-shadow: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .navbar {
+        height: 80px !important; 
+    }
+}
+
+@media (max-width: 768px) {
+    .icons img {
+        width: 16px;
+        height: 16px;
+    }
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.btn-outline-primary.active, 
+.btn-outline-primary:active {
+  background-color: #092C4C; /* New color when button is tapped */
+  color: white;
+  border-color: #092C4C; /* Match the border with the background */
+}
+
+.card{
+    border: none;
+}
+.card-body{
+    width: 100% !important;
+}
+.status{
+    width: 90px;
+    border: 1px solid #092C4C;
+    border-radius: 5px;
+    text-align: center;
+    font-family: Satoshi;
+    color: #092C4C;
+    display: inline-block;
+    margin-top: 5px;
+    margin-right: 15px;
+}
+.ratings{
+    margin-right:10px;
+}
+
+.ratings i {
+    width: 20px;
+    height: 20px;
+    font-size: 20px; /* Size the stars */
+    line-height: 20px; /* Ensure the stars are properly aligned */
+    color:#cecece;
+}
+
+.rating-color{
+    color:#fbc634 !important;
+}
+
+.ratings-below{
+    margin-right:10px;
+}
+
+.ratings-below i {
+    width: 10px;
+    height: 10px;
+    font-size: 10px; /* Size the stars */
+    line-height: 10px; /* Ensure the stars are properly aligned */
+    color:#cecece;
+}
+
+.rating-color2{
+    color:#fbc634 !important;
+}
+.size{
+    font-size: 15px;
+}
+.size-variation button{
+    border-color: 1px solid #092C4C;
+    color: #092C4C;
+    background-color: white;
+    width: 55px;
+    height: 37px;
+    border-radius: 7px;
+}
+.quantity-selector {
+    display: inline-flex;
+    border: 1px solid #092C4C;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+.quantity-selector button {
+    border: none;
+    background-color: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+.quantity-selector input {
+    border: none;
+    text-align: center;
+    width: 20px;
+    font-size: 18px;
+    outline: none;
+}
+.quantity-selector button:focus {
+    outline: none;
+}
+.quantity-selector button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.content{
+    margin-top: 0; /* Ensure there's no extra margin pushing it down */
+    padding-top: 0; /* Remove any unnecessary padding */
+    line-height: 1.5; /* Adjust this to control the space between lines of text */
+    text-align: left; /* Align text if needed */
+}
+.card-text-status{
+    border: 1px solid #092C4C;
+    border-radius: 8px;
+    font-size: 10px;
+    color: #092C4C;
+    text-align: center;
+    margin-top: 5px;
+    width: 70px;
+}
+.card-product{
+    width: 150px;
+
+}
+.flex-fill{
+    width: 150px;
+    border:1px solid #BDBDBD; 
+    border-radius:8px
+}
