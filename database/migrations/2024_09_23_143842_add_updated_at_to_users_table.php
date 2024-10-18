@@ -15,9 +15,11 @@ class AddUpdatedAtToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('updated_at')->nullable(); 
+            $table->timestamp('last_login')->nullable();
+            $table->timestamp('modified_at')->nullable();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -26,7 +28,7 @@ class AddUpdatedAtToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('updated_at'); 
+            $table->dropColumn(['updated_at', 'last_login', 'modified_at']);
         });
     }
 }
