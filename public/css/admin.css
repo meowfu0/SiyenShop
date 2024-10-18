@@ -122,7 +122,6 @@
     margin-left: 5px;
     outline: none;
     flex-grow: -1;
-    font-size: 12px;
     width: 100%;
 }
 .searchbox::placeholder{
@@ -139,7 +138,6 @@
 .create-btn{
     padding: 5px 25px;
     border: 2px solid rgb(3.6, 17.6, 30.4);
-    font-size: 12px;
     border-radius: 5px;
     background-color: transparent;
 }
@@ -182,7 +180,6 @@
     border-radius: 5px;
     color: #092C4C;
     font-weight: bold;
-    font-size: 12px;
     cursor: pointer;
 }
 
@@ -215,7 +212,6 @@
     border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
-    font-size: 12px;
 }
 
 .user-name{
@@ -336,7 +332,6 @@ div.profile-picture-container {
     border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
-    font-size: 12px;
 }
 
 .view-shop-btn:hover{
@@ -386,7 +381,6 @@ div.profile-picture-container {
 .upload-shop-profile-picture{
     padding: 5px 20px;
     border: 2px solid rgb(3.6, 17.6, 30.4);
-    font-size: 10px;
     border-radius: 5px;
     background-color: transparent;
     margin-left: 2%;
@@ -395,7 +389,6 @@ div.profile-picture-container {
 .remove-shop-profile-picture{
     padding: 5px 20px;
     border: none;
-    font-size: 10px;
     background-color: transparent;
 }
 
@@ -406,11 +399,9 @@ div.profile-picture-container {
     background-color: transparent;
     height: 30px;
     margin-bottom: 10px;
-    font-size: 12px;
 }
 
 .btn.btn-outline-secondary{
-    font-size: 10px;
     border-color: #092C4C;
     color:#092C4C;
 }
@@ -422,7 +413,6 @@ div.profile-picture-container {
 
 .btn.btn-outline-primary{
     margin-top: 10px;
-    font-size: 10px;
     margin-bottom: 10px;
 }
 .btn.btn-primary:hover{
@@ -462,17 +452,6 @@ div.profile-picture-container {
 
 
 
-.shops-table-section{
-    margin: auto;
-    margin-top: 12px;
-    width: 90%;
-    padding: 5px;
-    border: 2px solid #adb5bd;
-    border-radius: 10px;
-    text-align: center;
-    
-}
-
 .table th{
     color: #092C4C;
 }
@@ -492,7 +471,6 @@ div.profile-picture-container {
 .create-btn{
     padding: 5px 25px;
     border: 2px solid rgb(3.6, 17.6, 30.4);
-    font-size: 12px;
     border-radius: 5px;
     background-color: transparent;
 }
@@ -527,7 +505,7 @@ div.profile-picture-container {
     border-radius: 5px;
     color: #092C4C;
     font-weight: bold;
-    font-size: 12px;
+    
     cursor: pointer;
 }
 
@@ -536,13 +514,13 @@ div.profile-picture-container {
     border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
-    font-size: 12px;
+  
 }
 .custom{
     border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
-    font-size: 12px;
+
     padding-left: 30px;
     padding-right:30px;
 }
@@ -556,7 +534,7 @@ div.profile-picture-container {
 
 
 .profile-data-table{
-    width: 30%;
+    width: 10%;
     border-radius:50%;
     border: none;
 }

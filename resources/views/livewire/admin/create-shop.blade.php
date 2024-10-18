@@ -22,9 +22,9 @@
 
 <!--content-->
 
-<div class="container-sm px-4">
-    <div class="row">
-        <div class="col-lg-6">
+<div class="container-fluid">
+    <div class="row justify-content-center mt-4 mb-4  my-4 mx-4">
+        <div class="col-12 col-md-6 col-lg-6">
              <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
             class="profile-picture1" style="margin-right: 20px;"
@@ -66,8 +66,8 @@
         </div>
         
     
-        <div class="col-lg-6">
-            <div class="card">
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card justify-content-center mt-4 mb-4 my-4 mx-4">
                 <div class="card-body">
                     <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"

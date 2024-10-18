@@ -22,9 +22,9 @@
 
 <!--content-->
 
-<div class="container-sm px-4">
-    <div class="row">
-        <div class="col-lg-6">
+<div class="container-fluid">
+    <div class="row justify-content-center mt-4 mb-4  my-4 mx-4">
+        <div class="col-12 col-md-6 col-lg-6">
              <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
             class="profile-picture1" style="margin-right: 20px;"
@@ -43,7 +43,6 @@
                         <label for="course">Course</label>
                         <select class="form-control" id="course">
                             <option selected>Choose...</option>
-                            <option>BS Information Technology</option>
                             <option value="course1">BS Information Technology</option>
                             <option value="course2">BS Computer Science</option>
                             <option value="course3">BS Biology</option>
@@ -67,13 +66,13 @@
         </div>
         
     
-        <div class="col-lg-6">
-            <div class="card">
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card justify-content-center mt-4 mb-4 my-4 mx-4">
                 <div class="card-body">
                     <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                     class="profile-picture1"
-                    alt=""
+                    alt="profile picture"
                     />
                     
                     <h4 class="card-title">Shop Name</h4> <!--Automatic display of name after fill-->
@@ -89,12 +88,12 @@
             </div>
         </div>
         <div class="footer">
-            <button type="submit" class="btn btn-primary" onclick="shops()">Update</button>
+            <button type="submit" class="btn btn-primary">Create</button>
             <button type="submit" class="btn btn-secondary" onclick="cancel()">Cancel</button>
         </div>
         
     </div>
-
+ 
 </div>
 
 <script>

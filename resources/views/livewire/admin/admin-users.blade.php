@@ -15,7 +15,7 @@
         </div>
 
         <!-- Content -->
-        <div class="container data-table-section mt-5">
+        <div class="container-fluid data-table-section mt-5">
             <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
                 <div class="search-container d-flex align-items-center rounded p-1">
                     <i class="fa fa-search"></i>
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="container users-table-section p-1 mx-auto mt-9">
+            <div class="container-fluid users-table-section p-1 mx-auto mt-9">
                 <table class="table table-hover text-center">
                     <thead>
                         <tr>
