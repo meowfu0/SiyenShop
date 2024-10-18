@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .block-7 {
+        margin-right: 0 !important; /* Adjust the margin as needed */
+        padding-right: 0 !important;
+    }
+</style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -108,112 +114,103 @@
                 </div>
             </div>
         </div>
+        
+        <div class="row col-md-12 justify-content-center">
+            <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">You may also like</h2>
+            <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 p-4">
+        <div class="block-7 pd">
+        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+            <div class="text-center p-4">
+                <div class="badge">CIRCUITS</div>
+                <span class="excerpt d-block">CirCUITS Stickers</span>
+                <span class="price"><span class="number">₱10.00</span></span>
+                <div class="ratings d-flex align-items-center mt-0">
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star mr-1"></i>
+                                <span class="solds">49 solds</span>          
+                </div>
+                <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+            </div>
         </div>
-        <div class="container mt-5">
-                        <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">You may also like</h2>
-                        <div class="row row-cols-1 row-cols-md-5 g-4">
-                            <div class="flex-fill" >
-                                <div class="card-product">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CIRCUITS</p>
-                                        <h5 class="card-title">CirCUITS T-Shirt</h5>
-                                        <p class="card-text">₱250.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill" >
-                                <div class="card-product">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status">CSC</p>
-                                        <h5 class="card-title">CSC Lanyard</h5>
-                                        <p class="card-text">₱150.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill" >
-                                <div class="card-product">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CIRCUITS</p>
-                                        <h5 class="card-title">CirCUITS T-Shirt</h5>
-                                        <p class="card-text">₱250.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill" >
-                                <div class="card-product">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CIRCUITS</p>
-                                        <h5 class="card-title">CirCUITS T-Shirt</h5>
-                                        <p class="card-text">₱250.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill" >
-                                <div class="card-product">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CIRCUITS</p>
-                                        <h5 class="card-title">CirCUITS T-Shirt</h5>
-                                        <p class="card-text">₱250.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+        <div class="block-7">
+        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+            <div class="text-center p-4">
+                <div class="badge">CIRCUITS</div>
+                <span class="excerpt d-block">CirCUITS T-Shirt</span>
+                <span class="price"><span class="number">₱250.00</span></span>
+                <div class="ratings d-flex align-items-center mt-0">
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star mr-1"></i>
+                                <span class="solds">17 solds</span>          
+                </div>
+                <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+            </div>
+        </div>
+
+        <div class="block-7">
+        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+            <div class="text-center p-4">
+                <div class="badge">CIRCUITS</div>
+                <span class="excerpt d-block">CirCUITS T-Shirt</span>
+                <span class="price"><span class="number">₱250.00</span></span>
+                <div class="ratings d-flex align-items-center mt-0">
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star mr-1"></i>
+                                <span class="solds">20 solds</span>          
+                </div>
+                <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+            </div>
+        </div>
+
+        <div class="block-7"><img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+            <div class="text-center p-4">
+                <div class="badge">CIRCUITS</div>
+                <span class="excerpt d-block">CirCUITS T-Shirt</span>
+                <span class="price"><span class="number">₱250.00</span></span>
+                <div class="ratings d-flex align-items-center mt-0">
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star mr-1"></i>
+                                <span class="solds">59 solds</span>          
+                </div>
+                <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+            </div>
+        </div>
+
+        <div class="block-7">
+        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+            <div class="text-center p-4">
+                <div class="badge">CIRCUITS</div>
+                <span class="excerpt d-block">CirCUITS T-Shirt</span>
+                <span class="price"><span class="number">₱250.00</span></span>
+                <div class="ratings d-flex align-items-center mt-0">
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star rating-color mr-1"></i>
+                                <i class="fa fa-star mr-1"></i>
+                                <span class="solds">40 solds</span>          
+                </div>
+                <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+
+            </div>
+        </div>
+    </div>
+        </div>
+        </div>
+    </div>
                     
 </div>
 <!-- Modal -->
