@@ -24,9 +24,6 @@
 </head>
 <body>
     <div id="app">
-        <div id="sidebar">
-            @include('components.sidenavUser')
-        </div>
         <div id="navigation">
             @include('components.navbar') 
         </div>
@@ -34,6 +31,7 @@
         <main class="py-4 min-vh-100">
            
         </main>
+        
     </div>
 </body>
 </html>

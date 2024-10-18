@@ -3,13 +3,14 @@
     top: 0px;
     z-index: 0;
     height: 100%;
-    width: auto;
+    width: 240px;
 }
 #navigation{
     position: fixed;
     top: 0px;
     z-index: 2;
-    width: 100%;
+    width: calc(100% - 300px);
+    margin-left: 300px;
 }
 .content-purchase{
     position: absolute; 
@@ -18,7 +19,6 @@
     border: none;
     width: 1275px;
     height: 650px;
-    z-index: 0;
     overflow-y: auto;
 
     scrollbar-width: none; /* For Firefox */
@@ -248,6 +248,15 @@
 #foot_ni_peter{
     z-index: 100;
 }
+.modal-header img{
+    width: 40px !important;
+    height: 40px !important;
+}
+#orderDetailsLabel{
+    width: 500px !important;
+    font-weight: 500 !important;
+    margin-left: 30px;
+}
 #ocompTab .other-content-high .status-box{
     color: #27AE60 !important;
     border: 1px solid #27AE60 !important;
@@ -255,4 +264,234 @@
 #denTab .other-content-high .status-box{
     color: #eb5757 !important;
     border: 1px solid #eb5757 !important;
+}
+#orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
+#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog{
+    max-width: 800px !important; 
+}
+.modal-content{
+    padding-top: 20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.modal-header{
+    margin-top: 20px;
+    height: 100px !important;
+}
+.modal-footer button{
+    width: 140px;
+    border-radius: 7px !important;
+    font-weight: 500 !important;
+}
+.modal-footer .btn.btn-light{
+    color: #092C4C !important;
+    border: 1px solid #092C4C !important;
+}
+.p-3.mb-2.bg-light.text-dark{
+    color: #E2B93B !important;
+    border: 1px solid #E2B93B !important;
+    height: 30px !important;
+    width: 150px;
+    line-height: 0px !important;
+    border-radius: 7px;
+    text-align: center;
+}
+#orderDetailsModal-ocomp .p-3.mb-2.bg-light.text-dark{
+    color: #27AE60 !important;
+    border: 1px solid #27AE60!important;
+    height: 30px !important;
+    width: 150px;
+    line-height: 0px !important;
+    border-radius: 7px;
+    text-align: center;
+}
+#orderDetailsModal-den .p-3.mb-2.bg-light.text-dark{
+    color: #eb5757 !important;
+    border: 1px solid #eb5757 !important;
+    height: 30px !important;
+    width: 150px;
+    line-height: 0px !important;
+    border-radius: 7px;
+    text-align: center;
+}
+.modal-content .btn-close{
+    position: absolute;
+    left: 740px;
+}
+.modal-items{
+    height: 200px;
+    overflow-y: auto;
+}
+.modal-items::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+    background: transparent; /* Background of the scrollbar */
+}
+
+/* Hide the scrollbar track */
+.modal-items::-webkit-scrollbar-track {
+    background: transparent; /* Change this to match your design */
+}
+
+/* Style of the scrollbar handle */
+.modal-items::-webkit-scrollbar-thumb {
+    background: rgb(219, 219, 219); /* Change the color of the scrollbar handle */
+    border-radius: 10px; /* Round the corners */
+}
+
+/* Style of the scrollbar handle on hover */
+.modal-items::-webkit-scrollbar-thumb:hover {
+    background: #828282; /* Change color on hover */
+}
+
+/* Hide scrollbar arrows */
+.modal-items::-webkit-scrollbar-button {
+    display: none; /* Hides the arrows */
+}
+
+.img-holder{
+    background-color:#ebe8dc;
+    height: 100px;
+    width: 100px;
+    margin-left: 40px;
+}
+.modal-rows{
+    width: 100%;
+    height: 150px;
+}
+.modal-td{
+    width: 700px;
+    position: relative;
+}
+.modal-item-details{
+    font-size: 12px;
+    width: 520px;
+    position: absolute;
+    top:60px;
+    left: 160px;
+    height: 40px;
+}
+.transact-col1{
+    margin-left: 40px;
+    display: inline-block;
+    font-weight: 500;
+}
+.transact-col2{
+    margin-left: 40px;
+    display: inline-block;
+}
+.transact-col3{
+    position: absolute;
+    font-weight: 500;
+    top: 250px;
+    left: 450px;
+}
+.transact-col4{
+    position: absolute;
+    top: 250px;
+    left: 530px;
+}
+#rateModal .btn-close{
+    position: absolute !important;
+    left: 460px !important;
+}
+#rateModal .modal-header{
+    height: 40px !important;
+    border: none !important;
+}
+
+#star-button1, #star-button2, #star-button3, #star-button4, #star-button5{
+    width: 40px;
+    height: 40px;
+    background-color: rgb(219, 219, 219);
+    color: rgb(219, 219, 219);
+    font-size: 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    clip-path: polygon(
+        50% 8%, 66% 38%, 98% 40%, 
+        75% 60%, 82% 92%, 50% 75%, 
+        18% 92%, 25% 60%, 2% 40%, 
+        34% 38%
+    );
+    text-align: center;
+    line-height: 120px;
+    transition: background-color 0.3s ease;
+}
+
+#rateModal .modal-body{
+    height: 330px;
+}
+#rateModal .modal-footer{
+    border: none;
+}
+.rate-stars{
+    position: absolute;
+    top:30px;
+    left: 120px;
+}
+.rate-comment{
+    position: absolute;
+    top: 130px;
+}
+.rate-comment textarea{
+    width: 430px;
+    resize: none;
+    height: 150px;
+    margin-top: 10px;
+    border-radius: 7px;
+    padding: 10px;
+}
+.rate-comment textarea::-webkit-scrollbar {
+    width: 0; /* Set width to 0 to hide it */
+    background: transparent; /* Optional: make the background transparent */
+}
+#clear-stars{
+    border: none;
+    background-color: white;
+    color: rgb(148, 148, 148);
+    font-weight: 400;
+    position: absolute;
+    top: 90px;
+    left: 180px;
+    display: none;
+}
+#clear-stars:hover{
+    color: black;
+}
+#closeMsg{
+    width: 100px;
+    font-weight: 500;
+    margin-top: 40px;
+    margin-left: 150px;
+}
+#msg-modal .modal-body{
+    height: 200px;
+}
+#msg-modal button{
+    margin-right: 150px;
+    margin-bottom: 15px;
+}
+
+#msg-modal img{
+    width: 70px;
+    height: 70px;
+    margin-top: 40px;
+    margin-left: 180px;
+}
+#msg-modal h3{
+    margin-left: 80px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+#msg-modal .modal-footer{
+    border: none;
+}
+.multiple-indicator{
+    margin-top: 50px;
+    margin-left:620px;
+    font-size: 13px;
+    color: #092C4C;
 }

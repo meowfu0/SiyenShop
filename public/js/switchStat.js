@@ -101,4 +101,85 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fpickButton) addHoverEvents(fpickButton, 3);
     if (ocompButton) addHoverEvents(ocompButton, 4);
     if (denButton) addHoverEvents(denButton, 5);
+
+
+    var star1 = document.getElementById('star-button1');
+    var star2 = document.getElementById('star-button2');
+    var star3 = document.getElementById('star-button3');
+    var star4 = document.getElementById('star-button4');
+    var star5 = document.getElementById('star-button5');
+    var clearButton = document.getElementById('clear-stars');
+    
+    const stars = [
+        star1,
+        star2,
+        star3,
+        star4,
+        star5
+    ];
+    
+    let selectedIndex = -1; // Keep track of the selected star
+    
+    // Function to handle mouse enter
+    function handleMouseEnter(index) {
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].style.backgroundColor = i <= index ? '#E2B93B' : 'rgb(231, 231, 231)';
+        }
+    }
+    
+    // Function to handle mouse leave
+    function handleMouseLeave() {
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].style.backgroundColor = i <= selectedIndex ? '#E2B93B' : 'rgb(231, 231, 231)';
+        }
+    }
+    
+    // Function to handle click
+    function handleClick(index) {
+        selectedIndex = index; // Update selected index
+        clearButton.style.display = 'block';
+        handleMouseLeave(); // Update stars display based on selection
+    }
+    
+    // Add event listeners for each star
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseenter', () => handleMouseEnter(index));
+        star.addEventListener('mouseleave', handleMouseLeave);
+        star.addEventListener('click', () => handleClick(index));
+    });
+    
+    function resetStars() {
+        // Reset all stars to default color
+        stars.forEach(star => {
+            star.style.backgroundColor = 'rgb(231, 231, 231)';
+        });
+        clearButton.style.display = 'none';
+        selectedIndex = -1; // Reset selected index
+    }
+    
+    // Reset stars when modal is closed
+    const rateModal = document.getElementById('rateModal');
+    rateModal.addEventListener('hidden.bs.modal', resetStars);
+    
+    // Clear stars when clear button is clicked
+    clearButton.addEventListener('click', resetStars);
+
+    document.getElementById('submit-ratings').addEventListener('click', function(){
+        const msgModal = new bootstrap.Modal(document.getElementById('msg-modal'));
+        msgModal.show();
+    })
+    
+    const rateOrderButton = document.getElementById('rate-order');
+    
+    // Function to open the rateModal
+    function openRateModal() {
+        const rateModal = new bootstrap.Modal(document.getElementById('rateModal'));
+        rateModal.show(); // Open the modal
+    }
+
+    // Event listener for the Rate Order button
+    rateOrderButton.addEventListener('click', function () {
+        openRateModal(); // Call the function to open the modal
+    });
 });
+
