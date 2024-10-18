@@ -57,4 +57,45 @@
         width: 16px;
         height: 16px;
     }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .h1  {
+            size: 48px;
+            weight: 900;
+            font-family: Satoshi;
+            color:rgba (9,44,76,1);
+            margin-top: 20px; 
+        }
+        .btn1-custom {
+            margin-top: 10px; 
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, rgba(226, 185, 59, 0.2), rgba(9, 44,76, 0.2));
+            padding: 20px;
+        }
+        .hero img {
+            max-width: 381px;
+            height: 450px;
+        }
+        .hero .content {
+            max-width: 600px;
+        }
+        .btn1-custom {
+            background-color: #fbb034;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+        }
+        .btn1-custom:hover {
+            background-color: #f9a329;
+        }
+
 }
