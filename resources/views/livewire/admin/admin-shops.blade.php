@@ -16,19 +16,17 @@
     </div>
 
     <!-- Welcome Message Below Navbar -->
-    <div class="mt-3">
-        <h1 class="page-header">Welcome to {{ Route::current()->uri() }}</h1>
-    </div>
 
-    <div class="data-table-section">
-        <div class="top-bar">
-            <div class="search-container">
-                <i class="fa fa-search"></i>
-                <input type="search" class="searchbox" placeholder="Search"/>
-            </div>
+
+    <div class="container data-table-section mt-5">
+        <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
+            <div class="search-container d-flex align-items-center rounded p-1" style="width: 300px;">
+                    <i class="fa fa-search"></i>
+                    <input type="search" class="searchbox ms-2" placeholder="Search" />
+                </div>
             <div class="button-container">
                 <div class="dropdown-container">
-                <span>Course</span>
+                <span class="me-2">Course</span>
                 <select class="course-dropdown">
                     <option value="course1" selected>BS Information Technology</option>
                     <option value="course2">BS Computer Science</option>
@@ -44,8 +42,8 @@
             
 
         </div>
-        <div class="shops-table-section">
-            <table class="table table-hover">
+        <div div class="container users-table-section p-1 mx-auto mt-9">
+            <table class="table table-hover text-center">
             <thead>
                 <tr>
                 <th scope="col">Profile Picture</th>
@@ -58,7 +56,7 @@
             </thead>
             <tbody>
                 <tr>
-                <th scope="row" style="width: 150px;" class="text-center align-middle">
+                <th scope="row" style="width: 120px;">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s" alt="Placeholder Image" class="profile-data-table">
                 </th>
                 <td class="text-center align-middle">CircUITS</td>
@@ -75,7 +73,7 @@
         
 <!-- Modal HTML -->
         <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -126,16 +124,19 @@
                 <div class="modal-content">
                     
                     <div class="modal-header border-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="confirmDeactivateModalLabel">Confirm Disable Shop</h5>
+                        <button type="button" class="btn-close" onclick="cancelDisableAccount()" aria-label="Close"></button>
                     </div>
                    
-                    <div class="modal-body text-center">
+                    <div class="modal-body d-flex justify-content-center align-items-center" style="height: 60px;">
                         <h5>Are you sure you want to disable this account?</h5>
                     </div>
                     
-                    <div class="modal-footer justify-content-center border-0">
-                        <button type="button" class="btn btn-outline-secondary" onclick="cancelDisableAccount()">Cancel</button>
-                        <button type="button" class="btn btn-primary">Disable</button>
+                    <div class="modal-footer">
+                    <button type="button" class="btn custom-btn fs-2 " data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary fs-2 "
+                        style="width: 130px; height: 40px; border-radius: 8px;"
+                        id="confirmDeactivateBtn">Disable</button>
                     </div>
                 </div>
             </div>

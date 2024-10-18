@@ -21,14 +21,14 @@
                     <i class="fa fa-search"></i>
                     <input type="search" class="searchbox ms-2" placeholder="Search" />
                 </div>
-                <div class="d-flex align-items-center ms-5">
-                    <span class="me-2">Organization</span>
-                    <select class="form-select custom-dropdown px-3 py-1 fw-bold rounded fs-2" style="width: 116px;">
-                        <option value="course1" selected>CirCUITS</option>
-                        <option value="course2">ACCeSS</option>
-                        <option value="course3">CheSS</option>
-                        <option value="course4">STORM</option>
-                        <option value="course5">Symbiosis</option>
+                <div class="d-flex align-items-center ms-5" style="width: 23%;">
+                    <span class="me-2">Course</span>
+                    <select class="form-select custom-dropdown px-3 py-1 fw-bold rounded fs-2 w-100" style="width: 116px;">
+                        <option value="course1" selected>BS Information Technology</option>
+                        <option value="course2">BS Computer Science</option>
+                        <option value="course3">BS Biology</option>
+                        <option value="course4">BS Chemistry</option>
+                        <option value="course5">BS Meteorology</option>
                     </select>
                 </div>
             </div>
@@ -293,7 +293,7 @@
                         Permissions</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body ms-4 mt-4 align-items-start">
+                <div class="modal-body mt-4 align-items-start">
                     <div class="row">
                         <!-- Left Div -->
                         <div class="col-md-6" style="flex: 3;">
@@ -348,7 +348,7 @@
                         </div>
 
                         <!-- Right Div -->
-                        <div class="col-md-8 ms-5" style="flex: 2;">
+                        <div class="col-md-8" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Products Management</h6>
                                 <input class="form-check-input ms-3" type="checkbox" id="addProducts">
@@ -398,9 +398,9 @@
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" style="margin: 200px 130px 0 0;" id="confirmDeactivateModal" tabindex="-1"
+    <div class="modal fade" id="confirmDeactivateModal" tabindex="-1"
         aria-labelledby="confirmDeactivateModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="confirmDeactivateModalLabel">Confirm Deactivation</h5>

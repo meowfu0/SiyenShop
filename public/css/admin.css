@@ -96,16 +96,7 @@
     color: #092C4C;
     margin-bottom: 20px;
 }
-.shops-table-section{
-    margin: auto;
-    margin-top: 12px;
-    width: 85%;
-    padding: 5px;
-    border: 2px solid #adb5bd;
-    border-radius: 10px;
-    text-align: center;
-    
-}
+
 
 .table th{
     color: #092C4C;
@@ -115,17 +106,6 @@
     color: #092C4C;
 }
 
-
-.data-table-section{
-    width: 100%;
-}
-.top-bar{
-    width: 85%;
-    margin-left: 7.5%;
-    display: flex;
-    margin-bottom: 10px;
-    align-items: center;
-}
 
 .search-container{
     border-radius: 10px;
@@ -211,6 +191,7 @@
 .custom-dropdown{
     border: 1px solid #092C4C;
     cursor: pointer;
+    
 }
 
 .top-section{
@@ -472,7 +453,8 @@ div.profile-picture-container {
 
 .shops-table-section{
     margin: auto;
-    width: 85%;
+    margin-top: 12px;
+    width: 90%;
     padding: 5px;
     border: 2px solid #adb5bd;
     border-radius: 10px;
@@ -486,40 +468,6 @@ div.profile-picture-container {
 
 .table td{
     color: #092C4C;
-}
-
-
-.data-table-section{
-    width: 100%;
-}
-.top-bar{
-    width: 85%;
-    margin-left: 7.5%;
-    display: flex;
-    margin-bottom: 10px;
-    align-items: center;
-}
-
-.search-container{
-    border-radius: 10px;
-    border: 2px solid #adb5bd;
-    width: 230px;
-    padding: 3px 5px;
-    display: flex;
-    align-items: center;
-    height: 30px;
-}
-.searchbox{
-    border: none;
-    margin-left: 5px;
-    outline: none;
-    flex-grow: -1;
-    font-size: 12px;
-    width: 100%;
-}
-.searchbox::placeholder{
-    color: #adb5bd;
-    
 }
 
 
@@ -564,7 +512,7 @@ div.profile-picture-container {
 }
 .course-dropdown{
     padding: 5px 20px 5px 20px;
-    border: 2px solid #092C4C;
+    border: 1px solid #092C4C;
     border-radius: 5px;
     color: #092C4C;
     font-weight: bold;
@@ -584,8 +532,8 @@ div.profile-picture-container {
     border-radius: 5px;
     background-color: transparent;
     font-size: 12px;
-    padding-left: 25px;
-    padding-right:25px;
+    padding-left: 30px;
+    padding-right:30px;
 }
 
 
@@ -597,10 +545,17 @@ div.profile-picture-container {
 
 
 .profile-data-table{
-    width:30%;
+    width: 30%;
     border-radius:50%;
     border: none;
 }
+
+.modal-footer{
+    border: none;
+}
+
+
+
 
 
 
