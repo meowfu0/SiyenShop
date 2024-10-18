@@ -1,0 +1,293 @@
+
+#sidebar{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    z-index: 0;
+    height: 100%;
+    width: 240px;
+}
+#navigation{
+    position: fixed;
+    top: 0px;
+    z-index: 2;
+    width: calc(100% - 240px);
+    margin-left: 240px;
+}
+.content-orders{
+    position: absolute;
+    top: 81px;
+    width: calc(100% - 240px);
+    height: 72px !important;
+    margin-left: 240px;
+    border-bottom: 0.75px solid #ccc;
+}
+.content-title-orders{
+    padding: 20px;
+    margin-left: 20px;
+}
+.scrollable-content{
+    overflow-y: auto;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;
+
+}
+.identifiers{
+    position: absolute;
+    top: 150px;
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    margin-top: 5px;
+    padding: 20px;
+    padding-left: 77px;
+    align-items: center;
+    gap: 50px;
+    display: flex;
+
+}
+
+.dropdown {
+    padding: 5px;
+    border-radius: 4px;
+    height: 28px !important;
+    width: auto !important;
+    padding: 3px;
+    border: 0.75px solid #ccc;
+}
+
+.search-box {
+    padding: 5px;
+    border: 1px solid #c0c0c0;
+    border-radius: 4px;
+    width: 192px;
+    height: 31px;
+}
+
+span {
+    font-size: 14px;
+    color: #555;
+}
+
+.order_table{
+    position: absolute;
+    width: 980px;
+    margin-left: 310px;
+    top: 220px;
+    border: 0.75px solid #ccc;
+    border-radius: 13px;
+    display: flex;
+}
+.icons{
+    margin-left: 200px;
+}
+.icons button{
+    background-color:#fff;
+    border: none;
+}
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Add spacing between rows */
+}
+
+th, td {
+    text-align: center;
+    vertical-align: middle; /* Aligns content to the middle */
+}
+
+.status-box-y {
+    padding: 5px 10px;
+    width: 133px;
+    background-color: #fff;
+    border: 0.75px solid #FFD966;
+    border-radius: 5px;
+    font-size: 12px;
+}
+.status-box-g {
+    padding: 5px 10px;
+    width: 133px;
+    background-color: #fff;
+    border: 0.75px solid #27AE60;
+    border-radius: 5px;
+    font-size: 12px;
+}
+.status-box-r {
+    padding: 5px 10px;
+    width: 133px;
+    background-color: #fff;
+    border: 0.75px solid #EB5757;
+    border-radius: 5px;
+    font-size: 12px;
+}
+.footer-btn{
+    position: absolute;
+    margin-left: 240px;
+    padding-left: 77px;
+    margin-bottom: 50px;
+    top: 850px;
+    display: flex;
+}
+.footer-btn a{
+    text-decoration: none;
+    text-align: center;
+    height: 28px;
+    width: 28px;
+    border: 0.75px solid #ccc;
+}
+.modal-header img{
+    width: 40px !important;
+    height: 40px !important;
+}
+#orderDetailsLabel{
+    width: 500px !important;
+    font-weight: 500 !important;
+    margin-left: 30px;
+}
+#ocompTab .other-content-high .status-box{
+    color: #27AE60 !important;
+    border: 1px solid #27AE60 !important;
+}
+#denTab .other-content-high .status-box{
+    color: #eb5757 !important;
+    border: 1px solid #eb5757 !important;
+}
+#orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
+#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog{
+    max-width: 800px !important; 
+}
+.modal-content{
+    padding-top: 20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.modal-header{
+    margin-top: 5px;
+    height: 100px !important;
+}
+.modal-footer button{
+    width: 140px;
+    border-radius: 7px !important;
+    font-weight: 500 !important;
+}
+.modal-footer .btn.btn-light{
+    color: #092C4C !important;
+    border: 1px solid #092C4C !important;
+}
+.p-3.mb-2.bg-light.text-dark{
+    color: #E2B93B !important;
+    border: 1px solid #E2B93B !important;
+    height: 30px !important;
+    width: 150px;
+    line-height: 0px !important;
+    border-radius: 7px;
+    text-align: center;
+}
+#orderDetailsModal-ocomp .p-3.mb-2.bg-light.text-dark{
+    color: #27AE60 !important;
+    border: 1px solid #27AE60!important;
+    height: 30px !important;
+    width: 150px;
+    line-height: 0px !important;
+    border-radius: 7px;
+    text-align: center;
+}
+#orderDetailsModal-den .p-3.mb-2.bg-light.text-dark{
+    color: #eb5757 !important;
+    border: 1px solid #eb5757 !important;
+    height: 30px !important;
+    width: 150px;
+    line-height: 0px !important;
+    border-radius: 7px;
+    text-align: center;
+}
+.modal-content .btn-close{
+    position: absolute;
+    left: 740px;
+}
+.modal-items{
+    height: 200px;
+    overflow-y: auto;
+}
+.modal-items::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+    background: transparent; /* Background of the scrollbar */
+}
+
+/* Hide the scrollbar track */
+.modal-items::-webkit-scrollbar-track {
+    background: transparent; /* Change this to match your design */
+}
+
+/* Style of the scrollbar handle */
+.modal-items::-webkit-scrollbar-thumb {
+    background: rgb(219, 219, 219); /* Change the color of the scrollbar handle */
+    border-radius: 10px; /* Round the corners */
+}
+
+/* Style of the scrollbar handle on hover */
+.modal-items::-webkit-scrollbar-thumb:hover {
+    background: #828282; /* Change color on hover */
+}
+
+/* Hide scrollbar arrows */
+.modal-items::-webkit-scrollbar-button {
+    display: none; /* Hides the arrows */
+}
+
+.img-holder{
+    background-color:#ebe8dc;
+    height: 100px;
+    width: 100px;
+    margin-left: 40px;
+}
+.modal-rows{
+    width: 100%;
+    height: 150px;
+}
+.modal-td{
+    width: 700px;
+    position: relative;
+}
+.modal-item-details{
+    font-size: 12px;
+    width: 520px;
+    position: absolute;
+    top:60px;
+    left: 160px;
+    height: 40px;
+}
+.transact-col1{
+    margin-left: 40px;
+    display: inline-block;
+    font-weight: 500;
+}
+.transact-col2{
+    margin-left: 40px;
+    display: inline-block;
+}
+.transact-col3{
+    position: absolute;
+    font-weight: 500;
+    top: 250px;
+    left: 450px;
+}
+.transact-col4{
+    position: absolute;
+    top: 250px;
+    left: 530px;
+}
+.modal fade{
+    width: 515px;
+}
+.modal h3{
+    margin: 20px;
+}
+.export-btn{
+    left: 0px;
+    border: 0.75px solid #092C4C;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+#to{
+    margin-bottom: 10px;
+}
