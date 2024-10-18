@@ -3,67 +3,68 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <!--<div class="card-header">{{ __('Dashboard') }}</div>-->
                 <div class="card-body clearfix">
-                    <div class="product">
                     <div class="row justify-content-center d-flex align-items-center ">
-                        <div class="col-md-6 mx-auto justify-content-center d-flex">
+                        <!-- Left Column for Image -->
+                        <div class="col-md-5 d-flex align-items-start justify-content-center">
                             <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 400px !important; height: 500px !important; border-radius:5px">
                         </div>
-                        <div class="left col-md-6 mt-0 d-flex flex-column align-items-start">
-                        <div class="mt-0 mx-auto justify-content-center">
-                            <p class="status">CIRCUITS</p>
-                            <p class="status">T-Shirt</p>
-                            <p class="status">Pre-Order</p>
-                            <p class="title fs-10 fw-bold mb-0">CirCUITS T-Shirt</p>
-                            <div class="ratings d-flex align-items-center mt-0">
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star mr-1"></i>
-                                <p class="fs-4 mb-1 ml-2 mt-1">40 solds</p>
-                            </div>
-                        <p class="fs-4 pt-1">Stocks left : <b>20</b></p>
-                        <!--<p class="price fs-8 fw-bold mb-1">₱250.00</p>-->
-                        <div class="size-variation">
-                            <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
-                            <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">XS</button>
-                            <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">M</button>
-                            <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">L</button>
-                            <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">XL</button>
-                            <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">2XL</button>
-                        </div>
-                        <div class="quantity mb-5">
-                        <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
-                        <div class="quantity-selector" style="height:35px; width:80px">
-                            <button id="decrement" style="color: #092C4C">-</button>
-                            <input type="text" id="quantity" value="1" readonly style="color: #092C4C">
-                            <button id="increment" style="color: #092C4C">+</button>
-                            </div>
-                        </div>
-                        <div style="margin-top: 5rem;">
-                            <img src="{{asset('images/chat.svg')}}" class="chat-icon mr-3 ml-2" style="width:22px; height:22px">
-                            <!-- Add to Cart Button -->
-                            <button class="btn btn-primary ml-4 fw-medium" style="width:130px; height:48px" data-toggle="modal" data-target="#exampleModalCenter">
-                                <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width:15px; height:15px"> Add to Cart
-                            </button>
-                            <!-- Buy Now Button -->
-                            <button class="btn btn-secondary ml-2 fw-medium" style="width:130px; height:48px; color:white" data-toggle="modal" data-target="#exampleModalCenter">
-                                <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width: 15px; height:15px"> Buy Now
-                            </button>
-
-                            </div>
-                        </div>
-                        </div>
                         
+                        <!-- Right Column for Details -->
+                        <div class="col-md-5 d-flex flex-column align-items-start">
+                            <div class="mt-0 mx-auto justify-content-start">
+                                <p class="status">CIRCUITS</p>
+                                <p class="status">T-Shirt</p>
+                                <p class="status">Pre-Order</p>
+                                <p class="title fs-10 fw-bold mb-0">CirCUITS T-Shirt</p>
+                                <div class="ratings d-flex align-items-center mt-0">
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star mr-1"></i>
+                                    <p class="fs-4 mb-1 ml-2 mt-1">40 sold</p>
+                                </div>
+                                <p class="fs-4 pt-1">Stocks left : <b>20</b></p>
+                                            <!--<p class="price fs-8 fw-bold mb-1">₱250.00</p>-->
+                                            <div class="size-variation">
+                                                <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
+                                                <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">XS</button>
+                                                <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">M</button>
+                                                <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">L</button>
+                                                <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">XL</button>
+                                                <button type="button" class="btn btn-outline-primary fw-semibold" data-bs-toggle="button" aria-pressed="false" autocomplete="off">2XL</button>
+                                            </div>
+                                <div class="quantity mb-5">
+                                    <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
+                                    <div class="quantity-selector" style="height:35px; width:80px">
+                                        <button id="decrement" style="color: #092C4C">-</button>
+                                        <input type="text" id="quantity" value="1" readonly style="color: #092C4C">
+                                        <button id="increment" style="color: #092C4C">+</button>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 5rem;">
+                                    <img src="{{asset('images/chat.svg')}}" class="chat-icon mr-3 ml-2" style="width:22px; height:22px">
+                                    <!-- Add to Cart Button -->
+                                    <button class="btn btn-primary ml-4 fw-medium" style="width:130px; height:48px" data-toggle="modal" data-target="#exampleModalCenter">
+                                        <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width:15px; height:15px"> Add to Cart
+                                    </button>
+                                    <!-- Buy Now Button -->
+                                    <button class="btn btn-secondary ml-2 fw-medium" style="width:130px; height:48px; color:white" data-toggle="modal" data-target="#exampleModalCenter">
+                                        <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width: 15px; height:15px"> Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                    
-                    <div class="row justify-content-center">
-                        <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">Details</h2>
+
+                        
+                    </div>                    
+                    <div class="row col-md-12 justify-content-center">
+                        <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">Details</h2>
                         <p class="fs-4 fw-medium ml-2" style="color: #092C4C">Circuits T-shirt</p>
                         <ul class="ml-5">
                         <li class="mb-2">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor tellus egestasetia m nunc quis. Nibh tincidunt enim vitae scelerisque pellentesque. Urna fames bibendum fames nisl et</li>
@@ -71,8 +72,8 @@
                         <li class="mb-2">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor </li>
                         </ul>
                     </div>
-                    <div class="row justify-content-center">
-                        <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">Customer Reviews</h2>
+                    <div class="row col-md-12 justify-content-center">
+                        <h2 class="fs-9 fw-semibold mt-0" style="color: #092C4C">Customer Reviews</h2>
                         <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px;">
                                     <div class="p-2 mt-2"><span class="round"><img src="{{asset('images/user.svg')}}" alt="user" width="25"></span></div>
                                     <div class="comment-text w-100">
@@ -88,95 +89,98 @@
                                     </div>
                         </div>
                     </div>
-                    <div class="container mt-5">
-                        <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">You may also like</h2>
-                        <div class="row row-cols-1 row-cols-md-6 g-4">
-                            <div class="flex-fill mx-2" >
-                                <div class="card-product h-80">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CIRCUITS</p>
-                                        <h5 class="card-title">CirCUITS T-Shirt</h5>
-                                        <p class="card-text">₱250.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill mx-2" >
-                                <div class="card-product h-100">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status">CSC</p>
-                                        <h5 class="card-title">CSC Lanyard</h5>
-                                        <p class="card-text">₱150.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill mx-2" >
-                                <div class="card-product h-100">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CIRCUITS</p>
-                                        <h5 class="card-title">CirCUITS T-Shirt</h5>
-                                        <p class="card-text">₱250.00</p>
-                                        <div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                            <div class="flex-fill mx-2">
-                                <div class="card-product h-100">
-                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
-                                        <p class="card-text-status" >CSC</p>
-                                        <h5 class="card-title">CSC Lanyard</h5>
-                                        <p class="card-text">₱150.00</p>
-                                        <<div class="ratings-below d-flex align-items-center mt-0">
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star rating-color2 mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                            <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
-                                        </div>
-                                        <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
-                                            <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
-                                            View Details
-                                        </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
 </div>
+<div class="container mt-5">
+                        <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">You may also like</h2>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                            <div class="col">
+                                <div class="card-product h-100">
+                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
+                                    <p class="card-text-status">CIRCUITS</p>
+                                    <h5 class="card-title">CirCUITS T-Shirt</h5>
+                                    <p class="card-text">₱250.00</p>
+                                    <div class="ratings-below d-flex align-items-center mt-0">
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star mr-1"></i>
+                                        <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
+                                    </div>
+                                    <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
+                                        <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Repeat for the other products -->
+                            <div class="col">
+                                <div class="card-product h-100">
+                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
+                                    <p class="card-text-status">CSC</p>
+                                    <h5 class="card-title">CSC Lanyard</h5>
+                                    <p class="card-text">₱150.00</p>
+                                    <div class="ratings-below d-flex align-items-center mt-0">
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star mr-1"></i>
+                                        <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
+                                    </div>
+                                    <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
+                                        <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card-product h-100">
+                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
+                                    <p class="card-text-status">CSC</p>
+                                    <h5 class="card-title">CSC Lanyard</h5>
+                                    <p class="card-text">₱150.00</p>
+                                    <div class="ratings-below d-flex align-items-center mt-0">
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star mr-1"></i>
+                                        <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
+                                    </div>
+                                    <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
+                                        <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card-product h-100">
+                                    <img src="{{ asset('images/sample.jpg') }}" class="card-img-top mt-2" alt="Product Image">
+                                    <p class="card-text-status">CSC</p>
+                                    <h5 class="card-title">CSC Lanyard</h5>
+                                    <p class="card-text">₱150.00</p>
+                                    <div class="ratings-below d-flex align-items-center mt-0">
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star rating-color2 mr-1"></i>
+                                        <i class="fa fa-star mr-1"></i>
+                                        <p class="fs-1 mb-1 ml-2 mt-1">40 solds</p>
+                                    </div>
+                                    <a href="#" class="btn btn-primary fs-2 d-flex align-items-center">
+                                        <img src="{{ asset('images/arrow.svg') }}" class="me-2" style="width: 10px; height: 10px;" alt="Arrow Icon">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 <!-- Modal -->
 <div class="modal fade md-8" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

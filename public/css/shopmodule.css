@@ -184,11 +184,8 @@
     width: 70px;
 }
 .card-product{
-    width: 150px;
-
-}
-.flex-fill{
-    width: 150px;
+    width: 180px;
     border:1px solid #BDBDBD; 
-    border-radius:8px
+    border-radius:8px;
+
 }
