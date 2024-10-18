@@ -47,7 +47,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">40 solds</span>          
                 </div>
-                
+                <hr>
                  <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -67,8 +67,9 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">10 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
-
+                
             </div>
         </div>
 
@@ -86,6 +87,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">60 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -105,6 +107,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">45 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -123,6 +126,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">33 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -145,6 +149,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">49 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -163,6 +168,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">17 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -181,6 +187,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">20 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -198,6 +205,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">59 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
             </div>
         </div>
@@ -216,6 +224,7 @@
                                 <i class="fa fa-star mr-1"></i>
                                 <span class="solds">40 solds</span>          
                 </div>
+                <hr class="hr">
                 <a href="{{url('productDetails')}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
 
             </div>
