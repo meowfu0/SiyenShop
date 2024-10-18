@@ -3,6 +3,7 @@
 @section('content')
 <head>
     <link rel="stylesheet" href="{{ asset('css/products.add.edit.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
@@ -59,16 +60,21 @@
                 <div class="col-md-6 d-flex flex-column gap-3"> 
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm">Add Category</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
                     </div>
         
                     <div class="form-group mb-1">
                         <label for="category" class="fw-bold text-primary">Category</label>
                         <select id="category" class="form-select form-control" required>
                             <option value="">Select Category</option>
-                            <option value="T-Shirt">T-Shirt</option>
+                            <option value="T-Shirt">T-Shirt </option>
                             <option value="Lanyard">Lanyard</option>
                         </select>
+                    </div>
+
+                    <div id="action-buttons" class="form-group mb-1" style="display: none;">
+                        <button type="button" class="btn btn-warning me-2" onclick="editCategory()">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCategory()">Delete</button>
                     </div>
 
                     <div class="form-group mb-1">
@@ -191,6 +197,27 @@
     </div>
 </div>
 
+<!-- Modal: Add New Category -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add New Category</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="category" class="fw-bold text-primary">Category Name</label>
+            <input type="text" id="category" class="form-control" placeholder="Input Category Name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
     document.getElementById('variationToggle').addEventListener('change', function () {
