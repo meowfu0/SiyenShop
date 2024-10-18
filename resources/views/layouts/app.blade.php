@@ -24,11 +24,10 @@
 <body>
     <div id="app">
     @include('components.navbar')
-
         <main class="py-4 min-vh-100">
-            @yield('content')
+            @yield('content')   
         </main>
     @include('components.footer')
     </div>
-</body>
+</body>         
 </html>
