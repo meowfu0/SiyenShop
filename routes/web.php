@@ -4,6 +4,7 @@ use App\Http\Livewire\ShopChat;
 use App\Http\Livewire\ShopDashboard;
 use App\Http\Livewire\ShopOrders;
 use App\Http\Livewire\ShopProducts;
+use App\Http\Livewire\ShopProductsAdd;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,5 +35,8 @@ Route::prefix('shop')->group(function () {
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
+
+    Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add'); //for Products Add page
+
 });
 
