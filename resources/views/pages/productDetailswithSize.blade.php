@@ -27,7 +27,7 @@
                                     <i class="fa fa-star rating-color mr-1"></i>
                                     <i class="fa fa-star mr-1"></i>
                                     <p class="fs-4 mb-1 ml-2 mt-1">40 sold</p>
-                                </div>
+                                </div>  
                                 <p class="fs-4 pt-1">Stocks left : <b>20</b></p>
                                             <!--<p class="price fs-8 fw-bold mb-1">₱250.00</p>-->
                                             <div class="size-variation">
@@ -93,7 +93,7 @@
         </div>
         <div class="row col-md-12 justify-content-center">
             <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-3 justify-content-center p-4">
+            <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 justify-content-center">
         <div class="block-7 pd">
         <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
             <div class="text-center p-4">
