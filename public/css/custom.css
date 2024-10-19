@@ -96,6 +96,30 @@
     
     
 }
-.table-head th{
-    padding-left: 12px;
+.table-head th:first-of-type {
+    padding-left: 32px;
+}
+.noBorder td:first-of-type{
+    padding-left: 32px;
+
+}
+.noBorderPage td:first-of-type{
+    padding-left: 32px;
+    width: 60%;
+
+}
+.noBorderPage td:first-of-type{
+   width: 25%;
+}
+
+.table-headPage th:first-of-type {
+    padding-left: 32px;
+}
+
+.noBorderPage td:nth-of-type(3){
+   width: 25%; padding-left: 32px;
+}
+
+.table-headPage th:nth-of-type(3) {
+    padding-left: 32px;
 }

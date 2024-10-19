@@ -10,7 +10,7 @@
                     <img src="{{ asset('images/cart.svg') }}" class="cart-logo mb-2">
                     <h1 class="ms-1 text-primary fw-bold">Checkout</h1> 
                 </div>   
-                <h3 class="mt-2 mb-3 fw-bold  fs-5 text-primary">Order Summary</h3>
+                <h3 class="mt-2 mb-3 fw-bold fs-5 text-primary">Order Summary</h3>
                 <!------- Sample data ------->                
                 <div class="border rounded-3 border-primary table-responsive">
                               <table class="table border-primary mt-2 p-2">

@@ -5,6 +5,7 @@ use App\Http\Controllers\cartPageController;
 use App\Http\Controllers\checkOutPageController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
+use League\CommonMark\Node\Query\OrExpr;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
-Route::get('/orderSummaryPage', [paymentPageController::class, 'index'])->name('orderSummaryPage');
+Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
 
 
 

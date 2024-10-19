@@ -12,7 +12,7 @@
       </div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-outline-primary btn-md w-25" data-bs-dismiss="modal">No</button>
-        <a href="" class="btn btn-primary btn-md w-25">Yes</a>
+        <a href="{{route('orderSummaryPage')}}" class="btn btn-primary btn-md w-25">Yes</a>
       </div>
     </div>
   </div>
