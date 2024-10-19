@@ -36,12 +36,12 @@
                 <div class="col-md-6 d-flex flex-column gap-3">
                     <div class="form-group mb-1">
                         <label for="product_name" class="fw-bold text-primary">Product Name</label>
-                        <input type="text" id="product_name" class="form-control" placeholder="Input product name" value="Circuits T-Shirt" required>
+                        <input type="text" id="product_name" class="form-control"  value="Circuits T-Shirt" required>
                     </div>
 
                     <div class="form-group mb-1">
                         <label for="product_description" class="fw-bold text-primary">Product Description</label>
-                        <textarea id="product_description" class="form-control" rows="4" placeholder="Input product description">Sample Circuits T-Shirt description.</textarea>
+                        <textarea id="product_description" class="form-control" rows="4" required>This is a sample product description for a T-Shirt.</textarea>
                     </div>
 
                     <div class="form-group mb-3">
@@ -51,7 +51,7 @@
                         <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
                             <p class="text-muted">Drag and drop an image here, or click to select one</p>
                             <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*">
-                            <img id="uploaded_image_preview" class="mt-3 d-none" src="path/to/current_image.jpg" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+                            <img id="uploaded_image_preview" class="mt-3" src="{{ asset('images/black code.jpg') }}" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="col-md-6 d-flex flex-column gap-3"> 
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit Category
                             <img src="{{ asset('images/add.svg') }}" alt=""></button>
                     </div>
         
@@ -70,11 +70,6 @@
                             <option value="T-Shirt" selected>T-Shirt</option>
                             <option value="Lanyard">Lanyard</option>
                         </select>
-                    </div>
-
-                    <div id="action-buttons" class="form-group mb-1" style="display: none;">
-                        <button type="button" class="btn btn-warning me-2" onclick="editCategory()">Edit</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteCategory()">Delete</button>
                     </div>
 
                     <div class="form-group mb-1">
@@ -120,38 +115,45 @@
                                 </label>
                             </div>
 
-                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
+                            <input type="text" class="form-control mb-2" id="disabledInput" aria-label="Disabled input example" disabled style="display:none;">
                         </div>
 
                         <!-- Hidden Fields -->
                         <div class="row g-3">
                             <div id="inputContainer" class="col-md-12">
-                                <div id="hiddenFields" style="display:block;">
-                                    <div class="col-md-12">
-                                    <a href="#" id="addNewField" class="text-primary" style="cursor: pointer;">
-                                        <img src="{{ asset('images/search.svg') }}" alt="Add" style="width: 16px; height: 16px;"> Add New Size
-                                    </a>
-                                    <div class="row g-3 mb-3" id="inputRow_1">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label for="size_1" class="fw-bold text-primary">Size</label>
-                                                <input type="text" id="size_1" class="form-control" placeholder="e.g. XL" value="XL">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="form-group" id="quantity_1">
-                                                <label for="quantity_1" class="fw-bold text-primary">Quantity</label>
-                                                <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1" value="10">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
-                                            <button type="button" class="btn btn-sm removeField" data-row-id="inputRow_1">
-                                                <img src="{{ asset('images/search.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
+                                <div id="hiddenFields">
+                                    <table id="myTable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="fw-bold text-primary">Size</th>
+                                                <th class="fw-bold text-primary" id="quantity">Quantity</th>
+                                                <th class="text-end"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="inputRow_1">
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="size_1" class="form-control" value="XL">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="number" id="quantity_1" class="form-control" value="10" min="0" step="1">
+                                                    </div>
+                                                </td>
+                                                <td class="text-end">
+                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                        <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button id="addNewField" class="btn" style="cursor: pointer;" onclick="myCreateFunction()">
+                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
+                                    </button>
+
                                 </div>
                             </div>
                         </div>
@@ -160,36 +162,222 @@
                             <div class="col-md-6 mt-3 mb-1"> 
                                 <div class="form-group">
                                     <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price" type="text" class="form-control" value="100.00" required>
+                                    <input id="supplier_price" type="text" class="form-control" value="$5.00" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
                                     <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price" type="text" class="form-control" value="150.00" required>
+                                    <input id="price" type="text" class="form-control" value="$10.00" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label for="quantity" class="fw-bold text-primary">Quantity</label>
-                                    <div class="d-flex gap-2">
-                                        <input id="quantity" type="number" class="form-control" value="" required>
+                                    <div class="input-group quantity-selector quantity-selector-sm">
+                                        <input type="number" id="quantity_id" class="form-control" min="0" step="1">
                                     </div>
                                 </div>
                             </div>
-                            <!-- Submit Button -->
-                            <div class="d-flex justify-content-end mt-4">
-                                <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
                         </div>
                     </form>
+
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-end mt-4">
+                <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-3">Discard</a>
+                <button type="button" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                    <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                        <div class="form-group mb-2 d-flex align-items-center">
+                            <input type="text" id="category_name" class="form-control me-2" value="T-Shirt">
+                            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('status_id');
+    const categorySelect = document.getElementById('category');
+    const variationToggle = document.getElementById('variationToggle');
+    const hiddenFields = document.getElementById('hiddenFields');
+    const sizeInput = document.getElementById('size_1');
+    const quantityInput = document.getElementById('quantity_1');
+    const disabledInput = document.getElementById('disabledInput');
+    const quantity = document.getElementById('quantity_id'); 
+    const quantityTitle = document.getElementById('quantity');
+    
+    let currentStatus = '';
+
+    // Function to enable or disable the toggle based on category and status
+    function checkToggleAvailability() {
+        const category = categorySelect.value;
+        currentStatus = statusSelect.value;  // Save the current status
+
+        if (category === 'T-Shirt' && (currentStatus === 'on-hand' || currentStatus === 'pre-order')) {
+            // Enable the toggle if category is T-Shirt and status is on-hand or pre-order
+            variationToggle.removeAttribute('disabled');
+            if (!variationToggle.checked) {
+                variationToggle.checked = true; // Ensure the toggle is on if it's not
+                disabledInput.style.display ='none';
+                hiddenFields.style.display = 'block';
+                
+                if (currentStatus === 'pre-order') {
+                    sizeInput.style.display = 'block'; 
+                    quantityInput.style.display = 'none';
+                } else if (currentStatus === 'on-hand') {
+                    sizeInput.style.display = 'block';
+                    quantityInput.style.display = 'block';
+                }
+            }
+            else {
+                variationToggle.checked = true; // Ensure the toggle is on if it's not
+                disabledInput.style.display ='none';
+                hiddenFields.style.display = 'block';
+                
+                if (currentStatus === 'pre-order') {
+                    sizeInput.style.display = 'block'; 
+                    quantityInput.style.display = 'none';
+                } else if (currentStatus === 'on-hand') {
+                    sizeInput.style.display = 'block';
+                    quantityInput.style.display = 'block';
+                }
+            
+            }
+            
+        } else {
+            // If the category is changed to something else, handle the toggle accordingly
+            if (variationToggle.checked) {
+                variationToggle.checked = false; // Reset toggle to off if it was on
+            }
+            variationToggle.setAttribute('disabled', 'disabled'); // Disable toggle
+            hiddenFields.style.display = 'none'; 
+            sizeInput.style.display = 'none';
+            quantityInput.style.display = 'none';
+            quantity.removeAttribute('disabled'); // Enable quantity when toggle is off (only for non-shirts)
+        }
+    }
+    quantity.setAttribute('disabled', 'disabled'); // Disable quantity input (for shirt)
+
+    categorySelect.addEventListener('change', checkToggleAvailability);
+    statusSelect.addEventListener('change', checkToggleAvailability);
+});
+
+//Updated Add Size fields
+let rowCount = 1; // Keeps track of the number of rows
+    function myCreateFunction() {
+        var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+
+        var row = table.insertRow();
+
+        row.id = `inputRow_${++rowCount}`; // Set a unique ID for the row
+
+        var sizeCell = row.insertCell(0);
+        var quantityCell = row.insertCell(1);
+        var deleteCell = row.insertCell(2); // For the delete button
+
+        // Populate the cells with input fields
+        sizeCell.innerHTML = `
+            <div class="form-group">
+                <input type="text" id="size_${rowCount}" class="form-control" placeholder="e.g. XL">
+            </div>`;
+
+        // Check the current status to decide whether to show the quantity field
+        updateQuantityCell(quantityCell, rowCount);
+
+        quantityCell.classList.add('text-end');
+        deleteCell.innerHTML = `
+            <button type="button" class="btn btn-sm" onclick="myDeleteFunction('${row.id}')">
+                <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+            </button>`;
+    }
+
+    // Function to update the quantity cell based on status
+    function updateQuantityCell(cell, rowCount) {
+        if (document.getElementById('status_id').value === 'pre-order') {
+            cell.innerHTML = ''; // Clear the cell for quantity if pre-order
+        } else {
+            cell.innerHTML = `
+                <div class="form-group">
+                    <input type="number" id="quantity_${rowCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                </div>`;
+        }
+    }
+
+    // Event listener to handle status change
+    document.getElementById('status_id').addEventListener('change', function() {
+        var rows = document.getElementById("myTable").getElementsByTagName('tbody')[0].rows;
+
+        for (var i = 0; i < rows.length; i++) {
+            var cell2 = rows[i].cells[1]; // Get the second cell (Quantity cell)
+            updateQuantityCell(cell2, i + 1); // Update quantity cell for each row
+        }
+    });
+
+    // Delete the specified row from the table
+    function myDeleteFunction(rowId) {
+        var row = document.getElementById(rowId);
+            if (row) {
+                row.remove();
+            } else {
+                console.error('Row not found:', rowId);
+        }
+    }
+
+
+</script>
+
 
 @endsection
