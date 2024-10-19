@@ -126,34 +126,43 @@
                         <!-- Hidden Fields -->
                         <div class="row g-3">
                             <div id="inputContainer" class="col-md-12">
-                                <div id="hiddenFields" style="display:none;">
-                                    <div class="col-md-12">
-                                        <a href="#" id="addNewField" class="text-primary" style="cursor: pointer;">
-                                            <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
-                                        </a>
-                                        <div class="row g-3 mb-3" id="inputRow_1">
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label for="size_1" class="fw-bold text-primary">Size</label>
-                                                    <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group" id="quantity_1">
-                                                    <label for="quantity_1" class="fw-bold text-primary">Quantity</label>
-                                                    <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
-                                                <button type="button" class="btn btn-sm removeField" data-row-id="inputRow_1">
-                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
+                                <div id="hiddenFields" style="display: none;">
+                                    <table id="myTable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="fw-bold text-primary">Size</th>
+                                                <th class="fw-bold text-primary" id="quantity">Quantity</th>
+                                                <th class="text-end"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="inputRow_1">
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                    </div>
+                                                </td>
+                                                <td class="text-end">
+                                                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
                                                 </button>
-                                            </div>
-                                        </div>  
-                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button id="addNewField" class="btn" style="cursor: pointer;" onclick="myCreateFunction()">
+                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
+                                    </button>
+
                                 </div>
                             </div>
                         </div>
+
 
 
                         <div class="row g-2"> 
@@ -237,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const quantityInput = document.getElementById('quantity_1');
     const disabledInput = document.getElementById('disabledInput');
     const quantity = document.getElementById('quantity_id');
+    const quantityTitle = document.getElementById('quantity');
     
     let currentStatus = '';
 
@@ -294,69 +304,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        let fieldCount = 1; // Initialize counter, starting from 1 as the first row is already present
+    //Updated Add Size fields
+    let rowCount = 1; // Keeps track of the number of rows
+    function myCreateFunction() {
+        var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
 
-        const statusSelect = document.getElementById('status_id');
-        
-        // Click event for adding new input fields
-        document.getElementById('addNewField').addEventListener('click', function () {
-            fieldCount++; // Increment field count
+        var row = table.insertRow();
 
-            // Create a new input field row
-            const newFieldRow = document.createElement('div');
-            newFieldRow.classList.add('row', 'g-3', 'mb-3');
-            newFieldRow.id = `inputRow_${fieldCount}`; // Assign unique ID
+        row.id = `inputRow_${++rowCount}`; // Set a unique ID for the row
 
-            // Check the current status and adjust input fields accordingly
-            if (statusSelect.value === 'pre-order') {
-                // For pre-order, only add the "Size" input
-                newFieldRow.innerHTML = `
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <input type="text" id="size_${fieldCount}" class="form-control" placeholder="e.g. XL">
-                        </div>
-                    </div>
-                    <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn removeField" data-row-id="inputRow_${fieldCount}">
-                            <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
-                        </button>
-                    </div>
-                `;
-            } else if (statusSelect.value === 'on-hand') {
-                // For on-hand, add both "Size" and "Quantity" inputs
-                newFieldRow.innerHTML = `
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <input type="text" id="size_${fieldCount}" class="form-control" placeholder="e.g. XL">
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <input type="number" id="quantity_${fieldCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                        </div>
-                    </div>
-                    <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn removeField" data-row-id="inputRow_${fieldCount}">
-                            <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
-                        </button>
-                    </div>
-                `;
-            }
+        var sizeCell = row.insertCell(0);
+        var quantityCell = row.insertCell(1);
+        var deleteCell = row.insertCell(2); // For the delete button
 
-            // Append the new input field row to the container
-            document.getElementById('inputContainer').appendChild(newFieldRow);
-        });
+        // Populate the cells with input fields
+        sizeCell.innerHTML = `
+            <div class="form-group">
+                <input type="text" id="size_${rowCount}" class="form-control" placeholder="e.g. XL">
+            </div>`;
 
-        // Event delegation to handle the "Move to Trash" (delete) button
-        document.addEventListener('click', function (e) {
-            if (e.target && e.target.classList.contains('removeField')) {
-                const rowId = e.target.getAttribute('data-row-id');
-                document.getElementById(rowId).remove(); // Remove the selected input row
-            }
-        });
+        // Check the current status to decide whether to show the quantity field
+        updateQuantityCell(quantityCell, rowCount);
+
+        quantityCell.classList.add('text-end');
+        deleteCell.innerHTML = `
+            <button type="button" class="btn btn-sm" onclick="myDeleteFunction('${row.id}')">
+                <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+            </button>`;
+    }
+
+    // Function to update the quantity cell based on status
+    function updateQuantityCell(cell, rowCount) {
+        if (document.getElementById('status_id').value === 'pre-order') {
+            cell.innerHTML = ''; // Clear the cell for quantity if pre-order
+        } else {
+            cell.innerHTML = `
+                <div class="form-group">
+                    <input type="number" id="quantity_${rowCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                </div>`;
+        }
+    }
+
+    // Event listener to handle status change
+    document.getElementById('status_id').addEventListener('change', function() {
+        var rows = document.getElementById("myTable").getElementsByTagName('tbody')[0].rows;
+
+        for (var i = 0; i < rows.length; i++) {
+            var cell2 = rows[i].cells[1]; // Get the second cell (Quantity cell)
+            updateQuantityCell(cell2, i + 1); // Update quantity cell for each row
+        }
     });
 
+    // Delete the specified row from the table
+    function myDeleteFunction(rowId) {
+        var row = document.getElementById(rowId);
+            if (row) {
+                row.remove();
+            } else {
+                console.error('Row not found:', rowId);
+        }
+    }
 
     //Uploading Image
     document.addEventListener('DOMContentLoaded', function() {
