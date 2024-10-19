@@ -73,11 +73,6 @@
                         </select>
                     </div>
 
-                    <div id="action-buttons" class="form-group mb-1" style="display: none;">
-                        <button type="button" class="btn btn-warning me-2" onclick="editCategory()">Edit</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteCategory()">Delete</button>
-                    </div>
-
                     <div class="form-group mb-1">
                         <label for="shop_id" class="fw-bold text-primary">Organization</label>
                        <!-- <input type="text" id="organization" class="form-control" 
@@ -85,7 +80,6 @@
                             <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
                     </div>
 
-                   
                     <div class="col-md-6 gap-3"> 
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             <p class="fw-bold m-0 text-primary">Inventory</p>
@@ -134,30 +128,29 @@
                             <div id="inputContainer" class="col-md-12">
                                 <div id="hiddenFields" style="display:none;">
                                     <div class="col-md-12">
-                                    <a href="#" id="addNewField" class="text-primary" style="cursor: pointer;">
-                                        <img src="{{ asset('images/search.svg') }}" alt="Add" style="width: 16px; height: 16px;"> Add New Size
-                                    </a>
-                                    <div class="row g-3 mb-3" id="inputRow_1">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label for="size_1" class="fw-bold text-primary">Size</label>
-                                                <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                        <a href="#" id="addNewField" class="text-primary" style="cursor: pointer;">
+                                            <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
+                                        </a>
+                                        <div class="row g-3 mb-3" id="inputRow_1">
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label for="size_1" class="fw-bold text-primary">Size</label>
+                                                    <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="form-group" id="quantity_1">
-                                                <label for="quantity_1" class="fw-bold text-primary">Quantity</label>
-                                                <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                            <div class="col-md-5">
+                                                <div class="form-group" id="quantity_1">
+                                                    <label for="quantity_1" class="fw-bold text-primary">Quantity</label>
+                                                    <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
-                                            <button type="button" class="btn btn-sm removeField" data-row-id="inputRow_1">
-                                                <img src="{{ asset('images/search.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
-                                            </button>
-                                        </div>
+                                            <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
+                                                <button type="button" class="btn btn-sm removeField" data-row-id="inputRow_1">
+                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
+                                                </button>
+                                            </div>
+                                        </div>  
                                     </div>
-                                    
-                                </div>
                                 </div>
                             </div>
                         </div>
@@ -204,24 +197,24 @@
 
 <!-- Modal: Add New Category -->
 <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add New Category</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-            <label for="category" class="fw-bold text-primary">Category Name</label>
-            <input type="text" id="category" class="form-control" placeholder="Input Category Name">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add New Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="category" class="fw-bold text-primary">Category Name</label>
+                    <input type="text" id="category" class="form-control" placeholder="Input Category Name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-        <button type="button" class="btn btn-primary">Save</button>
-      </div>
     </div>
-  </div>
 </div>
 
 
@@ -235,62 +228,137 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const statusSelect = document.getElementById('status_id');
-        const categorySelect = document.getElementById('category');
-        const variationToggle = document.getElementById('variationToggle');
-        const hiddenFields = document.getElementById('hiddenFields');
-        const sizeInput = document.getElementById('size_1');
-        const quantityInput = document.getElementById('quantity_1');
-        const disabledInput = document.getElementById('disabledInput');
-        const quantity = document.getElementById('quantity_id');
-        
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('status_id');
+    const categorySelect = document.getElementById('category');
+    const variationToggle = document.getElementById('variationToggle');
+    const hiddenFields = document.getElementById('hiddenFields');
+    const sizeInput = document.getElementById('size_1');
+    const quantityInput = document.getElementById('quantity_1');
+    const disabledInput = document.getElementById('disabledInput');
+    const quantity = document.getElementById('quantity_id');
+    
+    let currentStatus = '';
 
-        // Function to enable or disable the toggle based on category and status
-        function checkToggleAvailability() {
-            const category = categorySelect.value;
-            const status = statusSelect.value;
+    // Function to enable or disable the toggle based on category and status
+    function checkToggleAvailability() {
+        const category = categorySelect.value;
+        currentStatus = statusSelect.value;  // Save the current status
 
-            if (category === 'T-Shirt' && (status === 'on-hand' || status === 'pre-order')) {
-                variationToggle.removeAttribute('disabled');
-                quantity.setAttribute('disabled', 'disabled');
-            } else {
-                variationToggle.checked = false; // Reset toggle to off
-                variationToggle.setAttribute('disabled', 'disabled');
-                hiddenFields.style.display = 'none'; 
-                sizeInput.style.display = 'none';
-                quantityInput.style.display = 'none';
-                quantity.removeAttribute('disabled'); // Enable quantity when toggle is off
+        if (category === 'T-Shirt' && (currentStatus === 'on-hand' || currentStatus === 'pre-order')) {
+            // Enable the toggle if category is T-Shirt and status is on-hand or pre-order
+            variationToggle.removeAttribute('disabled');
+            if (!variationToggle.checked) {
+                variationToggle.checked = true; // Ensure the toggle is on if it's not
+                disabledInput.style.display ='none';
+                hiddenFields.style.display = 'block';
+                
+                if (currentStatus === 'pre-order') {
+                    sizeInput.style.display = 'block'; 
+                    quantityInput.style.display = 'none';
+                } else if (currentStatus === 'on-hand') {
+                    sizeInput.style.display = 'block';
+                    quantityInput.style.display = 'block';
+                }
             }
+            else {
+                variationToggle.checked = true; // Ensure the toggle is on if it's not
+                disabledInput.style.display ='none';
+                hiddenFields.style.display = 'block';
+                
+                if (currentStatus === 'pre-order') {
+                    sizeInput.style.display = 'block'; 
+                    quantityInput.style.display = 'none';
+                } else if (currentStatus === 'on-hand') {
+                    sizeInput.style.display = 'block';
+                    quantityInput.style.display = 'block';
+                }
+            
+            }
+            quantity.setAttribute('disabled', 'disabled'); // Disable quantity input
+        } else {
+            // If the category is changed to something else, handle the toggle accordingly
+            if (variationToggle.checked) {
+                variationToggle.checked = false; // Reset toggle to off if it was on
+            }
+            variationToggle.setAttribute('disabled', 'disabled'); // Disable toggle
+            hiddenFields.style.display = 'none'; 
+            sizeInput.style.display = 'none';
+            quantityInput.style.display = 'none';
+            quantity.removeAttribute('disabled'); // Enable quantity when toggle is off
         }
+    }
 
         categorySelect.addEventListener('change', checkToggleAvailability);
         statusSelect.addEventListener('change', checkToggleAvailability);
 
-        // Function to handle the toggle switch behavior
-        variationToggle.addEventListener('change', function() {
-            if (this.checked) {
-                disabledInput.style.display = 'none';
-                hiddenFields.style.display = 'block';
+    });
 
-                if (statusSelect.value === 'pre-order') {
-                    sizeInput.style.display = 'block'; 
-                    quantityInput.style.display = 'none';
-                } else if (statusSelect.value === 'on-hand') {
-                    sizeInput.style.display = 'block';
-                    quantityInput.style.display = 'block';
-                }
-                quantity.setAttribute('disabled', 'disabled');
-            } else {
-                hiddenFields.style.display = 'none';
-                sizeInput.style.display = 'none';
-                quantityInput.style.display = 'none';
-                disabledInput.style.display = 'block';
-                quantity.removeAttribute('disabled');
+    document.addEventListener('DOMContentLoaded', function () {
+        let fieldCount = 1; // Initialize counter, starting from 1 as the first row is already present
+
+        const statusSelect = document.getElementById('status_id');
+        
+        // Click event for adding new input fields
+        document.getElementById('addNewField').addEventListener('click', function () {
+            fieldCount++; // Increment field count
+
+            // Create a new input field row
+            const newFieldRow = document.createElement('div');
+            newFieldRow.classList.add('row', 'g-3', 'mb-3');
+            newFieldRow.id = `inputRow_${fieldCount}`; // Assign unique ID
+
+            // Check the current status and adjust input fields accordingly
+            if (statusSelect.value === 'pre-order') {
+                // For pre-order, only add the "Size" input
+                newFieldRow.innerHTML = `
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <input type="text" id="size_${fieldCount}" class="form-control" placeholder="e.g. XL">
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn removeField" data-row-id="inputRow_${fieldCount}">
+                            <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
+                        </button>
+                    </div>
+                `;
+            } else if (statusSelect.value === 'on-hand') {
+                // For on-hand, add both "Size" and "Quantity" inputs
+                newFieldRow.innerHTML = `
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <input type="text" id="size_${fieldCount}" class="form-control" placeholder="e.g. XL">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <input type="number" id="quantity_${fieldCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn removeField" data-row-id="inputRow_${fieldCount}">
+                            <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Append the new input field row to the container
+            document.getElementById('inputContainer').appendChild(newFieldRow);
+        });
+
+        // Event delegation to handle the "Move to Trash" (delete) button
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('removeField')) {
+                const rowId = e.target.getAttribute('data-row-id');
+                document.getElementById(rowId).remove(); // Remove the selected input row
             }
         });
     });
 
+
+    //Uploading Image
     document.addEventListener('DOMContentLoaded', function() {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('image_upload');
@@ -336,51 +404,6 @@
             }
         }
     });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        let fieldCount = 1; // Initialize counter, starting from 1 as the first row is already present
-
-        // Click event for adding new input fields
-        document.getElementById('addNewField').addEventListener('click', function () {
-            fieldCount++; // Increment field count
-
-            // Create a new input field row
-            const newFieldRow = document.createElement('div');
-            newFieldRow.classList.add('row', 'g-3', 'mb-3');
-            newFieldRow.id = `inputRow_${fieldCount}`; // Assign unique ID
-            newFieldRow.innerHTML = `
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="size_${fieldCount}" class="fw-bold text-primary">Size</label>
-                        <input type="text" id="size_${fieldCount}" class="form-control" placeholder="e.g. XL">
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label for="quantity_${fieldCount}" class="fw-bold text-primary">Quantity</label>
-                        <input type="number" id="quantity_${fieldCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                    </div>
-                </div>
-                <div class="col-md-2 text-end d-flex align-items-center justify-content-end">
-                    <button type="button" class="btn removeField" data-row-id="inputRow_${fieldCount}">
-                        <img src="{{ asset('images/search.svg') }}" alt="Remove" style="width: 16px; height: 16px;">
-                    </button>
-                </div>
-            `;
-
-            // Append the new input field row to the container
-            document.getElementById('inputContainer').appendChild(newFieldRow);
-        });
-
-        // Event delegation to handle the "Move to Trash" (delete) button
-        document.addEventListener('click', function (e) {
-            if (e.target && e.target.classList.contains('removeField')) {
-                const rowId = e.target.getAttribute('data-row-id');
-                document.getElementById(rowId).remove(); // Remove the selected input row
-            }
-        });
-    });
-
 
 </script>
 
