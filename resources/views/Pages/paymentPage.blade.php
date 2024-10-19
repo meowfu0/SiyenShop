@@ -24,23 +24,24 @@
                         <label for="gcashNumber" class="form-label fw-bold">Pay to this GCash Number:</label>
                         <select class="form-select" id="gcashNumber">
                             <option value="09123456789 - ST**P CU**Y">09123456789 - ST**P CU**Y</option>
+                            <option class="text-danger" value="09123456789 - ST**P CU**Y">09123456789 - *not available</option>
                             <!-- Add more options as needed -->
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="referenceNumber" class="form-label fw-bold">Reference Number</label>
-                        <input type="text" class="form-control" id="referenceNumber" placeholder="Enter reference number">
+                        <input type="text" class="form-control" id="referenceNumber" placeholder="Enter reference number" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="proofPayment" class="form-label fw-bold">Proof of Payment</label>
-                        <input type="file" class="form-control" id="proofPayment">
+                        <input type="file" class="form-control" id="proofPayment" required>
                     </div>
 
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('checkOutPage') }}" class="btn btn-outline-primary me-1">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Confirm Payment</button>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceedPayment" type="submit" class="btn btn-primary">Confirm Payment</a>
                     </div>
                 </form>
             </div>
@@ -57,5 +58,5 @@
     </div>
 
     
-
+    @include('Pages.modal.checkpaymentinfo')
 @endsection
