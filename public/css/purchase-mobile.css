@@ -1,0 +1,104 @@
+@media (max-width: 768px) {
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    #sidebar {
+        display: none; /* Hide sidebar */
+    }
+
+    .content-purchase {
+        left: 0px !important;
+        width: 100% !important;
+        height: 100vh; /* Ensure content fills viewport height */
+        position: relative; /* Adjust if necessary */
+        overflow-x: auto;
+    }
+
+    #navigation {
+        margin-left: 0 !important; /* Ensure no left margin */
+        width: 100% !important; /* Full width */
+        left: 0; /* Ensure it starts from the left */
+        position: fixed; /* Keep it fixed at the top */
+    }
+    .buttons {
+        top: 100px;
+        left: 0px !important; /* Adjust this based on your layout */
+        overflow-x: auto !important; /* Allow horizontal scrolling if needed */
+        width: 100%; /* Full width for buttons */
+        padding: 10px;
+        white-space: nowrap;
+    }
+    .buttons::-webkit-scrollbar{
+        display: none;
+    }
+    #pend{
+        border-bottom: 3px solid #ffc107;
+    }
+    .buttons button {
+        height: 35px; /* Adjust height for mobile */
+        width: 40% !important;
+        background-color: #f0f0f0; /* Change background color for mobile */
+        color: black; /* Change text color for better contrast */
+        border-radius: 0px; /* Optional: add rounded corners */
+        font-size: 14px; /* Adjust font size for mobile */
+        display: inline !important;
+        border-bottom: 3px solid rgb(219, 219, 219);
+        margin-left: 0px !important;
+        margin-right: -5px !important;
+        
+    }
+    .buttons button.active {
+        border-bottom: 3px solid #ffc107 !important; /* Active button style */
+    }
+    .buttons button.inactive {
+        border-bottom: 3px solid rgb(219, 219, 219) !important; /* Inactive button style */
+    }
+    #navbarSupportedContent {
+        display: none; /* Hide navbar if necessary */
+    }
+    .linebar{
+        background-color: rgb(219, 219, 219);
+        height: 4px !important;
+        position: absolute;
+        top: 140px !important;
+        width: 100% !important;
+        left: 0px !important;
+        display: none;
+    }
+    #dLine{
+        position: absolute;
+        width: 40% !important;
+    }
+    #pendTab, #precTab, #fpickTab, #ocompTab, #denTab{
+        width: 100% !important;
+        left: 0px !important;
+        height: 30px !important;
+    }
+    #pendTab td, #precTab td, #fpickTab td, #ocompTab td, #denTab td{
+        width: 100%;
+        border-radius: 8px;
+        height: 0px !important;
+    }
+    .item-img{
+        width: 80px !important;
+        height: 80px !important;
+        left: 30px !important;
+    }
+    .status-box{
+        font-size: 10px !important;
+    }
+    .shopName{
+        font-size: 10px !important;
+        height: 20px !important;
+        width: 90px !important;
+        left: 30px !important;
+        top: 10px !important;
+    }
+    .other-content-high{
+        height: 40px !important;
+    }
+}

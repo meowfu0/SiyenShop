@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const ocompButton = document.getElementById('ocomp');
     const denButton = document.getElementById('den');
 
+    function isMobile() {
+        console.log(window.innerWidth <= 768?'mobile':'naur');
+        return window.innerWidth <= 768; // Adjust the width threshold for mobile as needed
+    }
     function clicker() {
         switch (isActive) {
             case 1: return 'pend';
@@ -16,17 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
             case 5: return 'den';
         }
     }
-
-    function moveBack() {
-        switch (isActive) {
-            case 1: return '0px';
-            case 2: return '200px';
-            case 3: return '400px';
-            case 4: return '600px';
-            case 5: return '800px';
-        }
+    function updateActiveButton(index) {
+        const buttons = [pendButton, precButton, fpickButton, ocompButton, denButton];
+        buttons.forEach((button, idx) => {
+            if (idx === index - 1) {
+                button.classList.add('active');   // Add active class
+                button.classList.remove('inactive'); // Remove inactive class if previously set
+                document.getElementById('pend').style.borderBottomColor = 'rgb(219, 219, 219) !important';
+            } else {
+                button.classList.remove('active'); // Remove active class
+                button.classList.add('inactive');  // Add inactive class
+            }
+        });
     }
-
+   
     function updateTables(indexNum){
         switch(indexNum){
             case 1: 
@@ -35,6 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('fpickTab').style.display = 'none';
                 document.getElementById('ocompTab').style.display = 'none';
                 document.getElementById('denTab').style.display = 'none';
+                if(isMobile()){
+                    document.getElementById('pend').style.borderBottom = '3px solid #ffc107 !important';
+                    document.getElementById('prec').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('fpick').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('ocomp').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('den').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                }
                 break;
             case 2: 
                 document.getElementById('pendTab').style.display = 'none';
@@ -42,6 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('fpickTab').style.display = 'none';
                 document.getElementById('ocompTab').style.display = 'none';
                 document.getElementById('denTab').style.display = 'none';
+                if(isMobile()){
+                    document.getElementById('prec').style.borderBottom = '3px solid #ffc107';
+                    document.getElementById('pend').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('fpick').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('ocomp').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('den').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                }
                 break;
             case 3: 
                 document.getElementById('pendTab').style.display = 'none';
@@ -49,6 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('fpickTab').style.display = 'table';
                 document.getElementById('ocompTab').style.display = 'none';
                 document.getElementById('denTab').style.display = 'none';
+                if(isMobile()){
+                    document.getElementById('fpick').style.borderBottom = '3px solid #ffc107 !important';
+                    document.getElementById('prec').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('pend').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('ocomp').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('den').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                }
                 break;
             case 4: 
                 document.getElementById('pendTab').style.display = 'none';
@@ -56,6 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('fpickTab').style.display = 'none';
                 document.getElementById('ocompTab').style.display = 'table';
                 document.getElementById('denTab').style.display = 'none';
+                if(isMobile()){
+                    document.getElementById('ocomp').style.borderBottom = '3px solid #ffc107 !important';
+                    document.getElementById('prec').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('fpick').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('pend').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('den').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                }
                 break;    
             case 5: 
                 document.getElementById('pendTab').style.display = 'none';
@@ -63,6 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('fpickTab').style.display = 'none';
                 document.getElementById('ocompTab').style.display = 'none';
                 document.getElementById('denTab').style.display = 'table';
+                if(isMobile()){
+                    document.getElementById('den').style.borderBottom = '3px solid #ffc107 !important';
+                    document.getElementById('prec').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('fpick').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('ocomp').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                    document.getElementById('pend').style.borderBottom = '3px solid rgb(219, 219, 219) !important';
+                }
                 break;
         }
     }
@@ -83,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isActive !== index) { // Check isActive during hover
                 button.style.color = 'gray';
                 var prev = clicker();
-                document.getElementById('dLine').style.left = moveBack();
                 document.getElementById(prev).style.color = '#ffc107';
                 document.getElementById(prev).style.fontWeight = '500';
                 button.style.fontWeight = '200';
@@ -93,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', function () {
             isActive = index;
             updateTables(index);
+            updateActiveButton(index);
         });
     }
 
@@ -181,5 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     rateOrderButton.addEventListener('click', function () {
         openRateModal(); // Call the function to open the modal
     });
+
+    
 });
 

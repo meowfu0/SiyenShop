@@ -7,6 +7,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/purchase-mobile.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/switchStat.js') }}"></script>
 
@@ -37,6 +38,9 @@
             <button id="fpick">For Pickup</button>
             <button id="ocomp">Completed Orders</button>
             <button id="den">Denied Payments</button>
+            <div id="innerLine">
+
+            </div>
         </div>
         <div class="lineBar">
             <div id="dLine"></div>
@@ -960,7 +964,7 @@
             </div>
         </div>
     </div>
-   
+
     <div class="modal fade" id="msg-modal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
