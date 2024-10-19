@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerReviewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,3 +28,4 @@ use App\Http\Controllers\ProductDetailswithSizeController;
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
 Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
 Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
+Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');

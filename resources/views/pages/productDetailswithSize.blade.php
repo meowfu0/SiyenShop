@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-xxl">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
@@ -14,13 +14,13 @@
                         </div>
                         
                         <!-- Right Column for Details -->
-                        <div class="col-md-5 d-flex flex-column align-items-start">
-                            <div class="mt-0 mx-auto justify-content-start">
+                        <div class="col-md-5 d-flex flex-column justify-content-center align-items-start">
+                        <div class="mx-auto justify-content-start">
                                 <p class="status">CIRCUITS</p>
                                 <p class="status">T-Shirt</p>
                                 <p class="status">Pre-Order</p>
                                 <p class="title fs-10 fw-bold mb-0">CirCUITS T-Shirt</p>
-                                <div class="ratings d-flex align-items-center mt-0">
+                                <div class="ratings d-flex align-items-center">
                                     <i class="fa fa-star rating-color mr-1"></i>
                                     <i class="fa fa-star rating-color mr-1"></i>
                                     <i class="fa fa-star rating-color mr-1"></i>
@@ -60,20 +60,19 @@
                             </div>
                         </div>
                     </div>
-
-                        
-                    </div>                    
                     <div class="row col-md-12 justify-content-center">
                         <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">Details</h2>
-                        <p class="fs-4 fw-medium ml-2" style="color: #092C4C">Circuits T-shirt</p>
+                        <p class="fs-4 fw-medium ml-5" style="color: #092C4C">Circuits T-Shirt</p>
                         <ul class="ml-5">
-                        <li class="mb-2">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor tellus egestasetia m nunc quis. Nibh tincidunt enim vitae scelerisque pellentesque. Urna fames bibendum fames nisl et</li>
-                        <li class="mb-2">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor tellus egestasetia m nunc quis</li>
-                        <li class="mb-2">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor </li>
+                        <li class="mb-2 ml-5">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor tellus egestasetia m nunc quis. Nibh tincidunt enim vitae scelerisque pellentesque. Urna fames bibendum fames nisl et</li>
+                        <li class="mb-2 ml-5">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor tellus egestasetia m nunc quis</li>
+                        <li class="mb-2 ml-5">Lorem ipsum dolor sit amet consectetur. Integer ut sed praesent eget auctor donec egestas orci amet. Leo amet in auctor </li>
                         </ul>
                     </div>
                     <div class="row col-md-12 justify-content-center">
-                        <h2 class="fs-9 fw-semibold mt-0" style="color: #092C4C">Customer Reviews</h2>
+                        <h2 class="fs-9 fw-semibold mt-0" style="color: #092C4C">Customer Reviews
+                            <span class="fs-4"><a href="{{url('customerReview')}}" style="float:right; text-decoration:none; color: #092C4C; margin-top: 20px">See all</a></span>
+                        </h2>
                         <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px;">
                                     <div class="p-2 mt-2"><span class="round"><img src="{{asset('images/user.svg')}}" alt="user" width="25"></span></div>
                                     <div class="comment-text w-100">
@@ -89,12 +88,12 @@
                                     </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            <div class="row col-md-12 justify-content-center">
-            <h2 class="fs-9 fw-semibold mt-5" style="color: #092C4C">You may also like</h2>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 p-4">
+        </div>
+        <div class="row col-md-12 justify-content-center">
+            <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
+            <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-3 justify-content-center p-4">
         <div class="block-7 pd">
         <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
             <div class="text-center p-4">
@@ -186,7 +185,6 @@
         </div>
     </div>
         </div>
-        </div>
 </div>
                 
                     </div>
@@ -197,7 +195,7 @@
             <div class="modal-header text-center" style="color: #092C4C">
             <img src="{{asset('images/warning.svg')}}" ><h5 class="modal-title fs-5 fw-semibold ml-3">ADD ITEM?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" style="font-size:25px">&times;</span>
                 </button>
             </div>
             <div class="modal-body">

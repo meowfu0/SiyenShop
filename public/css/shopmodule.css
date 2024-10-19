@@ -45,7 +45,7 @@
     }
 
     .card {
-        width: 100% !important; /* Set card width to 100% to fit mobile screens */
+        width: 100% !important; 
     }
 
 }
@@ -170,10 +170,10 @@
     cursor: not-allowed;
 }
 .content{
-    margin-top: 0; /* Ensure there's no extra margin pushing it down */
-    padding-top: 0; /* Remove any unnecessary padding */
-    line-height: 1.5; /* Adjust this to control the space between lines of text */
-    text-align: left; /* Align text if needed */
+    margin-top: 0; 
+    padding-top: 0; 
+    line-height: 1.5; 
+    text-align: left; 
 }
 .card-text-status{
     border: 1px solid #092C4C;
@@ -185,9 +185,7 @@
     width: 70px;
 }
 .card-product{
-    width: 180px;
-    border:1px solid #BDBDBD; 
-    border-radius:8px;
+    width: 150px;
 
 }
 .flex-fill{
@@ -283,8 +281,8 @@
     width: 175px;
     height: 35px;
     margin-left: -20px;
-    margin-top: 35px;
-    line-height: 3px;
+    margin-top: 20px;
+    line-height: 1px;
 }
 .block-7 .btn-primary:hover,
 .block-7 .btn-primary:focus {
@@ -379,28 +377,16 @@ select {
         display: block; 
     }
 
-    .ratings::after {
-        content: "";
-        display: block;
-        position: absolute;
-        left: 50;
-        bottom: 0;
-        width: 180px;
-        height: 1px;
-        background-color: #ccc; 
-        bottom:70px;
-        
-    }
     
-    .hr {
-        border: 0;
-        border-top: 1px solid darkgrey; 
-        margin-top: 5px;
-        margin-bottom: -50px;
-        width: 200xpx;
-        margin-left: 5px;
-       
-    }
+    hr {
+    border: 0;
+    border-top: 1px solid darkgrey; 
+    margin-top: 30px;
+    margin-bottom:-5px;
+    width: 175px;
+    margin-left: -20px;
+    }        
+        
 
     span {
         font-size: 10px;
