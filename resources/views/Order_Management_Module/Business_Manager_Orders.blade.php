@@ -192,11 +192,19 @@
         </div>
         <div class="footer-btn">
             <p>Showing 1 to 10 of 100 entries</p>
-            <a href="#" style="margin-left: 600px;">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
+            <a class="page-link" href="#" aria-label="Previous" style="margin-left: 530px;">
+                <span aria-hidden="true">&laquo;</span></a>
+                <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span></a>
+            <a  class="page-link" href="#">1</a>
+            <a  class="page-link" href="#">2</a>
+            <a  class="page-link" href="#">3</a>
+            <a  class="page-link" href="#">4</a>
+            <a  class="page-link" href="#">5</a>
+            <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span></a>
+            <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span></a>
         </div>
     </div>
 </div>
@@ -545,7 +553,7 @@
                 <div class="transact-col4">
                     <p>08-13-24</p>
                     <p>12:51am</p>
-                    <p>2</p>
+                    <p>1</p>
                 </div>
             </div>
             </div>

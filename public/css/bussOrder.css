@@ -134,6 +134,23 @@ th, td {
     width: 28px;
     border: 0.75px solid #ccc;
 }
+.page-link {
+    padding-bottom: 10px ;
+    color: #092C4C;
+    text-decoration: none;
+    background-color: white;
+    border: 0;
+}
+.page-link {
+    border-color: #092C4C;
+}
+.page-link:hover {
+    background-color: #092C4C;
+    border-color: #092C4C;
+}
+.page-item.active .page-link:hover {
+    background-color: #092C4C;
+}
 .modal-header img{
     width: 40px !important;
     height: 40px !important;
