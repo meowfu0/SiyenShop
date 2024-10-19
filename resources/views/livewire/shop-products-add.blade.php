@@ -131,7 +131,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="fw-bold text-primary">Size</th>
-                                                <th class="fw-bold text-primary" id="quantity">Quantity</th>
+                                                <th class="fw-bold text-primary" id="quantity_1">Quantity</th>
                                                 <th class="text-end"></th>
                                             </tr>
                                         </thead>
@@ -144,7 +144,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="number" id="quantity_1" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
                                                     </div>
                                                 </td>
                                                 <td class="text-end">
@@ -155,7 +155,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button id="addNewField" class="btn" style="cursor: pointer;" onclick="myCreateFunction()">
+                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
                                         <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
                                     </button>
 

@@ -139,7 +139,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="number" id="quantity_1" class="form-control" value="10" min="0" step="1">
+                                                        <input type="number" id="quantity_1" class="form-control" value="20" min="0" step="1">
                                                     </div>
                                                 </td>
                                                 <td class="text-end">
@@ -150,7 +150,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <button id="addNewField" class="btn" style="cursor: pointer;" onclick="myCreateFunction()">
+                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
                                         <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
                                     </button>
 
@@ -162,14 +162,14 @@
                             <div class="col-md-6 mt-3 mb-1"> 
                                 <div class="form-group">
                                     <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price" type="text" class="form-control" value="$5.00" required>
+                                    <input id="supplier_price" type="text" class="form-control" value="200" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
                                     <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price" type="text" class="form-control" value="$10.00" required>
+                                    <input id="price" type="text" class="form-control" value="200" required>
                                 </div>
                             </div>
 
