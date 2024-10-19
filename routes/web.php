@@ -6,6 +6,7 @@ use App\Http\Livewire\ShopOrders;
 use App\Http\Livewire\ShopProducts;
 use App\Http\Livewire\ShopProductsAdd;
 use App\Http\Livewire\ShopProductsEdit;
+use App\Http\Livewire\ShopProductsHistory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,7 @@ Route::prefix('shop')->group(function () {
 
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
     Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
+    Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 
 });
 
