@@ -142,7 +142,7 @@
                                                         <input type="number" id="quantity_1" class="form-control" value="20" min="0" step="1">
                                                     </div>
                                                 </td>
-                                                <td class="text-end">
+                                                <td>
                                                     <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
                                                         <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
                                                     </button>
