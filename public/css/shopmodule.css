@@ -64,6 +64,9 @@
     .navbar {
         height: 80px !important; 
     }
+    .modal-dialog {
+        max-width: 600px;
+    }
 }
 
 @media (max-width: 768px) {

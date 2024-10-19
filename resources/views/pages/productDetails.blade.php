@@ -109,7 +109,7 @@
                 </div>
                 <div class="row col-md-12 justify-content-center">
                     <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
-                    <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 justify-content-center">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 gap-5 justify-content-center">
                         <div class="block-7 pd">
                         <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
                             <div class="text-center p-4">
@@ -200,15 +200,14 @@
                             </div>
                         </div>
                 </div>
-        </div>
+            </div>
             </div>
         </div>
-    </div>
-                    
+    </div>               
 </div>
 <!-- Modal -->
 <div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header text-center" style="color: #092C4C">
             <img src="{{asset('images/warning.svg')}}" ><h5 class="modal-title fs-5 fw-semibold ml-3">ADD ITEM?</h5>
@@ -218,7 +217,7 @@
             </div>
             <div class="modal-body">
             This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
-                    </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary">Add Anyway</button>
