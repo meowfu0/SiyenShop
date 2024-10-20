@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.shop')
 
 @section('content')
 <div class="flex-grow-1" style="width: 100%!important;">
@@ -13,6 +13,5 @@
         </div>
     </div>
     @include('components.chat')
-    
 </div>
 @endsection

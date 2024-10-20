@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Livewire\Shop\ShopChat;
-use App\Http\Livewire\Shop\ShopSidenav;
-use App\Http\Livewire\Shop\ShopOrders;
-use App\Http\Livewire\Shop\ShopProducts;
-use App\Http\Livewire\Shop\ShopDashboard;
+use App\Http\Livewire\ShopChat;
+use App\Http\Livewire\ShopSidenav;
+use App\Http\Livewire\ShopOrders;
+use App\Http\Livewire\ShopProducts;
+use App\Http\Livewire\ShopDashboard;
 use App\Http\Livewire\Admin\AdminChat;
 use App\Http\Livewire\Admin\AdminFaqs;
 use App\Http\Livewire\Admin\AdminShops;
@@ -30,7 +30,7 @@ Route::get('/', function () {
 });
 
 Route::get('/shop', function () {
-    return redirect()->route('shop.chat');
+    return redirect()->route('shop.dashboard');
 })->name('Shop');
 
 Route::prefix('shop')->group(function () {
@@ -52,7 +52,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/admin', function () {
-    return redirect()->route('admin.chat');
+    return redirect()->route('admin.dashboard');
 })->name('Admin');
 
 

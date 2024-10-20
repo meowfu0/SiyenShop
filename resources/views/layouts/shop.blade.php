@@ -23,7 +23,7 @@
 
     <div class="d-flex hide-on-mobile">
         <div class="sidenav">
-            @livewire('shop.shop-sidenav')
+            @livewire('shop-sidenav')
         </div>
 
         <main class="min-vh-100 flex-grow-1">

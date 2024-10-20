@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.shop')
 
 @section('content')
 <div class="fs-12">

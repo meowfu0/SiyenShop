@@ -1,18 +1,4 @@
-@extends('layouts.shop')
-
-@section('content')
-<div class="flex-grow-1" style="width: 100%!important;">
-    <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
-        <div class="d-flex gap-2 pe-5">
-            <img src="{{asset('images/user.svg')}}" alt="">
-            @auth
-            <div class="text-primary fw-medium d-none d-md-block">
-                {{ Auth::user()->first_name }}
-            </div>
-            @endauth
-        </div>
-    </div>
-    <div class="main-content d-flex flex-column">
+<div class="main-content d-flex flex-column">
         <header class="p-3 border-bottom d-flex align-items-center mt-3">
             <img src="{{asset('images/chat.svg')}}" alt="" class="me-2 chat-icon" style="height: 23px; width: 23px;">
             <h1 class="mt-0 text-primary fw-bold chat-title" style="font-size: 24px">Chat</h1>
@@ -41,6 +27,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
-@endsection
