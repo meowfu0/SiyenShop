@@ -10,7 +10,7 @@
         <button class="btn btn-danger">Danger Button</button>
         <button class="btn btn-warning">Warning Button</button>
         <button class="btn btn-info">Info Button</button>
-        <button class="btn btn-light">Light Button</button>
+        <button class="btn btn-light">Light ButtonN</button>
         <button class="btn btn-dark">Dark Button</button>
     </div>
 
@@ -19,8 +19,8 @@
         <h2>Colors</h2>
         <div class="p-3 mb-2 bg-primary text-white">Primary</div>
         <div class="p-3 mb-2 bg-secondary text-white">Secondary</div>
-        <div class="p-3 mb-2 bg-success text-white">Success</div>
-        <div class="p-3 mb-2 bg-danger text-white">Danger</div>
+        <div class="p-3 mb-2 bg-success text-white">Successss</div>
+        <div class="p-3 mb-2 bg-danger text-white">Dangerrrr</div>
         <div class="p-3 mb-2 bg-warning text-dark">Warning</div>
         <div class="p-3 mb-2 bg-info text-white">Info</div>
         <div class="p-3 mb-2 bg-light text-dark">Light</div>

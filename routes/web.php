@@ -12,6 +12,12 @@ use App\Http\Livewire\Admin\AdminShops;
 use App\Http\Livewire\Admin\AdminFaqs;
 use App\Http\Livewire\Admin\AdminChat;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerReviewController;
+use App\Http\Controllers\shopPageController; // Use PascalCase
+use App\Http\Controllers\ProductDetailsController;
+use App\Http\Controllers\ProductDetailswithSizeController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,5 +66,7 @@ Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])-
 
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
-
-
+Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
+Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
+Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
+Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');

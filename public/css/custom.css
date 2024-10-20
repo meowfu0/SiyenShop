@@ -1,15 +1,15 @@
-
+*{
+    font-family: Satoshi;
+}
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
-       
     }
     .d-flex.ms-auto {
         position: absolute;
         top: 12px; 
         right: 10px; 
     }
-
     .logo-img {
         margin-left: 15px;
     }
@@ -21,8 +21,8 @@
         padding: 0; 
         margin: 0 auto; 
     }
-    
 }
+
 @media (max-width: 768px) {
     .navbar .order-1 {
         order: 1;
@@ -48,11 +48,10 @@
     box-shadow: none;
 }
 
-
 @media only screen and (min-width: 768px) {
     .navbar {
-     height: 80px !important; 
-   } 
+        height: 80px !important; 
+    }
 }
 
 @media (max-width: 768px) {
