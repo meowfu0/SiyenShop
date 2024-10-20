@@ -3,7 +3,9 @@
 @section('content')
 
 <div class="d-flex ">
-    <div class="d-none d-md-flex flex-md-row">nav</div>
+    <div class="d-none d-md-flex flex-md-row">
+        @livewire('user-sidenav')
+    </div>
     <div class="d-flex flex-column align-items-center p-5 w-100">
 
         <div class="d-flex flex-column">
