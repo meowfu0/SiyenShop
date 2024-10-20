@@ -1,7 +1,7 @@
 #sidebar{
     position: absolute;
     top: 0px;
-    z-index: 0;
+    z-index:0;
     height: 100%;
     width: 240px;
 }
@@ -122,22 +122,22 @@
 }
 
 .dets tr td:first-child, .dets tr th:first-child{
-    width: 2800px !important;
+    width: 2800px ;
 }
 
 .dets tr td:nth-child(2), .dets tr th:nth-child(2){
-    width: 2200px !important;
+    width: 2200px ;
 }
 
 .dets tr td:nth-child(3), .dets tr th:nth-child(3){
-    width: 1600px !important;
+    width: 1600px ;
 }
 
 .dets tr td:nth-child(4), .dets tr th:nth-child(4){
-    width: 1400px !important;
+    width: 1400px ;
 }
 .dets tr td:nth-child(5), .dets tr th:nth-child(5){
-    width: 1100px !important;
+    width: 1100px ;
 }
 .other-content-high, .other-content-low{
     height: 40px;
@@ -201,7 +201,7 @@
     position: relative;
     top: 14px !important;
     font-size: 15px;
-}
+} 
 .costPrice{
     left: 150px !important;
     font-weight: 600;

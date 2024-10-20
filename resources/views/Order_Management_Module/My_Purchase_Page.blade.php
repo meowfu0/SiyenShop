@@ -63,11 +63,11 @@
                             <th>Price</th>
                         </tr>
                         <tr>
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>Small</td>
-                            <td>1</td>
-                            <td>P2.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>  <!---->
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -102,12 +102,11 @@
                             <th>Price</th>
                         </tr>
                         <tr>
-                            
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>Small</td>
-                            <td>1</td>
-                            <td>P2.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -141,11 +140,11 @@
                         </tr>
                         <tr>
                             
-                            <td>Baby Oil</td>
-                            <td>Oil</td>
-                            <td>100ML</td>
-                            <td>1</td>
-                            <td>P200.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -179,11 +178,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>Small</td>
-                            <td>1</td>
-                            <td>P2.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -216,11 +215,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>Small</td>
-                            <td>2</td>
-                            <td>P40.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -252,11 +251,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>Dirty - L</td>
-                            <td>10</td>
-                            <td>P100.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -288,11 +287,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Circuits Lanyard</td>
-                            <td>Id Lanyard</td>
-                            <td>Blue</td>
-                            <td>1</td>
-                            <td>P120.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -327,11 +326,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>ID lanyard</td>
-                            <td>Lanyard</td>
-                            <td>Pink</td>
-                            <td>1</td>
-                            <td>P100.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -363,11 +362,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>XL</td>
-                            <td>1</td>
-                            <td>P1.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -402,11 +401,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>T-Shirt</td>
-                            <td>Category Name</td>
-                            <td>Variant/Size Value</td>
-                            <td>Quantity Value</td>
-                            <td>Price Value</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -442,11 +441,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>XS</td>
-                            <td>1</td>
-                            <td>P1,200.00</td>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                         </tr>
                     </table>
                     <div class="other-content-low">
@@ -479,12 +478,11 @@
                                 <th>Price</th>
                         </tr>
                         <tr>    
-                            <td>Merch</td>
-                            <td>T-Shirt</td>
-                            <td>M</td>
-                            <td>1</td>
-                            <td>P100.00</td>
-                        </tr>
+                            <td data-label="Item">Merch</td>
+                            <td data-label="Category">T-Shirt</td>
+                            <td data-label="Variant/Size">Small</td>
+                            <td data-label="Quantity">2</td>
+                            <td data-label="Price">P40.00</td>
                     </table>
                     <div class="other-content-low">
                         <h5>TOTAL: </h5>
@@ -888,11 +886,11 @@
                                         <th>Price</th>
                                     </tr>
                                     <tr>
-                                        <td>Merch</td>
-                                        <td>T-Shirt</td>
-                                        <td>XS</td>
-                                        <td>1</td>
-                                        <td>P1200.00</td>
+                                        <td data-label="Item">Merch</td>
+                                        <td data-label="Category">T-Shirt</td>
+                                        <td data-label="Variant/Size">Small</td>
+                                        <td data-label="Quantity">2</td>
+                                        <td data-label="Price">P40.00</td>
                                     </tr>
                                 </table>
                             </td>

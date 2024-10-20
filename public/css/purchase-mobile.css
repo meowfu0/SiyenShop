@@ -11,13 +11,19 @@
     }
 
     .content-purchase {
-        left: 0px !important;
+        top: 20px !important;
+        left: 0 !important;
         width: 100% !important;
-        height: 100vh; /* Ensure content fills viewport height */
-        position: relative; /* Adjust if necessary */
-        overflow-x: auto;
+        height: 100% !important; /* Ensure content fills viewport height */
+        position: absolute; /* Adjust if necessary */
+        /* overflow-x: hidden;         */
     }
 
+    .content-title-purchase{
+        left: 0px !important;
+    }
+
+    
     #navigation {
         margin-left: 0 !important; /* Ensure no left margin */
         width: 100% !important; /* Full width */
@@ -74,7 +80,7 @@
         width: 40% !important;
     }
     #pendTab, #precTab, #fpickTab, #ocompTab, #denTab{
-        width: 100% !important;
+        max-width: 100% !important;
         left: 0px !important;
         height: 30px !important;
     }
@@ -84,21 +90,102 @@
         height: 0px !important;
     }
     .item-img{
-        width: 80px !important;
-        height: 80px !important;
-        left: 30px !important;
+        width:70 !important;
+        height: 70px !important;
+        left: 20px !important;
+        
     }
     .status-box{
         font-size: 10px !important;
+        height: auto !important;
+        width: 20% !important;
+        left: 50% !important;
+        top: 10px !important;
+        
     }
     .shopName{
         font-size: 10px !important;
-        height: 20px !important;
-        width: 90px !important;
-        left: 30px !important;
+        height: auto !important;
+        width: 20% !important;
         top: 10px !important;
+        left: 9% !important;
     }
-    .other-content-high{
+
+    .other-content-high, .other-content-low{
         height: 40px !important;
+        width: 100% !important;  
     }
+    
+    .other-content-low h5{
+        position: absolute !important;
+        left: 100% !important;
+        top: 100px !important;
+        font-size: 0.5rem;
+        display: text !important;
+    }
+
+    .other-content-low p{
+        font-size: 0.5rem !important;
+    }
+
+    .costPrice{
+        left: 10vw !important;
+        font-weight: 600;
+    }
+    .itemLab{
+        left: 10% !important;
+        font-weight: 300;
+    }
+    .itemCount{
+        left: 10% !important;
+        font-weight: 300;  
+    }
+    .dateLabel{
+        left: 10% !important;
+        font-weight: 300;
+    }
+    .date{
+        left: 10% !important;
+        font-weight: 300;
+    }
+    .time{
+        left: 10% !important;
+        font-weight: 300;
+    }
+    
+
+    table.dets{
+        position: relative;
+        left: 6rem !important;
+        top: -1.9rem;
+        height: 3rem !important;
+        font-size: 0.5rem !important;
+        width: 100% !important;
+    }
+
+    .dets tr td:first-child, .dets tr th:first-child{
+        width: 10vw !important;
+    }
+    
+    .dets tr td:nth-child(2), .dets tr th:nth-child(2){
+        width: 10vw !important;
+    }
+    
+    .dets tr td:nth-child(3), .dets tr th:nth-child(3){
+        width: 10vw !important;
+    }
+    
+    .dets tr td:nth-child(4), .dets tr th:nth-child(4){
+        width: 10vw !important;
+    }
+    .dets tr td:nth-child(5), .dets tr th:nth-child(5){
+        width: 25vw !important;
+    }
+
+    .modal-title{
+        font-size: 90%;
+    }
+    
+
+    
 }
