@@ -11,5 +11,6 @@ class AdminFaqs extends Component
     {
         return view('livewire.admin.admin-faqs');
     }
+    
 }
 

@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Admin\AdminChat;
 use App\Http\Livewire\Admin\AdminFaqs;
+use App\Http\Livewire\Admin\AdminFaqsDeleted;
 use App\Http\Livewire\AdminShops;
 use App\Http\Livewire\AdminDashboard;
 use App\Http\Livewire\AdminUsers;
@@ -19,6 +20,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
     Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
+    Route::get('/faqs/deleted', [AdminFaqsDeleted::class, 'render'])->name('admin.faqs-deleted');
     Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
 });
 

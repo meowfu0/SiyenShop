@@ -33,3 +33,7 @@
     border-radius: 6px;
     border: solid 1px #092C4C; 
 }
+
+.delete {
+    width: 130px;
+}
