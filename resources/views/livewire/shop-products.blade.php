@@ -340,13 +340,28 @@
 
 <!-- JS for Select All functionality -->
 <script>
-    document.getElementById('select-all').addEventListener('change', function() {
-        const selectItems = document.querySelectorAll('.select-item');
-        selectItems.forEach(item => {
-            item.checked = this.checked;
+    const selectAllCheckbox = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.select-item');
+
+    // Add event listener to the 'Select All' checkbox
+    selectAllCheckbox.addEventListener('change', function() {
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    // Add event listeners to each individual checkbox to update 'Select All' state
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (!this.checked) {
+                selectAllCheckbox.checked = false;
+            } else if (Array.from(checkboxes).every(cb => cb.checked)) {
+                selectAllCheckbox.checked = true;
+            }
         });
     });
 </script>
+
 
 <!-- Include Bootstrap JS for Dropdown functionality -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
