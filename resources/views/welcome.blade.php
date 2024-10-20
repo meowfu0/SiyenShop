@@ -54,44 +54,66 @@
             @yield('content')
         </main>
     </section>
-    @include('components.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
        
     </div>
 </body>
-@extends('layouts.app')
+<!-- Section for New Featured Collection -->
+<section id="featured-collection" class="featured-collection">
+    <div class="container">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-                
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+        <div class="logos-container">
+            <img src="{{ asset('images/logo7.png') }}" alt="Logo 1" class="logo">
+            <img src="{{ asset('images/logo2.png') }}" alt="Logo 2" class="logo">
+            <img src="{{ asset('images/logo3.png') }}" alt="Logo 3" class="logo">
+            <img src="{{ asset('images/logo4.png') }}" alt="Logo 4" class="logo">
+            <img src="{{ asset('images/logo5.png') }}" alt="Logo 5" class="logo">
+            <img src="{{ asset('images/logo6.png') }}" alt="Logo 1" class="logo">
+            <img src="{{ asset('images/logo1.png') }}" alt="Logo 1" class="logo">
+            <img src="{{ asset('images/logo2.png') }}" alt="Logo 1" class="logo">
+           
+        </div>
+        <h2>Featured Collection</h2>
+        <div class="collection-items">
+            <div class="item">
+                <img src="{{ asset('images/item0.png') }}" alt="CirCUITS T-Shirt">
+                <h3>CirCUITS T-Shirt</h3>
+                <p>Price: P500.00</p>
+                <p>30 Sold</p>
+                <button>Add to Cart</button>
             </div>
+            <div class="item">
+                <img src="{{ asset('images/item1.png') }}" alt="CSC Lanyard">
+                <h3>CSC Lanyard</h3>
+                <p>Price: P100.00</p>
+                <p>143 Sold</p>
+                <button>Add to Cart</button>
+            </div>
+            <div class="item">
+                <img src="{{ asset('images/item1.png') }}" alt="CSC Lanyard">
+                <h3>CSC Lanyard</h3>
+                <p>Price: P100.00</p>
+                <p>143 Sold</p>
+                <button>Add to Cart</button>
+            </div>
+            <div class="item">
+                <img src="{{ asset('images/item1.png') }}" alt="CSC Lanyard">
+                <h3>CSC Lanyard</h3>
+                <p>Price: P100.00</p>
+                <p>143 Sold</p>
+                <button>Add to Cart</button>
+            </div>
+            <div class="item">
+                <img src="{{ asset('images/item1.png') }}" alt="CSC Lanyard">
+                <h3>CSC Lanyard</h3>
+                <p>Price: P100.00</p>
+                <p>143 Sold</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Add more items as needed -->
         </div>
     </div>
-</div>
-@endsection
-
+</section>
+@include('components.footer')
 </html>
