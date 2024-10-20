@@ -60,7 +60,48 @@
         width: 16px;
         height: 16px;
     }
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .h1  {
+            size: 48px;
+            weight: 900;
+            font-family: Satoshi;
+            color:rgba (9,44,76,1);
+            margin-top: 20px; 
+        }
+        .btn1-custom {
+            margin-top: 10px; 
+        }
+        .hero img {
+            max-width: 381px;
+            height: 450px;
+        }
+        .hero .content {
+            max-width: 600px;
+        }
+        .btn1-custom {
+            background-color: #fbb034;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+        }
+        .btn1-custom:hover {
+            background-color: #f9a329;
+        }
+
 }
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, rgba(226, 185, 59, 0.2), rgba(9, 44,76, 0.2));
+    padding: 20px;
+}
+
 
 .nav-link:hover,
 .nav-link.active{
@@ -90,4 +131,27 @@
 .sidenav-link:active img, 
 .sidenav-link.active img{
     filter: brightness(0) invert(1); /* Turns the image to white */
+}
+    /* Styling for Create Account Button */
+.register-btn {
+  background-color: transparent;
+  color: #07163f; /* Adjust this color as needed */
+  border-color: #07163f; /* Adjust this color as needed */
+}
+
+.register-btn:hover {
+  background-color: #07163f !important; /* Adjust this color as needed */
+  color: white !important; /* Adjust this color as needed */
+  border-color: #07163f !important; /* Ensure border color remains the same */
+}
+
+ /* Hover Effect for Forgot Password */
+.forgot-password {
+  text-decoration: none;
+  color: #6c757d; /* Text-muted color */
+}
+
+ .forgot-password:hover {
+  color: #07163f;
+  text-decoration: underline;
 }

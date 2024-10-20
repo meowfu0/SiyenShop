@@ -1,17 +1,18 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom d-flex justify-content-center sticky-top" >
+@if(!View::hasSection('no_navbar'))
+<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom d-flex justify-content-center sticky-top">
     <div class="container-xxl m-0 mx-md-5">
         <div class="d-flex align-items-center">
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <img src="{{ asset('images/hamburger.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-        </button>
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <img src="{{ asset('images/hamburger.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
+            </button>
 
             <a class="logo d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset('images/logo.png') }}" class="logo-img">
             </a>
         </div>
 
-<!-- Middle Side Of Navbar -->
+        <!-- Middle Side Of Navbar -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
             <ul class="d-flex navbar-nav al justify-content-center flex-grow-1">
@@ -25,9 +26,9 @@
                     <a class="nav-link text-primary fw-medium" href="{{ url('/faq') }}">FAQs</a>
                 </li>
             </ul>
-
         </div>
-<!-- Right Side Of Navbar -->
+        
+        <!-- Right Side Of Navbar -->
         <div class="d-flex ms-auto gap-2 align-items-center">
             <!-- Search Icon -->
             <a class="icons" href="{{ url('/') }}">
@@ -44,16 +45,17 @@
                     @endif
                 @endguest
             </ul>
-             <!-- This section will appear once logged in -->
-                @auth
-                <div class="d-flex ab align-items-center gap-3">
-                    <a class="icons" href="{{ url('/') }}">
-                        <img src="{{ asset('images/cart.svg') }}" class="cart-img">
-                    </a>
+
+            <!-- This section will appear once logged in -->
+            @auth
+            <div class="d-flex ab align-items-center gap-3">
+                <a class="icons" href="{{ url('/') }}">
+                    <img src="{{ asset('images/cart.svg') }}" class="cart-img">
+                </a>
 
                     <div class="d-flex align-items-center">
 
-                        <a class="icons me-2 d-none d-md-block" href="{{ url('/user') }}">
+                        <a class="icons me-2 d-none d-md-block" href="{{ url('/profile') }}">
                             <img src="{{ asset('images/user.svg') }}" class="user-img">
                         </a>
                         <div class="dropdown d-md-none dropstart">
@@ -61,7 +63,7 @@
                                 <img src="{{ asset('images/user.svg') }}" class="user-img">
                             </button>
                             <ul class="dropdown-menu mt-4">
-                                <li><a href="" class="dropdown-items nav-link flex-grow-1 px-3 ">Profile</a></li>
+                                <li><a href="{{ url('/profile') }}" class="dropdown-items nav-link flex-grow-1 px-3 ">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a href="" class="dropdown-items nav-link flex-grow-1 px-3 ">My Purchases</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -85,7 +87,7 @@
                                 {{ Auth::user()->first_name }}
                             </button>
                             <ul class="dropdown-menu border-0 shadow-sm text-wrap">
-                                <li><a href="" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 ">Profile</a></li>
+                                <li><a href="{{ url('/profile') }}" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 ">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a href="" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 ">My Purchases</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -130,6 +132,6 @@
                     
             @endauth
         </div>
-
     </div>
 </nav>
+@endif

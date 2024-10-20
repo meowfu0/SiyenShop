@@ -11,7 +11,7 @@ use App\Http\Livewire\Admin\AdminSidenav;
 use App\Http\Livewire\Admin\AdminShops;
 use App\Http\Livewire\Admin\AdminFaqs;
 use App\Http\Livewire\Admin\AdminChat;
-
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,4 +54,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
 });
+
+
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+
 
