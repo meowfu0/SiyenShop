@@ -7,12 +7,15 @@
             </button>
 
             <!-- Conditionally show logo -->
-            
+         @if (!isset($excludeLogo))
+                <a class="logo d-flex align-items-center" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo.png') }}" class="logo-img">
+                </a>
+            @endif 
         </div>
 
         <!-- Middle Side Of Navbar -->
         <div class="collapse navbar-collapse @if(isset($alignLeft)) justify-content-start @else justify-content-center @endif" id="navbarSupportedContent">
-            @if (!isset($excludeNavItem))
                 <ul class="navbar-nav al justify-content-center flex-grow-1">
                     <li class="nav-item ">
                         <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
@@ -24,7 +27,6 @@
                         <a class="nav-link text-primary fw-medium" href="{{ url('/faqs') }}">FAQs</a>
                     </li>
                 </ul>
-            @endif
         </div>
 
         <!-- Right Side Of Navbar -->

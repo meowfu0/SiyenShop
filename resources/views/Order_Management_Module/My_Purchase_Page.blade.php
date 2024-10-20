@@ -6,8 +6,9 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
     <link href="{{ asset('css/purchase-mobile.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
+    
 
     <script src="{{ asset('js/switchStat.js') }}"></script>
 

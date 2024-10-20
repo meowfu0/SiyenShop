@@ -1,3 +1,4 @@
+
 #sidebar{
     position: absolute;
     top: 0px;
@@ -329,6 +330,7 @@
 }
 .modal-items::-webkit-scrollbar {
     width: 10px; /* Width of the scrollbar */
+    height: 10px;
     background: transparent; /* Background of the scrollbar */
 }
 
@@ -525,4 +527,487 @@
 .modal-item-details th:nth-child(5),
 .modal-item-details td:nth-child(5) {
     width: 80px; /* Width for the 'Price' column */
+}
+
+@media (max-width: 768px) {
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    #sidebar {
+        display: none; /* Hide sidebar */
+    }
+
+    .content-purchase {
+        top: 20px !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important; /* Ensure content fills viewport height */
+        position: absolute; /* Adjust if necessary */
+        /* overflow-x: hidden;         */
+    }
+
+    .content-title-purchase{
+        left: 2% !important;
+    }
+    .content-title-purchase img{
+        height: 20px;
+        width: 20px;
+    }
+    .content-title-purchase h1{
+        font-size: 1.2rem !important;
+        left: 12%;
+    }
+
+    #navigation {
+        margin-left: 0 !important; /* Ensure no left margin */
+        width: 100% !important; /* Full width */
+        left: 0; /* Ensure it starts from the left */
+        position: fixed; /* Keep it fixed at the top */
+    }
+    .buttons {
+        top: 8%;
+        left: 0px !important; /* Adjust this based on your layout */
+        overflow-x: auto !important; /* Allow horizontal scrolling if needed */
+        width: 100%; /* Full width for buttons */
+        padding: 10px;
+        white-space: nowrap;
+    }
+    .buttons::-webkit-scrollbar{
+        display: none;
+    }
+    #pend{
+        border-bottom: 3px solid #ffc107;
+    }
+    .buttons button {
+        height: 35px; /* Adjust height for mobile */
+        width: 40% !important;
+        color: black; /* Change text color for better contrast */
+        border-radius: 0px; /* Optional: add rounded corners */
+        font-size: 14px; /* Adjust font size for mobile */
+        display: inline !important;
+        border-bottom: 3px solid rgb(219, 219, 219);
+        margin-left: 0px !important;
+        margin-right: -5px !important;
+    }
+    .buttons button.active {
+        border-bottom: 3px solid #ffc107 !important; /* Active button style */
+    }
+    .buttons button.inactive {
+        border-bottom: 3px solid rgb(219, 219, 219) !important; /* Inactive button style */
+    }
+    #navbarSupportedContent {
+        display: none; /* Hide navbar if necessary */
+    }
+    .linebar{
+        background-color: rgb(219, 219, 219);
+        height: 4px !important;
+        position: absolute;
+        top: 140px !important;
+        width: 100% !important;
+        left: 0px !important;
+        display: none;
+    }
+    #dLine{
+        position: absolute;
+        width: 40% !important;
+    }
+    #pendTab, #precTab, #fpickTab, #ocompTab, #denTab{
+        width: 100% !important;
+        top: 13% !important;
+        left: 0px !important;
+        height: 30px !important;
+    }
+    #pendTab td, #precTab td, #fpickTab td, #ocompTab td, #denTab td{
+        width: 100%;
+        border-radius: 8px;
+        height: 0px !important;
+    }
+    .item-img{
+        width:70 !important;
+        height: 70px !important;
+        left: 20px !important;
+        
+    }
+    .status-box{
+        font-size: 10px !important;
+        height: auto !important;
+        width: 20% !important;
+        left: 50% !important;
+        top: 10px !important;
+        
+    }
+    .shopName{
+        font-size: 10px !important;
+        height: 50% !important;
+        width: 20% !important;
+        top: 10px !important;
+        left: 9% !important;
+    }
+    #precTab .status-box{
+        font-size: 10px !important;
+        height: 50% !important;
+        width: 30% !important;
+        top: 10px !important;
+        left: 45% !important;
+    }
+    .other-content-high, .other-content-low{
+        height: 40px !important;
+        width: 100% !important;  
+    }
+    .other-content-low{
+        height: 60px !important;
+    }
+    .other-content-low h5{
+        position: absolute !important;
+        top: 50% !important;
+        left: 5% !important;
+        font-size: 0.6rem;
+        display: block !important;
+    }
+    .costPrice, .itemLab, .itemCount, .dateLabel, .date, .time{
+        display: block !important;
+        position: absolute !important;
+    }
+    .costPrice{
+        top: 48% !important;
+        left: 16% !important;
+    }
+    .other-content-low p{
+        font-size: 0.7rem !important;
+    }
+    .other-content-low .btn.btn-primary{
+        display: block !important;
+        position: absolute !important;
+        top: 20% !important;
+        left: 72% !important;
+        height: 40% !important;
+        width: 20% !important;
+        font-weight: 400;
+        font-size: 0.5rem !important;
+    }
+    .other-content-low .btn.btn-light{
+        display: block !important;
+        position: absolute !important;
+        top: 20% !important;
+        left: 50% !important;
+        height: 40% !important;
+        width: 20% !important;
+        border: 1px solid #092C4C !important;
+        color: #092C4C !important;
+        font-weight: 400;
+        font-size: 0.5rem !important;
+    }
+    .other-content-low p.costPrice{
+        font-weight: 600;
+        font-size: 0.6rem !important;
+    }
+    .other-content-low p.itemLab{
+        top: 46% !important;
+        left: 32% !important;
+        font-weight: 300;
+        font-size: 0.7rem !important;
+    }
+    .other-content-low p.itemCount{
+        top: 48% !important;
+        left: 43% !important;
+        font-weight: 300;  
+        font-size: 0.7rem !important;
+    }
+    .other-content-low p.dateLabel{
+        top: 15% !important;
+        position: absolute !important;
+        left: 5% !important;
+        font-weight: 300;
+    }
+    .other-content-low p.date{
+        top: 15% !important;
+        left: 16% !important;
+        font-weight: 300;
+    }
+    .other-content-low p.time{
+        top: 15% !important;
+        left: 35% !important;
+        font-weight: 300;
+    }
+    
+    table.dets{
+        position: relative;
+        left: 6rem !important;
+        top: -1.9rem;
+        height: 3rem !important;
+        font-size: 0.5rem !important;
+        width: 100% !important;
+    }
+
+    .dets tr td:first-child, .dets tr th:first-child{
+        width: 10% !important;
+    }
+    
+    .dets tr td:nth-child(2), .dets tr th:nth-child(2){
+        width: 10% !important;
+    }
+    
+    .dets tr td:nth-child(3), .dets tr th:nth-child(3){
+        width: 10% !important;
+    }
+    
+    .dets tr td:nth-child(4), .dets tr th:nth-child(4){
+        width: 10% !important;
+    }
+    .dets tr td:nth-child(5), .dets tr th:nth-child(5){
+        width: 25% !important;
+    }
+    .modal-title{
+        font-size: 90%;
+    }
+    .modal-content{
+        padding-top: 0% !important;
+        padding-left: 2% !important;
+        padding-right: 2% !important;
+    }
+    .modal-items{
+        height: 20vh !important;
+        width: auto;
+    }
+    .modal-body{
+        height: 10% !important;
+    }
+    .modal-header img{
+        height: 8vh !important;
+        width: 8vw !important;
+    }
+    .modal-header h5{
+        font-size: 0.7rem !important;
+    }
+    .modal-header{
+        max-height: 60px !important;
+        height: 50% !important;
+        border-bottom: 1px solid black !important;
+    }
+    .transact-col1, .transact-col2, .transact-col3, .transact-col4{
+        font-size: 0.5rem !important;
+    }
+    .transact-col1{
+        margin-left: 2% !important;
+    }
+    .transact-col2{
+        margin-left: 2% !important;
+    }
+    .transact-col3{
+        top: 60% !important;
+        left: 65% !important;
+    }
+    .transact-col4{
+        top: 60% !important;
+        left: 80% !important;
+    }
+    .modal-content .btn-close{
+        left: 93% !important;
+        height: 5px !important;
+        width: 5px !important;
+        top: 3% !important;
+    }
+   
+    .modal-td .img-holder{
+        height: 6vh !important;
+        width: 6vh !important;
+        margin-left: 0 !important;
+    }
+    .img-holder img{
+        width: 100% !important;
+        height: 100% !important;
+        margin-left: 0  !important;
+        
+    }
+    .modal-item-details{
+        left: 17% !important;
+        font-size: 0.5rem !important;
+        width: 90% !important;
+        top: 16% !important;
+    }
+    .modal-item-details th:nth-child(1),
+    .modal-item-details td:nth-child(1) {
+        width: 4% !important; /* Width for the 'Item' column */
+    }
+
+    .modal-item-details th:nth-child(2),
+    .modal-item-details td:nth-child(2) {
+        width: 4% !important; /* Width for the 'Category' column */
+        margin-left: 2vw !important;
+    }
+
+    .modal-item-details th:nth-child(3),
+    .modal-item-details td:nth-child(3) {
+        width: 4% !important; /* Width for the 'Variant/Size' column */
+    }
+
+    .modal-item-details th:nth-child(4),
+    .modal-item-details td:nth-child(4) {
+        width: 3% !important; /* Width for the 'Quantity' column */
+    }
+
+    .modal-item-details th:nth-child(5),
+    .modal-item-details td:nth-child(5) {
+        width: 4% !important; /* Width for the 'Price' column */
+    }
+    .modal-rows{
+        height: 10vh !important;
+    }
+    #orderDetailsLabel{
+        width: 20vh !important;
+        margin-left: -5% !important;
+        position: absolute !important;
+        left: 25% !important;
+    }
+    .p-3.mb-2.bg-light.text-dark{
+        height: 3% !important;
+        width: 20% !important;
+        font-size: 0.7rem !important;
+        position: absolute !important;
+        left: 70% !important;
+        text-align: center;
+    }
+    #orderDetailsModal-prec .p-3.mb-2.bg-light.text-dark, #orderDetailsModal-fpick .p-3.mb-2.bg-light.text-dark  {
+        height: 3% !important; /* Adjust height */
+        width: 35% !important; /* Adjust width */
+        font-size: 0.7rem !important; /* Adjust font size */
+        /* Adjust left position */
+        position: absolute !important;
+        left: 55% !important;
+    }
+    #orderDetailsModal-fpick .p-3.mb-2.bg-light.text-dark, #orderDetailsModal-ocomp .p-3.mb-2.bg-light.text-dark   {
+        height: 3% !important; /* Adjust height */
+        width: 25% !important; /* Adjust width */
+        font-size: 0.7rem !important; /* Adjust font size */
+        /* Adjust left position */
+        position: absolute !important;
+        left: 65% !important;
+    }
+    .multiple-indicator{
+        margin-left:38% !important;
+        margin-top: -8% !important;
+        font-size: 0.5rem !important;
+    }
+    .modal-footer button{
+        width: 30% !important;
+        border-radius: 7px !important;
+        font-weight: 500 !important;
+        font-size: 0.7rem !important;
+    }
+    .modal-footer .btn.btn-light{
+        color: #092C4C !important;
+        border: 
+        1px solid #092C4C !important;
+    }
+    .modal-footer{
+        height: 10% !important;
+    }
+    #rateModal .btn-close{
+        position: absolute !important;
+        left: 94% !important;
+    }
+    #rateModal .modal-header{
+        height: 40% !important;
+        border: none !important;
+    }
+    #rateModal .modal-content{
+        height: 60% !important;
+    }
+    #rateModal .modal-body{
+        height: 60% !important;
+    }
+    #star-button1, #star-button2, #star-button3, #star-button4, #star-button5{
+        width: 5vh !important;
+        height: 5vh !important;
+        background-color: rgb(219, 219, 219);
+        color: rgb(219, 219, 219);
+        font-size: 30px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        clip-path: polygon(
+            50% 8%, 66% 38%, 98% 40%, 
+            75% 60%, 82% 92%, 50% 75%, 
+            18% 92%, 25% 60%, 2% 40%, 
+            34% 38%
+        );
+        text-align: center;
+        line-height: 120px;
+        transition: background-color 0.3s ease;
+        left: -20% !important;
+    }
+    
+    #rateModal .modal-body{
+        height: 36vh !important;
+    }
+    #rateModal .modal-footer{
+        border: none;
+    }
+    .rate-stars{
+        position: absolute;
+        top:30px;
+        left: 120px;
+    }
+    .rate-comment{
+        top: 130px;
+    }
+    .rate-comment textarea{
+        width: 98% !important;
+        resize: none;
+        height: 150px;
+        margin-top: 10px;
+        border-radius: 7px;
+        padding: 10px;
+    }
+    .rate-comment textarea::-webkit-scrollbar {
+        width: 0; /* Set width to 0 to hide it */
+        background: transparent; /* Optional: make the background transparent */
+    }
+    #clear-stars{
+        border: none;
+        background-color: white;
+        color: rgb(148, 148, 148);
+        font-weight: 400;
+        position: absolute;
+        top: 90px;
+        left: 39% !important;
+        display: block;
+    }
+    #closeMsg{
+        width: 100px;
+        font-weight: 500;
+        margin-top: 40px;
+        margin-left: 150px;
+    }
+    #msg-modal .modal-body{
+        height: 1000px;
+    }
+    #msg-modal button{
+        margin-right: 33%;
+        margin-bottom: 4%;
+    }
+    
+    #msg-modal img{
+        width: 18vw;
+        height: 18vh;
+        margin-top: 8%;
+        margin-left: 40%;
+    }
+    #msg-modal h3{
+        margin-left: 18% !important;
+        font-weight: 600;
+        font-size: 20;
+    }
+    #msg-modal .modal-footer{
+        border: none;
+    }
+    .logo d-flex align-items-center img{
+        display: none;
+    }
 }

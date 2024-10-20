@@ -30,6 +30,9 @@
         left: 0; /* Ensure it starts from the left */
         position: fixed; /* Keep it fixed at the top */
     }
+    #navigation img{
+        display: none;
+    }
     .buttons {
         top: 100px;
         left: 0px !important; /* Adjust this based on your layout */
@@ -110,24 +113,55 @@
         top: 10px !important;
         left: 9% !important;
     }
-
+    #precTab .status-box{
+        font-size: 10px !important;
+        height: auto !important;
+        width: 30% !important;
+        top: 10px !important;
+        left: 45% !important;
+    }
     .other-content-high, .other-content-low{
         height: 40px !important;
         width: 100% !important;  
     }
-    
-    .other-content-low h5{
-        position: absolute !important;
-        left: 100% !important;
-        top: 100px !important;
-        font-size: 0.5rem;
-        display: text !important;
+    .other-content-low{
+        height: 60px !important;
     }
-
+    .other-content-low h5{
+        left: 10px !important;
+        font-size: 0.5rem;
+        display: block !important;
+    }
+    .costPrice, .itemLab, .itemCount, .dateLabel, .date, .time{
+        display: inline !important;
+        position: absolute !important;
+        left: 0px !important;
+    } 
     .other-content-low p{
         font-size: 0.5rem !important;
     }
-
+    .other-content-low .btn.btn-primary{
+        display: block !important;
+        position: relative;
+        top: 0px;
+        height: 35px !important;
+        width: 120px !important;
+        font-weight: 500;
+        height: 30px !important;
+        line-height: 10px !important;
+    }
+    .other-content-low .btn.btn-light{
+        display: block !important;
+        position: relative;
+        top: 0px;
+        left: 620px;
+        height: 20% !important;
+        width: 5% !important;
+        border: 1px solid #092C4C !important;
+        color: #092C4C !important;
+        font-weight: 500;
+        font-size: 5%;
+    }
     .costPrice{
         left: 10vw !important;
         font-weight: 600;
