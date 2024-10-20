@@ -65,7 +65,7 @@
                             <td class="text-center align-middle">Juan Dela Cruz</td>
                             <td class="text-center align-middle">Active</td>
                             <td class="text-center align-middle">
-                                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shopModal">View Shop</button>
+                                <button class="btn btn-outline-secondary fs-2 p-1 px-2" data-bs-toggle="modal" data-bs-target="#shopModal">View Shop</button>
                             </td>
                         </tr>
                     </tbody>
@@ -76,32 +76,32 @@
         <!-- Modal HTML -->
         <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content p-3">
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
-                                     class="profile-picture1"
-                                     alt="Profile Picture"
-                                     style="width: 100px; height: 100px;">
-                            </div>
-                            <h3>CirCUITS</h3>
+                    <div class="d-flex flex-column ">
+                        <div class="mb-3 d-flex justify-content-center w-100">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
+                                 class="profile-picture1"
+                                 alt="Profile Picture"
+                                 style="width: 150px; height: 150px;">
+                        </div>
+                        <div class="d-flex flex-column justify-content-start px-5">
+                            <h3 class="fw-bold">CirCUITS</h3>
                             <p>Bachelor of Science in Information Technology</p>
-                            <div class="d-flex justify-content-center">
-                                <div class="text-start">
-                                    <p><strong>Archie Onoya</strong></p>
-                                    <p>GCash Number: 09123456789</p>
-                                    <p>GCash Receiver: Robert Rodejo</p>
-                                </div>
+                            <div class="text-start">
+                                <p class="mb-1"><strong>Archie Onoya</strong></p>
+                                <p class="m-0">GCash Number: 09123456789</p>
+                                <p class="m-0">GCash Receiver: Robert Rodejo</p>
                             </div>
                         </div>
+                     
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="showDisableAccountModal()">Disable Shop</button>
-                        <button type="button" class="btn btn-primary" onclick="updateShop()">Update Shop</button>
+                    <div class="modal-footer mt-2">
+                        <button type="button" class="btn btn-secondary p-2" onclick="showDisableAccountModal()">Disable Shop</button>
+                        <button type="button" class="btn btn-primary p-2" onclick="updateShop()">Update Shop</button>
                     </div>
                 </div>
             </div>
