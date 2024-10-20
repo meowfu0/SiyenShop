@@ -1,7 +1,3 @@
-*{
-    font-family: Satoshi;
-}
-
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;

@@ -88,9 +88,9 @@
         <button type="submit" class="btn" style="background-color: #092C4C; color: white; width: 100%; font-size: 16px; font-weight: bold;">Sign Up</button>
 
         <div class="d-flex align-items-center py-3">
-            <hr class="flex-grow-1" style="border-top: 1px solid #092C4C;">
+            <hr class="flex-grow-1 m-0" style="border-top: 1px solid #092C4C;">
             <span style="font-size: 14px; color: #092C4C; padding: 0 10px;">or</span>
-            <hr class="flex-grow-1" style="border-top: 1px solid #092C4C;">
+            <hr class="flex-grow-1 m-0" style="border-top: 1px solid #092C4C;">
         </div>
         <!-- Log in Link with lines and or text -->
         <div class="text-center">

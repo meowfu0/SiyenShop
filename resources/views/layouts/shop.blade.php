@@ -7,7 +7,7 @@
     <link rel="icon" href="{{ asset('images/logo.png') }}">
 
     <title>{{ config('app.name') }}</title>
-
+    <link rel="icon" href="{{ asset('images/icon.svg') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>

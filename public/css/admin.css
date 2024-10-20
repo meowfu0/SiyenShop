@@ -209,7 +209,7 @@
 }
 
 .view-users-btn{
-    border: 2px solid #092C4C;
+    border: 1px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
 }
@@ -262,10 +262,14 @@ div.profile-picture-container {
 }
 
 .custom-modal-size .modal-content {
-    height: 480px; /* Adjust the height */
-    width: 750px;
+    width: auto;          /* Let the modal width adjust based on content */
+    max-width: 750px;      /* Set a maximum width if needed */
+    height: auto;          /* Let the height adjust based on content */
+    max-height: 100vh;     /* Set a max height to prevent overflow off-screen */
     padding: 0;
+    overflow-y: auto;      /* Add scroll if content exceeds max-height */
 }
+
 
 .custom-modal-size {
     max-width: 750px; /* Adjust this to your preferred width */

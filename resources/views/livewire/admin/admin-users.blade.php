@@ -17,13 +17,13 @@
         <!-- Content -->
         <div class="container-fluid data-table-section mt-5">
             <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
-                <div class="search-container d-flex align-items-center rounded p-1">
+                <div class="search-container d-flex align-items-center rounded py-3">
                     <i class="fa fa-search"></i>
                     <input type="search" class="searchbox ms-2" placeholder="Search" />
                 </div>
                 <div class="d-flex align-items-center ms-5 w-25">
                     <span class="me-2">Course</span>
-                    <select class="form-select custom-dropdown px-3 py-1 fw-bold rounded fs-2">
+                    <select class="form-select custom-dropdown px-3 py-2 fw-bold rounded fs-2">
                         <option value="course1" selected>BS Information Technology</option>
                         <option value="course2">BS Computer Science</option>
                         <option value="course3">BS Biology</option>
@@ -54,7 +54,7 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img src="{{ asset('images/arrow.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -65,8 +65,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -75,8 +76,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -85,8 +87,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -95,8 +98,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -105,8 +109,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -115,8 +120,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -125,8 +131,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -135,8 +142,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -145,8 +153,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -155,8 +164,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -165,8 +175,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -175,8 +186,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -185,8 +197,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -195,8 +208,9 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">image</th>
@@ -205,9 +219,23 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn">View Account <img
-                                        src="{{ asset('images/arrow.svg') }}"></button></td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
                         </tr>
+                        <tr>
+                            <th scope="row">image</th>
+                            <td>Shakira Regalado</td>
+                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
+                            <td>Student</td>
+                            <td>BSIT 3</td>
+                            <td>Active</td>
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
+                        </tr>
+
+                        
                     </tbody>
                 </table>
             </div>
@@ -217,9 +245,9 @@
     <!-- User Info Modal -->
     <div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered custom-modal-size">
-            <div class="modal-content">
+            <div class="modal-content p-4">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color:#092C4C;" id="userInfoModalLabel">User Account</h5>
+                    <h5 class="modal-title fw-bold fs-6" style="color:#092C4C;" id="userInfoModalLabel">User Account</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body1 d-flex align-items-start">
@@ -286,10 +314,10 @@
     <!-- Modal for Editing Permissions -->
     <div class="modal fade" id="editPermissionsModal" tabindex="-1" aria-labelledby="editPermissionsModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-size1">
-            <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered custom-modal-size">
+            <div class="modal-content p-4">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color:#092C4C;" id="editPermissionsModalLabel">Edit Business Manager
+                    <h5 class="modal-title fs-6 fw-bold" style="color:#092C4C;" id="editPermissionsModalLabel">Edit Business Manager
                         Permissions</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -10,7 +10,7 @@
                 <div class="row justify-content-center d-flex align-items-stretch">
                     <!-- Left Column for Image -->
                     <div class="col-md-5 d-flex align-items-start justify-content-center">
-                        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 400px !important; height: 500px !important; border-radius:5px">
+                        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 400px !important; height: 100% !important; border-radius:5px">
                     </div>
                     <!-- Right Column for Details -->
                     <div class="col-md-5 d-flex flex-column justify-content-start">
@@ -36,15 +36,21 @@
                                     <button id="increment" style="color: #092C4C">+</button>
                                 </div>
                             </div>
-                            <div style="">
-                                <img src="{{asset('images/chat.svg')}}" class="chat-icon mr-3 ml-2" style="width:22px; height:22px">
+                            <div class="d-flex justify-content-between align-items-center w-100" style="margin-top: 5rem;">
+                                <img src="{{ asset('images/chat.svg') }}" class="chat-icon"
+                                    style="width:22px; height:22px">
                                 <!-- Add to Cart Button -->
-                                <button class="btn btn-primary ml-4 fw-medium" style="width:130px; height:48px" data-toggle="modal" data-target="#exampleModalCenter">
-                                    <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width:15px; height:15px"> Add to Cart
+                                <button class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2" style="width:130px; height:48px"
+                                    data-toggle="modal" data-target="#exampleModalCenter">
+                                    <img src="{{ asset('images/cart.svg') }}" class="invert"
+                                        style="width:15px; height:15px"> Add to Cart
                                 </button>
                                 <!-- Buy Now Button -->
-                                <button class="btn btn-secondary ml-2 fw-medium" style="width:130px; height:48px; color:white" data-toggle="modal" data-target="#exampleModalCenter">
-                                    <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width: 15px; height:15px"> Buy Now
+                                <button class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
+                                    style="width:130px; height:48px; color:white" data-toggle="modal"
+                                    data-target="#exampleModalCenter">
+                                    <img src="{{ asset('images/cart.svg') }}" class="invert"
+                                        style="width: 15px; height:15px"> Buy Now
                                 </button>
                             </div>
                         </div>

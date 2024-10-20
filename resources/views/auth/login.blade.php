@@ -62,9 +62,9 @@
 
                 <!-- Divider -->
                 <div class="text-center mb-3 d-flex align-items-center">
-                    <hr class="flex-grow-1">
+                    <hr class="flex-grow-1 m-0">
                     <span class="mx-2 text-muted">{{ __('or') }}</span>
-                    <hr class="flex-grow-1">
+                    <hr class="flex-grow-1 m-0 ">
                 </div>
 
                 <!-- Register Button -->
