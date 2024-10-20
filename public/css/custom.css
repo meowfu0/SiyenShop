@@ -148,3 +148,11 @@
 .invert{
     filter: brightness(0) invert(1); /* Turns the image to white */
 }
+
+.hoverinvert:hover img{
+    filter: brightness(0) invert(1); /* Turns the image to white */
+}
+
+.btn-link{
+    text-decoration: none!important;
+}

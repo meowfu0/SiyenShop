@@ -13,8 +13,7 @@
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
 
-        <!-- Bootstrap JS (for modal functionality) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body class="antialiased">
