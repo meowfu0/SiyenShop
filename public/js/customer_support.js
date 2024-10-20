@@ -1,7 +1,7 @@
 
 // This is just for testing purposes
 function showChat(user) {
-    document.getElementById("customer-support").style.display = "none";
+    document.getElementById("jay").style.display = "none";
     
     var buttons = document.getElementsByClassName("");
     for (var i = 0; i < buttons.length; i++) {
