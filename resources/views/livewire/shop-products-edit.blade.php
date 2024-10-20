@@ -307,6 +307,12 @@ document.addEventListener('DOMContentLoaded', function() {
             sizeInput.style.display = 'none';
             quantityInput.style.display = 'none';
             quantity.removeAttribute('disabled'); // Enable quantity when toggle is off (only for non-shirts)
+
+            if (currentStatus === 'pre-order') {
+                quantity.setAttribute('disabled', 'disabled'); // Disable quantity
+            } else {
+                quantity.removeAttribute('disabled'); // Enable quantity if it's not pre-order
+            }
         }
     }
     quantity.setAttribute('disabled', 'disabled'); // Disable quantity input (for shirt)
