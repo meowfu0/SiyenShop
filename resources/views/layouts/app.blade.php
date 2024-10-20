@@ -28,7 +28,7 @@
             @include('components.sidenavBuss')
         </div>
         <div id="navigation">
-            @include('components.navbar') 
+            @include('components.navbarBuss') 
         </div>
     
         <main class="py-4 min-vh-100">
