@@ -26,6 +26,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/shopmodule.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
+
 
 
 </head>

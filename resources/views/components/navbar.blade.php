@@ -49,7 +49,7 @@
             <!-- This section will appear once logged in -->
             @auth
             <div class="d-flex ab align-items-center gap-3">
-                <a class="icons" href="{{ url('/') }}">
+                <a class="icons" href="{{ route('cartPage') }}">
                     <img src="{{ asset('images/cart.svg') }}" class="cart-img">
                 </a>
 

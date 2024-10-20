@@ -8,6 +8,11 @@ use App\Http\Livewire\ShopProductsAdd;
 use App\Http\Livewire\ShopProductsEdit;
 use App\Http\Livewire\ShopProductsHistory;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\cartPageController; 
+use App\Http\Controllers\checkOutPageController;
+use App\Http\Controllers\paymentPageController;
+use App\Http\Controllers\orderSummaryPageController;
+use League\CommonMark\Node\Query\OrExpr;
 use App\Http\Livewire\Admin\AdminDashboard;
 use App\Http\Livewire\Admin\AdminUsers;
 use App\Http\Livewire\Admin\AdminSidenav;
@@ -39,6 +44,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
+Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
+Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
+Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
+
+
+
 
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
