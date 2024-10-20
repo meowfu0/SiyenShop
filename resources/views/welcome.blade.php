@@ -28,23 +28,28 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 content">
-                    <h1><b>Unlock the Hottest</b></h1> 
-                    <h1><b>Merch from your</b></h1>
-                    <h1><b>Favorite Campus Orgs</b></h1></br>
+        <div class="container-xxl d-flex h-100">
+            <div class="col">
+                <h1>Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
+                <p>Shop exclusive designs, limited editions, and rep your org with pride. <b>Don’t miss out!</b></p><br>
+            </div>
+        </div>
+
+        {{-- <div class="container">
+            <div class="row">
+                <div class="content">
+                    <h1>Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
                     <p>Shop exclusive designs, limited editions, and rep your 
                     <br>org with pride.</b> <b>Don’t miss out!</b></p><br>
                     <a href="#" 
                     class="btn1-custom">Shop Now</a>
                 </div>
-                <div class="col-md-6">
+                <div class="">
                         <img src="{{ asset('images/bg.png') }}">
                     </a>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </section>
     </div>
 </body>

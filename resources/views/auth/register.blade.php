@@ -2,44 +2,46 @@
 
 @section('content')
 <div class="container" style="max-width: 500px; margin-top: 50px;">
-    <h1 class="text-center" style="font-size: 36px; font-weight: bold; color: #003366;">Sign up</h1>
+    <h1 class="text-center mb-4 fw-bold" style="font-size: 36px; color: #092C4C;">Sign up</h1>
 
     <form method="POST" action="{{ route('register') }}">
         @csrf
         
-        <!-- First Name -->
-        <div class="mb-3">
-            <label for="first_name" class="form-label" style="font-size: 16px; color: #003366;">First Name</label>
-            <input id="first_name" type="text" class="form-control" name="first_name" required placeholder="Input text" style="font-size: 14px;">
-        </div>
+        <div class="d-flex gap-3 w-100">
+             <!-- First Name -->
+            <div class="mb-3 w-100">
+                <label for="first_name" class="form-label" style="font-size: 16px; color: #092C4C;">First Name</label>
+                <input id="first_name" type="text" class="form-control py-2" name="first_name" required placeholder="Input text" style="font-size: 14px;">
+            </div>
 
-        <!-- Last Name -->
-        <div class="mb-3">
-            <label for="last_name" class="form-label" style="font-size: 16px; color: #003366;">Last Name</label>
-            <input id="last_name" type="text" class="form-control" name="last_name" required placeholder="Input text" style="font-size: 14px;">
-        </div>
+            <!-- Last Name -->
+            <div class="mb-3 w-100">
+                <label for="last_name" class="form-label" style="font-size: 16px; color: #092C4C;">Last Name</label>
+                <input id="last_name" type="text" class="form-control py-2" name="last_name" required placeholder="Input text" style="font-size: 14px;">
+            </div>
 
+        </div>
         <!-- Email -->
         <div class="mb-3">
-            <label for="email" class="form-label" style="font-size: 16px; color: #003366;">Email</label>
-            <input id="email" type="email" class="form-control" name="email" required placeholder="Input text" style="font-size: 14px;">
+            <label for="email" class="form-label" style="font-size: 16px; color: #092C4C;">Email</label>
+            <input id="email" type="email" class="form-control py-2" name="email" required placeholder="Input text" style="font-size: 14px;">
         </div>
 
         <!-- Password -->
         <div class="mb-3">
-            <label for="password" class="form-label" style="font-size: 16px; color: #003366;">Password</label>
-            <input id="password" type="password" class="form-control" name="password" required placeholder="Input text" style="font-size: 14px;">
+            <label for="password" class="form-label" style="font-size: 16px; color: #092C4C;">Password</label>
+            <input id="password" type="password" class="form-control py-2" name="password" required placeholder="Input text" style="font-size: 14px;">
         </div>
 
         <!-- Phone Number -->
         <div class="mb-3">
-            <label for="phone_number" class="form-label" style="font-size: 16px; color: #003366;">Phone Number</label>
-            <input id="phone_number" type="text" class="form-control" name="phone_number" required placeholder="Input text" style="font-size: 14px;">
+            <label for="phone_number" class="form-label" style="font-size: 16px; color: #092C4C;">Phone Number</label>
+            <input id="phone_number" type="text" class="form-control py-2" name="phone_number" required placeholder="Input text" style="font-size: 14px;">
         </div>
 
         <!-- Course -->
         <div class="mb-3">
-            <label for="course" class="form-label" style="font-size: 16px; color: #003366;">Course</label>
+            <label for="course" class="form-label" style="font-size: 16px; color: #092C4C;">Course</label>
             <select id="course" class="form-select" name="course" required style="font-size: 14px;">
                 <option value="" disabled selected>Select your course</option>
                 <option value="BS Information Technology">BS Information Technology</option>
@@ -53,7 +55,7 @@
         <!-- Year and Block side by side -->
         <div class="mb-3 row">
             <div class="col">
-                <label for="year" class="form-label" style="font-size: 16px; color: #003366;">Year</label>
+                <label for="year" class="form-label" style="font-size: 16px; color: #092C4C;">Year</label>
                 <select id="year" class="form-select" name="year" required style="font-size: 14px;">
                     <option value="" disabled selected>Select your year</option>
                     <option value="1st Year">1st Year</option>
@@ -64,7 +66,7 @@
                 </select>
             </div>
             <div class="col">
-                <label for="block" class="form-label" style="font-size: 16px; color: #003366;">Block</label>
+                <label for="block" class="form-label" style="font-size: 16px; color: #092C4C;">Block</label>
                 <select id="block" class="form-select" name="block" required style="font-size: 14px;">
                     <option value="" disabled selected>Select your block</option>
                     <option value="A">A</option>
@@ -79,20 +81,20 @@
         <!-- Terms and Conditions -->
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="terms" required data-bs-toggle="modal" data-bs-target="#termsModal">
-            <label class="form-check-label" for="terms" style="font-size: 14px; color: #003366;">I read and agreed to the <a href="#" style="color: #003366; text-decoration: underline;">Terms and Conditions</a></label>
+            <label class="form-check-label" for="terms" style="font-size: 14px; color: #092C4C;">I read and agreed to the <a href="#" style="color: #092C4C; text-decoration: underline;">Terms and Conditions</a></label>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn" style="background-color: #003366; color: white; width: 100%; font-size: 16px; font-weight: bold;">Sign Up</button>
+        <button type="submit" class="btn" style="background-color: #092C4C; color: white; width: 100%; font-size: 16px; font-weight: bold;">Sign Up</button>
 
+        <div class="d-flex align-items-center py-3">
+            <hr class="flex-grow-1" style="border-top: 1px solid #092C4C;">
+            <span style="font-size: 14px; color: #092C4C; padding: 0 10px;">or</span>
+            <hr class="flex-grow-1" style="border-top: 1px solid #092C4C;">
+        </div>
         <!-- Log in Link with lines and or text -->
-        <div class="text-center mt-3">
-            <div class="d-flex align-items-center">
-                <hr class="flex-grow-1" style="border-top: 1px solid #003366;">
-                <span style="font-size: 14px; color: #003366; padding: 0 10px;">or</span>
-                <hr class="flex-grow-1" style="border-top: 1px solid #003366;">
-            </div>
-            <a href="{{ route('login') }}" class="btn btn-outline-primary" style="width: 100%; font-size: 16px; color:#003366;">Log in</a>
+        <div class="text-center">
+            <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg fw-bold register-btn" style="width: 100%; font-size: 16px; color:#092C4C;">Log in</a>
         </div>
     </form>
 

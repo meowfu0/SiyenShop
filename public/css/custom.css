@@ -60,47 +60,38 @@
         width: 16px;
         height: 16px;
     }
-body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-        }
-        .h1  {
-            size: 48px;
-            weight: 900;
-            font-family: Satoshi;
-            color:rgba (9,44,76,1);
-            margin-top: 20px; 
-        }
-        .btn1-custom {
-            margin-top: 10px; 
-        }
-        .hero img {
-            max-width: 381px;
-            height: 450px;
-        }
-        .hero .content {
-            max-width: 600px;
-        }
-        .btn1-custom {
-            background-color: #fbb034;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-        }
-        .btn1-custom:hover {
-            background-color: #f9a329;
-        }
-
 }
 
+/* hero section code starts here */
 .hero {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 90dvh;
     background: linear-gradient(to right, rgba(226, 185, 59, 0.2), rgba(9, 44,76, 0.2));
     padding: 20px;
 }
+
+.btn1-custom {
+    margin-top: 10px; 
+}
+.hero img {
+    max-height: 90dvh;
+}
+.hero .content {
+    max-width: 600px;
+}
+.btn1-custom {
+    background-color: #fbb034;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+}
+.btn1-custom:hover {
+    background-color: #f9a329;
+}
+
+/* ======= ends here ========= */
 
 
 .nav-link:hover,
@@ -135,14 +126,14 @@ body {
     /* Styling for Create Account Button */
 .register-btn {
   background-color: transparent;
-  color: #07163f; /* Adjust this color as needed */
-  border-color: #07163f; /* Adjust this color as needed */
+  color: #092C4C; /* Adjust this color as needed */
+  border-color: #092C4C; /* Adjust this color as needed */
 }
 
 .register-btn:hover {
-  background-color: #07163f !important; /* Adjust this color as needed */
+  background-color: #092C4C !important; /* Adjust this color as needed */
   color: white !important; /* Adjust this color as needed */
-  border-color: #07163f !important; /* Ensure border color remains the same */
+  border-color: #092C4C !important; /* Ensure border color remains the same */
 }
 
  /* Hover Effect for Forgot Password */
@@ -152,6 +143,6 @@ body {
 }
 
  .forgot-password:hover {
-  color: #07163f;
+  color: #092C4C;
   text-decoration: underline;
 }
