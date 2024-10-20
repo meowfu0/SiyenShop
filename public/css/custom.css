@@ -33,7 +33,9 @@
     .navbar .order-3 {
         order: 2;
     }
-
+    .preview-container{
+        display: none;
+    }
     
 }
 

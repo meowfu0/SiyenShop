@@ -11,6 +11,8 @@ use App\Http\Livewire\Admin\AdminSidenav;
 use App\Http\Livewire\Admin\AdminShops;
 use App\Http\Livewire\Admin\AdminFaqs;
 use App\Http\Livewire\Admin\AdminChat;
+use App\Http\Livewire\Admin\CreateShop;
+use App\Http\Livewire\Admin\Updateshop; 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
@@ -19,7 +21,7 @@ use App\Http\Controllers\ProductDetailswithSizeController;
 
 
 /*
-|--------------------------------------------------------------------------
+|------------------s--------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -59,6 +61,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
+    Route::prefix('shops')->group(function () {
+        Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
+        Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
+    });
 });
 
 
