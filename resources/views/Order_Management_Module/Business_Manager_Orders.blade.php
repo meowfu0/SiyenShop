@@ -6,10 +6,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bussOrder.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('js/statusdd.js') }}"></script>
 </head>
 <body>
     <div>
-        @include('layouts.app')
+        @include('layouts.buss')
     </div>
 
     <div class="content-orders">
@@ -30,18 +32,18 @@
             </div>
 
             <div id="search" >
-                <input type="text" class="search-box" placeholder="Search">
+                <input type="text" id="search-box" class="search-box" placeholder="Search">
             </div>
 
             <div class="btn-group">
             <span style="margin-right: 10px;">Status</span>
-                <select class="dropdown">
-                    <option><a href="#">All</a></option>
-                    <option><a href="#">Pending</a></option>
-                    <option><a href="#">Payment Received</a></option>
-                    <option><a href="#">Denied Payment</a></option>
-                    <option><a href="#">For Pickup</a></option>
-                    <option><a href="#">Completed Order</a></option>
+                <select class="dropdown"  id="status-filter">
+                    <option value="all"><a href="#">All</a></option>
+                    <option value="pending"><a href="#">Pending</a></option>
+                    <option value="received-payment"><a href="#">Payment Received</a></option>
+                    <option  value="denied-payment"><a href="#">Denied Payment</a></option>
+                    <option value="for-pickup"><a href="#">For Pickup</a></option>
+                    <option value="completed-order"><a href="#">Completed Order</a></option>
                 </select>
             </div>
 
@@ -70,7 +72,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="order-row" data-status="pending">
                             <td>0123123</td>
                             <td>Vintage Shoes</td>
                             <td>1</td>
@@ -83,7 +85,7 @@
                             data-bs-toggle="modal" data-bs-target="#orderDetailsModal-pen">Pending</button></td>
                             <td>08-10-24</td>
                         </tr>
-                        <tr>
+                        <tr class="order-row" data-status="received-payment">
                             <td>0123124</td>
                             <td>Napkin</td>
                             <td>1</td>
@@ -95,7 +97,7 @@
                             data-bs-toggle="modal" data-bs-target="#orderDetailsModal-prec">Received Payment</button></td>
                             <td>08-11-24</td>
                         </tr>
-                        <tr>
+                        <tr class="order-row" data-status="for-pickup">
                             <td>0123125</td>
                             <td>CShirt</td>
                             <td>1</td>
@@ -107,7 +109,7 @@
                             data-bs-toggle="modal" data-bs-target="#orderDetailsModal-fpick">For Pickup</button></td>
                             <td>08-12-24</td>
                         </tr>
-                        <tr>
+                        <tr class="order-row" data-status="completed-order">
                             <td>0123126</td>
                             <td>Siomai</td>
                             <td>2</td>
@@ -120,7 +122,7 @@
                             
                             <td>08-13-24</td>
                         </tr>
-                        <tr>
+                        <tr class="order-row" data-status="denied-payment">
                             <td>0123127</td>
                             <td>sting</td>
                             <td>1</td>
@@ -132,7 +134,7 @@
                             data-bs-toggle="modal" data-bs-target="#orderDetailsModal-den">Denied Payment</button></td>
                             <td>08-14-24</td>
                         </tr>
-                        <tr>
+                        <tr  class="order-row" data-status="pending">
                             <td>0123128</td>
                             <td>borgir</td>
                             <td>1</td>
@@ -143,7 +145,7 @@
                             <td><button class="status-box-y">Pending</button></td>
                             <td>08-14-24</td>
                         </tr>
-                        <tr>
+                        <tr  class="order-row" data-status="pending">
                             <td>0123129</td>
                             <td>palabok</td>
                             <td>1</td>
@@ -154,7 +156,7 @@
                             <td><button class="status-box-y">Pending</button></td>
                             <td>08-15-24</td>
                         </tr>
-                        <tr>
+                        <tr  class="order-row" data-status="pending">
                             <td>0123130</td>
                             <td>mighty green</td>
                             <td>1</td>
@@ -165,7 +167,7 @@
                             <td><button class="status-box-y">Pending</button></td>
                             <td>08-16-24</td>
                         </tr>
-                        <tr>
+                        <tr  class="order-row" data-status="pending">
                             <td>0123131</td>
                             <td>CS ID lace</td>
                             <td>1</td>
@@ -176,7 +178,7 @@
                             <td><button class="status-box-y">Pending</button></td>
                             <td>08-16-24</td>
                         </tr>
-                        <tr>
+                        <tr  class="order-row" data-status="pending">
                             <td>0123132</td>
                             <td>turon</td>
                             <td>1</td>
