@@ -1,13 +1,10 @@
-
-
-
 <?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class paymentPage extends Controller
+class PaymentPage extends Controller
 {
     public function index()
     {
