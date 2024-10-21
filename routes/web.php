@@ -8,6 +8,8 @@ use App\Http\Livewire\AdminDashboard;
 use App\Http\Livewire\AdminUsers;
 use App\Http\Livewire\Admin\AdminSidenav;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +34,7 @@ Route::get('/admin', function () {
 })->name('Admin');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/faqs', function () {
+    return view('customer_support/faqs');
+});
