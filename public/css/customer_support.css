@@ -1,0 +1,39 @@
+/*FAQs Section*/
+
+.accordion-button:not(.collapsed) {
+    background-color: #ffffff; 
+    
+}
+
+.custom-width-p {
+    width: 60%;
+    display: flex; 
+    margin: 0;
+    font-size: 14px;
+}
+
+.container-btn:hover,
+.container-btn:active {
+    background-color: rgba(190, 190, 190, 0.5); 
+    color: #FFFFFF;
+}
+
+.container-btn.active {
+    background-color: rgba(190, 190, 190, 0.5); 
+    color: white; 
+}
+
+.icon-container {
+    width: 10%; 
+    margin-left: 20px; 
+    border: none;
+}
+.new {
+    width: 130px; 
+    border-radius: 6px;
+    border: solid 1px #092C4C; 
+}
+
+.delete {
+    width: 130px;
+}

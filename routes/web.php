@@ -1,29 +1,34 @@
 <?php
 
+use App\Http\Livewire\Admin\AdminChat;
+use App\Http\Livewire\Admin\AdminFaqs;
+use App\Http\Livewire\Admin\AdminFaqsDeleted;
+use App\Http\Livewire\AdminShops;
+use App\Http\Livewire\AdminDashboard;
+use App\Http\Livewire\AdminUsers;
+use App\Http\Livewire\Admin\AdminSidenav;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/faqs', function () {
-    return view('customer_support/faqs');
-});
-Route::get('/userprofile', function () {
-    return view('userprofile');
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
+    Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
+    Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
+    Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
+    Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
+    Route::get('/faqs/deleted', [AdminFaqsDeleted::class, 'render'])->name('admin.faqs-deleted');
+    Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
 });
 
 
 Auth::routes();
+
+Route::get('/admin', function () {
+    return redirect()->route('admin.faqs');
+})->name('Admin');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
