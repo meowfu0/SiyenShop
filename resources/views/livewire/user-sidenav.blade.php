@@ -1,28 +1,22 @@
 <nav class="d-flex nav flex-column p-4 border-end gap-2" style="width: 260px; position: sticky; top: 0; height: 100vh;">
-    <a class="nav-link d-flex gap-4 fs-5 fw-medium mb-5 justify-content-center" href="/home" wire:navigate>
-        <img class="logo-img" src="{{ asset('images/logo.png') }}" alt="">
-    </a>
-
-    <a class="sidenav-link ps-4 d-flex gap-4 fs-4 fw-medium {{ Route::currentRouteName() == 'user.profile' ? 'active' : '' }}" 
-       href="" wire:navigate>
-        <img src="{{ asset('images/profile.svg') }}" alt="">
+    <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" 
+       href="{{ route('shop.dashboard') }}" wire:navigate>
+        <img src="{{ asset('images/user.svg') }}" alt="">
         Profile
     </a>
-
-    <a class="sidenav-link ps-4 d-flex gap-4 fs-4 fw-medium {{ Route::currentRouteName() == 'user.my-purchases' ? 'active' : '' }}" 
-       href="" wire:navigate>
-        <img src="{{ asset('images/cart.svg') }}" alt="">
-        My Purchases
+    <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'shop.dashboard' ? 'active' : '' }}" 
+    href="{{ route('shop.dashboard') }}" wire:navigate>
+     <img src="{{ asset('images/bag.svg') }}" alt="">
+     My Purchases
     </a>
-
-    <a class="sidenav-link ps-4 d-flex gap-4 fs-4 fw-medium {{ Route::currentRouteName() == 'user.chat' ? 'active' : '' }}" 
-        onclick="showChat()" href="" wire:navigate>
+    <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'shop.chat' ? 'active' : '' }}" 
+       href="{{ route('shop.chat') }}" wire:navigate>
         <img src="{{ asset('images/chat.svg') }}" alt="">
         Chat
     </a>
 
     <div class="mt-auto">
-        <a class="sidenav-link ps-4 d-flex gap-4 fs-4 fw-medium {{ Route::currentRouteName() == 'user.logout' ? 'active' : '' }}" 
+        <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'shop.logout' ? 'active' : '' }}" 
            href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <img src="{{ asset('images/logout.svg') }}" alt="">
             Logout

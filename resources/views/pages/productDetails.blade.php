@@ -214,10 +214,13 @@
 <!-- Modal -->
 <div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center" style="color: #092C4C">
-            <img src="{{asset('images/warning.svg')}}" ><h5 class="modal-title fs-5 fw-semibold ml-3">ADD ITEM?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal-content p-2">
+            <div class="modal-header text-center d-flex justify-content-between" style="color: #092C4C">
+                <div class="d-flex">
+                    <img src="{{asset('images/warning.svg')}}" class="me-2"><h5 class="modal-title fs-5 fw-semibold ml-3">ADD ITEM?</h5>
+                </div>
+                
+                <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" style="font-size:25px">&times;</span>
                 </button>
             </div>
