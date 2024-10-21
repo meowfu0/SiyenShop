@@ -53,7 +53,7 @@
                                         <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width:15px; height:15px"> Add to Cart
                                     </button>
                                     <!-- Buy Now Button -->
-                                    <button class="btn btn-secondary ml-2 fw-medium" style="width:130px; height:48px; color:white" data-toggle="modal" data-target="#exampleModalCenter">
+                                    <button class="btn btn-secondary ml-2 fw-medium" style="width:130px; height:48px; color:white">
                                         <img src="{{asset('images/cart.svg')}}" class="mr-1" style="width: 15px; height:15px"> Buy Now
                                     </button>
                                 </div>
