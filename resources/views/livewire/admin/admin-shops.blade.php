@@ -65,6 +65,14 @@
                 <td>Active</td>
                 <td><button class="view-shop-btn">View Shop</button></td>
                 </tr>
+                <tr>
+                    <th scope="row">image</th>
+                    <td>ACCeSS</td>
+                    <td>BS Computer Science</td>
+                    <td>Jhoanna Sherry Paraiso</td>
+                    <td>Active</td>
+                    <td><button class="view-shop-btn">View Shop</button></td>
+                </tr>
             </tbody>
             </table>
 
