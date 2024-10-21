@@ -19,20 +19,21 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bussOrder.css') }}" rel="stylesheet">
 
 </head>
 <body>
     <div id="app">
+        <div id="sidebar">
+            @include('components.sidenavBuss')
+        </div>
         <div id="navigation">
-            @include('components.topnavbar') 
+            @include('components.navbarBuss') 
         </div>
     
         <main class="py-4 min-vh-100">
            
-           
         </main>
-        
     </div>
 </body>
 </html>

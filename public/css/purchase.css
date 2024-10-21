@@ -1,5 +1,5 @@
 body{
-    overflow-x: hidden;
+    overflow-x: none !important;
 }
 
 #sidebar{
@@ -16,6 +16,9 @@ body{
     width: calc(100% - 300px);
     margin-left: 300px;
 }
+#navigation .logo-img{
+   display: none;
+}
 .content-purchase{
     position: absolute; 
     left: 240px;
@@ -27,10 +30,6 @@ body{
 
     scrollbar-width: none; /* For Firefox */
     -ms-overflow-style: none;
-}
-
-.content-purchase{
-    overflow-x: hidden;
 }
 
 .content-purchase::-webkit-scrollbar {
@@ -1014,7 +1013,27 @@ body{
     #msg-modal .modal-footer{
         border: none;
     }
-    .logo d-flex align-items-center img{
-        display: none;
+    #navigation{
+        position: fixed;
+        width: 100% !important;
+        left: 0px !important;
+    }
+    #navigation .navbar{
+        height: 5% !important;
+    }
+    #navigation .navbar button{
+        margin-left: 0% !important;
+    }
+    #navigation .navbar-toggler img{
+        display: none !important;
+    }
+    #navigation img{
+        display: block !important;
+    }
+    #navigation .logo-img{
+        width: 22% !important;
+        height: auto !important;
+        margin-left: -3% !important;
+        display: block !important;
     }
 }

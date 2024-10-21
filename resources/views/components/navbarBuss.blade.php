@@ -5,39 +5,10 @@
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <img src="{{ asset('images/hamburger.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
         </button>
-
-        @if (!isset($excludeLogo))
-                <a class="logo d-flex align-items-center" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" class="logo-img">
-                </a>
-            @endif 
         </div>
 
-
-        </div>
-
-<!-- Middle Side Of Navbar -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
-            <ul class="navbar-nav al justify-content-center flex-grow-1">
-                <li class="nav-item ">
-                    <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="#">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="{{ url('/faq') }}">FAQs</a>
-                </li>
-            </ul>
-
-        </div>
 <!-- Right Side Of Navbar -->
         <div class="d-flex ms-auto gap-2 align-items-center">
-            <!-- Search Icon -->
-            <a class="icons" href="{{ url('/') }}">
-                <img src="{{ asset('images/search.svg') }}" class="search-img">
-            </a>
 
             <!-- Login Button -->
             <ul class="navbar-nav">
