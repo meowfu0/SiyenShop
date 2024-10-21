@@ -45,7 +45,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -56,7 +57,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -67,7 +69,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -78,7 +81,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -89,7 +93,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -100,7 +105,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -111,7 +117,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -122,7 +129,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -133,7 +141,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -144,7 +153,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -155,7 +165,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -166,7 +177,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -177,7 +189,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -188,7 +201,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -199,7 +213,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -210,7 +225,8 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -221,12 +237,13 @@
                             <td>Student</td>
                             <td>BSIT 3</td>
                             <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img src="{{ asset('images/redirect.svg') }}">
+                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
+                                        src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
 
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -308,7 +325,8 @@
         <div class="modal-dialog modal-dialog-centered custom-modal-size">
             <div class="modal-content p-4">
                 <div class="modal-header">
-                    <h5 class="modal-title fs-6 fw-bold" style="color:#092C4C;" id="editPermissionsModalLabel">Edit Business Manager
+                    <h5 class="modal-title fs-6 fw-bold" style="color:#092C4C;" id="editPermissionsModalLabel">Edit
+                        Business Manager
                         Permissions</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -358,11 +376,13 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input ms-3" type="checkbox" id="denyInvalidPayments">
-                                <label class="form-check-label ms-2" for="denyInvalidPayments">Deny Invalid Payments</label>
+                                <label class="form-check-label ms-2" for="denyInvalidPayments">Deny Invalid
+                                    Payments</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
                                 <input class="form-check-input ms-3" type="checkbox" id="sendPayment">
-                                <label class="form-check-label ms-2" for="sendPayment">Send Payment Confirmation Notifications</label>
+                                <label class="form-check-label ms-2" for="sendPayment">Send Payment Confirmation
+                                    Notifications</label>
                             </div>
                         </div>
 
@@ -400,7 +420,8 @@
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
                                 <input class="form-check-input ms-3" type="checkbox" id="studentQueries">
-                                <label class="form-check-label ms-2" for="studentQueries">Respond to Student Queries</label>
+                                <label class="form-check-label ms-2" for="studentQueries">Respond to Student
+                                    Queries</label>
                             </div>
                         </div>
                     </div>
@@ -417,8 +438,8 @@
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmDeactivateModal" tabindex="-1"
-        aria-labelledby="confirmDeactivateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmDeactivateModal" tabindex="-1" aria-labelledby="confirmDeactivateModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -439,137 +460,113 @@
     </div>
 
     <script>
-        document.querySelectorAll('.view-users-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                // Get the user information (replace these with actual dynamic data)
-                const name = 'Shakira Regalado';
-                const email = 'sbr2022-7072-51358@bicol-u.edu.ph';
-                const role = 'Student';
-                const course = 'BSIT 3'; // Change this value based on actual data
-                const status = 'Active';
-                const block = 'B'; // You can add this dynamically as well
-
-                // Change course name for display
-                const courseName = course.startsWith('BSIT') ? 'BS Information Technology' : course;
-
-                // Extract year from course
-                const year = course.split(' ')[1]; // Get the year part
-                const yearDisplay = (year === '1') ? '1st Year' :
-                    (year === '2') ? '2nd Year' :
-                    (year === '3') ? '3rd Year' :
-                    (year === '4') ? '4th Year' : '';
-
-                // Insert data into the modal
-                document.getElementById('modalName').innerText = name;
-                document.getElementById('modalStatus').innerText = status;
-                document.getElementById('modalEmail').innerText = email;
-                document.getElementById('modalCourse').innerText = courseName; // Display course name
-                document.getElementById('modalYear').innerText = yearDisplay; // Display year
-                document.getElementById('modalBlock').innerText = block; // Display block
-
-                // Show the modal
-                var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
-                myModal.show();
-            });
-        });
-
-        const editBtn = document.getElementById('editBtn');
-        const deactivateBtn = document.getElementById('deactivateBtn');
-        const confirmDeactivateModal = new bootstrap.Modal(document.getElementById('confirmDeactivateModal'));
-
-        // Flag to keep track of whether we are in edit mode
-        let isEditing = false;
-
-        editBtn.addEventListener('click', function() {
-            if (!isEditing) {
-                // Change to Save Changes and Cancel buttons
-                editBtn.innerText = 'Save Changes';
-
-                deactivateBtn.innerText = 'Cancel';
-
-                isEditing = true; // Set edit mode to true
-            } else {
-                // Handle save changes logic here
-                //alert('Changes saved!'); // Example action
-
-                // Reset buttons back to original
-                resetButtons();
-            }
-        });
-
-        deactivateBtn.addEventListener('click', function() {
-            if (isEditing) {
-                // Handle cancel action and revert buttons
-                alert('Edit canceled!'); // Example action
-                resetButtons();
-            } else {
-                // Show confirmation modal for deactivation
-                confirmDeactivateModal.show();
-            }
-        });
-
-        document.getElementById('confirmDeactivateBtn').addEventListener('click', function() {
-            // Handle account deactivation logic here
-            alert('Account deactivated!'); // Example action
-            confirmDeactivateModal.hide(); // Hide confirmation modal
-        });
-
-        function resetButtons() {
-            editBtn.innerText = 'Edit Account';
-
-            deactivateBtn.innerText = 'Deactivate Account';
-
-            isEditing = false; // Set edit mode to false
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
+            // View Users Button functionality
+            document.querySelectorAll('.view-users-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Dummy user data for display (replace with actual dynamic data)
+                    const name = 'Shakira Regalado';
+                    const email = 'sbr2022-7072-51358@bicol-u.edu.ph';
+                    const role = 'Student';
+                    const course = 'BSIT 3';
+                    const status = 'Active';
+                    const block = 'B';
+
+                    // Course name and year extraction
+                    const courseName = course.startsWith('BSIT') ? 'BS Information Technology' :
+                        course;
+                    const year = course.split(' ')[1];
+                    const yearDisplay = {
+                        '1': '1st Year',
+                        '2': '2nd Year',
+                        '3': '3rd Year',
+                        '4': '4th Year'
+                    } [year] || '';
+
+                    // Insert data into modal
+                    document.getElementById('modalName').innerText = name;
+                    document.getElementById('modalStatus').innerText = status;
+                    document.getElementById('modalEmail').innerText = email;
+                    document.getElementById('modalCourse').innerText = courseName;
+                    document.getElementById('modalYear').innerText = yearDisplay;
+                    document.getElementById('modalBlock').innerText = block;
+
+                    // Show user info modal
+                    var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
+                    myModal.show();
+                });
+            });
+
+            // Edit/Deactivate Button functionality
+            const editBtn = document.getElementById('editBtn');
+            const deactivateBtn = document.getElementById('deactivateBtn');
+            let isEditing = false;
+
+            editBtn?.addEventListener('click', function() {
+                if (!isEditing) {
+                    editBtn.innerText = 'Save Changes';
+                    deactivateBtn.innerText = 'Cancel';
+                    isEditing = true;
+                } else {
+                    // Handle saving changes
+                    alert('Changes saved!');
+                    resetButtons();
+                }
+            });
+
+            deactivateBtn?.addEventListener('click', function() {
+                if (isEditing) {
+                    alert('Edit canceled!');
+                    resetButtons();
+                } else {
+                    var confirmDeactivateModal = new bootstrap.Modal(document.getElementById(
+                        'confirmDeactivateModal'));
+                    confirmDeactivateModal.show();
+                }
+            });
+
+            // Confirm deactivation
+            document.getElementById('confirmDeactivateBtn')?.addEventListener('click', function() {
+                alert('Account deactivated!');
+                var confirmDeactivateModal = bootstrap.Modal.getInstance(document.getElementById(
+                    'confirmDeactivateModal'));
+                confirmDeactivateModal.hide();
+            });
+
+            // Reset buttons function
+            function resetButtons() {
+                editBtn.innerText = 'Edit Account';
+                deactivateBtn.innerText = 'Deactivate Account';
+                isEditing = false;
+            }
+
+            // Role dropdown and permissions link
             const roleDropdown = document.getElementById('modalRole');
             const editPermissionsLink = document.getElementById('editPermissionsLink');
 
-            roleDropdown.addEventListener('change', function() {
-                if (roleDropdown.value === 'role2') {
-                    // Show the "Edit Permissions" link if Business Manager is selected
-                    editPermissionsLink.style.display = 'inline';
-                } else {
-                    // Hide the link for any other role
-                    editPermissionsLink.style.display = 'none';
-                }
+            roleDropdown?.addEventListener('change', function() {
+                editPermissionsLink.style.display = (roleDropdown.value === 'role2') ? 'inline-block' :
+                    'none';
             });
-        });
 
-        document.getElementById('saveChangesBtn').addEventListener('click', function() {
-            // Close Edit Permissions Modal
-            var editPermissionsModal = bootstrap.Modal.getInstance(document.getElementById('editPermissionsModal'));
-            editPermissionsModal.hide();
+            // Save changes in Edit Permissions modal
+            document.getElementById('saveChangesBtn')?.addEventListener('click', function() {
+                closeAndOpenModal('editPermissionsModal', 'userInfoModal');
+            });
 
-            // Open User Info Modal after a short delay to ensure a smooth transition
-            setTimeout(function() {
-                var userInfoModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
-                userInfoModal.show();
-            }, 300); // 300ms delay to ensure the first modal closes before opening the next one
-        });
+            // Close Edit Permissions modal and reopen User Info modal
+            document.getElementById('closeBtn')?.addEventListener('click', function() {
+                closeAndOpenModal('editPermissionsModal', 'userInfoModal');
+            });
 
-        // Event listener for Close button
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            // Close Edit Permissions Modal
-            var editPermissionsModal = bootstrap.Modal.getInstance(document.getElementById('editPermissionsModal'));
-            editPermissionsModal.hide();
-
-            // Open User Info Modal after a short delay to ensure a smooth transition
-            setTimeout(function() {
-                var userInfoModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
-                userInfoModal.show();
-            }, 300); // 300ms delay to ensure the first modal closes before opening the next one
-        });
-
-        // Show/hide the "Edit Permissions" link when the role changes
-        document.getElementById('modalRole').addEventListener('change', function() {
-            var role = this.value;
-            var editPermissionsLink = document.getElementById('editPermissionsLink');
-            if (role === 'role2') { // Assuming 'role2' is the Business Manager
-                editPermissionsLink.style.display = 'inline-block';
-            } else {
-                editPermissionsLink.style.display = 'none';
+            // Utility function for closing one modal and opening another
+            function closeAndOpenModal(closeModalId, openModalId) {
+                var closeModal = bootstrap.Modal.getInstance(document.getElementById(closeModalId));
+                closeModal.hide();
+                setTimeout(function() {
+                    var openModal = new bootstrap.Modal(document.getElementById(openModalId));
+                    openModal.show();
+                }, 300);
             }
         });
     </script>
