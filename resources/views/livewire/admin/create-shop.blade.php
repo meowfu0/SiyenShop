@@ -8,7 +8,7 @@
     <div class="row p-4 gap-4">
         <div class="col">
             
-            <div class="m-0 mt-3">
+            <div class="m-0 mt-1">
                 <h1 class="mb-4 fw-bold text-primary">Create Shop</h1>
             </div>
             <div class="d-flex gap-4 ms-3">
