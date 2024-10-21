@@ -5,7 +5,8 @@
     <!-- Top Navbar -->
     @include('components.profilenav')
 
-    <div class="row p-5 gap-4">
+    <div class="container-fluid">
+    <div class="row p-4 gap-4">
         <div class="col">
             
             <div class="m-0 mt-3">
@@ -83,6 +84,8 @@
                 </div>
         </div>
     </div>
+    </div>
+    
 </div>
 
 <script>

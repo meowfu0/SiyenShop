@@ -10,6 +10,10 @@
     <link rel="icon" href="{{ asset('images/icon.svg') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bussOrder.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/statusdd.js') }}"></script>
+
+
 </head>
 
 <body class="antialiased">
