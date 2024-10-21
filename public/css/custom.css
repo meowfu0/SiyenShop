@@ -33,7 +33,10 @@
     .navbar .order-3 {
         order: 2;
     }
+
+    
 }
+
 
 .logo-img{
     height: 31px;
@@ -44,7 +47,6 @@
     outline: none;
     box-shadow: none;
 }
-
 
 
 @media only screen and (min-width: 768px) {
@@ -60,20 +62,13 @@
     }
 }
 
-/*FAQs Section*/
-
-.custom-width-h2 {
-    width: 90%; 
+.nav-link:hover,
+.nav-link.active{
+    color: #E2B93B!important;
     
 }
-.custom-width-p {
-    width: 60%;
-    display: flex; 
-    margin: 0;
-    font-size: 14px;
-}
 
-/*User Profile*/
+/* ends here */
 .sidenav-link {
     padding: 12px;
     text-decoration: none;
@@ -83,14 +78,16 @@
 }
 
 .sidenav-link:hover, 
-.sidenav-link:active {
+.sidenav-link:active,
+.sidenav-link.active {
     background-color: #E2B93B;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 4px;
 }
 
 .sidenav-link:hover img, 
-.sidenav-link:active img {
+.sidenav-link:active img, 
+.sidenav-link.active img{
     filter: brightness(0) invert(1); /* Turns the image to white */
 }
