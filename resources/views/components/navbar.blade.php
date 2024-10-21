@@ -14,21 +14,19 @@
             @endif
         </div>
 
-<!-- Middle Side Of Navbar -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
-            <ul class="navbar-nav al justify-content-center flex-grow-1">
-                <li class="nav-item ">
-                    <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="#">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="{{ url('/faqs') }}">FAQs</a>
-                </li>
-            </ul>
-
+        <!-- Middle Side Of Navbar -->
+        <div class="collapse navbar-collapse @if(isset($alignLeft)) justify-content-start @else justify-content-center @endif" id="navbarSupportedContent">
+                <ul class="navbar-nav al justify-content-center flex-grow-1">
+                    <li class="nav-item ">
+                        <a class="nav-link font-weight-bold text-primary fw-medium" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary fw-medium" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary fw-medium" href="{{ url('/faqs') }}">FAQs</a>
+                    </li>
+                </ul>
         </div>
 
         <!-- Right Side Of Navbar -->
