@@ -34,7 +34,7 @@
             <div class="col">
                 <h1 class="w-50 fw-bolder fs-10">Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
                 <p class="fs-4">Shop exclusive designs, limited editions, and rep your org with pride. <b>Don’t miss out!</b></p><br>
-                <a href="#" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom">Shop Now</a>
+                <a href="{{route('shopPage')}}" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom">Shop Now</a>
             </div>
             {{--<div class=" col d-flex ">
                 <img src="{{ asset('images/bg.svg') }}" >
