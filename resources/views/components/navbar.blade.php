@@ -22,7 +22,7 @@
                     <a class="nav-link text-primary fw-medium" href="#">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="{{ url('/faq') }}">FAQs</a>
+                    <a class="nav-link text-primary fw-medium" href="{{ url('/faqs') }}">FAQs</a>
                 </li>
             </ul>
 

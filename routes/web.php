@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/faq', function () {
-    return view('faq');
+Route::get('/faqs', function () {
+    return view('customer_support/faqs');
 });
 Route::get('/userprofile', function () {
     return view('userprofile');
