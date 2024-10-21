@@ -15,8 +15,8 @@
             </div>
             <div class="faq-section mt-3 d-inline-flex border justify-content-center" style="gap: 20px; border-radius: 4px;">
                 <!-- FAQ Button -->
-                <a href="" class="d-flex justify-content-center align-items-center  my-3">
-                    <img src="{{ asset('images/support.svg') }}" alt="Support" style="width: 32px; height: 32px;">               
+                <a href="{{ route('user.chat') }}" class="d-flex justify-content-center align-items-center my-3">
+                    <img src="{{ asset('images/support.svg') }}" alt="Support" style="width: 32px; height: 32px;">
                 </a>
                 <p class="d-flex justify-content-center align-items-center custom-width-p">Couldn't find your concern? Chat with us!</p>
 
