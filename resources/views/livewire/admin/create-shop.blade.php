@@ -60,8 +60,8 @@
                             
                     </form>
             <div class="d-flex gap-2 justify-content-end ">
-                <button class="btn btn-link text-primary fw-medium fs-4">Cancel</button>
-                <button class="btn btn-primary p-2 px-4 fs-4">Create</button>
+                <button class="btn btn-link text-primary fw-medium fs-4" onclick="cancel()">Cancel</button>
+                <button class="btn btn-primary p-2 px-4 fs-4" onclick="shops()">Create</button>
             </div>
         </div>
         <div class="col d-flex align-items-center justify-content-center">
@@ -92,6 +92,11 @@
         
         window.location.href = "{{ route('admin.shops') }}";
     
+    }
+
+    function shops(){
+        //create function tbf
+        window.location.href = "{{ route('admin.shops') }}";
     }
 </script>
 @endsection
