@@ -8,6 +8,6 @@ class ShopProductsAdd extends Component
 {
     public function render()
     {
-        return view('livewire.shop-products-add');
+        return view('livewire.shop.shop-products-add');
     }
 }

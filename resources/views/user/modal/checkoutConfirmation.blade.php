@@ -13,7 +13,7 @@
       <div class="modal-footer border-0 d-flex justify-content-center mb-2">
         <a href="{{route('home')}}" class="btn btn-outline-primary btn-md"style="width:170px;" >Return To Homepage
         </a>
-        <a href="" class="btn btn-primary btn-md" style="width:160px;">View order</a>
+        <a href="{{route('mypurchases')}}" class="btn btn-primary btn-md" style="width:160px;">View order</a>
       </div>
     </div>
   </div>

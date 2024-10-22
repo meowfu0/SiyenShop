@@ -30,7 +30,8 @@
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
     <link href="{{ asset('css/purchase-mobile.css') }}" rel="stylesheet">
     <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
-    
+    <script src="{{ asset('js/customer_support.js') }}" defer></script>
+
 
     <script src="{{ asset('js/switchStat.js') }}"></script>
 
@@ -40,7 +41,7 @@
 <body>
     <div id="app">
     @include('components.navbar')
-        <main class="py-4 min-vh-100">
+        <main class="min-vh-100">
             @yield('content')
             {{-- CONTENT WILL SHOW HERE --}}
         </main>

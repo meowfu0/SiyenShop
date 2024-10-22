@@ -8,6 +8,6 @@ class MyPurchasesController extends Controller
 {
     public function index()
     {
-        return view ('Pages.mypurchases');
+        return view ('user.mypurchases');
     }
 }

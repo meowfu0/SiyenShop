@@ -8,6 +8,6 @@ class ShopProductsHistory extends Component
 {
     public function render()
     {
-        return view('livewire.shop-products-history');
+        return view('livewire.shop.shop-products-history');
     }
 }

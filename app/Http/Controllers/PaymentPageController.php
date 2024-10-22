@@ -8,7 +8,7 @@ class PaymentPageController extends Controller
 {
     public function index()
     {
-        return view('Pages.paymentPage');
+        return view('user.paymentPage');
     }
   
 }

@@ -8,6 +8,6 @@ class ShopChat extends Component
 {
     public function render()
     {
-        return view('livewire.shop-chat');
+        return view('livewire.shop.shop-chat');
     }
 }

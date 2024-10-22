@@ -286,10 +286,10 @@ body{
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
-.modal-header{
+/* .modal-header{
     margin-top: 20px;
     height: 100px !important;
-}
+} */
 .modal-footer button{
     width: 140px;
     border-radius: 7px !important;
@@ -326,10 +326,10 @@ body{
     border-radius: 7px;
     text-align: center;
 }
-.modal-content .btn-close{
+/* .modal-content .close-btn{
     position: absolute;
     left: 740px;
-}
+} */
 .modal-items{
     height: 200px;
     overflow-y: auto;

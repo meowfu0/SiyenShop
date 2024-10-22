@@ -8,7 +8,7 @@ class cartPageController extends Controller
 {
     public function index()
     {
-        return view('Pages.cartPage');
+        return view('user.cartPage');
     }
   
 }

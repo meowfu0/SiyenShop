@@ -3,7 +3,7 @@
 @section('content')
     <script src="{{ asset('js/cart.js') }}"></script>
 
-    <div class="container">
+    <div class="container pt-5">
         <div class="row d-flex justify-content-center align-items-center h-100"> 
             <div class="col-11">
                 <!-- Order Review Header -->
@@ -108,6 +108,6 @@
             </div> 
         </div> 
     </div>
-    @include('Pages.modal.proofOfPayment')
-    @include('Pages.modal.checkoutConfirmation')
+    @include('user.modal.proofOfPayment')
+    @include('user.modal.checkoutConfirmation')
 @endsection

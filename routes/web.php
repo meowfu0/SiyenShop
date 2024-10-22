@@ -64,12 +64,13 @@ Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('payme
 Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
 // =================== end of cart and checkout module =======================
 // chat route
-Route::get('/chat', [UserChat::class, 'render'])->name('user.chat');
+Route::get('/chat', [UserChat::class, 'render'])->name('chat');
 
 // faqs route
 Route::get('/faqs', function () {
     return view('customer_support/faqs');
-});
+})->name('faqs');
+
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 

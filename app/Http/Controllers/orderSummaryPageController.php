@@ -8,7 +8,7 @@ class orderSummaryPageController extends Controller
 {
     public function index()
     {
-        return view('Pages.orderSummaryPage');
+        return view('user.orderSummaryPage');
     }
   
 }

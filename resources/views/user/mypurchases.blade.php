@@ -5,7 +5,7 @@
 <div class="d-flex">
     @livewire('user-sidenav')
     <div>
-        @include('Order_Management_Module.My_Purchase_Page')
+        @include('user.My_Purchase_Page')
     </div>
 </div>
 

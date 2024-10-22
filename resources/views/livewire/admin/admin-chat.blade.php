@@ -5,9 +5,6 @@
     <!-- Top Navbar -->
     @include('components.profilenav')
 
-    <!-- Welcome Message Below Navbar -->
-    <div class="mt-3">
-        Welcome to {{ Route::current()->uri() }}
-    </div>
+    @include('components.chat')
 </div>
 @endsection

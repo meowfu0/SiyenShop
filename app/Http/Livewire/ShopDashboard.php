@@ -11,6 +11,6 @@ class ShopDashboard extends Component
     public function render()
     {
 
-        return view('livewire.shop-dashboard');
+        return view('livewire.shop.shop-dashboard');
     }
 }

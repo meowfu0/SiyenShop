@@ -7,12 +7,9 @@
                 <img src="{{ asset('images/hamburger.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
             </button>
 
-            <!-- Conditionally show logo -->
-            @if (!isset($excludeLogo))
-                <a class="logo d-flex align-items-center" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" class="logo-img">
-                </a>
-            @endif
+            <a class="logo d-flex align-items-center" href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.png') }}" class="logo-img">
+            </a>
         </div>
 
         <!-- Middle Side Of Navbar -->
@@ -23,22 +20,20 @@
                     <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'home' ? 'active fw-bolder' : '' }}" href="{{route('home')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'shopPage' ? 'active fw-bolder' : '' }}" href="{{url('shopPage')}}">Products</a>
+                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'shopPage' ? 'active fw-bolder' : '' }}" href="{{ route('shopPage')}}">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'faqs' ? 'active fw-bolder' : '' }}" href="{{route('faqs')}}">FAQs</a>
+                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'faqs' ? 'active fw-bolder' : '' }}" href="{{ url('/faqs') }}">FAQs</a>
                 </li>
             </ul>
         </div>
         
         <!-- Right Side Of Navbar -->
         <div class="d-flex ms-auto gap-2 align-items-center">
-            <!-- Conditionally show search icon -->
-            @if (!isset($excludeSearch))
-                <a class="icons" href="{{ url('/') }}">
-                    <img src="{{ asset('images/search.svg') }}" class="search-img">
-                </a>
-            @endif
+            <!-- Search Icon -->
+            <a class="icons" href="{{ url('/') }}">
+                <img src="{{ asset('images/search.svg') }}" class="search-img">
+            </a>
 
             <!-- Login Button -->
             <ul class="navbar-nav">
@@ -70,9 +65,9 @@
                             <ul class="dropdown-menu mt-4">
                                 <li><a href="{{ url('/profile') }}" class="dropdown-items nav-link flex-grow-1 px-3 ">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a href="" class="dropdown-items nav-link flex-grow-1 px-3 ">My Purchases</a></li>
+                                <li><a href="{{route('mypurchases')}}" class="dropdown-items nav-link flex-grow-1 px-3 ">My Purchases</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a href="" class="dropdown-items nav-link flex-grow-1 px-3 ">Chat</a></li>
+                                <li><a href="{{route('chat')}}" class="dropdown-items nav-link flex-grow-1 px-3 ">Chat</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a href="#" class="dropdown-items nav-link flex-grow-1 px-3 " 
@@ -134,7 +129,7 @@
                         
                         
                     </div>
-                </div>
+                    
             @endauth
         </div>
     </div>

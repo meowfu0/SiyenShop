@@ -3,7 +3,7 @@
 @section('content')
     <script src="{{ asset('js/cart.js') }}"></script>
 
-    <div class="container ">
+    <div class="container pt-5">
         <div class="row d-flex justify-content-center align-items-center h-100"> 
             <div class="col-11">
                 <div class="d-flex justify-content-start align-items-center mb-2">

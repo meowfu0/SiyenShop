@@ -9,6 +9,6 @@ class ShopOrders extends Component
     
     public function render()
     {
-        return view('livewire.shop-orders');
+        return view('livewire.shop.shop-orders');
     }
 }

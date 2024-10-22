@@ -8,7 +8,7 @@ class checkOutPageController extends Controller
 {
     public function index()
     {
-        return view('Pages.checkOutPage');
+        return view('user.checkOutPage');
     }
   
 }

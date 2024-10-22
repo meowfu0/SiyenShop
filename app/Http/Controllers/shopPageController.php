@@ -8,7 +8,7 @@ class shopPageController extends Controller
 {
     public function index()
     {
-        return view('pages.shopPage');
+        return view('user.shopPage');
     }
 }
 
