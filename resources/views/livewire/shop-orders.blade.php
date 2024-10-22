@@ -40,7 +40,7 @@
                     </div>
                 </div>
     
-                <div class="icons">
+                <div class="icon">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal"><img  style="height: 23px; width:23px;"src="{{ asset('images/print.svg') }}" alt=""> </button>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal"><img  style="height: 23px; width:23px;"src="{{ asset('images/export.svg') }}" alt=""> </button>
                 </div>

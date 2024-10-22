@@ -68,10 +68,10 @@ span {
     border-radius: 13px;
     display: flex;
 }
-.icons{
+.icon{
     margin-left: 200px;
 }
-.icons button{
+.icon button{
     background-color:#fff;
     border: none;
 }
