@@ -86,15 +86,15 @@
                             <button class="text-primary fw-medium border-0 bg-white d-none d-md-block" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ Auth::user()->first_name }}
                             </button>
-                            <ul class="dropdown-menu border-0 shadow-sm text-wrap">
-                                <li><a href="{{ url('/profile') }}" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 ">Profile</a></li>
+                            <ul class="dropdown-menu mt-4">
+                                <li><a href="{{ url('/profile') }}" class="dropdown-items nav-link flex-grow-1 px-3 ">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a href="" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 ">My Purchases</a></li>
+                                <li><a href="{{route('mypurchases')}}" class="dropdown-items nav-link flex-grow-1 px-3 ">My Purchases</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a href="" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 ">Chat</a></li>
+                                <li><a href="{{route('chat')}}" class="dropdown-items nav-link flex-grow-1 px-3 ">Chat</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <a href="#" class="dropdown-items nav-link text-primary fw-medium flex-grow-1 px-3 " 
+                                    <a href="#" class="dropdown-items nav-link flex-grow-1 px-3 " 
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Logout
                                     </a>

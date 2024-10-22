@@ -19,12 +19,14 @@
                             <p class="status">T-Shirt</p>
                             <p class="status">Pre-Order</p>
                             <p class="title fs-10 fw-bold mb-0">CirCUITS Lanyard</p>
-                            <div class="ratings d-flex align-items-center">
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star mr-1"></i>
+                            <div class="ratings d-flex align-items-center gap-3">
+                                <div>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star rating-color mr-1"></i>
+                                    <i class="fa fa-star mr-1"></i>
+                                </div>
                                 <p class="fs-4 mb-1 ml-2 mt-1">40 sold</p>
                             </div>
                             <p class="price fs-8 fw-bold mb-1">₱250.00</p>
