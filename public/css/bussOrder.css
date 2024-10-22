@@ -68,9 +68,7 @@ span {
     border-radius: 13px;
     display: flex;
 }
-.icon{
-    margin-left: 200px;
-}
+
 .icon button{
     background-color:#fff;
     border: none;

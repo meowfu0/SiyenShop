@@ -23,10 +23,10 @@
                     <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'home' ? 'active fw-bolder' : '' }}" href="{{route('home')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'shopPage' ? 'active fw-bolder' : '' }}"" href="{{url('shopPage')}}">Products</a>
+                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'shopPage' ? 'active fw-bolder' : '' }}" href="{{url('shopPage')}}">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary fw-medium" href="{{ url('/faq') }}">FAQs</a>
+                    <a class="nav-link text-primary fw-medium {{ Route::currentRouteName() == 'faqs' ? 'active fw-bolder' : '' }}" href="{{route('faqs')}}">FAQs</a>
                 </li>
             </ul>
         </div>

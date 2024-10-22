@@ -31,10 +31,10 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container-xxl d-flex h-100" >
-            <div class="col">
-                <h1 class="w-50 fw-bolder fs-10">Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
+            <div class="col d-flex flex-column justify-content-center">
+                <h1 class="w-100 fw-bolder fs-10">Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
                 <p class="fs-4">Shop exclusive designs, limited editions, and rep your org with pride. <b>Don’t miss out!</b></p><br>
-                <a href="{{route('shopPage')}}" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom">Shop Now</a>
+                <a href="{{route('shopPage')}}" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom w-25">Shop Now</a>
             </div>
             <div class=" col d-flex justify-content-end">
                 <img src="{{ asset('images/bg.svg') }} " class="h-100" >
