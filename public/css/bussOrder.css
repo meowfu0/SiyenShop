@@ -30,23 +30,18 @@
     overflow-y: auto;
     scrollbar-width: none; /* For Firefox */
     -ms-overflow-style: none;
-
+    padding: 0 5%;
 }
 .identifiers{
-    position: absolute;
-    top: 150px;
-    width: calc(100% - 240px);
-    margin-left: 240px;
     margin-top: 5px;
     padding: 20px;
-    padding-left: 77px;
     align-items: center;
-    gap: 50px;
+    justify-content: space-between;
     display: flex;
 
 }
 
-.dropdown {
+.filter-dropdown {
     padding: 5px;
     border-radius: 4px;
     height: 28px !important;
@@ -56,7 +51,7 @@
 }
 
 .search-box {
-    padding: 5px;
+    padding-left: 10px;
     border: 1px solid #c0c0c0;
     border-radius: 4px;
     width: 192px;
@@ -69,10 +64,6 @@ span {
 }
 
 .order_table{
-    position: absolute;
-    width: 980px;
-    margin-left: 310px;
-    top: 220px;
     border: 0.75px solid #ccc;
     border-radius: 13px;
     display: flex;
@@ -120,19 +111,20 @@ th, td {
     font-size: 12px;
 }
 .footer-btn{
-    position: absolute;
-    margin-left: 240px;
-    padding-left: 77px;
-    margin-bottom: 50px;
-    top: 850px;
     display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 .footer-btn a{
     text-decoration: none;
     text-align: center;
     height: 28px;
     width: 28px;
-    border: 0.75px solid #ccc;
+    border-right: 1px solid #092C4C;
+    border-top: 1px solid #092C4C;
+    border-bottom: 1px solid #092C4C;
+
+
 }
 .page-link {
     padding-bottom: 10px ;
@@ -140,13 +132,18 @@ th, td {
     text-decoration: none;
     background-color: white;
     border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .page-link {
     border-color: #092C4C;
+    padding: 0;
 }
 .page-link:hover {
     background-color: #092C4C;
     border-color: #092C4C;
+    color: white;
 }
 .page-item.active .page-link:hover {
     background-color: #092C4C;

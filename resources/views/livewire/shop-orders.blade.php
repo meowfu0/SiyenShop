@@ -11,31 +11,33 @@
         <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
      </div>
 
-        <div class="scrollable-content">
+        <div class="scrollable-content container-fluid">
             <div class="identifiers">
-                <div class="btn-group">
-                    <select class="dropdown">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>30</option>
-                    </select>
-                <span style="margin-left: 5px;">entries per page</span>
-                </div>
-    
-                <div id="search" >
-                    <input type="text" id="search-box" class="search-box" placeholder="Search">
-                </div>
-    
-                <div class="btn-group">
-                <span style="margin-right: 10px;">Status</span>
-                    <select class="dropdown"  id="status-filter">
-                        <option value="all"><a href="#">All</a></option>
-                        <option value="pending"><a href="#">Pending</a></option>
-                        <option value="received-payment"><a href="#">Payment Received</a></option>
-                        <option  value="denied-payment"><a href="#">Denied Payment</a></option>
-                        <option value="for-pickup"><a href="#">For Pickup</a></option>
-                        <option value="completed-order"><a href="#">Completed Order</a></option>
-                    </select>
+                <div class="d-flex gap-5 align-items-center">
+                    <div class="btn-group">
+                        <select class="dropdown">
+                            <option>10</option>
+                            <option>20</option>
+                            <option>30</option>
+                        </select>
+                        <span class="align-middle" style="margin-left: 5px;">entries per page</span>
+                    </div>
+        
+                    <div id="search" >
+                        <input type="text" id="search-box" class="search-box" placeholder="Search">
+                    </div>
+        
+                    <div class="btn-group">
+                    <span class="d-flex align-items-center" style="margin-right: 10px;">Status</span>
+                        <select class="filter-dropdown"  id="status-filter">
+                            <option value="all"><a href="#">All</a></option>
+                            <option value="pending"><a href="#">Pending</a></option>
+                            <option value="received-payment"><a href="#">Payment Received</a></option>
+                            <option  value="denied-payment"><a href="#">Denied Payment</a></option>
+                            <option value="for-pickup"><a href="#">For Pickup</a></option>
+                            <option value="completed-order"><a href="#">Completed Order</a></option>
+                        </select>
+                    </div>
                 </div>
     
                 <div class="icons">
@@ -185,19 +187,21 @@
             </div>
             <div class="footer-btn">
                 <p>Showing 1 to 10 of 100 entries</p>
-                <a class="page-link" href="#" aria-label="Previous" style="margin-left: 530px;">
-                    <span aria-hidden="true">&laquo;</span></a>
-                    <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&lsaquo;</span></a>
-                <a  class="page-link" href="#">1</a>
-                <a  class="page-link" href="#">2</a>
-                <a  class="page-link" href="#">3</a>
-                <a  class="page-link" href="#">4</a>
-                <a  class="page-link" href="#">5</a>
-                <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span></a>
-                <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&rsaquo;</span></a>
+                <div class="d-flex" >
+                    <a class="page-link rounded-start border border-start border-primary" href="#" aria-label="Previous" style="margin-left: 530px;">
+                        <span aria-hidden="true">&laquo;</span></a>
+                        <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span></a>
+                    <a  class="page-link" href="#">1</a>
+                    <a  class="page-link" href="#">2</a>
+                    <a  class="page-link" href="#">3</a>
+                    <a  class="page-link" href="#">4</a>
+                    <a  class="page-link" href="#">5</a>
+                    <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span></a>
+                    <a class="page-link rounded-end" href="#" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span></a>
+                </div>
             </div>
         </div>
     </div>

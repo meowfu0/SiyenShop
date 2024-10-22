@@ -1,33 +1,3 @@
-    <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Purchases</title>
-
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/purchase-mobile.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
-    
-
-    <script src="{{ asset('js/switchStat.js') }}"></script>
-
-
-    <!-- added -->
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JS (place before closing body tag or at the end of your HTML) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- added -->
-     
-</head>
-<body>
-    <div>
-        <div id="sidebar">
-             @include('components.sidenavUser') <!-- Sidebar content -->
-        </div>
-        @include('layouts.app')
-    </div>
     <div class="content-purchase">
         <div class="content-title-purchase">
             <img src="{{ asset('images/products.svg') }}" class="logo-img">
@@ -977,6 +947,3 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>

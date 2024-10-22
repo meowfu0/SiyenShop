@@ -28,6 +28,11 @@
     <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
     <link href="{{ asset('css/shopmodule.css') }}" rel="stylesheet">
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/purchase-mobile.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
+    
+
+    <script src="{{ asset('js/switchStat.js') }}"></script>
 
 
 

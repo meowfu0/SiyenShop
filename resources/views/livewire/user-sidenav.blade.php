@@ -1,11 +1,11 @@
-<nav class="d-flex nav flex-column p-4 border-end gap-2" style="width: 260px; position: sticky; top: 0; height: 100vh;">
+<nav class="d-none d-sm-flex nav flex-column p-4 border-end gap-2" style="width: 260px; position: sticky; top: 0; height: 100vh;">
     <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" 
-       href="{{ route('shop.dashboard') }}" wire:navigate>
+       href="{{ route('profile') }}" wire:navigate>
         <img src="{{ asset('images/user.svg') }}" alt="">
         Profile
     </a>
-    <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'shop.dashboard' ? 'active' : '' }}" 
-    href="{{ route('shop.dashboard') }}" wire:navigate>
+    <a class="sidenav-link ps-4 d-flex gap-4 fs-5 fw-medium {{ Route::currentRouteName() == 'mypurchases' ? 'active' : '' }}" 
+    href="{{ route('mypurchases') }}" wire:navigate>
      <img src="{{ asset('images/bag.svg') }}" alt="">
      My Purchases
     </a>

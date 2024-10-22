@@ -23,6 +23,7 @@ use App\Http\Livewire\Admin\CreateShop;
 use App\Http\Livewire\Admin\Updateshop; 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
+use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
@@ -50,6 +51,7 @@ Route::get('/business-order-dashboard', function () {
 });
 
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -57,7 +59,7 @@ Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
 Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
-
+Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
 
 
