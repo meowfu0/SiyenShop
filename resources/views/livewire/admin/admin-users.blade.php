@@ -310,7 +310,7 @@
                     </div>
 
                 </div>
-                <div class="modal-footer mt-5">
+                <div class="modal-footer mt-1">
                     <button type="button" class="btn fs-2 fw-bold" id="deactivateBtn">Deactivate Account</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="editBtn">Edit Account</button>
@@ -322,7 +322,7 @@
     <!-- Modal for Editing Permissions -->
     <div class="modal fade" id="editPermissionsModal" tabindex="-1" aria-labelledby="editPermissionsModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-size">
+        <div class="modal-dialog modal-dialog-centered custom-modal-size1">
             <div class="modal-content p-4">
                 <div class="modal-header">
                     <h5 class="modal-title fs-6 fw-bold" style="color:#092C4C;" id="editPermissionsModalLabel">Edit
@@ -330,7 +330,7 @@
                         Permissions</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mt-4 align-items-start">
+                <div class="mt-1 align-items-start">
                     <div class="row">
                         <!-- Left Div -->
                         <div class="col-md-6 ms-4" style="flex: 2;">
@@ -428,7 +428,7 @@
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="modal-footer mt-4">
+                <div class="modal-footer mt-2">
                     <button type="button" class="btn fs-2 fw-bold" id="closeBtn">Cancel</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="saveChangesBtn">Save Changes</button>

@@ -209,7 +209,7 @@
 }
 
 .view-users-btn{
-    border: 1px solid #092C4C;
+    border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
 }
@@ -253,7 +253,6 @@ div.profile-picture-container {
     align-items: center;
     padding: 0;
     margin: 0;
-    width: 100%;
 }
 
 .modal-body1 {
@@ -262,17 +261,14 @@ div.profile-picture-container {
     margin: 0;
 }
 
-.custom-modal-size .modal-content {         /* Let the modal width adjust based on content */
-    max-width: 800px;      /* Set a maximum width if needed */
-    height: auto;          /* Let the height adjust based on content */
-    max-height: 100vh;     /* Set a max height to prevent overflow off-screen */
+.custom-modal-size .modal-content {
+    height: 480px; /* Adjust the height */
+    width: 750px;
     padding: 0;
-    overflow-y: auto;      /* Add scroll if content exceeds max-height */
 }
 
-
 .custom-modal-size {
-    max-width: 800px; /* Adjust this to your preferred width */
+    max-width: 750px; /* Adjust this to your preferred width */
     width: 100%; /* Ensure it takes up full width */
 }
 
@@ -515,16 +511,16 @@ div.profile-picture-container {
 
 
 .btn.btn-outline-secondary{
-    border: 1px solid #092C4C;
+    border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
   
 }
 .custom{
-    display: flex;
     border: 2px solid #092C4C;
     border-radius: 5px;
     background-color: transparent;
+
     padding-left: 30px;
     padding-right:30px;
 }

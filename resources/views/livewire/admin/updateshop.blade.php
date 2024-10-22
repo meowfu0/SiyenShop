@@ -5,10 +5,11 @@
     <!-- Top Navbar -->
     @include('components.profilenav')
 
-    <div class="row p-5 gap-4">
+    <div class="container-fluid">
+    <div class="row p-4 gap-4">
         <div class="col">
             
-            <div class="m-0 mt-3">
+            <div class="m-0 mt-1">
                 <h1 class="mb-4 fw-bold text-primary">Update Shop</h1>
             </div>
             <div class="d-flex gap-4 ms-3">
@@ -83,6 +84,8 @@
                 </div>
         </div>
     </div>
+    </div>
+    
 </div>
 
 <script>

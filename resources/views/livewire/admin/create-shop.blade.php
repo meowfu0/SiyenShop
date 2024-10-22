@@ -4,11 +4,11 @@
 <div class="flex-grow-1" style="width: 100%!important;">
     <!-- Top Navbar -->
     @include('components.profilenav')
-
-    <div class="row p-5 gap-4">
+    <div class="container-fluid">
+    <div class="row p-4 gap-4">
         <div class="col">
             
-            <div class="m-0 mt-3">
+            <div class="m-0 mt-1">
                 <h1 class="mb-4 fw-bold text-primary">Create Shop</h1>
             </div>
             <div class="d-flex gap-4 ms-3">
@@ -60,8 +60,8 @@
                             
                     </form>
             <div class="d-flex gap-2 justify-content-end ">
-                <button class="btn btn-link text-primary fw-medium fs-4">Cancel</button>
-                <button class="btn btn-primary p-2 px-4 fs-4">Create</button>
+                <button class="btn btn-link text-primary fw-medium fs-4" onclick="cancel()">Cancel</button>
+                <button class="btn btn-primary p-2 px-4 fs-4" onclick="shops()">Create</button>
             </div>
         </div>
         <div class="col d-flex align-items-center justify-content-center">
@@ -83,6 +83,7 @@
                 </div>
         </div>
     </div>
+    
 </div>
 
 
@@ -91,6 +92,11 @@
         
         window.location.href = "{{ route('admin.shops') }}";
     
+    }
+
+    function shops(){
+        //create function tbf
+        window.location.href = "{{ route('admin.shops') }}";
     }
 </script>
 @endsection
