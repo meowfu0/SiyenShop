@@ -12,6 +12,9 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bussOrder.css') }}" rel="stylesheet">
     <script src="{{ asset('js/statusdd.js') }}"></script>
+    <link href="{{ asset('css/customer_support.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/customer_support.js') }}" defer></script>
+
 
 
 </head>

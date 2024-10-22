@@ -7,9 +7,12 @@
                 <img src="{{ asset('images/hamburger.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
             </button>
 
-            <a class="logo d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" class="logo-img">
-            </a>
+            <!-- Conditionally show logo -->
+            @if (!isset($excludeLogo))
+                <a class="logo d-flex align-items-center" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo.png') }}" class="logo-img">
+                </a>
+            @endif
         </div>
 
         <!-- Middle Side Of Navbar -->
@@ -30,10 +33,12 @@
         
         <!-- Right Side Of Navbar -->
         <div class="d-flex ms-auto gap-2 align-items-center">
-            <!-- Search Icon -->
-            <a class="icons" href="{{ url('/') }}">
-                <img src="{{ asset('images/search.svg') }}" class="search-img">
-            </a>
+            <!-- Conditionally show search icon -->
+            @if (!isset($excludeSearch))
+                <a class="icons" href="{{ url('/') }}">
+                    <img src="{{ asset('images/search.svg') }}" class="search-img">
+                </a>
+            @endif
 
             <!-- Login Button -->
             <ul class="navbar-nav">
@@ -129,7 +134,7 @@
                         
                         
                     </div>
-                    
+                </div>
             @endauth
         </div>
     </div>
