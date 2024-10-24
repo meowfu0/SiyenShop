@@ -42,14 +42,7 @@
                 <script>
                     const xValues = ["BSIT", "BSCS", "BSBIO", "BSCHEM", "BSMET"];
                     const yValues = [55, 49, 44, 24, 15];
-                    const barColors = [
-                        "#f0c674",  
-                        "#edb23d",  
-                        "#d99324",  
-                        "#b8731e",  
-                        "#f0e68c"   
-                    ];
-
+                    const barColors = ["#f0c674", "#edb23d", "#d99324", "#b8731e", "#f0e68c"];
                     new Chart("myChart", {
                         type: "pie",
                         data: {
