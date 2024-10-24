@@ -38,7 +38,7 @@
                 <a href="{{ route('admin.users') }}" class="text-secondary fs-3">See all</a>
             </div>
             <div>
-            <canvas id="myChart" style="width:100%; height:700px;"></canvas>
+            <canvas id="myChart" style="width:100%; height:600px;"></canvas>
                 <script>
                     const xValues = ["BSIT", "BSCS", "BSBIO", "BSCHEM", "BSMET"];
                     const yValues = [55, 49, 44, 24, 15];
