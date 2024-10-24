@@ -27,7 +27,7 @@
         </div>
         <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Active Users</h4>
-            <h2 class="text-primary fw-bolder">41</h2>
+            <h2 class="text-primary fw-bolder">91</h2>
         </div>
     </div>
 
@@ -38,10 +38,8 @@
                 <a href="{{ route('admin.users') }}" class="text-secondary fs-3">See all</a>
             </div>
             <div>
-                    {{-- Content here --}}
             </div>
          </div>
-    
         <div class="d-flex flex-column gap-4" style="flex: 2; ">
             <div class="border border-primary rounded-4 p-4 flex-grow-1">
                 <div class="d-flex justify-content-between mb-2">
