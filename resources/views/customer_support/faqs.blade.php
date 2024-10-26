@@ -11,7 +11,7 @@
                 <!-- Main Heading -->
                 <h2 class="display-5 text-left fw-bolder text-primary">CSians'</h2>
                 <!-- Sub Heading -->
-                <h2 class="display-5 text-left custom-width-h2 text-primary fw-bold">Most <span class="text-secondary fw-bold">Frequently Asked Questions</span> </h2>
+                <h2 class="display-5 text-left custom-width-h2 text-primary fw-bold">Most <span class="text-secondary display-5 fw-bold">Frequently Asked Questions</span> </h2>
             </div>
             <div class="faq-section mt-3 d-inline-flex border justify-content-center" style="gap: 20px; border-radius: 4px;">
                 <!-- FAQ Button -->

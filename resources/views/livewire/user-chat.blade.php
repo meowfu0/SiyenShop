@@ -6,7 +6,7 @@
     <div class="d-none d-md-flex flex-md-row">
         @livewire('user-sidenav')
     </div>
-    <div>
+    <div class="w-100">
         @include('components.chat')
     </div>
 </div>
