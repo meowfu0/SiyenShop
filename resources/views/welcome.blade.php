@@ -38,7 +38,7 @@
                 <p class="fs-4">Shop exclusive designs, limited editions, and rep your org with pride. <b>Don’t miss out!</b></p><br>
                 <a href="{{route('shopPage')}}" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom w-25">Shop Now</a>
             </div>
-            <div class=" col d-flex justify-content-end">
+            <div class=" col d-flex justify-content-center align-items-end">
                 <img src="{{ asset('images/bg.svg') }} " class="h-100" >
             </div>
         </div>

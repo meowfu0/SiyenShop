@@ -32,6 +32,7 @@
     <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
     <script src="{{ asset('js/customer_support.js') }}" defer></script>
 
+    <link href="{{ asset('css/customer_support.css') }}" rel="stylesheet"> {{-- this one  --}}
 
     <script src="{{ asset('js/switchStat.js') }}"></script>
 
