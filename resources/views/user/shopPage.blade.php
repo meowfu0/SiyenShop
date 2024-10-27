@@ -36,7 +36,7 @@
         <div class="block-7">
             <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
             <div class="text-center p-4">
-                <div class="badge">CIRCUITS</div>
+                <div class="badge">VINCENT</div>
                 <span class="excerpt d-block">CirCUITS Lanyard</span>
                 <span class="price"><span class="number">₱250.00</span></span>
                 <div class="ratings d-flex align-items-center mt-0">
