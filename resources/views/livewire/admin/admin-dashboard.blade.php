@@ -3,16 +3,7 @@
 @section('content')
 <div class="flex-grow-1" style="width: 100%!important;">
     <!-- Top Navbar -->
-    <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
-        <div class="d-flex gap-2 pe-5">
-            <img src="{{asset('images/user.svg')}}" alt="">
-            @auth
-            <div class="text-primary fw-medium d-none d-md-block">
-                {{ Auth::user()->first_name }}
-            </div>
-            @endauth
-        </div>
-    </div>
+    @include('components.profilenav')
 
     <!-- Dashboard Content -->
 
@@ -27,7 +18,7 @@
         </div>
         <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Active Users</h4>
-            <h2 class="text-primary fw-bolder">91</h2>
+            <h2 class="text-primary fw-bolder">41</h2>
         </div>
     </div>
 
@@ -38,9 +29,46 @@
                 <a href="{{ route('admin.users') }}" class="text-secondary fs-3">See all</a>
             </div>
             <div>
+            <canvas id="myChart" style="width:100%; height:550px;"></canvas>
+                <script>
+                    const xValues = ["BSIT", "BSCS", "BSBIO", "BSCHEM", "BSMET"];
+                    const yValues = [55, 49, 44, 24, 15];
+                    const barColors = ["#f0c674", "#edb23d", "#d99324", "#b8731e", "#f0e68c"];
+                    new Chart("myChart", {
+                        type: "pie",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                backgroundColor: barColors,
+                                data: yValues
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false, 
+                            plugins: {
+                                title: {
+                                    display: true,
+                                },
+                                legend: {
+                                    position: 'right',  
+                                    labels: {
+                                        boxWidth: 20,   
+                                        padding: 20     
+                                    }
+                                },
+                                layout: {
+                                    padding: {
+                                        right: 50      
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
 
             </div>
          </div>
+    
         <div class="d-flex flex-column gap-4" style="flex: 2; ">
             <div class="border border-primary rounded-4 p-4 flex-grow-1">
                 <div class="d-flex justify-content-between mb-2">
