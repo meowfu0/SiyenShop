@@ -3,16 +3,7 @@
 @section('content')
 <div class="flex-grow-1" style="width: 100%!important;">
     <!-- Top Navbar -->
-    <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
-        <div class="d-flex gap-2 pe-5">
-            <img src="{{asset('images/user.svg')}}" alt="">
-            @auth
-            <div class="text-primary fw-medium d-none d-md-block">
-                {{ Auth::user()->first_name }}
-            </div>
-            @endauth
-        </div>
-    </div>
+    @include('components.profilenav')
 
     <!-- Dashboard Content -->
 
@@ -27,7 +18,7 @@
         </div>
         <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Active Users</h4>
-            <h2 class="text-primary fw-bolder">91</h2>
+            <h2 class="text-primary fw-bolder">41</h2>
         </div>
     </div>
 
@@ -77,6 +68,7 @@
 
             </div>
          </div>
+    
         <div class="d-flex flex-column gap-4" style="flex: 2; ">
             <div class="border border-primary rounded-4 p-4 flex-grow-1">
                 <div class="d-flex justify-content-between mb-2">
