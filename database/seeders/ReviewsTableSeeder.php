@@ -31,7 +31,7 @@ class ReviewsTableSeeder extends Seeder
                 'product_id' => 2,
                 'order_id' => 2,
                 'ratings' => 4,
-                'review_text' => 'Good value for money!',
+                'review_text' => 'Good value for my money!',
                 'review_date' => Carbon::now(),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

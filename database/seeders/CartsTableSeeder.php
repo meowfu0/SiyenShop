@@ -45,7 +45,7 @@ class CartsTableSeeder extends Seeder
             ],
             [
                 'user_id' => 8, 
-                'total_amount' => 450.50,
+                'total_amount' => 450.40,
             ],
         ];
 

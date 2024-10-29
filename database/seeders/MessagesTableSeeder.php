@@ -68,7 +68,7 @@ class MessagesTableSeeder extends Seeder
             [
                 'sender_id' => 2,
                 'recipient_id' => 1,
-                'message' => 'Maybe I’m just trying to sell myself to you.',
+                'message' => 'Maybe I am just trying to sell myself to you.',
                 'created_at' => Carbon::now(),
                 'modified_at' => Carbon::now(),
             ],

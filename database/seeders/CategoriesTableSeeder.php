@@ -16,7 +16,7 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $categories = [
-            ['category_name' => 'Lanyard',],
+            ['category_name' => 'Lanyards',],
             ['category_name' => 'Pins',],
             ['category_name' => 'Stickers',],
             ['category_name' => 'T-Shirt',],
