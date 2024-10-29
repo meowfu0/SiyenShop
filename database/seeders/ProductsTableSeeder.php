@@ -45,7 +45,7 @@ class ProductsTableSeeder extends Seeder
             [
                 'category_id' => 4,
                 'shop_id' => 3,
-                'status_id' => 9,
+                'status_id' => 8,
                 'product_name' => 'CSC T-Shirt',
                 'product_decription' => 'Colorful CSC T-Shirt',
                 'product_image' => 'shirt.png',
