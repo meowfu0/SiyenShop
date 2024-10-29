@@ -47,14 +47,6 @@ class CartsTableSeeder extends Seeder
                 'user_id' => 8, 
                 'total_amount' => 450.50,
             ],
-            [
-                'user_id' => 9, 
-                'total_amount' => 320.75,
-            ],
-            [
-                'user_id' => 10, 
-                'total_amount' => 880.40,
-            ],
         ];
 
         DB::table('carts')->insert($carts);
