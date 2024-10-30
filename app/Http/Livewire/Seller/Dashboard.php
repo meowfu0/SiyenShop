@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Seller;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class ShopDashboard extends Component
+class Dashboard extends Component
 {
     public $startDate;
     public $endDate;
@@ -88,11 +88,21 @@ class ShopDashboard extends Component
 
     public function render()
     {
-        return view('livewire.shop.shop-dashboard', [
+        $formattedStartDate = Carbon::parse($this->startDate)->format('F j, Y');
+        $formattedEndDate = Carbon::parse($this->endDate)->format('F j, Y');
+        Log::info('dateRangeUpdated called', [
+            'fstartDate' => $formattedStartDate,
+            'fendDate' => $formattedEndDate
+        ]);
+        return view('livewire.seller.dashboard', [
             'Totals' => $this->totals,
             'orderCount' => $this->orderCount,
             'allOrdersCount' => $this->allOrdersCount,
-            'recentOrders' => $this->getRecentOrders()
+            'recentOrders' => $this->getRecentOrders(),
+            'startDate' => $formattedStartDate,
+            'endDate' => $formattedEndDate
         ]);
+        
     }
+
 }
