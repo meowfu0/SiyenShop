@@ -43,6 +43,5 @@ class CartItemsTableSeeder extends Seeder
         ];
 
         DB::table('cart_items')->insert($cart_items);
-        //test commit
     }
 }

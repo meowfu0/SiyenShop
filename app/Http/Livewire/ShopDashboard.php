@@ -67,11 +67,24 @@ class ShopDashboard extends Component
             ->count(); // Count all orders
     }
 
+    public function getLowStockProducts()
+    {
+        $shopId = 1;
+    
+        // Fetch products with stock 10 or below for the specified shop_id
+        return DB::table('products')
+            ->where('shop_id', $shopId)
+            ->where('stocks', '<=', 15)
+            ->select('product_name', 'stocks')
+            ->get();
+    }
+
     public function render()
     {
         $Totals = $this->getTotals();  // totals
         $orderCount = $this->getOrderCount($this->date);
         $allOrdersCount = $this->getAllOrdersCount();
-        return view('livewire.shop.shop-dashboard', ['Totals' => $Totals , 'orderCount' => $orderCount, 'allOrdersCount' => $allOrdersCount,]);
+        $lowStockProducts = $this->getLowStockProducts();  // Fetch low stock products
+        return view('livewire.shop.shop-dashboard', ['Totals' => $Totals , 'orderCount' => $orderCount, 'allOrdersCount' => $allOrdersCount, 'lowStockProducts' => $lowStockProducts]);
     }
 }

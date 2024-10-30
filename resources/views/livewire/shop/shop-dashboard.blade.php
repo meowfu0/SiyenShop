@@ -197,6 +197,11 @@
                         <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
                     </div>
                     <div>
+                    @if($lowStockProducts->isEmpty())
+                    <table class="table table-borderless">
+                            <th>There are no low stock products at the moment.</th>
+                    </table>
+                    @else
                         <table class="table table-hover  table-borderless">
                             <thead>
                                 <tr>
@@ -205,20 +210,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Circuits Tshirt (Black)</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>Circuits Tshirt (Black)</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>Circuits Tshirt (Black)</td>
-                                    <td>10</td>
-                                </tr>
+                                @foreach ($lowStockProducts as $product)
+                                    <tr>
+                                        <td>{{ $product->product_name }}</td>
+                                        <td>{{ $product->stocks }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                    @endif
                     </div>
 
                 </div>
