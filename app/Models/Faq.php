@@ -2,10 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Faq extends Model
 {
-    use HasFactory;
+    use SoftDeletes;
+
+    protected $fillable = [
+        'questions',
+        'answers',
+        'status_id',
+    ];
+
+    // Specify that the model should use 'modified_at' instead of 'updated_at'
+    const UPDATED_AT = 'modified_at';
+
+    // Optional: If you do not want Laravel to automatically manage created_at and modified_at
+    public $timestamps = false; // Disable automatic timestamps
 }

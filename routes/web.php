@@ -31,7 +31,8 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\FaqController;
 
 
 Auth::routes();
@@ -100,15 +101,28 @@ Route::get('/admin', function () {
 })->name('Admin');
 
 Route::prefix('admin')->group(function () {
+    //faqs
+    Route::post('/faqs', [FaqController::class, 'store'])->name('admin.faqs.store');
+    Route::put('/faqs/{faq}', [FaqController::class, 'edit']);
+    Route::put('/faqs/{id}/hide', [FaqController::class, 'hide'])->name('admin.faqs.hide');
+    Route::put('/faqs/{id}/show', [FaqController::class, 'show'])->name('admin.faqs.show'); 
+    Route::delete('/faqs/{id}/delete', [FaqController::class, 'delete'])->name('admin.faqs.delete');
+
+    //other
     Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
     Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
     Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
     Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
+    Route::get('/faqs-deleted', [AdminFaqsDeleted::class, 'render'])->name('admin.faqs-deleted');  
     Route::prefix('shops')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 });
+
+
+
+
 
