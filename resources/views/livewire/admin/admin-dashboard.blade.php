@@ -7,14 +7,16 @@
 
     <!-- Dashboard Content -->
 
+    <!-- Display dynamic User Count -->
     <div class="d-flex gap-3 px-5 pt-5 pb-3">
         <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">User</h4>
-            <h2 class="text-primary fw-bolder">1024</h2>
+            <h2 class="text-primary fw-bolder">{{ $userCount }}</h2> 
         </div>
-        <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
+    <!-- Display dynamic Shop Count -->
+    <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Shops</h4>
-            <h2 class="text-primary fw-bolder">6</h2>
+            <h2 class="text-primary fw-bolder">{{ $shopCount }}</h2>
         </div>
         <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
             <h4 class="text-secondary fw-bold">Active Users</h4>
@@ -99,8 +101,5 @@
                 
             </div>
         </div>
-
-
-
 </div>
 @endsection

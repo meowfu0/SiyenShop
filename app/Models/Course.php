@@ -14,14 +14,16 @@ class Course extends Model
      *
      * @var array
      */
-    protected $fillable = ['course_name']; // Add other fields if your table has more columns
+    protected $fillable = ['course_name']; 
 
     /**
      * Define the relationship with the User model.
      * A course can have many users.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'course_id'); 
     }
 }
