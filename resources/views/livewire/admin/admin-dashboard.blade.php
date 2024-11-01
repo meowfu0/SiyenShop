@@ -18,10 +18,11 @@
             <h4 class="text-secondary fw-bold">Shops</h4>
             <h2 class="text-primary fw-bolder">{{ $shopCount }}</h2>
         </div>
-        <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
-            <h4 class="text-secondary fw-bold">Active Users</h4>
-            <h2 class="text-primary fw-bolder">41</h2>
-        </div>
+    <!-- Dynamic active User count -->
+    <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
+        <h4 class="text-secondary fw-bold">Active Users</h4>
+        <h2 class="text-primary fw-bolder">{{ $activeUserCount }}</h2>
+    </div>
     </div>
     <!-- Display dynamic Shop Count -->
     <div class="d-flex px-5 py-4 gap-4 flex-grow-1 " style="display: table-row;">

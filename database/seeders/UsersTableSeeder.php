@@ -18,11 +18,11 @@ class UsersTableSeeder extends Seeder
     {
         // New User insert
         $newUser = [
-            'first_name' => 'Shakira',
-            'last_name' => 'Santos',
-            'email' => 'santos@example.com',
-            'phone_number' => '4417723888',
-            'course_bloc' => 'C',
+            'first_name' => 'Nena',
+            'last_name' => 'Schwarzenegger',
+            'email' => 'nena@example.com',
+            'phone_number' => '5517723888',
+            'course_bloc' => 'B',
             'year' => '1st Year',
             'course_id' => 1,
             'password' => Hash::make('password122'),

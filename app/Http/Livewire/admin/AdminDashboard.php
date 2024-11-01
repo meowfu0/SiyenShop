@@ -12,11 +12,14 @@ class AdminDashboard extends Component
     public $userCount;
     public $shopCount;
     public $userCountByCourse = [];
+    public $activeUserCount;
 
     public function render()
     {
         $this->userCount = User::count();
         $this->shopCount = Shop::count();
+
+        $this->activeUserCount = User::where('status_id', 1)->count();
 
         $this->userCountByCourse = User::selectRaw('courses.course_name, COUNT(users.id) as count')
             ->join('courses', 'users.course_id', '=', 'courses.id')
@@ -28,6 +31,7 @@ class AdminDashboard extends Component
             'userCount' => $this->userCount,
             'shopCount' => $this->shopCount,
             'userCountByCourse' => $this->userCountByCourse,
+            'activeUserCount' => $this->activeUserCount,
         ]);
     }
 }
