@@ -15,6 +15,7 @@ class AdminDashboard extends Component
     public $userCountByCourse = [];
     public $activeUserCount;
     public $topShops = [];
+    public $allShops = [];
 
     public function render()
     {
@@ -35,9 +36,12 @@ class AdminDashboard extends Component
             ->selectRaw('shops.shop_name, COUNT(orders.id) as order_count')
             ->groupBy('shops.shop_name')
             ->orderByDesc('order_count')
-            ->limit(5) // Adjust the limit into 5
+            ->limit(5)
             ->pluck('shop_name')
             ->toArray();
+
+        // Get all shops
+        $this->allShops = Shop::pluck('shop_name')->toArray();
 
         return view('livewire.admin.admin-dashboard', [
             'userCount' => $this->userCount,
@@ -45,6 +49,7 @@ class AdminDashboard extends Component
             'userCountByCourse' => $this->userCountByCourse,
             'activeUserCount' => $this->activeUserCount,
             'topShops' => $this->topShops,
+            'allShops' => $this->allShops,
         ]);
     }
 }

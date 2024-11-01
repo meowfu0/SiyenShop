@@ -73,33 +73,29 @@
             </div>
          </div>
     
-        <div class="d-flex flex-column gap-4" style="flex: 2; ">
+    <div class="d-flex flex-column gap-4" style="flex: 2; ">
         <div class="border border-primary rounded-4 p-4 flex-grow-1">
-    <div class="d-flex justify-content-between mb-2">
-        <h4 class="text-secondary fw-bold">Top Shops</h4>
-    </div>
-    <div>
-        @foreach($topShops as $shop)
-            <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
-        @endforeach
-    </div>
-</div>
-
-
-            <div class="border border-primary rounded-4 p-4 flex-grow-1" >
-                <div class="d-flex justify-content-between mb-2">
-                    <h4 class="text-secondary fw-bold">Shops</h4>
-                    <a href="{{ route('admin.shops') }}" class="text-secondary fs-">See all</a>
-                </div>
-                <div>
-                <h6 class="text-primary fw-bolder">CSC</h6>
-                    <h6 class="text-primary fw-bolder">CirCUITS</h6>
-                    <h6 class="text-primary fw-bolder">BIOlOGY</h6>
-                    <h6 class="text-primary fw-bolder">CHEM</h6>
-                    <h6 class="text-primary fw-bolder">METEOROLOGY</h6>
-                </div>
-                
-            </div>
+        <!-- Display dynamic Top Shops -->
+        <div class="d-flex justify-content-between mb-2">
+            <h4 class="text-secondary fw-bold">Top Shops</h4>
         </div>
+        <div>
+            @foreach($topShops as $shop)
+                <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
+            @endforeach
+        </div>
+    </div>
+    <div class="border border-primary rounded-4 p-4 flex-grow-1">
+        <!-- Display dynamic Shops name -->
+        <div class="d-flex justify-content-between mb-2">
+            <h4 class="text-secondary fw-bold">Shops</h4>
+            <a href="{{ route('admin.shops') }}" class="text-secondary fs-">See all</a>
+        </div>
+        <div>
+            @foreach($allShops as $shop)
+                <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
+            @endforeach
+        </div>
+    </div>
 </div>
 @endsection
