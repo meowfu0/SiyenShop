@@ -18,10 +18,31 @@
                         <img src="{{ asset('images/retrieve.svg') }}" alt="Retrieve" class="me-2" style="margin: 0; height: 13px; width: 13px;">
                         Retrieve
                     </button>
-                    <button class="btn btn-danger p-1 me-2 d-flex align-items-center justify-content-center" style="width: 130px; border-radius: 6px;">
+                    <button class="btn btn-danger p-1 me-2 d-flex align-items-center justify-content-center" 
+                        style="width: 130px; border-radius: 6px;" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#PdeleteModalCenter">
                         <img src="{{ asset('images/delete1.svg') }}" alt="Delete" class="me-2" style="margin: 0; height: 13px; width: 13px;">
-                        Delete
+                            Delete
                     </button>
+
+                                <!-- Modal to permanently delete FAQ-->
+                    <div class="modal fade" id="PdeleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content" style="height: 22rem;">
+                                <div class="modal-header d-flex justify-content-center" style="border: none;">
+                                    <h5 class="modal-title" id="" style="font-size: 1.2rem; font-weight: bold; padding: 2rem;">DELETE FAQ</h5>
+                                </div>
+                                <div class="modal-body mx-2 d-flex justify-content-center align-items-center">
+                                    <h4 class="text-center" style="width: 25rem; font-weight: 400;">Are You Sure You Want To Permanently Delete This? This Action Can't Be Undone.</h4>
+                                </div>
+                                <div class="modal-footer mx-2 d-flex justify-content-center" style="border: none; padding: 3rem;">
+                                    <button type="button" class="btn border" data-bs-dismiss="modal" style="width: 111px;">Close</button>
+                                    <button type="button" class="btn btn-primary" style="width: 111px;" id="savePDelBtn">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
