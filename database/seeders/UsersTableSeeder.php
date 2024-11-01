@@ -18,17 +18,17 @@ class UsersTableSeeder extends Seeder
     {
         // New User insert
         $newUser = [
-            'first_name' => 'Juliana',
-            'last_name' => 'Grande',
-            'email' => 'Grande@example.com',
-            'phone_number' => '0917723888',
+            'first_name' => 'Shakira',
+            'last_name' => 'Santos',
+            'email' => 'santos@example.com',
+            'phone_number' => '4417723888',
             'course_bloc' => 'C',
-            'year' => '2nd Year',
-            'course_id' => 4,
-            'password' => Hash::make('password12'),
+            'year' => '1st Year',
+            'course_id' => 1,
+            'password' => Hash::make('password122'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'role_id' => 1,
+            'role_id' => 2,
             'status_id' => 1,
         ];
         DB::table('users')->insert($newUser);
