@@ -17,12 +17,12 @@ class ShopsTableSeeder extends Seeder
     {
         // New Shop insert
         $newShop = [
-            'shop_name' => 'Symbiosis',
-            'shop_description' => 'A dedicated shop for biology students, offering essential resources, lab equipment, and materials to support learning and experimentation.',
-            'shop_logo' => 'symbiosis_logo.png',
-            'user_id' => 4, 
-            'status_id' => 1, 
-            'course_id' => 3,
+            'shop_name' => 'Meteorology',
+            'shop_description' => 'A specialized shop for meteorology students, providing weather instruments, charts, and resources for atmospheric science studies.',
+            'shop_logo' => 'meteorology_logo.png',
+            'user_id' => 5,
+            'status_id' => 1,
+            'course_id' => 4,
             'created_at' => Carbon::now(),
         ];
 
