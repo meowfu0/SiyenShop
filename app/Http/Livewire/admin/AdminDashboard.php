@@ -18,7 +18,6 @@ class AdminDashboard extends Component
         $this->userCount = User::count();
         $this->shopCount = Shop::count();
 
-        // Get user counts grouped by course name
         $this->userCountByCourse = User::selectRaw('courses.course_name, COUNT(users.id) as count')
             ->join('courses', 'users.course_id', '=', 'courses.id')
             ->groupBy('courses.course_name')
