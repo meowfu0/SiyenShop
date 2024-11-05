@@ -15,9 +15,11 @@
             </div>
             <div class="faq-section mt-3 d-inline-flex border justify-content-center" style="gap: 20px; border-radius: 4px;">
                 <!-- FAQ Button -->
-                <a href="{{ route('chat') }}" class="d-flex justify-content-center align-items-center my-3">
+                <a href="#" id="support-chat" class="d-flex justify-content-center align-items-center my-3">
                     <img src="{{ asset('images/support.svg') }}" alt="Support" style="width: 32px; height: 32px;">
                 </a>
+
+
                 <p class="d-flex justify-content-center align-items-center custom-width-p">Couldn't find your concern? Chat with us!</p>
 
             </div>  
@@ -120,3 +122,50 @@
     </div>
 </div>
 @endsection
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const supportChatButton = document.getElementById('support-chat');
+    if (supportChatButton) {
+        supportChatButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            
+            // Send the chat message via AJAX
+            fetch("{{ route('start.chat') }}", {
+                method: 'POST', // Use POST to send data
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // CSRF token for protection
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    message: 'Hello!! how can I help you?', // Your chat message
+                    is_admin: true // Indicate that this is an admin message
+                })
+            })
+            .then(response => {
+                // Check if the response is OK
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "{{ route('start.chat') }}";
+                } else {
+                    alert('Error sending message: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending message: ' + error.message);
+            });
+        });
+    } else {
+        console.error("Button with ID 'support-chat' not found.");
+    }
+});
+
+
+</script>

@@ -63,6 +63,13 @@
 }
 
 /*Chat Section*/
+.smaller {
+    font-size: 0.5rem; 
+}
+#message {
+    overflow: hidden; 
+    resize: none; 
+}
 
 .main-content {
     height: calc(100vh - 80px);
