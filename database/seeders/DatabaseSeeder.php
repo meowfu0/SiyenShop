@@ -14,21 +14,22 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(CartItemsTableSeeder::class);
-        $this->call(CartsTableSeeder::class);
-        $this->call(CategoriesTableSeeder::class);
+        
+        $this->call(StatusesTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
         $this->call(CoursesTableSeeder::class);
-        $this->call(GCashInfoSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(ShopsTableSeeder::class);
+        $this->call(CategoriesTableSeeder::class);
+        // $this->call(GCashInfoSeeder::class); merong error yong number
         $this->call(MessagesTableSeeder::class);
-        $this->call(OrderItemsTableSeeder::class);
         $this->call(OrdersTableSeeder::class);
+        $this->call(OrderItemsTableSeeder::class); 
         $this->call(ProductsTableSeeder::class);
         $this->call(ProductVariantsTableSeeder::class);
-        $this->call(ReviewsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(ShopsTableSeeder::class);
-        $this->call(StatusesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        $this->call(CartsTableSeeder::class);
+        $this->call(CartItemsTableSeeder::class);
+        $this->call(ReviewsTableSeeder::class); 
     }
 
 

@@ -81,7 +81,7 @@ Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypu
 Route::get('/shop', function () {
     return redirect()->route('shop.dashboard');
 })->name('Shop');
-Route::prefix('shop')->group(function () {
+Route::prefix('shop')->middleware(['auth','checkUserRole'])->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
@@ -90,7 +90,6 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
     Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
-
 });
 
 
