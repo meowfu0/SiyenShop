@@ -25,8 +25,8 @@
     </div>
     </div>
     <!-- Display dynamic Shop Count -->
-    <div class="d-flex px-5 py-4 gap-4 flex-grow-1 " style="display: table-row;">
-        <div class=" border border-primary rounded-4 p-4 " style="flex: 5;">
+    <div class="d-flex px-5 py-3 gap-4 flex-grow-1 " style="display: table-row;">
+        <div class=" border border-primary rounded-4 p-4 ">
              <div class="d-flex justify-content-between">
                 <h4 class="text-secondary fw-bold">User</h4>
                 <a href="{{ route('admin.users') }}" class="text-secondary fs-3">See all</a>
@@ -49,6 +49,7 @@
                         }]
                     },
                     options: {
+                        responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
                             title: {
@@ -73,29 +74,29 @@
             </div>
          </div>
     
-    <div class="d-flex flex-column gap-4" style="flex: 2; ">
-        <div class="border border-primary rounded-4 p-4 flex-grow-1">
-        <!-- Display dynamic Top Shops -->
-        <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Top Shops</h4>
+        <div class="d-flex flex-column gap-4" style="flex: 3;">
+            <div class="border border-primary rounded-4 p-4 flex-grow-1">
+            <!-- Display dynamic Top Shops -->
+            <div class="d-flex justify-content-between mb-2">
+                <h4 class="text-secondary fw-bold">Top Shops</h4>
+            </div>
+            <div>
+                @foreach($topShops as $shop)
+                    <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
+                @endforeach
+            </div>
         </div>
-        <div>
-            @foreach($topShops as $shop)
-                <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
-            @endforeach
+        <div class="border border-primary rounded-4 p-4 flex-grow-1" style="flex: 4;">
+            <!-- Display dynamic Shops name -->
+            <div class="d-flex justify-content-between mb-2">
+                <h4 class="text-secondary fw-bold">Shops</h4>
+                <a href="{{ route('admin.shops') }}" class="text-secondary fs-">See all</a>
+            </div>
+            <div>
+                @foreach($allShops as $shop)
+                    <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
+                @endforeach
+            </div>
         </div>
     </div>
-    <div class="border border-primary rounded-4 p-4 flex-grow-1">
-        <!-- Display dynamic Shops name -->
-        <div class="d-flex justify-content-between mb-2">
-            <h4 class="text-secondary fw-bold">Shops</h4>
-            <a href="{{ route('admin.shops') }}" class="text-secondary fs-">See all</a>
-        </div>
-        <div>
-            @foreach($allShops as $shop)
-                <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
-            @endforeach
-        </div>
-    </div>
-</div>
 @endsection
