@@ -37,8 +37,6 @@
     <!--Product List-->
     <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 p-4">
         @foreach ($products as $product)
-        
-        
         <div class="block-7">
             <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
             <div class="text-center p-4">
