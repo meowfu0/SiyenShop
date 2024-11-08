@@ -10,6 +10,8 @@ class GCashInfoSeeder extends Seeder
 {
     public function run()
     {
+        // Reset the auto-increment value to 1
+        DB::statement('ALTER TABLE g_cash_infos AUTO_INCREMENT = 1;');
         DB::table('g_cash_infos')->insert([
             'user_id' => 1,
             'shop_id' => 1,

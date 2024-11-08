@@ -16,7 +16,7 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         // Reset the auto-increment value to 1
-        DB::statement('ALTER TABLE shops AUTO_INCREMENT = 1;');
+        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
         $categories = [
             ['category_name' => 'Lanyards',],
             ['category_name' => 'Pins',],

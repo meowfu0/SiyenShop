@@ -15,6 +15,8 @@ class CoursesTableSeeder extends Seeder
      */
     public function run()
     {
+        // Reset the auto-increment value to 1
+        DB::statement('ALTER TABLE courses AUTO_INCREMENT = 1;');
         DB::table('courses')->insert([
             ['course_name' => 'Bachelor of Science in Information Technology', 'created_at' => Carbon::now(), 'modified_at' => Carbon::now()],
             ['course_name' => 'Bachelor of Science in Computer Science', 'created_at' => Carbon::now(), 'modified_at' => Carbon::now()],

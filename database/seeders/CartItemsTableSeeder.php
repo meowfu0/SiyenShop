@@ -15,7 +15,7 @@ class CartItemsTableSeeder extends Seeder
     public function run()
     {
         // Reset the auto-increment value to 1
-        DB::statement('ALTER TABLE shops AUTO_INCREMENT = 1;');
+        DB::statement('ALTER TABLE cart_items AUTO_INCREMENT = 1;');
         $cart_items = [
             [
                 'product_id' => 1, 
