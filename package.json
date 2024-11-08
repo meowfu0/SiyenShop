@@ -106,7 +106,7 @@
         "content-disposition": "^0.5.4",
         "content-type": "^1.0.5",
         "convert-source-map": "^2.0.0",
-        "cookie": "^0.6.0",
+        "cookie": "^1.0.1",
         "cookie-signature": "^1.0.6",
         "core-js-compat": "^3.38.1",
         "core-util-is": "^1.0.3",
