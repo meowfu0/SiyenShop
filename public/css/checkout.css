@@ -244,5 +244,102 @@
     max-width: 500px;
     min-width: 300px; /* Optional: set a minimum width */
 }
+
+
   
+  /* --------------------------Mobile Responsive Styles for checkout page-----------*/
+@media (max-width: 400px) {
+    #checkout-div {
+       display: flex !important;
+       flex-direction: column !important;
+       justify-content: space-evenly !important; 
+       padding: 7px !important; 
+       margin-bottom: 10px;
+   
+   }
+   .noBorder{
+       font-size: 10px !important;
+   }
+   #cancel-button{
+       display: inline-block !important;   
+       width: 60px !important;
+       font-size: 12px;
+       height: 31px !important;
+   }
+   .table-head th{
+    font-size: 7px !important;
+}
+
+
+   }
+   
+       
+   @media (max-width: 760px) {
+    .table-head th{
+        font-size: 11px !important;
+    }
+       .remove{
+           display: none !important;
+       }
+        .checkout-sizes{
+           font-size: 10px !important;
+       }
+       #checkout-padding{
+           padding: 0px 2px !important;
+       }
+       #checkout-div{
+           padding: 7px !important;
+           margin-bottom: 10px;
+       }
+       #placeorder-button{
+           width: 130px !important;
+           font-size: 12px;
+           height: 31px !important;
+       }
+       #checkout-payment-text{
+           margin-left:0px !important;
+       }
+       .items-payment{
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            width: auto !important;
+       }
+       .items-check,   .items-pay{
+        width: auto;
+        display: flex !important;
+        justify-content: start !important;
+        gap: 0px !important;
+
+       }
+       .items-btn{
+        display: flex !important;
+        flex-direction: column-reverse !important;
+        gap : 5px !important;
+       }
+     
+   }
+   
+   @media (max-width: 989px) {
+       #CheckoutButtons{
+           display: flex;
+           flex-direction: row;
+           gap: 5px;
+       }
+       #cancel-button{
+           width: 70px;    
+           display: none;
+       }
+       #no-padding{
+           padding: 0px !important;
+       }
+       .table-head th{
+        font-size: 11px !important;
+    }
+   
+   
+   }
+   
+   /*-----------------------------------------end------------------*/
+
   
