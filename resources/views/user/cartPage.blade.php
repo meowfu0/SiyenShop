@@ -27,13 +27,13 @@
                             </div>
                         </div>
 
-          <div class="d-flex align-items-start flex-row justify-content-between gap-5" id="ProductName">
+                    <div class="d-flex align-items-start flex-row justify-content-between gap-5" id="ProductName">
                         <div class="d-flex align-items-start flex-column">
                             <div class="p-2 text-primary" id="remove"><b>Item</b></div>
                             <div class="p-2 fixed-width" id="prod-name"><p class="mt-2" id="name">CIRCUITS T-Shirt - Black</p></div>
                         </div>
 
-         <div class="d-flex align-items-start flex-row gap-5" id="Price-Variant" > 
+                    <div class="d-flex align-items-start flex-row gap-5" id="Price-Variant" > 
                         <div class="d-flex align-items-center flex-column">
                             <div class="p-2  text-primary" id="remove" ><b>Unit Price</b></div>
                             <div class="p-2" id="amount"><p class="price mt-2" >₱ 350.00</p></div>
@@ -86,14 +86,14 @@
                             <img src="{{ asset('images/lanyard-sample.jpg') }}" class="img-fluid rounded-2 img-items"></div>
                         </div>
 
-          <div class="d-flex align-items-start flex-row justify-content-between gap-5" id="ProductName">
+                    <div class="d-flex align-items-start flex-row justify-content-between gap-5" id="ProductName">
                         <div class="d-flex align-items-start flex-column">
                             <div class="p-2  text-primary" id="remove"><b>Item</b></div>
                             <div class="p-2  fixed-width" id="prod-name"><p class="mt-2" id="name">CSC Reversible Lanyard
                             </p></div>
                         </div>
 
-         <div class="d-flex align-items-start flex-row gap-5" id="Price-Variant" > 
+                     <div class="d-flex align-items-start flex-row gap-5" id="Price-Variant" > 
                         <div class="d-flex align-items-center flex-column">
                             <div class="p-2  text-primary" id="remove" ><b>Unit Price</b></div>
                             <div class="p-2" id="amount"><p class="price mt-2" >₱ 250.00</p></div>
