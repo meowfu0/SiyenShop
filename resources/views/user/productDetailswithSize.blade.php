@@ -33,6 +33,11 @@
                                         <p class="fs-4 mb-1 ml-2 mt-1">{{$product->sales_count}} sold</p>
                                     </div>
                                     <!--<p class="fs-4 pt-1">Stocks left : <b>{{$product->stocks}}</b></p>-->
+
+                                    @if($product->status->status_name === 'ON HAND')
+                                        <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
+                                    @endif
+
                                     <!--<p class="price fs-8 fw-bold mb-1">₱250.00</p>-->
 
                                     @if($product->category->category_name === 'T-Shirt')

@@ -21,7 +21,7 @@ class shopPageController extends Controller
     }
 
     if ($category !== 'All') {
-        $query->where('category_id', $category);  // Assuming there's a 'category' field in the 'products' table
+        $query->where('category_id', $category); 
     }
 
     $products = $query->get();

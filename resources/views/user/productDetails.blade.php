@@ -33,6 +33,9 @@
                             </div>
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
                             <div class="quantity mb-4" style="margin-top: 150px;">
+                            @if($product->status->status_name === 'ON HAND')
+                                        <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
+                                    @endif
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button id="decrement" style="color: #092C4C">-</button>
@@ -79,8 +82,8 @@
                             </div>
                             <div class="comment-text w-100">
                                 <!-- Name and date -->
-                                <p class="fs-4 mt-3 mb-1">{{$review->user->name}}
-                                    <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date->format('YYYY-MM-DD')}}</span>
+                                <p class="fs-4 mt-3 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}
+                                    <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date }}</span>
                                 </p>
                                 <div class="ratings-below" style="margin-top: -5px;">
                                     <i class="fa fa-star rating-color2 mr-1"></i>
