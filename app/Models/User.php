@@ -47,4 +47,16 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Course::class);
     }
+
+     /**
+     * Relationship to the Role model.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    
 }
+
+
