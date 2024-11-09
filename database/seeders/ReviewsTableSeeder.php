@@ -15,6 +15,8 @@ class ReviewsTableSeeder extends Seeder
      */
     public function run()
     {
+        // Reset the auto-increment value to 1
+        DB::statement('ALTER TABLE reviews AUTO_INCREMENT = 1;');
         $reviews = [
             [
                 'user_id' => 1,

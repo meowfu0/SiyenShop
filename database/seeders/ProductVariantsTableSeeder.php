@@ -15,6 +15,8 @@ class ProductVariantsTableSeeder extends Seeder
      */
     public function run()
     {
+        // Reset the auto-increment value to 1
+        DB::statement('ALTER TABLE product_variants AUTO_INCREMENT = 1;');
         $product_variants = [
             [
                 'product_id' => 3,
