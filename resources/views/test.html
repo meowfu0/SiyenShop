@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printable Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Print styling */
+        body{
+            background-image: url('../../images/emailBg.png');
+            background-size: cover;
+            background-position: center;
+        }
+        @media print {
+            body {
+                width: 8.5in;
+                height: 11in;
+                margin: 0;
+                padding: 1in;
+                color: #000;
+                font-size: 12pt;
+                background-image: url('../../images/emailBg.png');
+                background-size: cover;
+                background-position: center;
+            }
+            .no-print {
+                display: none;
+            }
+            .print-section {
+                page-break-after: always; /* Forces a new page after each section */
+            }
+            .page-break {
+                page-break-before: always; /* Manually inserts a page break before this element */
+            }
+        }
+        /* Page setup for Letter/A4 */
+        .content {
+            max-width: 8.5in;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container content">
+    <header class="text-center my-4">
+        <h1>Document Title</h1>
+        <p class="lead">Subtitle or description of the document</p>
+    </header>
+
+    <section class="print-section mb-5">
+        <h2>Section 1</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris non augue a elit volutpat scelerisque.</p>
+    </section>
+
+    <section class="print-section mb-5">
+        <h2>Section 2</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus non arcu facilisis commodo.</p>
+    </section>
+
+    <!-- Example content that spans multiple pages -->
+    <section class="print-section mb-5">
+        <h2>Section 3 - Long Content</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+        <!-- Repeat content to simulate overflow -->
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+        <!-- Add as much content as needed here for testing overflow -->
+    </section>
+
+    <!-- Manually triggered page break -->
+    <div class="page-break"></div>
+
+    <section class="mb-5">
+        <h2>Section 4</h2>
+        <p>This section will start on a new page due to the manually inserted page break.</p>
+    </section>
+
+    <!-- Button to trigger print, hidden during print -->
+    <div class="text-center mt-4 no-print">
+        <button onclick="window.print();" class="btn btn-primary">Print</button>
+    </div>
+</div>
+
+</body>
+</html>

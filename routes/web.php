@@ -28,6 +28,7 @@ use App\Http\Livewire\Admin\Updateshop;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
+use App\Http\Controllers\OrderEmailsController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
@@ -73,6 +74,8 @@ Route::get('/faqs', function () {
 
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+
+Route::get('/email', [ OrderEmailsController::class, 'index'])->name('email');
 
 
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Order email</title>
+<style>
+    .bg{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url('../../images/emailBg.png') no-repeat center center / cover;
+        z-index: -1; /* Places it behind other content */
+    }
+    .content {
+        position: relative;
+        z-index: 1;
+        /* Add padding/margins as needed */
+      }
+</style>
+
+</head>
+<body>
+    <div class="bg">
+        <div class="content">
+            <div class="email">
+                <img src="../../public/images/icon.svg" alt="">
+                <h1>Order Placed</h1>
+                <h3>Your order has been Placed</h3>
+                <div>
+                    <h4>Order Summary</h4>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
