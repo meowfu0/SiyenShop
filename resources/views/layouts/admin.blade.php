@@ -14,6 +14,8 @@
     <link href="{{ asset('css/customer_support.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/customer_support.js') }}" defer></script>
+    <!-- Chart.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 
 </head>

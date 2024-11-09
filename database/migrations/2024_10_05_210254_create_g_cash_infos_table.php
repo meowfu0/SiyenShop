@@ -19,7 +19,7 @@ class CreateGCashInfosTable extends Migration
             $table->unsignedBigInteger('shop_id');
         
             $table->string('gcash_name', 255);
-            $table->integer('gcash_number');
+            $table->string('gcash_number', 255);
             $table->float('gcash_limit');
        
             $table->timestamp('created_at')->useCurrent();
