@@ -22,6 +22,7 @@ use App\Http\Controllers\cartPageController;
 use App\Http\Controllers\checkOutPageController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
+use App\Http\Controllers\UserController;
 use League\CommonMark\Node\Query\OrExpr;
 use App\Http\Livewire\Admin\CreateShop;
 use App\Http\Livewire\Admin\Updateshop; 
@@ -70,7 +71,6 @@ Route::get('/faqs', function () {
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
 
-
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
 Route::get('/shop', function () {
@@ -87,7 +87,6 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 
 });
-
 
 // admin routes
 Route::get('/admin', function () {
@@ -106,5 +105,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
+    
 });
+
+//roles management module
+//users roles list
+Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');;
+
+//shops page list
 
