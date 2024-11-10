@@ -62,6 +62,28 @@
                                 </button>
                             </td>
                         </tr>
+                        @foreach($users as $user)
+                        <tr>
+                            <th scope="row">
+                                @if($user->profile_picture)
+                                    <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                @else
+                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                @endif
+                            </th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role_name }}</td> <!-- Joined role name -->
+                            <td>{{ $user->course_name }} {{ $user->year }}</td> <!-- Joined course name -->
+                            <td>{{ $user->status }}</td>
+                            <td>
+                                <button class="view-users-btn fs-2 p-1 px-2">View Account 
+                                    <img src="{{ asset('images/redirect.svg') }}">
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                        
                         <!-- Some of the fillers were omitted to -->
 
                     </tbody>
