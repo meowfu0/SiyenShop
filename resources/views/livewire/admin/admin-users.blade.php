@@ -71,11 +71,11 @@
                                     <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
                                 @endif
                             </th>
-                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->first_name.' '. $user->last_name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->role_name }}</td> <!-- Joined role name -->
-                            <td>{{ $user->course_name }} {{ $user->year }}</td> <!-- Joined course name -->
-                            <td>{{ $user->status }}</td>
+                            <td>{{ $user->role->role_name ?? 'Unknown'}}</td> <!-- Joined role name -->
+                            <td>{{ $user->course->course_name ?? 'Unknown'}}</td> <!-- Joined course name -->
+                            <td>{{ $user->status->status_name ?? 'No status assigned'}}</td>
                             <td>
                                 <button class="view-users-btn fs-2 p-1 px-2">View Account 
                                     <img src="{{ asset('images/redirect.svg') }}">
