@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::with(['course', 'role'])->get();
+        return view('livewire.admin.admin-users', compact('users'));
     }
 
     /**
