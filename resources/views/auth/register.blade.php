@@ -41,8 +41,8 @@
 
         <!-- Course -->
         <div class="mb-3">
-            <label for="course" class="form-label" style="font-size: 16px; color: #092C4C;">Course</label>
-            <select id="course" class="form-select" name="course" required style="font-size: 14px;">
+            <label for="course_id" class="form-label" style="font-size: 16px; color: #092C4C;">Course</label>
+            <select id="course_id" class="form-select" name="course_id" required style="font-size: 14px;">
                 <option value="" disabled selected>Select your course</option>
                 <option value="BS Information Technology">BS Information Technology</option>
                 <option value="BS Meteorology">BS Meteorology</option>
@@ -66,8 +66,8 @@
                 </select>
             </div>
             <div class="col">
-                <label for="block" class="form-label" style="font-size: 16px; color: #092C4C;">Block</label>
-                <select id="block" class="form-select" name="block" required style="font-size: 14px;">
+                <label for="course_bloc" class="form-label" style="font-size: 16px; color: #092C4C;">Block</label>
+                <select id="course_bloc" class="form-select" name="bloc" required style="font-size: 14px;">
                     <option value="" disabled selected>Select your block</option>
                     <option value="A">A</option>
                     <option value="B">B</option>

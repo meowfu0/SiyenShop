@@ -31,7 +31,7 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-
+use App\Http\Controllers\RegisterController;
 
 
 Auth::routes();
@@ -111,5 +111,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
-});
+    
+    Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+
+
+    });
+        
+
 

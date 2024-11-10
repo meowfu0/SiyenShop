@@ -5,6 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
+{
+    
+
+    // Specify which attributes can be mass-assigned
+   
+
+    // Additional configurations (if any)...
+}
+
 class UserController extends Controller
 {
     /**
@@ -82,4 +92,10 @@ class UserController extends Controller
     {
         //
     }
+}
+{
+
+    
+
+    // Additional configurations (if any)...
 }
