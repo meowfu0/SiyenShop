@@ -48,3 +48,12 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(11px);
 }
+
+.dropdown-item {
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.dropdown-item:hover {
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: white; /* Change text color to white */
+}

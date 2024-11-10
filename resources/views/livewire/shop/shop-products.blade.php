@@ -144,6 +144,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Thumbnail</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Variant</th>
                             <th scope="col">Price</th>
                             <th scope="col">Category</th>
                             <th scope="col">Available Stocks</th>
@@ -161,10 +162,11 @@
                             <td><img src="{{ asset('images/black code.jpg') }}" alt="Thumbnail" style="width: 50px;">
                             </td>
                             <td>Name</td>
+                            <td>Medium</td>
                             <td>P 250.00</td>
                             <td>T-Shirt</td>
                             <td>20</td>
-                            <td>Available</td>
+                            <td>On-hand</td>
                             <td>Visible</td>
                             <td>In Stock</td>
                             <td>
@@ -205,12 +207,13 @@
                             <td><img src="{{ asset('images/black code.jpg') }}" alt="Thumbnail" style="width: 50px;">
                             </td>
                             <td>Name</td>
+                            <td>Large</td>
                             <td>P 250.00</td>
                             <td>T-Shirt</td>
-                            <td>30</td>
-                            <td>Available</td>
+                            <td>NA</td>
+                            <td>Pre-Order</td>
                             <td>Visible</td>
-                            <td>In Stock</td>
+                            <td>NA</td>
                             <td>
                                 <div class="dropdown">
                                     <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu"
@@ -248,12 +251,13 @@
                             <td>00123</td>
                             <td><img src="{{ asset('images/lanyard.jpg') }}" alt="Thumbnail" style="width: 50px;"></td>
                             <td>Name</td>
+                            <td>NA</td>
                             <td>P 160.00</td>
                             <td>Lanyard</td>
-                            <td>30</td>
-                            <td>Available</td>
+                            <td>10</td>
+                            <td>On-hand</td>
                             <td>Visible</td>
-                            <td>In Stock</td>
+                            <td>Low Stock</td>
                             <td>
                                 <div class="dropdown">
                                     <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu"
@@ -292,12 +296,13 @@
                             <td>00124</td>
                             <td><img src="{{ asset('images/pins.jpg') }}" alt="Thumbnail" style="width: 50px;"></td>
                             <td>Name</td>
+                            <td>NA</td>
                             <td>P 80.00</td>
                             <td>Pins</td>
-                            <td>30</td>
-                            <td>Available</td>
+                            <td>0</td>
+                            <td>On-hand</td>
                             <td>Visible</td>
-                            <td>In Stock</td>
+                            <td>Out of Stock</td>
                             <td>
                                 <div class="dropdown">
                                     <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu"
@@ -389,4 +394,5 @@
 
     <!-- Include Bootstrap JS for Dropdown functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 @endsection

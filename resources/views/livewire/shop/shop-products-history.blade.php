@@ -90,10 +90,10 @@
                         <th scope="col">ID</th>
                         <th scope="col">Thumbnail</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Variant</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Supplier Price</th>
-                        <th scope="col">Available Stocks</th>
                         <th scope="col">Category</th>
+                        <th scope="col">Available Stocks</th>
                         <th scope="col">Deletion Date</th>
                     </tr>
                 </thead>
@@ -103,12 +103,12 @@
                         <td><input type="checkbox" class="select-item"></td>
                         <td>00121</td>
                         <td><img src="{{ asset('images/black code.jpg') }}" alt="Thumbnail" style="width: 50px;"></td>
-                        <td>Product Name</td>
+                        <td>Name</td>
+                        <td>Medium</td>
                         <td>P 250.00</td>
-                        <td>P 250.00</td>
+                        <td>T-Shirt</td>
                         <td>20</td>
-                        <td>T-shirt</td>
-                        <td>09/26/2024</td>
+                    <td>09/26/2024</td>
                         <td>
                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#restoreModal">
                         <img src="{{ asset('images/history.svg') }}" alt="History" style="width: 20px; height:20px">
@@ -133,11 +133,11 @@
                         <td><input type="checkbox" class="select-item"></td>
                         <td>00122</td>
                         <td><img src="{{ asset('images/black code.jpg') }}" alt="Thumbnail" style="width: 50px;"></td>
-                        <td>Product Name</td>
+                        <td>Name</td>
+                        <td>Large</td>
                         <td>P 250.00</td>
-                        <td>P 250.00</td>
-                        <td>20</td>
-                        <td>T-shirt</td>
+                        <td>T-Shirt</td>
+                        <td>NA</td>
                         <td>09/26/2024</td>
                         <td>
                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#restoreModal">
@@ -163,11 +163,11 @@
                         <td><input type="checkbox" class="select-item"></td>
                         <td>00123</td>
                         <td><img src="{{ asset('images/lanyard.jpg') }}" alt="Thumbnail" style="width: 50px;"></td>
+                        <td>Name</td>
+                        <td>NA</td>
+                        <td>P 160.00</td>
                         <td>Lanyard</td>
-                        <td>P 160.00</td>
-                        <td>P 160.00</td>
-                        <td>20</td>
-                        <td>Accessories</td>
+                        <td>10</td>
                         <td>09/26/2024</td>
                         <td>
                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#restoreModal">
@@ -193,11 +193,11 @@
                         <td><input type="checkbox" class="select-item"></td>
                         <td>00124</td>
                         <td><img src="{{ asset('images/pins.jpg') }}" alt="Thumbnail" style="width: 50px;"></td>
+                        <td>Name</td>
+                        <td>NA</td>
+                        <td>P 80.00</td>
                         <td>Pins</td>
-                        <td>P 80.00</td>
-                        <td>P 80.00</td>
-                        <td>26</td>
-                        <td>Accessories</td>
+                        <td>0</td>
                         <td>09/26/2024</td>
                         <td>
                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#restoreModal">
