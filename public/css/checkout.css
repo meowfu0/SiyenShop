@@ -56,10 +56,51 @@
 
 
 /*---------------- Mobile Responsive Styles for cart page--------------*/
+
+/*------------AAYUSIN PA ITO---------*/
 @media (max-width: 376px){
     .img-items{
-        display: none;
+        display: none !important;
     }
+    #items-total{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 2rem !important;
+    }
+    #items-count-div{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 2rem !important;
+    }
+    #total-div{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 2rem !important;
+    }
+
+}
+@media (max-width: 600px){
+  /*------------AAYUSIN PA ITO---------*/
+    #items-total{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 15rem !important;
+    }
+    #items-count-div{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 14rem !important;
+    }
+    #total-div{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 14rem !important;
+    }
+    .footer-fs  span , .footer-fs  {
+        font-size: 12px !important;
+    }
+
+    
 }
 @media (max-width: 1024px) {
   
@@ -99,7 +140,7 @@
         width: 10px !important;
         font-size: 10px !important;
     }
-    #quantity_item1, #quantity_item2{
+    .quantities{
         width: 5px !important;
         font-size: 10px !important;
         height: 29px !important;
@@ -201,10 +242,9 @@
     #button-size{
         font-size: 10px !important;
     }
- 
+  
 }
 /* ------------------------------------end-------------------------------------*/
-
 
 
 
@@ -248,6 +288,7 @@
 
   
   /* --------------------------Mobile Responsive Styles for checkout page-----------*/
+  /*------------AAYUSIN PA ITO---------*/
 @media (max-width: 400px) {
     #checkout-div {
        display: flex !important;
@@ -341,7 +382,7 @@
    }
    
    /*-----------------------------------------end------------------*/
-   
+   /*------------AAYUSIN PA ITO---------*/
 
      /*-----------------------------------payment page mobile------------------*/
      @media (max-width: 500px) {

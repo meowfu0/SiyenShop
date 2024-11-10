@@ -59,6 +59,8 @@ Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name(
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // cart and checkout routes
 Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
+Route::delete('/cart/remove/{id}', [CartPageController::class, 'remove'])->name('cart.remove');
+
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
 Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
