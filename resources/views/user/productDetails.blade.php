@@ -23,19 +23,17 @@
                             <p class="title fs-10 fw-bold mb-0">{{$product->product_name}}</p>
                             <div class="ratings d-flex align-items-center gap-3">
                                 <div>
-                                    <i class="fa fa-star rating-color mr-1"></i>
-                                    <i class="fa fa-star rating-color mr-1"></i>
-                                    <i class="fa fa-star rating-color mr-1"></i>
-                                    <i class="fa fa-star rating-color mr-1"></i>
-                                    <i class="fa fa-star mr-1"></i>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star{{ $i <= floor($averageRating) ? ' rating-color' : '' }}"></i>
+                                @endfor
                                 </div>
                                 <p class="fs-4 mb-1 ml-2 mt-1">{{$product->sales_count}} sold</p>
                             </div>
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
                             <div class="quantity mb-4" style="margin-top: 150px;">
-                            @if($product->status->status_name === 'ON HAND')
+                                @if($product->status->status_name === 'onhand')
                                         <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
-                                    @endif
+                                @endif
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button id="decrement" style="color: #092C4C">-</button>
@@ -70,36 +68,34 @@
                         <p class="fs-4 fw-medium ml-5" style="color: #092C4C">{{$product->product_decription}}</p>
                     </div>
                         <div class="row col-md-12 justify-content-center">
-                        <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">Customer Reviews
-                            <span class="fs-4"><a href="{{route('customerReview', $product->id)}}" style="float:right; text-decoration:none; color: #092C4C; margin-top: 10px">See all</a></span>
-                        </h2>
+                            <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">Customer Reviews
+                                <span class="fs-4"><a href="{{route('customerReview', ['product_id' => $product->id])}}" style="float:right; text-decoration:none; color: #092C4C; margin-top: 10px">See all</a></span>
+                            </h2>
 
-                        <!-- Review Section-->
-                        @foreach ($reviews as $review )
-                        <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px;">
-                            <div class="p-2 mt-2">
-                                <span class="round"><img src="{{asset('images/user.svg')}}" alt="user" width="25"></span>
-                            </div>
-                            <div class="comment-text w-100">
-                                <!-- Name and date -->
-                                <p class="fs-4 mt-3 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}
-                                    <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date }}</span>
-                                </p>
-                                <div class="ratings-below" style="margin-top: -5px;">
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star mr-1"></i>
+                                <!-- Review Section-->
+                            @foreach ($reviews as $review)
+                                <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px;">
+                                    <div class="p-2 mt-2">
+                                        <span class="round"><img src="{{ asset('images/user.svg') }}" alt="user" width="25"></span>
+                                    </div>
+                                    <div class="comment-text w-100">
+                                        <!-- Name and date -->
+                                        <p class="fs-4 mt-3 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}
+                                            <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date }}</span>
+                                        </p>
+                                        <div class="ratings-below" style="margin-top: -5px;">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="fa fa-star{{ $i <= $review->ratings ? ' rating-color2' : '' }} mr-1"></i>
+                                            @endfor
+                                        </div>
+                                        <p class="mt-2">{{ $review->review_text }}</p>
+                                    </div>
                                 </div>
-                                <p class="mt-2">{{ $review->review_text}}</p>
-                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
-                    </div>
                     </div>
                 </div>
-                </div>
+            </div>
 
                 <!-- You may also like -->
                 <div class="row col-md-12 justify-content-center">

@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
         $users = [
             [
                 'first_name' => 'Alice',
@@ -27,6 +28,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 1,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 1,
@@ -41,6 +43,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 2,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture1.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 2,
                 'status_id' => 1,
@@ -55,6 +58,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 3,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture2.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 1,
@@ -69,6 +73,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 4,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture3.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 2,
@@ -83,6 +88,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 5,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture4.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 2,
                 'status_id' => 1,
@@ -98,6 +104,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 1,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture5.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 1,
@@ -112,6 +119,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 2,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture6.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 1,
@@ -126,6 +134,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 3,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture7.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 2,
@@ -140,6 +149,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 4,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture8.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 1,
                 'status_id' => 1,
@@ -154,6 +164,7 @@ class UsersTableSeeder extends Seeder
                 'course_id' => 5,
                 'password' => Hash::make('password123'),
                 'created_at' => Carbon::now(),
+                'profile_picture' => 'picture9.png',
                 'updated_at' => Carbon::now(),
                 'role_id' => 2,
                 'status_id' => 1,

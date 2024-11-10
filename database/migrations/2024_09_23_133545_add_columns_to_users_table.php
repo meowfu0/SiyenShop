@@ -19,7 +19,8 @@ class AddColumnsToUsersTable extends Migration
             $table->string('phone_number')->after('email')->nullable(); 
             $table->string('course_bloc')->after('phone_number')->nullable(); 
             $table->string('year')->after('course_bloc'); 
-            $table->unsignedBigInteger('course_id')->after('year'); 
+            $table->unsignedBigInteger('course_id')->after('year');
+            $table->string('profile_picture', 255)->nullable(); 
 
     
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');

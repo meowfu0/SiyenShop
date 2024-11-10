@@ -23,13 +23,9 @@
                                     <p class="status">{{$product->status->status_name}}</p>
                                     <p class="title fs-10 fw-bold mb-0">{{$product->product_name}}</p>
                                     <div class="ratings d-flex align-items-center gap-3">
-                                        <div>
-                                            <i class="fa fa-star rating-color mr-1"></i>
-                                            <i class="fa fa-star rating-color mr-1"></i>
-                                            <i class="fa fa-star rating-color mr-1"></i>
-                                            <i class="fa fa-star rating-color mr-1"></i>
-                                            <i class="fa fa-star mr-1"></i>
-                                        </div>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="fa fa-star{{ $i <= floor($averageRating) ? ' rating-color' : '' }}"></i>
+                                            @endfor
                                         <p class="fs-4 mb-1 ml-2 mt-1">{{$product->sales_count}} sold</p>
                                     </div>
                                     <!--<p class="fs-4 pt-1">Stocks left : <b>{{$product->stocks}}</b></p>-->
@@ -106,15 +102,13 @@
                                             alt="user" width="25"></span></div>
                                 <div class="comment-text w-100">
                                     <!-- Name and date -->
-                                    <p class="fs-4 mt-3">{{$review->user->name}}<span class="date fs-3 mr-3"
-                                            style="float:right;">{{ $review->review_date->format('YYYY-MM-DD')}}</span>
+                                    <p class="fs-4 mt-3 mb-1">{{$review->user->name}}
+                                        <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date->format('YYYY-MM-DD')}}</span>
                                     </p>
                                     <div class="ratings-below" style="margin-top: -5px;">
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star rating-color2 mr-1"></i>
-                                    <i class="fa fa-star mr-1"></i>
+                                     @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star{{ $i <= $review->ratings ? ' rating-color2' : '' }} mr-1"></i>
+                                    @endfor
                                 </div>
                                 <p class="mt-2">{{ $review->review_text}}</p>
                                 </div>
@@ -138,11 +132,9 @@
                             <span class="excerpt d-block">{{$relatedProduct->product_name}}</span>
                             <span class="price"><span class="number">₱{{number_format($relatedProduct->retail_price, 2)}}</span></span>
                             <div class="ratings d-flex align-items-center mt-0">
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star rating-color mr-1"></i>
-                                <i class="fa fa-star mr-1"></i>
+                                <@for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star{{ $i <= floor($averageRating) ? ' rating-color' : '' }}"></i>
+                                @endfor
                                 <span class="solds">{{$relatedProduct->sales_count}}  solds</span>
                             </div>
                             <a href="{{route('productDetails', ['id' => $product->id])}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>

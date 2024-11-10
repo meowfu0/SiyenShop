@@ -8,8 +8,15 @@ use Carbon\Carbon;
 
 class OrdersTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
+        // Reset the auto-increment value to 1
+        DB::statement('ALTER TABLE orders AUTO_INCREMENT = 1;');
         $orders = [
             [
                 'order_date' => Carbon::now()->subDays(1),
@@ -44,7 +51,6 @@ class OrdersTableSeeder extends Seeder
                 'user_id' => 3,
                 'proof_of_payment' => 'payment.png',
             ],
-            
         ];
 
         DB::table('orders')->insert($orders);
