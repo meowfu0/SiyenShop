@@ -7,14 +7,14 @@
     "require": {
         "php": "^7.3|^8.0",
         "arcanedev/log-viewer": "^8.3",
-        "doctrine/dbal": "^3.9",
+        "doctrine/dbal": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "livewire/livewire": "^2.12",
+        "livewire/livewire": "*",
         "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
