@@ -10,12 +10,13 @@
             <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
                 <div class="search-container d-flex align-items-center rounded py-3">
                     <i class="fa fa-search"></i>
-                    <input type="search" class="searchbox ms-2" placeholder="Search" />
+                    <input type="search" class="searchbox ms-2" placeholder="Search" id="search-input" />
                 </div>
                 <div class="d-flex align-items-center ms-5 w-25">
                     <span class="me-2">Course</span>
-                    <select class="form-select custom-dropdown px-3 py-2 fw-bold rounded fs-2">
-                        <option value="course1" selected>BS Information Technology</option>
+                    <select class="form-select custom-dropdown px-3 py-2 fw-bold rounded fs-2" id="course-filter">
+                        <option value="" selected> (Choose course)</option>
+                        <option value="course1">BS Information Technology</option>
                         <option value="course2">BS Computer Science</option>
                         <option value="course3">BS Biology</option>
                         <option value="course4">BS Chemistry</option>
@@ -25,7 +26,7 @@
             </div>
 
             <div class="container-fluid users-table-section p-1 mx-auto mt-9">
-                <table class="table table-hover text-center">
+                <table class="table table-hover text-center" >
                     <thead>
                         <tr>
                             <th scope="col">Profile Picture</th>
@@ -37,7 +38,7 @@
                             <th scope="col"> </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="display">
                         <!--
                         <tr>
                             <th scope="row">image</th>
@@ -304,53 +305,162 @@
     </div>
 
     <script>
-        
+    
+    const searchInput = document.getElementById("search-input"); //Select input at the search bar
+    const courseSelect = document.getElementById("course-filter"); //dropdown for the filter
+    const resultsContainer = document.getElementById("display"); //tbody / container
+    
+    if (searchInput && courseSelect) {
+        // Event listener to trigger search on input change
+        searchInput.addEventListener("input", handleSearchInput);
+        courseSelect.addEventListener("change", handleSearchInput); // Trigger when course filter changes
+    } 
+    else {
+        console.error("Search input or course select element not found.");
+    }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // View Users Button functionality
-            document.querySelectorAll('.view-users-btn').forEach(function(button) {
-                button.addEventListener('click', function() {
-                const userId = button.getAttribute('data-user-id'); // Get user ID
-                const usersData = @json($users);
-                console.log(usersData);
-                const user = usersData.find(user => user.id == userId);
-                const roleAccess = "role";
+    // Fetch data from the API based on the search query and course filter
+    async function fetchUsers(query = "", course = "") {
+        try {
+            const url = '/api/users'; // Full URL to your API endpoint
+            const params = new URLSearchParams(); // Initialize URLSearchParams
 
-            // Fetch user data from the server using AJAX
-                if(user){
-                    // Extract data
-                    const name = user.first_name.concat(" ", user.last_name);
-                    const email = user.email;
-                    const role = user.role.role_name; 
-                    const course = user.course.course_name;
-                    const status = user.status.status_name;
-                    const block = user.course_bloc; 
+            if (query) params.append("search", query);
+            if (course) params.append("courseCall", course);
 
-                    // Course name and year extraction
-                    //const courseName = course.startsWith('BSIT') ? 'BS Information Technology' : course;
-                    const year = user.year
+            // Make the fetch request
+            const response = await fetch(`${url}?${params.toString()}`);
 
-                    // Insert data into modal
-                    document.getElementById('modalName').innerText = name;
-                    document.getElementById('modalStatus').innerText = status;
-                    document.getElementById('modalEmail').innerText = email;
-                    document.getElementById('modalCourse').innerText = course;
-                    document.getElementById('modalYear').innerText = year;
-                    document.getElementById('modalBlock').innerText = block;
-                    const dropdown = document.getElementById('modalRole');
-                    dropdown.value = roleAccess.concat(user.role.id);
+            const data = await response.json();
+            displayUsers(data); // Pass data to display
+        } 
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    // Function to display users inside the results container (table rows)
+    function displayUsers(users) {
+        resultsContainer.innerHTML = ""; // Clear previous results
 
-                    var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
-                    myModal.show();
-                }
+        // Check if there are any users
+        if (users.length > 0) {
+            users.forEach(user => {
+                const row = document.createElement("tr");
 
-                else{
-                    console.error(`User with ID ${userId} not found.`);
-                }
-                
+                // Profile Picture
+                const profilePicCell = document.createElement("td");
+                const profilePic = document.createElement("img");
+                profilePic.classList.add("img-thumbnail");
+                profilePic.style.width = "40px";
+                profilePic.style.height = "40px";
+                profilePic.src = user.profile_picture ? `/storage/${user.profile_picture}` : '/images/default-avatar.png';
+                profilePicCell.appendChild(profilePic);
+                row.appendChild(profilePicCell);
+
+                // Full Name
+                const fullNameCell = document.createElement("td");
+                fullNameCell.textContent = `${user.first_name} ${user.last_name}`;
+                row.appendChild(fullNameCell);
+
+                // Email
+                const emailCell = document.createElement("td");
+                emailCell.textContent = user.email;
+                row.appendChild(emailCell);
+
+                // Role
+                const roleCell = document.createElement("td");
+                roleCell.textContent = user.role?.role_name || 'Unknown';
+                row.appendChild(roleCell);
+
+                // Course
+                const courseCell = document.createElement("td");
+                courseCell.textContent = user.course?.course_name || 'Unknown';
+                row.appendChild(courseCell);
+
+                // Status
+                const statusCell = document.createElement("td");
+                statusCell.textContent = user.status?.status_name || 'No status assigned';
+                row.appendChild(statusCell);
+
+                // Actions
+                const actionsCell = document.createElement("td");
+                const viewButton = document.createElement("button");
+                viewButton.classList.add("view-users-btn", "fs-2", "p-1", "px-2");
+                viewButton.setAttribute("data-user-id", user.id);
+                viewButton.textContent = "View Account ";
+                const redirectIcon = document.createElement("img");
+                redirectIcon.src = '/images/redirect.svg';
+                viewButton.appendChild(redirectIcon);
+                actionsCell.appendChild(viewButton);
+                row.appendChild(actionsCell);
+
+                // Append the row to the table
+                resultsContainer.appendChild(row);
             });
+        } 
+        
+        else {
+            resultsContainer.innerHTML = "<tr><td colspan='7'>No users found</td></tr>";
+        }
+    }
 
-        });
+    // Function to handle search input and trigger AJAX search
+    // Handle the search input change and trigger API fetch
+    function handleSearchInput() {
+        const query = searchInput.value.trim(); // Get query from search input
+        const course = courseSelect.value; // Get selected course value
+
+    // Call fetchUsers with parameters only if there's input; otherwise, call without parameters to reset
+    if (query || course) {
+        fetchUsers(query, course); // Fetch data based on search input
+    } 
+    
+    else {
+        fetchUsers(); // Reset to default state if no input
+    }
+}
+    </script>
+
+    <script>
+
+        
+        // Event delegation: Listen for clicks on .view-users-btn within resultsContainer
+        resultsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('view-users-btn')) {
+            const button = event.target;
+            const userId = button.getAttribute('data-user-id'); // Get user ID
+            const usersData = @json($users); // Replace with actual data fetch if needed
+            const user = usersData.find(user => user.id == userId);
+            const roleAccess = "role";
+
+            if(user) {
+                // Extract and set user data for the modal
+                const name = `${user.first_name} ${user.last_name}`;
+                const email = user.email;
+                const role = user.role?.role_name || "N/A"; 
+                const course = user.course?.course_name || "N/A";
+                const status = user.status?.status_name || "N/A";
+                const block = user.course_bloc;
+                const year = user.year;
+
+                // Insert data into modal
+                document.getElementById('modalName').innerText = name;
+                document.getElementById('modalStatus').innerText = status;
+                document.getElementById('modalEmail').innerText = email;
+                document.getElementById('modalCourse').innerText = course;
+                document.getElementById('modalYear').innerText = year;
+                document.getElementById('modalBlock').innerText = block;
+                const dropdown = document.getElementById('modalRole');
+                dropdown.value = roleAccess.concat(user.role?.id || "");
+
+                // Show the modal
+                var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
+                myModal.show();
+                } 
+        else {
+            console.error(`User with ID ${userId} not found.`);
+            }
+        }
 
             // Edit/Deactivate Button functionality
             const editBtn = document.getElementById('editBtn');

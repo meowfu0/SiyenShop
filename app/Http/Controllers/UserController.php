@@ -78,6 +78,38 @@ class UserController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+        $query = User::with(['course', 'status', 'role']); // Eager load relationships
+
+        // Apply search filter if the search query is provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('last_name', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Apply course filter if the course parameter is provided
+        if ($request->has('courseCall') && !empty($request->course)) {
+            $query->whereHas('course', function($q) use ($request) {
+                $q->where('course_name', $request->course);
+            });
+        }
+
+        // Return the filtered users
+        return $query->get();
+    }
+
+    public function runResults(Request $request)
+    {
+        // Get users from the search method
+        $users = $this->search($request);
+
+        // Return the filtered users as JSON
+        return response()->json($users);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
