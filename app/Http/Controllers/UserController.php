@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['course', 'role'])->get();
+        // Fetch all the user rows from the database
+        $users = User::with(['status', 'course', 'role'])->get();
         return view('livewire.admin.admin-users', compact('users'));
     }
 
@@ -45,9 +46,13 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+       // Retrieve the user along with course and status using eager loading
+        $user = User::with(['role', 'course', 'status'])->findOrFail($id);
+
+        // Return the user data as JSON for AJAX
+        return response()->json($user);
     }
 
     /**

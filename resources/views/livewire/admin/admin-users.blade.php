@@ -38,6 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!--
                         <tr>
                             <th scope="row">image</th>
                             <td>Shakira Regalado</td>
@@ -62,6 +63,7 @@
                                 </button>
                             </td>
                         </tr>
+                    -->
                         @foreach($users as $user)
                         <tr>
                             <th scope="row">
@@ -77,7 +79,7 @@
                             <td>{{ $user->course->course_name ?? 'Unknown'}}</td> <!-- Joined course name -->
                             <td>{{ $user->status->status_name ?? 'No status assigned'}}</td>
                             <td>
-                                <button class="view-users-btn fs-2 p-1 px-2">View Account 
+                                <button class="view-users-btn fs-2 p-1 px-2" data-user-id="{{ $user->id }}">View Account 
                                     <img src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
@@ -302,42 +304,53 @@
     </div>
 
     <script>
+        
+
         document.addEventListener('DOMContentLoaded', function() {
             // View Users Button functionality
             document.querySelectorAll('.view-users-btn').forEach(function(button) {
                 button.addEventListener('click', function() {
-                    // Dummy user data for display (replace with actual dynamic data)
-                    const name = 'Shakira Regalado';
-                    const email = 'sbr2022-7072-51358@bicol-u.edu.ph';
-                    const role = 'Student';
-                    const course = 'BSIT 3';
-                    const status = 'Active';
-                    const block = 'B';
+                const userId = button.getAttribute('data-user-id'); // Get user ID
+                const usersData = @json($users);
+                console.log(usersData);
+                const user = usersData.find(user => user.id == userId);
+                const roleAccess = "role";
+
+            // Fetch user data from the server using AJAX
+                if(user){
+                    // Extract data
+                    const name = user.first_name.concat(" ", user.last_name);
+                    const email = user.email;
+                    const role = user.role.role_name; 
+                    const course = user.course.course_name;
+                    const status = user.status.status_name;
+                    const block = user.course_bloc; 
 
                     // Course name and year extraction
-                    const courseName = course.startsWith('BSIT') ? 'BS Information Technology' :
-                        course;
-                    const year = course.split(' ')[1];
-                    const yearDisplay = {
-                        '1': '1st Year',
-                        '2': '2nd Year',
-                        '3': '3rd Year',
-                        '4': '4th Year'
-                    } [year] || '';
+                    //const courseName = course.startsWith('BSIT') ? 'BS Information Technology' : course;
+                    const year = user.year
 
                     // Insert data into modal
                     document.getElementById('modalName').innerText = name;
                     document.getElementById('modalStatus').innerText = status;
                     document.getElementById('modalEmail').innerText = email;
-                    document.getElementById('modalCourse').innerText = courseName;
-                    document.getElementById('modalYear').innerText = yearDisplay;
+                    document.getElementById('modalCourse').innerText = course;
+                    document.getElementById('modalYear').innerText = year;
                     document.getElementById('modalBlock').innerText = block;
+                    const dropdown = document.getElementById('modalRole');
+                    dropdown.value = roleAccess.concat(user.role.id);
 
-                    // Show user info modal
                     var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
                     myModal.show();
-                });
+                }
+
+                else{
+                    console.error(`User with ID ${userId} not found.`);
+                }
+                
             });
+
+        });
 
             // Edit/Deactivate Button functionality
             const editBtn = document.getElementById('editBtn');
