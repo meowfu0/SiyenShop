@@ -109,8 +109,14 @@ Route::prefix('admin')->group(function () {
 });
 
 //roles management module
-//users roles list
-Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');;
+Route::prefix('admin')->group(function () {
+    //users roles list
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    
+    //shops page list
+    Route::get('/shops', [shopPageController::class, 'index'])->name('admin.shops');
+    
+    });
 
-//shops page list
 

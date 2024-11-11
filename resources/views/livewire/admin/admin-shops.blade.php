@@ -42,21 +42,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($shops as $shop)
                         <tr>
                             <td scope="row" class="align-middle">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s" 
+                                <img src="{{ asset('images/'. $shop->shop_logo) }}" 
                                      alt="Profile Picture" 
                                      class="img-fluid rounded-circle profile-data-table" 
                                      style="width: 40px; height: 40px;">
                             </td>
-                            <td class="text-center align-middle">CircUITS</td>
-                            <td class="text-center align-middle">BS Information Technology</td>
-                            <td class="text-center align-middle">Juan Dela Cruz</td>
-                            <td class="text-center align-middle">Active</td>
+                            <td class="text-center align-middle">{{ $shop->shop_name}}</td>
+                            <td class="text-center align-middle">{{ $shop->course->course_name }}</td>
+                            <td class="text-center align-middle">{{ $shop->user->first_name. " ". $shop->user->last_name}}</td> <!-- Joined role name -->
+                            <td class="text-center align-middle">{{ $shop->status->status_name ?? 'No status assigned'}}</td>
                             <td class="text-center align-middle">
-                                <button class="btn btn-outline-secondary fs-2 p-1 px-2" data-bs-toggle="modal" data-bs-target="#shopModal">View Shop</button>
+                                <button class="btn btn-outline-secondary fs-2 p-1 px-2" data-bs-toggle="modal" data-bs-target="#shopModal" data-user-id="{{ $shop->id }}">View Shop</button>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
