@@ -1,4 +1,5 @@
-var ShopItems = Array.from({ length: 100 }, (_, i) => (i + 1).toString()); // Array of ShopItem IDs (1 to 100)
+
+// FOR CHECKBOXES IN CART
 var TotalAmount = "total-amount";
 var totalItem = "item-count";
 var checked_Item = "selectAll-count";
@@ -8,17 +9,20 @@ function AddCheckedProducts() {
     var totalValue = 0.0;
     var totalQuantity = 0;
 
-    // Loop through each ShopItem
-    for (var i = 0; i < ShopItems.length; i++) {
-        var checkbox = document.getElementById(ShopItems[i]); // Get checkbox element by ID
+    // Loop through each checkbox with class 'checkboxs'
+    document.querySelectorAll('.checkboxs').forEach(function(checkbox) {
+        if (checkbox.checked) { // If the checkbox is checked
+            const productId = checkbox.id; // Use checkbox ID as product ID
+            const quantityInput = document.querySelector(`#quantity_${productId}`);
+            
+            if (quantityInput) { // Ensure the quantity input exists
+                let quantity = parseInt(quantityInput.value);
 
-        if (checkbox && checkbox.checked) { // If the checkbox is checked
-            var quantityInput = document.getElementById("quantity_" + ShopItems[i]); // Get the quantity input element for the product
-            var quantity = parseInt(quantityInput.value) || 1;
-            totalValue += parseFloat(checkbox.value) * quantity;
-            totalQuantity += quantity; // Calculate total quantity of checked products
+                totalValue += parseFloat(checkbox.value) * quantity;
+                totalQuantity += quantity; // Calculate total quantity of checked products
+            }
         }
-    }
+    });
 
     // Update the displayed total value and item count
     document.getElementById(TotalAmount).innerHTML = totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -26,85 +30,75 @@ function AddCheckedProducts() {
     document.getElementById(checked_Item).innerHTML = totalQuantity;
 }
 
-// Decrement quantity function
-function decrementQuantity(inputId) {
-    let input = document.getElementById(inputId);
-    let value = parseInt(input.value); // Get current value of the quantity input
-    if (value > 1) {
-        input.value = value - 1;
-    }
-    AddCheckedProducts(); // Recalculate total when quantity is changed (minus)
-}
 
-// Increment quantity function
-function incrementQuantity(inputId) {
-    let input = document.getElementById(inputId);
-    let value = parseInt(input.value);
-    input.value = value + 1;
-    AddCheckedProducts(); // Recalculate total when quantity is changed (add)
-}
-
-// Function to toggle select all checkboxes and set their quantities
+//SELECT ALL CHECKBOXES
 function toggleSelectAll(selectAllCheckbox) {
-    var selectedCount = 0;
-
-    // Loop through each ShopItem
-    for (var i = 0; i < ShopItems.length; i++) {
-        var checkbox = document.getElementById(ShopItems[i]);
-
-        if (checkbox) {
-            checkbox.checked = selectAllCheckbox.checked; // Set checkbox checked status based on select all checkbox
-
-            var quantityInput = document.getElementById("quantity_" + ShopItems[i]);
-            if (selectAllCheckbox.checked && quantityInput.value == "0") {
-                quantityInput.value = "1"; // Reset quantity value to 1 if select all is checked and quantity is 0
-            }
-
-            // Count the number of checked items
-            if (checkbox.checked) {
-                selectedCount++;
-            }
-        }
-    }
-
-    // Update the count displayed in the span
-    document.getElementById("selectAll-count").innerText = selectedCount;
-
-    AddCheckedProducts(); // Recalculate total when select all button is checked
-}
-
-// Function to update item IDs dynamically
-function updateShopItemsId() {
-    var idCounter = 1;
-    var items = document.querySelectorAll('.checkboxs'); // Select all checkboxes
-
-    items.forEach(function (checkbox) {
-        checkbox.id = idCounter; // Set checkbox ID dynamically
-        var quantityInput = document.getElementById("quantity_" + idCounter);
-        if (quantityInput) {
-            quantityInput.id = "quantity_" + idCounter; // Set the corresponding quantity input ID dynamically
-        }
-
-        // Automatically check all checkboxes on page load
-        checkbox.checked = true; // Set each checkbox to be checked
-
-        idCounter++; // Increment the counter for the next item
+    const checkboxes = document.querySelectorAll('.checkboxs');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = selectAllCheckbox.checked;
     });
+    AddCheckedProducts(); // Update totals after selecting/deselecting all
 }
 
-// Function to automatically select the "Select All" checkbox and check all items
 function autoSelectAll() {
-    var selectAllCheckbox = document.getElementById('selectAll'); // Assuming your "Select All" checkbox has the ID 'selectAll'
-    selectAllCheckbox.checked = true; // Set "Select All" checkbox to checked
-    toggleSelectAll(selectAllCheckbox); // Call the toggleSelectAll function to check all individual checkboxes
+    var selectAllCheckbox = document.getElementById('selectAll'); 
+    if (selectAllCheckbox) { // Check if the selectAll checkbox exists
+        selectAllCheckbox.checked = true; 
+        toggleSelectAll(selectAllCheckbox); 
+    }
 }
 
-// Call the function to update item IDs and auto-select all checkboxes after the page has loaded
 window.onload = function() {
-    updateShopItemsId(); // Update IDs of items
     autoSelectAll(); // Automatically check all items and call toggleSelectAll
 };
 
+
+
+//TO UPDATE QUANTITY OF ITEM IN CART IN DATABASE
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listeners to the increment and decrement buttons
+    document.querySelectorAll('.quantity-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.getAttribute('data-id'); // Get the item id from the button's data-id attribute
+            const action = this.getAttribute('data-action'); // Get the action (increment or decrement)
+            const quantityInput = document.querySelector(`#quantity_${productId}`);
+            let quantity = parseInt(quantityInput.value);
+
+            // Adjust quantity based on action
+            if (action === 'increment') {
+                quantity += 1;
+               
+                
+            } else if (action === 'decrement' && quantity > 1) {
+                quantity -= 1;
+            }
+            
+            quantityInput.value = quantity;
+            AddCheckedProducts();
+
+            // Send an AJAX request to update the quantity
+            fetch('/cart/update/' + productId, {
+                method: 'PATCH', // Use PATCH request for updates
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: quantity
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      // Update the UI as needed, such as refreshing the cart summary
+                  }
+              });
+        });
+    });
+});
+
+
+//TO DELETE ITEM FROM CART IN DATABASE
 document.addEventListener('DOMContentLoaded', function() {
     // Listen for when the modal is shown
     const deleteModals = document.querySelectorAll('.modal');
@@ -178,3 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+

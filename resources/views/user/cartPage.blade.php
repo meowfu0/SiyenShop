@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<meta http-equiv="refresh" content="20"> <!-- Refreshes the page every 20 seconds -->
+
     <script src="{{ asset('js/cart.js') }}"></script>
     
   <div class="d-flex justify-content-start align-items-center mb-2 container pt-3">  
@@ -19,16 +19,15 @@
                 </div>
             @else
 
-    <?php $id = 1; ?>
-
+    
     <!-- LOOP FOR Shirt Items only  -->
-    @foreach($ShirtItems as $item)
+        @foreach($ShirtItems as $item)
 
-        <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
-            <div class="d-flex flex-row align-items-center">
-                <div class="p-4 d-flex align-items-left" id="form-check">
-                    <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="checkbox-{{ $id }}" value="{{ number_format($item->retail_price, 2) }}">
-                </div>
+            <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
+                <div class="d-flex flex-row align-items-center">
+                    <div class="p-4 d-flex align-items-left" id="form-check">
+                        <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{$item->id}}" value="{{ number_format($item->retail_price, 2) }}">
+                    </div>
                         <div>
                               <img src="{{ asset('images/' . $item->product_image) }}" class="img-fluid rounded-2 img-items">
                         </div>
@@ -54,7 +53,7 @@
                                     @php
                                         $sizeExists = $sizes->contains('size', $sizeOption);
                                     @endphp
-                                    <option class="text-primary" value="{{ $sizeOption }}" {{ !$sizeExists ? 'disabled' : '' }}>
+                                    <option class="text-primary" value="{{ $sizeOption }}" {{ !$sizeExists ? 'disabled' : '' }} >
                                         @switch(strtolower($sizeOption))
                                             @case('l') Large @break
                                             @case('xl') X-Large @break
@@ -70,14 +69,14 @@
                 </div>
             </div>
 
-            <div class="d-flex align-items-center flex-column" id="input-quantity">
-                <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
-                <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
-                    <button class="btn no-hover text-primary" id="buttons" type="button" onclick="decrementQuantity('quantity_{{ $id }}')">-</button>
-                    <input id="quantity_{{ $id }}" min="0" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary quantities text-primary" style="width: 38px; border: none;">
-                    <button class="btn no-hover text-primary" id="buttons" type="button" onclick="incrementQuantity('quantity_{{ $id }}')">+</button>
-                </div>
-            </div>
+                     <div class="d-flex align-items-center flex-column" id="input-quantity">
+        <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
+        <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
+            <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="decrement" type="button">-</button>
+            <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 38px; border: none;">
+            <button class="btn no-hover text-primary quantity-button"id="buttons" data-id="{{ $item->id }}" data-action="increment" type="button">+</button>
+        </div>
+    </div>
 
             <div class="d-flex align-items-center flex-column" id="remove">
                 <div class="p-2 text-primary" id="remove"><b>Total</b></div>
@@ -86,33 +85,14 @@
 
             <div class="d-flex flex-row align-items-center" id="trashbin">
                 <div class="p-4 d-flex align-items-left" id="trashbin">
-                    <button type="button" class="btn" id="trashbin-main" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $id }}" data-id="{{ $item->id }}">
+                    <button type="button" class="btn" id="trashbin-main" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $item->id }}" data-id="{{ $item->id }}">
                         <img src="{{ asset('images/trash3.svg') }}" class="mt-1">
                     </button>
                 </div>
             </div>
         </div>
-
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal-{{ $id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex justify-content-center align-items-center flex-column text-center">
-                        <img src="{{ asset('images/check.png') }}" style="height: 70px; width:70px; display:none;" alt="Cart Logo">
-                        <p class="fw-semibold fs-5 mt-3">Are you sure you want to remove this item?</p>
-                    </div>
-                    <div class="modal-footer border-0 d-flex justify-content-end mb-2">
-                        <button type="button" class="btn btn-outline-secondary remove-btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger remove btn" data-id="{{ $item->id }}">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- increment id value -->
-        <?php $id++; ?>
+         <!-- Delete Confirmation Modal -->
+        @include('user.modal.cartDeleteModal')
     @endforeach
 
     <!-- LOOP FOR Other Items  like lanyard , etc -->
@@ -120,8 +100,7 @@
         <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
             <div class="d-flex flex-row align-items-center">
                 <div class="p-4 d-flex align-items-left" id="form-check">
-                    <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="checkbox-{{ $id }}" value="{{ number_format($item->retail_price, 2) }}">
-                </div>
+                <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{$item->id}}" value="{{ number_format($item->retail_price, 2) }}">                </div>
                 <div>
                     <img src="{{ asset('images/' . $item->product_image) }}" class="img-fluid rounded-2 img-items">
                 </div>
@@ -151,13 +130,14 @@
             </div>
 
             <div class="d-flex align-items-center flex-column" id="input-quantity">
-                <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
-                <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
-                    <button class="btn no-hover text-primary" id="buttons" type="button" onclick="decrementQuantity('quantity_{{ $id }}')">-</button>
-                    <input id="quantity_{{ $id }}" min="0" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 38px; border: none;">
-                    <button class="btn no-hover text-primary" id="buttons" type="button" onclick="incrementQuantity('quantity_{{ $id }}')">+</button>
-                </div>
-            </div>
+        <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
+        <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
+            <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="decrement" type="button">-</button>
+            <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 38px; border: none;">
+            <button class="btn no-hover text-primary quantity-button"id="buttons" data-id="{{ $item->id }}" data-action="increment" type="button">+</button>
+        </div>
+    </div>
+        
 
             <div class="d-flex align-items-center flex-column" id="remove">
                 <div class="p-2 text-primary" id="remove"><b>Total</b></div>
@@ -166,34 +146,16 @@
 
             <div class="d-flex flex-row align-items-center" id="trashbin">
                 <div class="p-4 d-flex align-items-left" id="trashbin">
-                    <button type="button" class="btn" id="trashbin-main" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $id }}" data-id="{{ $item->id }}">
+                    <button type="button" class="btn" id="trashbin-main" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $item->id }}" data-id="{{ $item->id }}">
                         <img src="{{ asset('images/trash3.svg') }}" class="mt-1">
                     </button>
                 </div>
             </div>
         </div>
-
         <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal-{{ $id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex justify-content-center align-items-center flex-column text-center">
-                        <img src="{{ asset('images/check.png') }}" style="height: 70px; width:70px; display:none;" alt="Cart Logo">
-                        <p class="fw-semibold fs-5 mt-3">Are you sure you want to remove this item?</p>
-                    </div>
-                    <div class="modal-footer border-0 d-flex justify-content-end mb-2">
-                        <button type="button" class="btn btn-outline-secondary remove-btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger remove btn" data-id="{{ $item->id }}">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php $id++; ?>
-    @endforeach
-@endif
+         @include('user.modal.cartDeleteModal')
+        @endforeach
+    @endif
                  
                 <!-- Select All and Checkout Section -->
                 <!------------AAYUSIN PA ITO FOR MOBILE RESPONSIVE--------->
@@ -211,18 +173,20 @@
                             <!-- Item count display -->
                             <div class="d-flex row col-9 justify-content-between" id="items-total">
                                 <div class="col-4" id="items-count-div">
-                                    <p class="mt-3 fw-bold fs-4 text-primary footer-fs">No. of Items: <span id="item-count" class="fs-4 fw-normal text-primary">0</span><span class="fs-4 fw-normal text-primary" > item(s)</span> </p>
+                                    <p class="mt-3 fw-bold fs-4 text-primary footer-fs">No. of Items: <span id="item-count" class="fs-3  text-primary">0</span><span class="fs-3  text-primary" > item(s)</span> </p>
                                 </div>
                                 <div class="col-5" id="total-div"> <!-- Total amount display -->
-                                     <p class="mt-3 fw-bold fs-4 text-primary footer-fs" >TOTAL: <span class="fw-normal fs-4">₱ </span><span id="total-amount" class="fs-4 fw-normal text-primary">0.00</span></p>
+                                     <p class="mt-3 fw-bold fs-4 text-primary footer-fs" >TOTAL: ₱ <span id="total-amount" class="fs-3 text-primary">0.00</span></p>
                                 </div>
                             </div>
                             <!-- Proceed to Checkout button -->
-                            <div>
+                            <div>     
+
+                                <!-- data-bs-toggle="modal" data-bs-target="#ModalProceed -->
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceed" class="btn btn-primary btn-md" id="button-size">
                                     Proceed To Checkout
                                     <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
-                                </a>
+                                </a>   
                             </div>
                         </div>
                     </div>

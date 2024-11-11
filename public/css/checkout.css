@@ -65,43 +65,64 @@
     #items-total{
         display: flex !important;
         flex-direction: column !important;
-        width: 2rem !important;
+        width: 1rem !important;
     }
     #items-count-div{
         display: flex !important;
         flex-direction: column !important;
-        width: 2rem !important;
+        width: 0.4rem !important;
     }
     #total-div{
         display: flex !important;
         flex-direction: column !important;
-        width: 2rem !important;
+        width: 0.4rem !important;
     }
 
 }
-@media (max-width: 600px){
+@media (max-width: 520px){
   /*------------AAYUSIN PA ITO---------*/
     #items-total{
         display: flex !important;
         flex-direction: column !important;
-        width: 15rem !important;
+        width: 13rem !important;
     }
     #items-count-div{
         display: flex !important;
         flex-direction: column !important;
-        width: 14rem !important;
+        width: 13rem !important;
     }
     #total-div{
         display: flex !important;
         flex-direction: column !important;
-        width: 14rem !important;
+        width: 13rem !important;
     }
     .footer-fs  span , .footer-fs  {
         font-size: 12px !important;
     }
+      #items-total{
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: start !important;
+    }
+    #fixed-bottom-div2{
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+    }
 
     
 }
+@media (max-width: 600px){
+    /*------------AAYUSIN PA ITO---------*/
+   
+        #items-total{
+          display: flex !important;
+          flex-direction: row !important;
+          justify-content: start !important;
+      }
+  
+      
+  }
 @media (max-width: 1024px) {
   
     #main-card {
@@ -242,6 +263,12 @@
     #button-size{
         font-size: 10px !important;
     }
+    #items-count-div{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 12rem !important;
+    }
+  
   
 }
 /* ------------------------------------end-------------------------------------*/

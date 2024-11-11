@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Item;
+
 
 class CartPageController extends Controller
 {
@@ -41,6 +43,8 @@ class CartPageController extends Controller
             ->where('i.product_id', '!=', $productId)
             ->get();
 
+
+            
         // Return view with all the queries 
         return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes'));
     }
@@ -62,6 +66,30 @@ class CartPageController extends Controller
         return response()->json(['success' => false]);
     }
 }
+
+
+
+
+public function updateQuantity(Request $request, $id)
+{
+    $userId = Auth::user()->id;
+    $quantity = $request->input('quantity');
+
+    // Update the quantity in the cart_items table
+    $updated = DB::table('cart_items')
+        ->where('cart_id', '=', $userId)
+        ->where('id', '=', $id)
+        ->update(['quantity' => $quantity]);
+
+    if ($updated) {
+        return response()->json(['success' => true]);
+    } else {
+        return response()->json(['success' => false]);
+    }
+}
+
+
+
 
 
 
