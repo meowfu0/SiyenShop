@@ -71,7 +71,7 @@ class ShopsTableSeeder extends Seeder
                 'shop_logo' => 'SYMBIOSIS_Logo.svg',
                 'user_id' => 3, // Assume this user ID exists
                 'status_id' => 1, // Active status
-                'course_id' => 6, // Corresponding course ID
+                'course_id' => 3, // Corresponding course ID
                 'created_at' => Carbon::now(),
             ],
         ];
