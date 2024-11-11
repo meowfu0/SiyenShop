@@ -48,7 +48,7 @@ class ShopsTableSeeder extends Seeder
             [
                 'shop_name' => 'CHESS',
                 'shop_description' => 'Merch items for Chemistry students in BUCS',
-                'shop_logo' => 'CHESS_Logo.svg',
+                'shop_logo' => 'CHEM_Logo.svg',
                 'user_id' => 9, // Assume this user ID exists
                 'status_id' => 1, // Active status
                 'course_id' => 4, // Corresponding course ID
