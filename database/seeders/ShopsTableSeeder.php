@@ -20,7 +20,7 @@ class ShopsTableSeeder extends Seeder
             [
                 'shop_name' => 'CIRCUITS',
                 'shop_description' => 'A store focused on electronics and circuitry components.',
-                'shop_logo' => 'CIRCUIS_Logo.svg',
+                'shop_logo' => 'CIRCUITS_Logo.svg',
                 'user_id' => 1, // Assume the user ID exists in the users table
                 'status_id' => 1, // Assume 1 corresponds to 'active' status in statuses
                 'course_id' => 1, // Assume 1 corresponds to BSIT in courses
