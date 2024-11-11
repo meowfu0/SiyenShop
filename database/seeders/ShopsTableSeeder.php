@@ -18,7 +18,7 @@ class ShopsTableSeeder extends Seeder
         DB::statement('ALTER TABLE shops AUTO_INCREMENT = 1;');
         $shops = [
             [
-                'shop_name' => 'CIRCUITS',
+                'shop_name' => 'CircUITS',
                 'shop_description' => 'A store focused on electronics and circuitry components.',
                 'shop_logo' => 'CIRCUITS_Logo.svg',
                 'user_id' => 1, // Assume the user ID exists in the users table
@@ -36,7 +36,7 @@ class ShopsTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
             ],
             [
-                'shop_name' => 'CSC',
+                'shop_name' => 'BUCS CSC',
                 'shop_description' => 'Central Supplies Center for all student needs.',
                 'shop_logo' => 'CSC_Logo.svg',
                 'user_id' => 3, // Assume this user ID exists
