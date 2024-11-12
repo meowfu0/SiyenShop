@@ -21,7 +21,7 @@ class RoleAccessValidate
         // Check if the user is authenticated and has a role in the provided list of roles
         $user = Auth::user();
         
-        if (!$user || !in_array($user->role->name, $roles)) {
+        if (!$user || !in_array($user->roles->role_name, $roles)) {
             // Redirect to a specific page or abort with a 403 Forbidden status
             return abort(403, 'Unauthorized access');
         }

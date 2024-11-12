@@ -14,7 +14,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        
+         // Fetch all the user rows from the database
+         
     }
 
     /**
