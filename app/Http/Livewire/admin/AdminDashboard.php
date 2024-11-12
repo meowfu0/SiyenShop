@@ -36,7 +36,7 @@ class AdminDashboard extends Component
             ->selectRaw('shops.shop_name, COUNT(orders.id) as order_count')
             ->groupBy('shops.shop_name')
             ->orderByDesc('order_count')
-            
+            ->limit(5)
             ->pluck('shop_name')
             ->toArray();
 
