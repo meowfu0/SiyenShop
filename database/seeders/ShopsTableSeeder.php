@@ -15,9 +15,7 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-        // Reset the auto-increment value to 1
         DB::statement('ALTER TABLE shops AUTO_INCREMENT = 1;');
-
         $shops = [
             [
                 'shop_name' => 'Circuits',

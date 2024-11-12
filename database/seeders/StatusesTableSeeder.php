@@ -15,6 +15,7 @@ class StatusesTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('ALTER TABLE statuses AUTO_INCREMENT = 1;');
         $statuses = [
             ['status_name' => 'active', 'status_details' => 'The item is currently active', 'created_at' => Carbon::now()],
             ['status_name' => 'inactive', 'status_details' => 'The item is currently inactive', 'created_at' => Carbon::now()],
