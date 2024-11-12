@@ -82,11 +82,14 @@ class UserController extends Controller
     {
         $query = User::with(['course', 'status', 'role']); // Eager load relationships
 
-        // Apply search filter if the search query is provided
+        // Apply search filter if the search query is provided (for names and role)
         if ($request->has('search') && !empty($request->search)) {
             $query->where(function($q) use ($request) {
                 $q->where('first_name', 'like', '%' . $request->search . '%')
-                  ->orWhere('last_name', 'like', '%' . $request->search . '%');
+                  ->orWhere('last_name', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('role', function ($forRole) use ($request) {
+                      $forRole->where('role_name', 'like', '%' . $request->search . '%');
+                  });
             });
         }
     
