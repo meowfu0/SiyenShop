@@ -32,7 +32,11 @@
             <label for="password" class="form-label" style="font-size: 16px; color: #092C4C;">Password</label>
             <input id="password" type="password" class="form-control py-2" name="password" required placeholder="Input text" style="font-size: 14px;">
         </div>
-
+        <div class="mb-3">
+            <label for="password_confirmation" class="form-label" style="font-size: 16px; color: #092C4C;">Confirm Password</label>
+            <input id="password_confirmation" type="password" class="form-control py-2" name="password_confirmation" required placeholder="Input text" style="font-size: 14px;">
+        </div>
+        
         <!-- Phone Number -->
         <div class="mb-3">
             <label for="phone_number" class="form-label" style="font-size: 16px; color: #092C4C;">Phone Number</label>
@@ -40,41 +44,60 @@
         </div>
 
         <!-- Course -->
-        <div class="mb-3">
-            <label for="course_id" class="form-label" style="font-size: 16px; color: #092C4C;">Course</label>
-            <select id="course_id" class="form-select" name="course_id" required style="font-size: 14px;">
-                <option value="" disabled selected>Select your course</option>
-                <option value="BS Information Technology">BS Information Technology</option>
-                <option value="BS Meteorology">BS Meteorology</option>
-                <option value="BS Biology">BS Biology</option>
-                <option value="BS Computer Science">BS Computer Science</option>
-                <option value="BS Chemistry">BS Chemistry</option>
-            </select>
+        <div class="row mb-3">
+            <label for="course_id" class="col-md-4 col-form-label text-md-end">{{ __('Course') }}</label>
+            <div class="col-md-6">
+                <select id="course_id" class="form-control @error('course_id') is-invalid @enderror" name="course_id" required>
+                     <option value="">{{ __('Select a Course') }}</option>
+                         @foreach($courses as $course)
+                         <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
+                         {{ $course->course_name }}
+                     </option>
+                             @endforeach
+                </select>
+                            @error('course_id')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+             </div>
         </div>
+
 
         <!-- Year and Block side by side -->
         <div class="mb-3 row">
             <div class="col">
                 <label for="year" class="form-label" style="font-size: 16px; color: #092C4C;">Year</label>
-                <select id="year" class="form-select" name="year" required style="font-size: 14px;">
-                    <option value="" disabled selected>Select your year</option>
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="4th Year">4th Year</option>
-                    <option value="5th Year">5th Year</option>
-                </select>
+                <select id="year" class="form-control @error('year') is-invalid @enderror" name="year" required>
+                    <option value="">{{ __('Select Year') }}</option>
+                    <option value="1st" {{ old('year') == '1st' ? 'selected' : '' }}>1st Year</option>
+                    <option value="2nd" {{ old('year') == '2nd' ? 'selected' : '' }}>2nd Year</option>
+                    <option value="3rd" {{ old('year') == '3rd' ? 'selected' : '' }}>3rd Year</option>
+                    <option value="4th" {{ old('year') == '4th' ? 'selected' : '' }}>4th Year</option>
+                    <option value="5th" {{ old('year') == '5th' ? 'selected' : '' }}>5th Year</option>
+                    </select>
+                     @error('year')
+                    <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                    </span>
+                     @enderror           
             </div>
             <div class="col">
                 <label for="course_bloc" class="form-label" style="font-size: 16px; color: #092C4C;">Block</label>
-                <select id="course_bloc" class="form-select" name="bloc" required style="font-size: 14px;">
-                    <option value="" disabled selected>Select your block</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
+                <select id="course_bloc" class="form-control @error('course_bloc') is-invalid @enderror" name="course_bloc" required>
+                <option value="">{{ __('Select a Block') }}</option>
+                <option value="A" {{ old('course_bloc') == 'A' ? 'selected' : '' }}>A</option>
+                <option value="B" {{ old('course_bloc') == 'B' ? 'selected' : '' }}>B</option>
+                <option value="C" {{ old('course_bloc') == 'C' ? 'selected' : '' }}>C</option>
+                <option value="D" {{ old('course_bloc') == 'D' ? 'selected' : '' }}>D</option>
+                <option value="E" {{ old('course_bloc') == 'E' ? 'selected' : '' }}>E</option>
+                <option value="F" {{ old('course_bloc') == 'F' ? 'selected' : '' }}>F</option>
                 </select>
+                @error('course_bloc')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
         </div>
 
@@ -85,7 +108,8 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn" style="background-color: #092C4C; color: white; width: 100%; font-size: 16px; font-weight: bold;">Sign Up</button>
+        <button type="submit" class="btn" style="background-color: #092C4C; color: white; width: 100%; font-size: 16px; font-weight: bold;">{{ __('Sign Up') }}</button>
+        
 
         <div class="d-flex align-items-center py-3">
             <hr class="flex-grow-1 m-0" style="border-top: 1px solid #092C4C;">
