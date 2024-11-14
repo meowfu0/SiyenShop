@@ -25,20 +25,40 @@
                             </tr>
                         </thead>
                         <tbody class="noBorder">
-                            <tr>
-                                <td>CIRCUITS T-Shirt - Black</td>
-                                <td class="remove">₱350.00</td>
-                                <td>Large</td>
-                                <td>x1</td>
-                                <td>₱350.00</td>
-                            </tr>
-                            <tr>
-                                <td>CSC Reversible Lanyard</td>
-                                <td class="remove">₱250.00</td>
-                                <td class="fst-italic">None</td>
-                                <td>x1</td>
-                                <td>₱250.00</td>
-                            </tr>  
+  
+
+                        @php
+    $totalRetailPrice = 0;
+    $total_items = 0;
+@endphp
+
+@foreach($ShirtItems as $item)
+    @php
+        $totalRetailPrice += $item->retail_price * $item->quantity;
+        $total_items += $item->quantity;
+    @endphp
+    <tr>
+        <td>{{ $item->product_name }}</td>
+        <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
+        <td>Large</td>
+        <td>x{{ $item->quantity }}</td>
+        <td>₱ {{ number_format($item->retail_price, 2) }}</td>
+    </tr>
+@endforeach
+
+@foreach($OtherItems as $item)
+    @php
+        $totalRetailPrice += $item->retail_price * $item->quantity;
+        $total_items += $item->quantity;
+    @endphp
+    <tr>
+        <td>{{ $item->product_name }}</td>
+        <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
+        <td>Large</td>
+        <td>x{{ $item->quantity }}</td>
+        <td>₱ {{ number_format($item->retail_price, 2) }}</td>
+    </tr>
+@endforeach
                         </tbody>
                     </table>
                 </div>
@@ -61,22 +81,30 @@
                             <div class="d-flex justify-content-between col-7 items-payment"> 
                                 <div class="col-6 mt-2 d-flex items-check">
                                     <p class="fw-bold my-2 fs-4 text-primary checkout-sizes">
-                                        No. of Items: <span class="fw-normal fs-4 checkout-sizes">2 <span class="fw-normal fs-4 checkout-sizes">item(s)</span></span>
+                                        No. of Items: <span class="fw-normal fs-4 checkout-sizes">{{$total_items}} <span class="fw-normal fs-4 checkout-sizes">item(s)</span></span>
                                     </p>
                                 </div>
 
                                 <!-- Total amount display -->
                                 <div class="col-6 mt-2 d-flex justify-content-center items-pay">
                                     <p class="fw-bold my-2 fs-4 text-primary checkout-sizes">
-                                        Total Payment: <span class="fw-normal fs-4 checkout-sizes">₱ <span class="fw-normal fs-4 checkout-sizes">600.00</span></span>
+                                        Total Payment: <span class="fw-normal fs-4 checkout-sizes">₱ <span class="fw-normal fs-4 checkout-sizes">{{ number_format($totalRetailPrice, 2) }}</span></span>
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Proceed to Checkout button -->
+                     
+
+@foreach($productIds as $id)    
+    @php
+
+        $productIdsString = implode(',', $productIds);
+    @endphp
+@endforeach
                             <div class="d-flex justify-content-end flex-row mt-1 items-btn">
                                 <a href="{{ route('cartPage') }}" class="btn btn-outline-primary btn-md me-1 checkout-sizes">Cancel</a>
-                                <a href="{{ route('paymentPage') }}" class="btn btn-primary btn-md checkout-sizes" style="width: 150px;">
+                                <a href="{{ route('paymentPage.i', ['id' => base64_encode($productIdsString)]) }}" class="btn btn-primary btn-md checkout-sizes" style="width: 150px;">
                                     Place Order
                                     <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
                                 </a>

@@ -1,5 +1,4 @@
 
-
 <div class="modal fade" id="ModalProceedPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

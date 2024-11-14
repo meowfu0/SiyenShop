@@ -3,6 +3,8 @@
 @section('content')
 
     <script src="{{ asset('js/cart.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     
   <div class="d-flex justify-content-start align-items-center mb-2 container pt-3">  
                     <img src="{{ asset('images/cart.svg') }}" class="cart-logo mb-2">
@@ -14,6 +16,7 @@
             <div class="col-12  col-md-12 col-lg-12  col-xl-12 ">
                 
             @if($ShirtItems->isEmpty() && $OtherItems->isEmpty())
+
                  <div class="d-flex flex-row justify-content-center align-items-center mt-5">
                       <p class="fs-5">No items in the cart</p>
                 </div>
@@ -22,6 +25,8 @@
     
     <!-- LOOP FOR Shirt Items only  -->
         @foreach($ShirtItems as $item)
+        
+         <!-- <h1  id="PROD"></h1> -->
 
             <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
                 <div class="d-flex flex-row align-items-center">
@@ -155,6 +160,7 @@
         <!-- Delete Confirmation Modal -->
          @include('user.modal.cartDeleteModal')
         @endforeach
+
     @endif
                  
                 <!-- Select All and Checkout Section -->
@@ -173,20 +179,22 @@
                             <!-- Item count display -->
                             <div class="d-flex row col-9 justify-content-between" id="items-total">
                                 <div class="col-4" id="items-count-div">
-                                    <p class="mt-3 fw-bold fs-4 text-primary footer-fs">No. of Items: <span id="item-count" class="fs-3  text-primary">0</span><span class="fs-3  text-primary" > item(s)</span> </p>
+                                    <p class="mt-3 fw-bold fs-4 text-primary footer-fs">No. of Items: <span id="item-count" class="fs-4  text-primary">0</span><span class="fs-3  text-primary" > item(s)</span> </p>
                                 </div>
                                 <div class="col-5" id="total-div"> <!-- Total amount display -->
-                                     <p class="mt-3 fw-bold fs-4 text-primary footer-fs" >TOTAL: ₱ <span id="total-amount" class="fs-3 text-primary">0.00</span></p>
+                                     <p class="mt-3 fw-bold fs-4 text-primary footer-fs" >Total: ₱ <span id="total-amount" class="fs-4 text-primary">0.00</span></p>
                                 </div>
                             </div>
                             <!-- Proceed to Checkout button -->
                             <div>     
-
+                            
+                            
                                 <!-- data-bs-toggle="modal" data-bs-target="#ModalProceed -->
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceed" class="btn btn-primary btn-md" id="button-size">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceed" class="btn btn-primary btn-md  " id="button-size">
                                     Proceed To Checkout
                                     <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
                                 </a>   
+                              
                             </div>
                         </div>
                     </div>

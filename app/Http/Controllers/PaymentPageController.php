@@ -6,10 +6,19 @@ use Illuminate\Http\Request;
 
 class PaymentPageController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        return view('user.paymentPage');
+       
+
+        $ids = base64_decode($id);  // Decode the string
+    
+        // Convert the comma-separated product IDs into an array
+        $productIds = explode(',', $ids);
+        return view('user.paymentPage' , compact('productIds'));
     }
+
+
+   
   
 }
 

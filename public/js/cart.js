@@ -31,17 +31,18 @@ function AddCheckedProducts() {
 }
 
 
-//SELECT ALL CHECKBOXES
+// SELECT ALL CHECKBOXES
 function toggleSelectAll(selectAllCheckbox) {
     const checkboxes = document.querySelectorAll('.checkboxs');
     checkboxes.forEach(function(checkbox) {
         checkbox.checked = selectAllCheckbox.checked;
     });
     AddCheckedProducts(); // Update totals after selecting/deselecting all
+    updateCheckedProductIds(); // Call this to update displayed IDs
 }
 
 function autoSelectAll() {
-    var selectAllCheckbox = document.getElementById('selectAll'); 
+    const selectAllCheckbox = document.getElementById('selectAll'); 
     if (selectAllCheckbox) { // Check if the selectAll checkbox exists
         selectAllCheckbox.checked = true; 
         toggleSelectAll(selectAllCheckbox); 
@@ -50,7 +51,90 @@ function autoSelectAll() {
 
 window.onload = function() {
     autoSelectAll(); // Automatically check all items and call toggleSelectAll
+    updateCheckedProductIds(); // Set up event listeners and initial display
 };
+
+// Function to update the display of checked product IDs
+function updateCheckedProductIds() {
+    // Array to store checked product IDs
+    let checkedProductIds = [];
+
+    // Add event listener to each checkbox
+    document.querySelectorAll('.checkboxs').forEach(function(checkbox) {
+        checkbox.addEventListener('click', function() {
+            updateProductIdList(checkbox, checkedProductIds);
+        });
+    });
+
+    // Initialize the list for the current state
+    document.querySelectorAll('.checkboxs').forEach(checkbox => {
+        updateProductIdList(checkbox, checkedProductIds);
+    });
+}
+
+// Helper function to add/remove product ID and update display
+function updateProductIdList(checkbox, checkedProductIds) {
+    const productId = checkbox.id;
+
+    if (checkbox.checked) {
+        // Add productId to the array if it’s not already there
+        if (!checkedProductIds.includes(productId)) {
+            checkedProductIds.push(productId);
+        }
+    } else {
+        // Remove productId from the array if it’s unchecked
+        const index = checkedProductIds.indexOf(productId);
+        if (index > -1) {
+            checkedProductIds.splice(index, 1);
+        }
+    }
+
+//AALISIN SOON PANG CHECK LANG NG ID ITO 
+  //  document.getElementById("PROD").innerHTML = checkedProductIds.join(', ');
+
+    //PASS THE DATA IN THE ARRAY TO OTHER PAGE   - THE ARRAY VALUE IS ID
+    if (checkedProductIds.length === 0) {
+        // Disable the checkout button or show an error message 
+        const checkoutButton = document.querySelector("#button-size");
+
+        const modalBody = document.querySelector("#ModalProceed .modal-body p");
+    modalBody.textContent = "Select products to check out!";  // Change the message
+
+    const noButton = document.querySelector("#ModalProceed .modal-footer .btn-outline-primary");
+    const yesButton = document.querySelector("#ModalProceed .modal-footer .btn-primary");   
+
+    noButton.style.display = 'none';  // Hide the 'No' button
+    yesButton.style.display = 'none'; // Hide the 'Yes' button
+
+    // Show the modal
+    $('#ModalProceed').modal('show');
+
+      
+    }else {
+        // Update the href for the checkout button with the product IDs
+        const encodedIds = btoa(checkedProductIds.join(','));
+        const checkoutButton = document.querySelector("#ModalProceed .modal-footer .btn-primary");
+        checkoutButton.setAttribute("href", `/checkOutPage/Checkout-Items/${encodedIds}`);
+    
+    
+    
+        const noButton = document.querySelector("#ModalProceed .modal-footer .btn-outline-primary");
+    const yesButton = document.querySelector("#ModalProceed .modal-footer .btn-primary");
+
+    
+        noButton.style.display = 'block'; 
+        yesButton.style.display = 'block';
+        
+        // Show the modal with the original message
+        const modalBody = document.querySelector("#ModalProceed .modal-body p");
+        modalBody.textContent = "Proceed to Checkout?";  // Reset to the original message
+    }
+   
+      
+
+}
+
+
 
 
 
@@ -98,80 +182,78 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-//TO DELETE ITEM FROM CART IN DATABASE
-document.addEventListener('DOMContentLoaded', function() {
-    // Listen for when the modal is shown
-    const deleteModals = document.querySelectorAll('.modal');
+
+
+
+// //TO DELETE ITEM FROM CART IN DATABASE
+document.addEventListener('DOMContentLoaded', function() { 
+    const deleteModals = document.querySelectorAll('.delete_modal');
 
     deleteModals.forEach(deleteModal => {
         deleteModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget; // The button that triggered the modal
-            const productId = button.getAttribute('data-id'); // Get the item id from the button's data-id attribute
-
-            // Update the delete button's data-id with the correct item id
-            const confirmDeleteButton = deleteModal.querySelector('.btn-danger.remove');
+            const button = event.relatedTarget; // Button that triggered the modal
+            const productId = button.getAttribute('data-id');
+            const confirmDeleteButton = deleteModal.querySelector('#delete_items');
             confirmDeleteButton.setAttribute('data-id', productId);
+
+            // Only add the event listener if it hasn't been added yet
+            const existingDeleteHandler = confirmDeleteButton._deleteHandler;
+            if (!existingDeleteHandler) {
+                const newDeleteHandler = handleDeleteClick.bind(null, productId, confirmDeleteButton);
+                confirmDeleteButton.addEventListener('click', newDeleteHandler);
+                confirmDeleteButton._deleteHandler = newDeleteHandler;
+            }
         });
     });
 
-    // Attach a click event to all delete buttons inside the modal footer
-    document.querySelectorAll('.modal-footer .btn-danger.remove').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id'); // Get the item id from the button's data-id attribute
+    function handleDeleteClick(productId, button) {
+        fetch(`/cart/remove/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ product_id: productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Debugging: Check if "success: true" is received
+            if (data.success) {
+                // Find and remove the item card in the DOM
+                const itemCard = document.querySelector(`[data-id="${productId}"]`).closest('.card-body');
+                if (itemCard) itemCard.remove();
 
-            // Send an AJAX request to delete the item
-            fetch('/cart/remove/' + productId, {
-                method: 'DELETE', // Use DELETE request
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    product_id: productId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Find and remove the item card in the DOM
-                    const itemCard = document.querySelector(`[data-id="${productId}"]`).closest('.card-body');
-                    if (itemCard) {
-                        itemCard.remove();
-                    }
+                // Update modal content to indicate success
+                const modalBody = button.closest('.delete_modal').querySelector('.modal-body');
+                const modalFooter = button.closest('.delete_modal').querySelector('.modal-footer');
+                const logo = modalBody.querySelector('img');
+                const buttons = modalFooter.querySelectorAll('button');
 
-                    // Update modal content to indicate success
-                    const modalBody = this.closest('.modal').querySelector('.modal-body');
-                    const modalFooter = this.closest('.modal').querySelector('.modal-footer');
+                // Hide the buttons and display the logo
+                modalFooter.style.display = 'none';
+                logo.style.display = 'block';
+                buttons.forEach(button => button.style.display = 'none');
 
-                    const logo = modalBody.querySelector('img');
-                    const buttons = modalFooter.querySelectorAll('button');
+                // Update the modal body text to indicate success
+                const message = modalBody.querySelector('p');
+                message.textContent = 'Item removed successfully!';
 
-                    // Hide the buttons and display the logo
-                    modalFooter.style.display = 'none';
-                    logo.style.display = 'block';
-                    buttons.forEach(button => {
-                        button.style.display = 'none';
-                    });
-
-                    // Update the modal body text to indicate success
-                    const message = modalBody.querySelector('p');
-                    message.textContent = 'Item removed successfully!';
-
-                    // Auto reload the page after a short delay
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the page
-                    }, 1000); // Wait 1 second before reloading
-                } else {
-                    alert('An error occurred while removing the item.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                // Auto reload the page after a short delay
+                setTimeout(() => {
+                    window.location.reload(); // Reload the page
+                 }, 300); // Wait 1 second before reloading
+            } else {
                 alert('An error occurred while removing the item.');
-            });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while removing the item.');
         });
-    });
+    }
 });
+
+
 
 
 

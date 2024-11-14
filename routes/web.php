@@ -23,6 +23,7 @@ use App\Http\Controllers\checkOutPageController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
 use League\CommonMark\Node\Query\OrExpr;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Admin\CreateShop;
 use App\Http\Livewire\Admin\Updateshop; 
 use App\Http\Controllers\ProfileController;
@@ -57,16 +58,27 @@ Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 
 Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 // cart and checkout routes
 Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
 Route::delete('/cart/remove/{id}', [CartPageController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
-
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
+Route::get('/checkOutPage/Checkout-Items/{encodedIds}', [CheckOutPageController::class, 'index'])->name('checkOutPage.Checkout-Items');
+
+
+
 Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
+Route::get('/paymentPage/{id}', [paymentPageController::class, 'index'])->name('paymentPage.i');
+
+
 Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
 // =================== end of cart and checkout module =======================
+
+
+
 // chat route
 Route::get('/chat', [UserChat::class, 'render'])->name('chat');
 

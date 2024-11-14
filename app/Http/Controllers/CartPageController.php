@@ -49,23 +49,23 @@ class CartPageController extends Controller
         return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes'));
     }
 
-    //remove item from cart_items table
     public function remove($id)
-{
-    $userId = Auth::user()->id;
-
-    // Remove the item from the cart_items table
-    $deleted = DB::table('cart_items')
-        ->where('cart_id', '=', $userId)
-        ->where('id', '=', $id)
-        ->delete();
-
-    if ($deleted) {
-        return response()->json(['success' => true]);
-    } else {
-        return response()->json(['success' => false]);
+    {
+        try {
+            $userId = Auth::id();
+            $deleted = DB::table('cart_items')
+                ->where('cart_id', $userId)
+                ->where('id', $id)
+                ->delete();
+    
+            // Explicitly return JSON response with "success: true" or "success: false"
+            return response()->json(['success' => $deleted > 0]);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed, and return a structured JSON error response
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
-}
+    
 
 
 

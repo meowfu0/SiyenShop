@@ -43,7 +43,15 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('checkOutPage') }}" class="btn btn-outline-primary me-1 payment-sizes">Cancel</a>
+                                @foreach($productIds as $id)
+    @php
+        
+        $productIdsString = implode(',', $productIds);
+
+    @endphp
+@endforeach
+  
+                                    <a href="{{ route('checkOutPage.Checkout-Items', ['encodedIds' => base64_encode($productIdsString)]) }}" id="cancelButton" class="btn btn-outline-primary me-1 payment-sizes">Cancel</a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceedPayment" class="btn btn-primary payment-sizes">
                                         Confirm Payment
                                         <img src="{{ asset('images/credit-card.svg') }}" class="mb-1">
