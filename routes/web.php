@@ -67,6 +67,8 @@ Route::patch('/cart/update/{id}', [CartPageController::class, 'updateQuantity'])
 
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/checkOutPage/Checkout-Items/{encodedIds}', [CheckOutPageController::class, 'index'])->name('checkOutPage.Checkout-Items');
+Route::post('/update-total-amount', [checkOutPageController::class, 'updateTotalAmount'])->name('updateTotalAmount');
+
 
 
 

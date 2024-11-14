@@ -18,7 +18,7 @@ class CartPageController extends Controller
         // ---  QUERY TO GET THE SHIRTS --- 
         $ShirtItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id') 
+            ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
             ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
             ->where('i.cart_id', '=', $userId)
@@ -36,7 +36,7 @@ class CartPageController extends Controller
         // --- OTHER ITEMS --- 
         $OtherItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.id', '=', 'i.cart_id') 
+            ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
             ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
             ->where('i.cart_id', '=', $userId)
@@ -44,7 +44,7 @@ class CartPageController extends Controller
             ->get();
 
 
-            
+
         // Return view with all the queries 
         return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes'));
     }
@@ -57,7 +57,7 @@ class CartPageController extends Controller
                 ->where('cart_id', $userId)
                 ->where('id', $id)
                 ->delete();
-    
+
             // Explicitly return JSON response with "success: true" or "success: false"
             return response()->json(['success' => $deleted > 0]);
         } catch (\Exception $e) {
@@ -65,33 +65,26 @@ class CartPageController extends Controller
             return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
     }
-    
 
 
 
 
-public function updateQuantity(Request $request, $id)
-{
-    $userId = Auth::user()->id;
-    $quantity = $request->input('quantity');
 
-    // Update the quantity in the cart_items table
-    $updated = DB::table('cart_items')
-        ->where('cart_id', '=', $userId)
-        ->where('id', '=', $id)
-        ->update(['quantity' => $quantity]);
+    public function updateQuantity(Request $request, $id)
+    {
+        $userId = Auth::user()->id;
+        $quantity = $request->input('quantity');
 
-    if ($updated) {
-        return response()->json(['success' => true]);
-    } else {
-        return response()->json(['success' => false]);
+        // Update the quantity in the cart_items table
+        $updated = DB::table('cart_items')
+            ->where('cart_id', '=', $userId)
+            ->where('id', '=', $id)
+            ->update(['quantity' => $quantity]);
+
+        if ($updated) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
     }
-}
-
-
-
-
-
-
-
 }
