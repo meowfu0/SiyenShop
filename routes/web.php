@@ -18,7 +18,7 @@ use App\Http\Livewire\ShopProductsAdd;
 use App\Http\Livewire\ShopProductsEdit;
 use App\Http\Livewire\ShopProductsHistory;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\cartPageController; 
+use App\Http\Controllers\CartPageController; 
 use App\Http\Controllers\checkOutPageController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
@@ -61,9 +61,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 // cart and checkout routes
-Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
+Route::get('/cartPage', [CartPageController::class, 'index'])->name('cartPage');
 Route::delete('/cart/remove/{id}', [CartPageController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
+// Route to update the size of a cart item
+Route::patch('/cart/update/size/{id}', [CartPageController::class, 'updateSize'])->name('cart.updateSize');
+
+// Route to update the quantity of a cart item
+Route::patch('/cart/update/quantity/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+
 
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/checkOutPage/Checkout-Items/{encodedIds}', [CheckOutPageController::class, 'index'])->name('checkOutPage.Checkout-Items');

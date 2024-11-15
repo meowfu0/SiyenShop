@@ -28,7 +28,8 @@ class checkOutPageController extends Controller
             ->join('users as u', 'c.user_id', '=', 'u.id')
             ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
+            ->join('product_variants as v', 'i.size', '=', 'v.id')
+            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'v.size')
             ->where('i.cart_id', '=', $userId)
             ->where('i.product_id', 3)
             ->whereIn('i.id', $productIds)  // Use whereIn to filter by multiple product IDs
@@ -57,6 +58,7 @@ class checkOutPageController extends Controller
         return view('user.CheckOutPage', compact('ShirtItems', 'OtherItems', 'sizes', 'productIds'));
     }
 
+    
     public function updateTotalAmount(Request $request)
     {
         $userId = Auth::user()->id;

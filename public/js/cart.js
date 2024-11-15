@@ -98,13 +98,15 @@ function updateProductIdList(checkbox, checkedProductIds) {
     //AALISIN SOON PANG CHECK LANG NG ID ITO
     //  document.getElementById("PROD").innerHTML = checkedProductIds.join(', ');
 
-    //PASS THE DATA IN THE ARRAY TO OTHER PAGE   - THE ARRAY VALUE IS ID
+
+    // Update the checkout button based on the number of checked items
+   
     if (checkedProductIds.length === 0) {
         // Disable the checkout button or show an error message
         const checkoutButton = document.querySelector("#button-size");
 
         const modalBody = document.querySelector("#ModalProceed .modal-body p");
-        modalBody.textContent = "Select products to check out!"; // Change the message
+        modalBody.textContent = "Please choose an item!"; // Change the message
 
         const noButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-outline-primary"
@@ -113,7 +115,8 @@ function updateProductIdList(checkbox, checkedProductIds) {
             "#ModalProceed .modal-footer .btn-primary"
         );
 
-        noButton.style.display = "none"; // Hide the 'No' button
+        noButton.textContent = "Okay"; // Change the text of the 'Yes' button
+
         yesButton.style.display = "none"; // Hide the 'Yes' button
 
         // Show the modal
@@ -124,6 +127,7 @@ function updateProductIdList(checkbox, checkedProductIds) {
         const checkoutButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-primary"
         );
+         //PASS THE DATA IN THE ARRAY TO OTHER PAGE   - THE ARRAY VALUE IS ID
         checkoutButton.setAttribute(
             "href",
             `/checkOutPage/Checkout-Items/${encodedIds}`
@@ -144,6 +148,10 @@ function updateProductIdList(checkbox, checkedProductIds) {
         modalBody.textContent = "Proceed to Checkout?"; // Reset to the original message
     }
 }
+
+
+
+
 
 //TO UPDATE QUANTITY OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -190,6 +198,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+//END OF UPDATE QUANTITY OF ITEM IN CART IN DATABASE
+
+
+
 
 // //TO DELETE ITEM FROM CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -272,4 +284,43 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("An error occurred while removing the item.");
             });
     }
+});
+//end of delete item//
+
+
+
+
+//TO UPDATE SIZE OF ITEM IN CART IN DATABASE
+document.addEventListener("DOMContentLoaded", function () {
+    // Event delegation for dynamically loaded elements
+    document.body.addEventListener("change", function (event) {
+        if (event.target.classList.contains("sizeDropdown")) {
+            let selectedSize = event.target.value;
+            let itemId = event.target.dataset.itemId; // Get the item ID from the data-item-id attribute
+
+            // Send the fetch request
+            fetch(`/cart/update/size/${itemId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+                body: JSON.stringify({ size: selectedSize }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                         //alert("Size updated successfully.");
+                    } else {
+                        alert("Failed to update size.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("Error occurred while updating the size.");
+                });
+        }
+    });
 });

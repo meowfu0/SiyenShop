@@ -32,33 +32,47 @@
                             $total_items = 0;
                         @endphp
 
-                    @foreach($ShirtItems as $item)
+                        @foreach($ShirtItems as $item)
                             @php
                                 $totalRetailPrice += $item->retail_price * $item->quantity;
                                 $total_items += $item->quantity;
-                        @endphp
+                            @endphp
                         <tr>
                             <td>{{ $item->product_name }}</td>
                             <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
-                            <td>Large</td>
-                            <td>x{{ $item->quantity }}</td>
-                            <td>₱ {{ number_format($item->retail_price, 2) }}</td>
-                        </tr>
-                    @endforeach
 
-                    @foreach($OtherItems as $item)
-                        @php
-                            $totalRetailPrice += $item->retail_price * $item->quantity;
-                            $total_items += $item->quantity;
-                        @endphp
-                        <tr>
-                            <td>{{ $item->product_name }}</td>
-                            <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
-                            <td>Large</td>
+                            <td>
+                                @if($item->size == 'L' || $item->size == 'l')
+                                    Large
+                                @elseif($item->size == 'S' || $item->size == 's')
+                                    Small
+                                @elseif($item->size == 'M' || $item->size == 'm')
+                                    Medium
+                                @elseif($item->size == 'XL' || $item->size == 'xl')
+                                    X-Large
+                                @else
+                                    {{ $item->size }}
+                                @endif
+                            </td>
+
                             <td>x{{ $item->quantity }}</td>
                             <td>₱ {{ number_format($item->retail_price, 2) }}</td>
                         </tr>
-                    @endforeach
+                        @endforeach
+
+                        @foreach($OtherItems as $item)
+                            @php
+                                $totalRetailPrice += $item->retail_price * $item->quantity;
+                                $total_items += $item->quantity;
+                            @endphp
+                        <tr>
+                            <td>{{ $item->product_name }}</td>
+                            <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
+                            <td class="fst-italic">None</td>
+                            <td>x{{ $item->quantity }}</td>
+                            <td>₱ {{ number_format($item->retail_price, 2) }}</td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -93,14 +107,14 @@
                             </div>
                         </div>
 
-                       
+
                         @foreach($productIds as $id)
-                            @php
-                                $productIdsString = implode(',', $productIds);
-                            @endphp
+                        @php
+                        $productIdsString = implode(',', $productIds);
+                        @endphp
                         @endforeach
 
-                         <!-- Proceed to Checkout button -->
+                        <!-- Proceed to Checkout button -->
                         <div class="d-flex justify-content-end flex-row mt-1 items-btn">
                             <a href="{{ route('cartPage') }}" class="btn btn-outline-primary btn-md me-1 checkout-sizes">Cancel</a>
                             <a href="{{ route('paymentPage.i', ['id' => base64_encode($productIdsString)]) }}"

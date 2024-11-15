@@ -28,12 +28,14 @@
 
             <!-- <h1  id="PROD"></h1> -->
 
+
             <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
                 <div class="d-flex flex-row align-items-center">
                     <div class="p-4 d-flex align-items-left" id="form-check">
                         <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{$item->id}}" value="{{ number_format($item->retail_price, 2) }}">
                     </div>
                     <div>
+                        <!-- put image here from db-->
                         <img src="{{ asset('images/' . $item->product_image) }}" class="img-fluid rounded-2 img-items">
                     </div>
                 </div>
@@ -57,22 +59,24 @@
                         <div class="d-flex align-items-center flex-column">
                             <div class="p-2 text-primary" id="remove"><b>Variant/Size</b></div>
                             <div class="p-2 text-primary">
-                                <select class="form-select border border-primary size-input text-primary">
-                                    @foreach(['S', 'M', 'L', 'XL'] as $sizeOption)
-                                    @php
-                                    $sizeExists = $sizes->contains('size', $sizeOption);
-                                    @endphp
-                                    <option class="text-primary" value="{{ $sizeOption }}" {{ !$sizeExists ? 'disabled' : '' }}>
-                                        @switch(strtolower($sizeOption))
-                                        @case('l') Large @break
-                                        @case('xl') X-Large @break
-                                        @case('m') Medium @break
-                                        @case('s') Small @break
-                                        @default {{ $sizeOption }}
-                                        @endswitch
+                                <!-- Size dropdown -->
+                                <select class="form-select border border-primary size-input text-primary sizeDropdown" data-item-id="{{ $item->id }}">
+                                    @foreach($sizes as $sizeOption)
+                                    <option value="{{ $sizeOption->id }}"
+                                        @if($sizeOption->id == $item->size) selected @endif
+                                        @if($sizeOption->stock == 0) disabled @endif>
+                                        @if($sizeOption->size == 'L' || $sizeOption->size == 'l') Large
+                                        @elseif($sizeOption->size == 'S' || $sizeOption->size == 's') Small
+                                        @elseif($sizeOption->size == 'M' || $sizeOption->size == 'm') Medium
+                                        @elseif($sizeOption->size == 'XL' || $sizeOption->size == 'xl') X-Large
+                                        @else
+                                        {{ $sizeOption->size }}
+                                        @endif
                                     </option>
                                     @endforeach
                                 </select>
+
+
                             </div>
                         </div>
                     </div>
@@ -202,10 +206,26 @@
                         <div>
 
                             <!-- data-bs-toggle="modal" data-bs-target="#ModalProceed -->
+                            @if($ShirtItems->isEmpty() && $OtherItems->isEmpty())
+
+
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#noItemModal" class="btn btn-primary btn-md" id="button-size">
+                                Proceed To Checkout
+                                <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
+                            </a>
+
+                            <!-- Modal for no items in the cart -->
+
+
+
+
+                            @else
+
                             <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceed" class="btn btn-primary btn-md  " id="button-size">
                                 Proceed To Checkout
                                 <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
                             </a>
+                            @endif
 
                         </div>
                     </div>

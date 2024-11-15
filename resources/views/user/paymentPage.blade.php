@@ -66,7 +66,6 @@
                                         option[disabled] {
                                             color: red;
                                             ;
-                                            /* Optional: Set a light red background */
                                         }
                                     </style>
 

@@ -18,29 +18,40 @@ class CartItemsTableSeeder extends Seeder
         DB::statement('ALTER TABLE cart_items AUTO_INCREMENT = 1;');
         $cart_items = [
             [
-                'product_id' => 1, 
+                'product_id' => 3,
                 'cart_id' => 1,
                 'quantity' => 2,
+                'size' => 1,
             ],
             [
-                'product_id' => 2, 
+                'product_id' => 3,
+                'cart_id' => 1,
+                'quantity' => 2,
+                'size' => 2,
+            ],
+            [
+                'product_id' => 2,
                 'cart_id' => 2,
                 'quantity' => 1,
+                'size' => 1,
             ],
             [
-                'product_id' => 3, 
+                'product_id' => 3,
                 'cart_id' => 3,
                 'quantity' => 2,
+                'size' => 1,
             ],
             [
-                'product_id' => 2, 
+                'product_id' => 2,
                 'cart_id' => 4,
                 'quantity' => 3,
+                'size' => 1,
             ],
             [
-                'product_id' => 1, 
+                'product_id' => 1,
                 'cart_id' => 5,
                 'quantity' => 1,
+                'size' => 1,
             ],
         ];
 

@@ -13,24 +13,26 @@ class CartPageController extends Controller
     public function index()
     {
         $userId = Auth::user()->id;
-        $productId = 3;
+     
 
         // ---  QUERY TO GET THE SHIRTS --- 
         $ShirtItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
             ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
+            ->join ('categories as cat', 'p.category_id', '=', 'cat.id')
+            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'i.size', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
             ->where('i.cart_id', '=', $userId)
-            ->where('i.product_id', '=', $productId)
+            ->where ('cat.id', '=', 4)
+            ->distinct() // To ensure no duplicate rows
             ->get();
 
         // --- SIZES of the TShirts--- 
         $sizes = DB::table('product_variants as v')
             ->join('products as p', 'v.product_id', '=', 'p.id')
-            ->select('v.size')
-            ->where('v.product_id', '=', $productId)
-            ->where('v.stock', '>', 0) // Only return sizes with stock available
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
+            ->select('v.size', 'v.id', 'v.stock')
+            ->where('cat.id', '=', 4)
             ->get();
 
         // --- OTHER ITEMS --- 
@@ -38,9 +40,10 @@ class CartPageController extends Controller
             ->join('users as u', 'c.user_id', '=', 'u.id')
             ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
             ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
             ->where('i.cart_id', '=', $userId)
-            ->where('i.product_id', '!=', $productId)
+            ->where('cat.id', '!=', 4)
             ->get();
 
 
@@ -87,4 +90,26 @@ class CartPageController extends Controller
             return response()->json(['success' => false]);
         }
     }
+
+
+
+    public function updateSize(Request $request, $id)
+    {
+        $userId = Auth::user()->id;
+        $size = $request->input('size');  // Get the selected size
+
+        $updated = DB::table('cart_items')
+        ->where('cart_id', '=', $userId)
+            ->where('id', '=', $id)
+            ->update(['size' => $size]);
+
+        if ($updated) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
+
+
+    
 }
