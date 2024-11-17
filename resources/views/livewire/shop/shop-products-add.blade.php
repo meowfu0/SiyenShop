@@ -3,11 +3,20 @@
 @section('content')
 <head>
     <link rel="stylesheet" href="{{ asset('css/toggleswitch.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
-    @include('components.profilenav')
+     <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
+        <div class="d-flex gap-2 pe-5">
+            <img src="{{ asset('images/user.svg') }}" alt="">
+            @auth
+            <div class="text-primary fw-medium d-none d-md-block">
+                {{ Auth::user()->first_name }}
+            </div>
+            @endauth
+        </div>
+     </div>
      
      <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height: 70px">
         <div class="ps-3">
@@ -51,17 +60,69 @@
                 <div class="col-md-6 d-flex flex-column gap-3"> 
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category
-                            <img src="{{ asset('images/add.svg') }}" alt=""></button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
+                            Add Category
+                            <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
+                        </button>
                     </div>
         
+                    <!-- Category Selection -->
                     <div class="form-group mb-1">
                         <label for="category" class="fw-bold text-primary">Category</label>
-                        <select id="category" class="form-select form-control" required>
-                            <option value="">Select Category</option>
-                            <option value="T-Shirt">T-Shirt </option>
-                            <option value="Lanyard">Lanyard</option>
-                        </select>
+                        <div class="dropdown">
+                            <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Category
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
+                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('T-Shirt')">
+                                    <span>T-Shirt</span>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn p-0" onclick="openEditModal('T-Shirt'); event.stopPropagation();">
+                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                        </button>
+                                        <button class="btn p-0" onclick="deleteCategory('T-Shirt'); event.stopPropagation();">
+                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('Lanyard')">
+                                    <span>Lanyard</span>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn p-0" onclick="openEditModal('Lanyard'); event.stopPropagation();">
+                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                        </button>
+                                        <button class="btn p-0" onclick="deleteCategory('Lanyard'); event.stopPropagation();">
+                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Category Modal -->
+                    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editCategoryForm">
+                                        <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                        <div class="form-group mb-2 d-flex align-items-center">
+                                            <input type="text" id="category_name" class="form-control me-2" value="">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                    <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mb-1">
@@ -80,21 +141,19 @@
                     <form>
                         <div class="row g-2"> 
                             <div class="col-md-6 mb-1"> 
-                                <div class="form-group">
-                                    <label for="status_id" class="fw-bold text-primary">Status</label>
-                                    <select id="status_id" class="form-select form-control" required>
-                                        <option value="">Select Status</option>
-                                        <option value="on-hand">On-Hand</option>
-                                        <option value="pre-order">Pre-Order</option>
-                                    </select>
-                                </div>
+                                <label for="status_id" class="fw-bold text-primary">Status</label>
+                                <select id="status_id" class="form-select form-control" onchange="toggleQuantity()" required>
+                                    <option value="" hidden selected>Select Status</option>
+                                    <option value="on-hand">On-Hand</option>
+                                    <option value="pre-order">Pre-Order</option>
+                                </select>
                             </div>
 
                             <div class="col-md-6 mb-1"> 
                                 <div class="form-group">
                                     <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                    <select id="visibility" class="form-select form-control">
-                                        <option value="">Select Visibility</option>
+                                    <select id="visibility" class="form-select form-control" onchange="visibility()">
+                                        <option value="" hidden selected>Select Visibility</option>
                                         <option value="visible">Visible</option>
                                         <option value="hidden">Hidden</option>
                                     </select>
@@ -104,7 +163,7 @@
 
                         <div class="form-group">
                             <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
-                                <p class="fw-bold m-0 text-primary">Variation</p>
+                                <p class="fw-bold m-0 text-primary">Size Variation</p>
                                 <label class="switch">
                                     <input type="checkbox" id="variationToggle">
                                     <span class="slider round"></span>
@@ -173,7 +232,7 @@
 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label for="quantity" class="fw-bold text-primary">Quantity</label>
+                                    <label for="quantity_id" id="quantity" class="fw-bold text-primary">Quantity</label>
                                     <div class="input-group quantity-selector quantity-selector-sm">
                                         <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
                                     </div>
@@ -195,111 +254,91 @@
     </div>
 </div>
 
-<!-- Modal: Add New Category -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add New Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="category" class="fw-bold text-primary">Category Name</label>
-                    <input type="text" id="category" class="form-control" placeholder="Input Category Name">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-                <button type="button" class="btn btn-primary">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const statusSelect = document.getElementById('status_id');
-    const categorySelect = document.getElementById('category');
-    const variationToggle = document.getElementById('variationToggle');
-    const hiddenFields = document.getElementById('hiddenFields');
-    const sizeInput = document.getElementById('size_1');
-    const quantityInput = document.getElementById('quantity_1');
-    const disabledInput = document.getElementById('disabledInput');
-    const quantity = document.getElementById('quantity_id');
-    const quantityTitle = document.getElementById('quantity');
-    
-    let currentStatus = '';
 
-    // Function to enable or disable the toggle based on category and status
-    function checkToggleAvailability() {
-        const category = categorySelect.value;
-        currentStatus = statusSelect.value;  // Save the current status
+    function toggleQuantity() {
+        const statusSelect = document.getElementById('status_id');
+        const quantityInput = document.getElementById('quantity_id');
+        const quantityTitle = document.getElementById('quantity');
+        const quantityTitle2 = document.getElementById('quantity_1');
+        const variationToggle = document.getElementById('variationToggle');
 
-        if (category === 'T-Shirt' && (currentStatus === 'on-hand' || currentStatus === 'pre-order')) {
-            // Enable the toggle if category is T-Shirt and status is on-hand or pre-order
-            variationToggle.removeAttribute('disabled');
-            if (!variationToggle.checked) {
-                variationToggle.checked = true; // Ensure the toggle is on if it's not
-                disabledInput.style.display ='none';
-                hiddenFields.style.display = 'block';
-                
-                if (currentStatus === 'pre-order') {
-                    sizeInput.style.display = 'block'; 
-                    quantityInput.style.display = 'none';
-                } else if (currentStatus === 'on-hand') {
-                    sizeInput.style.display = 'block';
-                    quantityInput.style.display = 'block';
-                }
-            }
-            else {
-                variationToggle.checked = true; // Ensure the toggle is on if it's not
-                disabledInput.style.display ='none';
-                hiddenFields.style.display = 'block';
-                
-                if (currentStatus === 'pre-order') {
-                    sizeInput.style.display = 'block'; 
-                    quantityInput.style.display = 'none';
-                } else if (currentStatus === 'on-hand') {
-                    sizeInput.style.display = 'block';
-                    quantityInput.style.display = 'block';
-                }
-            
-            }
-            quantity.setAttribute('disabled', 'disabled'); // Disable quantity input
-        } else {
-            // If the category is changed to something else, handle the toggle accordingly
-            if (variationToggle.checked) {
-                variationToggle.checked = false; // Reset toggle to off if it was on
-            }
-            variationToggle.setAttribute('disabled', 'disabled'); // Disable toggle
-            hiddenFields.style.display = 'none'; 
-            sizeInput.style.display = 'none';
+        if (statusSelect.value === 'pre-order' || variationToggle.checked) { //Hides the quantity field
             quantityInput.style.display = 'none';
-            quantity.removeAttribute('disabled'); // Enable quantity when toggle is off
-
-            if (currentStatus === 'pre-order') {
-                quantity.setAttribute('disabled', 'disabled'); // Disable quantity
+            quantityTitle.style.display = 'none';
+            
+            //Hide the quantity in the hidden fields
+            if (statusSelect.value === 'pre-order') {
+                quantityTitle2.style.visibility = 'hidden'; 
             } else {
-                quantity.removeAttribute('disabled'); // Enable quantity if it's not pre-order
+                quantityTitle2.style.visibility = 'visible'; 
             }
+        } else if (statusSelect.value === 'on-hand' && !variationToggle.checked){ //Shows the quantity field
+            quantityInput.style.display = 'block';
+            quantityTitle.style.display = 'block';
         }
     }
 
-        categorySelect.addEventListener('change', checkToggleAvailability);
-        statusSelect.addEventListener('change', checkToggleAvailability);
+    function openEditModal(category) {
+        // Set the value of the input to the category name
+        document.getElementById('category_name').value = category;
 
-    });
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+        modal.show();
+
+        // Handle the Save button click
+        document.getElementById('saveCategoryBtn').onclick = function() {
+            saveCategory(category);
+            modal.hide();
+        };
+    }
+
+    function selectCategory(category) {
+        // Update the button text
+        document.getElementById('dropdownMenuButton').innerText = category;
+
+        // Close the dropdown
+        const dropdown = new bootstrap.Dropdown(document.getElementById('dropdownMenuButton'));
+        dropdown.hide(); // This will close the dropdown
+    }
+
+    function resetModal() {
+        const categoryInput = document.getElementById('category_name');
+        categoryInput.value = ''; // Clear the input field
+        categoryInput.placeholder = 'Input Text'; // Reset the placeholder if needed
+        document.getElementById('editCategoryModalLabel').textContent = 'Add Category';
+    }
+
+    function saveCategory(oldCategory) {
+        const newCategory = document.getElementById('category_name').value.trim();
+        if (newCategory && newCategory !== oldCategory) {
+            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
+            items.forEach(item => {
+                const span = item.querySelector('span');
+                if (span.textContent === oldCategory) {
+                    span.textContent = newCategory;
+
+                    // Update the onclick function for the buttons
+                    item.querySelector('button[onclick^="openEditModal"]').setAttribute('onclick', `openEditModal('${newCategory}')`);
+                    item.querySelector('button[onclick^="deleteCategory"]').setAttribute('onclick', `deleteCategory('${newCategory}')`);
+                }
+            });
+        }
+    }
+
+    function deleteCategory(category) {
+        if (confirm(`Are you sure you want to delete the category "${category}"?`)) {
+            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
+            items.forEach(item => {
+                const span = item.querySelector('span');
+                if (span.textContent === category) {
+                    item.remove();
+                }
+            });
+        }
+    }
 
     //Updated Add Size fields
     let rowCount = 1; // Keeps track of the number of rows
@@ -407,6 +446,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 reader.readAsDataURL(file);
             }
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('status_id');
+        const categorySelect = document.getElementById('category');
+        const variationToggle = document.getElementById('variationToggle');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const sizeInput = document.getElementById('size_1');
+        const quantityInput = document.getElementById('quantity_1');
+        const disabledInput = document.getElementById('disabledInput');
+
+        // Initial call to set visibility based on default selection
+        toggleQuantity();
+
+        variationToggle.addEventListener('change', function() {
+            if (variationToggle.checked) {
+                hiddenFields.style.display = 'block'; // Show hidden fields
+                disabledInput.style.display = 'none';  // Hide the disabled input
+            } else {
+                hiddenFields.style.display = 'none'; // Hide hidden fields
+                disabledInput.style.display = 'block';  // Show the disabled input
+            }
+
+            toggleQuantity(); // Call toggleQuantity to handle visibility
+        });
+
+        // Attach event listener to status select
+        statusSelect.addEventListener('change', toggleQuantity);
     });
 
 </script>
