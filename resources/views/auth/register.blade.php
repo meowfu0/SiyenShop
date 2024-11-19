@@ -3,10 +3,11 @@
 @section('content')
 <div class="container" style="max-width: 500px; margin-top: 50px;">
     <h1 class="text-center mb-4 fw-bold" style="font-size: 36px; color: #092C4C;">Sign up</h1>
+    
+    <form action="{{ route('register') }}" method="POST">
+    @csrf
 
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-        
+
         <div class="d-flex gap-3 w-100">
              <!-- First Name -->
             <div class="mb-3 w-100">
@@ -44,12 +45,17 @@
             <label for="course_id" class="form-label" style="font-size: 16px; color: #092C4C;">Course</label>
             <select id="course_id" class="form-select" name="course_id" required style="font-size: 14px;">
                 <option value="" disabled selected>Select your course</option>
-                <option value="BS Information Technology">BS Information Technology</option>
-                <option value="BS Meteorology">BS Meteorology</option>
-                <option value="BS Biology">BS Biology</option>
-                <option value="BS Computer Science">BS Computer Science</option>
-                <option value="BS Chemistry">BS Chemistry</option>
+                @foreach($courses as $course)
+                    <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
+                        {{ $course->course_name }}
+                    </option>
+                @endforeach
             </select>
+            @error('course_id')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
         <!-- Year and Block side by side -->
@@ -67,7 +73,7 @@
             </div>
             <div class="col">
                 <label for="course_bloc" class="form-label" style="font-size: 16px; color: #092C4C;">Block</label>
-                <select id="course_bloc" class="form-select" name="bloc" required style="font-size: 14px;">
+                <select id="course_bloc" class="form-select" name="course_bloc" required style="font-size: 14px;">
                     <option value="" disabled selected>Select your block</option>
                     <option value="A">A</option>
                     <option value="B">B</option>
@@ -158,4 +164,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

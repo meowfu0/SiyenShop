@@ -43,70 +43,48 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="firstName" class="form-label fw-bold">First Name</label>
-                            <input type="text" class="form-control" id="firstName" value="Archie">
+                            <input type="text" class="form-control" id="firstName" value="{{ $user->first_name }}" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="lastName" class="form-label fw-bold">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" value="Onoya">
+                            <input type="text" class="form-control" id="lastName" name="lastName" value="{{ $user->last_name }}" readonly>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="email" class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="email" value="archie@gmail.com">
+                            <input type="email" class="form-control" id="email" value="{{ $user->email }}" readonly>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="phone" class="form-label fw-bold">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" value="09123456789">
+                            <input type="text" class="form-control" id="phone" value="{{ $user->phone_number}}" readonly>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="course" class="form-label fw-bold">Course</label>
-                            <select id="course" class="form-select" name="course" required style="font-size: 14px;">
-                                <option value="" disabled selected>Select your course</option>
-                                <option value="BS Information Technology">BS Information Technology</option>
-                                <option value="BS Meteorology">BS Meteorology</option>
-                                <option value="BS Biology">BS Biology</option>
-                                <option value="BS Computer Science">BS Computer Science</option>
-                                <option value="BS Chemistry">BS Chemistry</option>
-                            </select>
+                            <input type="text" class="form-control" id="course" value="{{ $user->course->course_name ?? 'N/A' }}" readonly>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="year" class="form-label fw-bold">Year</label>
-                            <select id="year" class="form-select" name="year" required style="font-size: 14px;">
-                                <option value="" disabled selected>Select your year</option>
-                                <option value="1st Year">1st Year</option>
-                                <option value="2nd Year">2nd Year</option>
-                                <option value="3rd Year">3rd Year</option>
-                                <option value="4th Year">4th Year</option>
-                                <option value="5th Year">5th Year</option>
-                            </select>
+                            <input type="text" class="form-control" id="year" value="{{ $user->year }}" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="block" class="form-label fw-bold">Block</label>
-                            <select id="block" class="form-select" name="block" required style="font-size: 14px;">
-                                <option value="" disabled selected>Select your block</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                                <option value="E">E</option>
-                            </select>
+                            <input type="text" class="form-control" id="block" value="{{ $user->course_bloc }}" readonly>
                         </div>
-                        </div>
+                    </div>
                 </form>
             </div>
         </div>
-
                 
     </div>
 </div>

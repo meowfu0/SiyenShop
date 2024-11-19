@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('profile') }}" method="POST">
+<form action="{{ route('profile.update', $user->id) }}" method="POST">
     @csrf
+    @method('PUT')
 <div class="container mt-5"> 
     <div class="row">
         <div class="col-md-2">
@@ -29,95 +30,80 @@
                             <div class="profile-avatar" style="width: 200px; height: 200px; border-radius: 50%; background-color: #FFF8E4; display: flex; align-items: center; justify-content: center; margin: 0 auto; margin-top: 20px;">
                                 <!-- Removed text inside the circle -->
                             </div>
-                            <!-- Moved Edit Profile button below the avatar -->
-                            <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary mt-4 edit-profile-btn" style="width: 200px; height: 50px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; margin-left: 12px; line-height: 1.2;">
-    Edit Profile
-    <span style="margin-left: 10px; vertical-align: middle; display: flex; align-items: center;">
-        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.64704 4.5293H2.76469C2.29667 4.5293 1.84781 4.71522 1.51687 5.04616C1.18592 5.37711 1 5.82597 1 6.29399V14.2351C1 14.7031 1.18592 15.152 1.51687 15.4829C1.84781 15.8139 2.29667 15.9998 2.76469 15.9998H10.7058C11.1738 15.9998 11.6227 15.8139 11.9536 15.4829C12.2846 15.152 12.4705 14.7031 12.4705 14.2351V13.3528" stroke="#092C4C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11.5881 2.76479L14.2351 5.41183M15.4571 4.16331C15.8047 3.8158 15.9999 3.34448 15.9999 2.85302C15.9999 2.36157 15.8047 1.89025 15.4571 1.54274C15.1096 1.19523 14.6383 1 14.1469 1C13.6554 1 13.1841 1.19523 12.8366 1.54274L5.41162 8.94122V11.5883H8.05866L15.4571 4.16331Z" stroke="#092C4C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </span>
-    <i class="bi bi-pencil" style="margin-left: 8px;"></i>
-</a>
-                            
-                            </a>
                         </div>
 
                         <!-- Profile Details Form -->
                         <div class="col-md-8">
-                            <form>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="firstName" class="form-label fw-bold">First Name</label>
-                                        <input type="text" class="form-control" id="firstName" value="Archie">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="lastName" class="form-label fw-bold">Last Name</label>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" value="Onoya">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label fw-bold">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ old('first_name', $user->first_name) }}">
                                 </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label fw-bold">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ old('last_name', $user->last_name) }}">
+                                </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="email" class="form-label fw-bold">Email</label>
-                                        <input type="email" class="form-control" id="email" value="archie@gmail.com">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="email" class="form-label fw-bold">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}">
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="password" class="form-label fw-bold">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" value="">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="password" class="form-label fw-bold">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password">
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="phone" class="form-label fw-bold">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone" value="09123456789">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="phone" class="form-label fw-bold">Phone Number</label>
+                                    <input type="text" class="form-control" id="phone" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}">
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="course" class="form-label fw-bold">Course</label>
-                                        <select id="course" class="form-select" name="course" required style="font-size: 14px;">
-                                            <option value="" disabled selected>Select your course</option>
-                                            <option value="BS Information Technology">BS Information Technology</option>
-                                            <option value="BS Meteorology">BS Meteorology</option>
-                                            <option value="BS Biology">BS Biology</option>
-                                            <option value="BS Computer Science">BS Computer Science</option>
-                                            <option value="BS Chemistry">BS Chemistry</option>
-                                        </select>
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="course" class="form-label fw-bold">Course</label>
+                                    <select id="course" class="form-select" name="course_id" required style="font-size: 14px;">
+                                        <option value="" disabled>Select your course</option>
+                                        <option value="BS Information Technology" {{ $user->course == 'BS Information Technology' ? 'selected' : '' }}>BS Information Technology</option>
+                                        <option value="BS Meteorology" {{ $user->course == 'BS Meteorology' ? 'selected' : '' }}>BS Meteorology</option>
+                                        <option value="BS Biology" {{ $user->course == 'BS Biology' ? 'selected' : '' }}>BS Biology</option>
+                                        <option value="BS Computer Science" {{ $user->course == 'BS Computer Science' ? 'selected' : '' }}>BS Computer Science</option>
+                                        <option value="BS Chemistry" {{ $user->course == 'BS Chemistry' ? 'selected' : '' }}>BS Chemistry</option>
+                                    </select>
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="year" class="form-label fw-bold">Year</label>
-                                        <select id="year" class="form-select" name="year" required style="font-size: 14px;">
-                                            <option value="" disabled selected>Select your year</option>
-                                            <option value="1st Year">1st Year</option>
-                                            <option value="2nd Year">2nd Year</option>
-                                            <option value="3rd Year">3rd Year</option>
-                                            <option value="4th Year">4th Year</option>
-                                            <option value="5th Year">5th Year</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="block" class="form-label fw-bold">Block</label>
-                                        <select id="block" class="form-select" name="block" required style="font-size: 14px;">
-                                            <option value="" disabled selected>Select your block</option>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="C">C</option>
-                                            <option value="D">D</option>
-                                            <option value="E">E</option>
-                                        </select>
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="year" class="form-label fw-bold">Year</label>
+                                    <select id="year" class="form-select" name="year" required style="font-size: 14px;">
+                                        <option value="" disabled>Select your year</option>
+                                        <option value="1st Year" {{ $user->year == '1st Year' ? 'selected' : '' }}>1st Year</option>
+                                        <option value="2nd Year" {{ $user->year == '2nd Year' ? 'selected' : '' }}>2nd Year</option>
+                                        <option value="3rd Year" {{ $user->year == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
+                                        <option value="4th Year" {{ $user->year == '4th Year' ? 'selected' : '' }}>4th Year</option>
+                                        <option value="5th Year" {{ $user->year == '5th Year' ? 'selected' : '' }}>5th Year</option>
+                                    </select>
                                 </div>
-                            </form>
+                                <div class="col-md-6">
+                                    <label for="block" class="form-label fw-bold">Block</label>
+                                    <select id="block" class="form-select" name="course_bloc" required style="font-size: 14px;">
+                                        <option value="" disabled>Select your block</option>
+                                        <option value="A" {{ $user->block == 'A' ? 'selected' : '' }}>A</option>
+                                        <option value="B" {{ $user->block == 'B' ? 'selected' : '' }}>B</option>
+                                        <option value="C" {{ $user->block == 'C' ? 'selected' : '' }}>C</option>
+                                        <option value="D" {{ $user->block == 'D' ? 'selected' : '' }}>D</option>
+                                        <option value="E" {{ $user->block == 'E' ? 'selected' : '' }}>E</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,7 +111,7 @@
 
             <!-- Save and Cancel Buttons Outside the Card -->
             <div class="d-flex justify-content-end mt-4">
-                <div class="me-2"> <!-- Add margin to the right of the Cancel button -->
+                <div class="me-2">
                     <a href="{{ route('profile') }}" class="btn btn-outline-secondary cancel-btn" style="width: 150px; height: 50px;">Cancel</a>
                 </div>
                 <div>

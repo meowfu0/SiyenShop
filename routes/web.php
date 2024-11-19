@@ -31,7 +31,10 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserProfileController;
+
+
 
 
 Auth::routes();
@@ -49,6 +52,15 @@ Route::get('/', function () {
 // profile page
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::get('/profile', [UserProfileController::class, 'showProfile'])->name('profile')->middleware('auth');
+
+Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
+Route::put('/profile/update/{user}', [UserProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+
+
+
+
+
 
 // shopping module
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
@@ -112,8 +124,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
     
-    Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
 
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm']);
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+    
 
     });
         
