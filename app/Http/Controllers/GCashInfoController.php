@@ -44,9 +44,9 @@ class GCashInfoController extends Controller
      * @param  \App\Models\GCashInfo  $gCashInfo
      * @return \Illuminate\Http\Response
      */
-    public function show(GCashInfo $gCashInfo)
+    public function show($id)
     {
-        //
+      
     }
 
     /**

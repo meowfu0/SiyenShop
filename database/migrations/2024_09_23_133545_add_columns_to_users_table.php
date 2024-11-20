@@ -21,6 +21,8 @@ class AddColumnsToUsersTable extends Migration
             $table->string('year')->after('course_bloc'); 
             $table->unsignedBigInteger('course_id')->after('year');
             $table->string('profile_picture', 255)->nullable(); 
+
+    
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }

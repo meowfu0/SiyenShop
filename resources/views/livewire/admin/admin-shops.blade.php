@@ -10,12 +10,12 @@
         <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
             <div class="search-container d-flex align-items-center rounded p-1" style="width: 300px;">
                 <i class="fa fa-search"></i>
-                <input type="search" class="searchbox ms-2" placeholder="Search" />
+                <input type="search" class="searchbox ms-2" placeholder="Search" id="search-input" />
             </div>
             <div class="button-container d-flex align-items-center">
                 <div class="dropdown-container me-3">
                     <span class="me-2">Course</span>
-                    <select class="course-dropdown">
+                    <select class="course-dropdown" id="course-filter">
                         <option value="course1" selected>BS Information Technology</option>
                         <option value="course2">BS Computer Science</option>
                         <option value="course3">BS Biology</option>
@@ -41,7 +41,7 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="display">
                         @foreach($shops as $shop)
                         <tr>
                             <td scope="row" class="align-middle">
@@ -55,7 +55,7 @@
                             <td class="text-center align-middle">{{ $shop->user->first_name. " ". $shop->user->last_name}}</td> <!-- Joined role name -->
                             <td class="text-center align-middle">{{ $shop->status->status_name ?? 'No status assigned'}}</td>
                             <td class="text-center align-middle">
-                                <button class="btn btn-outline-secondary fs-2 p-1 px-2" data-bs-toggle="modal" data-bs-target="#shopModal" data-user-id="{{ $shop->id }}">View Shop</button>
+                                <button class=" view-shops-btn btn btn-outline-secondary fs-2 p-1 px-2" data-user-id="{{ $shop->id }}">View Shop</button>
                             </td>
                         </tr>
                         @endforeach
@@ -75,16 +75,17 @@
                         <div class="mb-3 d-flex justify-content-center w-100">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                                  class="profile-picture1"
+                                 id="shopLogo"
                                  alt="Profile Picture"
                                  style="width: 150px; height: 150px;">
                         </div>
                         <div class="d-flex flex-column justify-content-start px-5">
-                            <h3 class="fw-bold">CirCUITS</h3>
-                            <p>Bachelor of Science in Information Technology</p>
+                            <h3 class="fw-bold" id="org-name">CirCUITS</h3>
+                            <p id="course-origin">Bachelor of Science in Information Technology</p>
                             <div class="text-start">
-                                <p class="mb-1"><strong>Archie Onoya</strong></p>
-                                <p class="m-0">GCash Number: 09123456789</p>
-                                <p class="m-0">GCash Receiver: Robert Rodejo</p>
+                                <p class="mb-1" id="business_mngr"><strong>Archie Onoya</strong></p>
+                                <p class="m-0" id="gcash-num">GCash Number: 09123456789</p>
+                                <p class="m-0" id="gcash-ctrl-name">GCash Receiver: Robert Rodejo</p>
                             </div>
                         </div>
                      
@@ -118,6 +119,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    const imageBaseUrl = @json(asset('images'));
+    const shopsData = @json($shops);
+</script>
+
+<script src="{{asset('js/admin-shops.js')}}" ></script>
 
 <script>
     function createShopPage() {

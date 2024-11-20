@@ -36,4 +36,9 @@ class Shop extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function g_cash_info()
+    {
+        return $this->hasOne(GCashInfo::class, 'shop_id'); // Assuming 'shop_id' is the foreign key in `g_cash_infos`
+    }
 }
+

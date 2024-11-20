@@ -116,6 +116,7 @@ Route::prefix('admin')->group(function () {
     
     //shops page list
     Route::get('/shops', [shopPageController::class, 'index'])->name('admin.shops');
+    Route::get('/shops/{id}', [shopPageController::class, 'show']);
     
     });
 
