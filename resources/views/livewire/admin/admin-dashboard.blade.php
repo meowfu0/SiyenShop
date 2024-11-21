@@ -32,7 +32,7 @@
                 <a href="{{ route('admin.users') }}" class="text-secondary fs-3">See all</a>
             </div>
             <div>
-            <canvas id="myChart" style="width:100%; height:550px;"></canvas>
+            <canvas id="myChart" style="width:100%; height:400px;"></canvas>
             <script>
                 const courseNames = @json(array_keys($userCountByCourse));
                 const courseCounts = @json(array_values($userCountByCourse));
