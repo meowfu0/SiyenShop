@@ -94,6 +94,9 @@ Route::prefix('shop')->group(function () {
 
 });
 
+//admindeletepermanently
+// Route::post('/admin/faqs-deleted', [FaqController::class, 'destroy'])->name('faq.delete');   
+Route::delete('/admin/faqs-deleted', [FaqController::class, 'destroy'])->name('faq.delete');
 
 // admin routes
 Route::get('/admin', function () {

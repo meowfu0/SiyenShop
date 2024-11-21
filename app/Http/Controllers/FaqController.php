@@ -151,13 +151,51 @@ class FaqController extends Controller
             'new_status' => $faq->status_id
         ], 200);
     }
-    
+    // public function destroy(Request $request)
+    // {
+    //     // Get the array of selected FAQ IDs from the request
+    //     $faqIds = $request->input('ids', []);
 
-    public function destroy(Faq $faq)
+    //     // Check if the array is not empty
+    //     if (!empty($faqIds)) {
+    //         // Delete the FAQs from the database permanently
+    //         Faq::whereIn('id', $faqIds)->delete();
+    //         // Return a JSON response indicating success
+    //         return response()->json(['success' => true]);
+    //     }
+    //     // If no IDs were provided, return an error response
+    //     return response()->json(['success' => false, 'message' => 'No FAQs selected.']);
+    // }
+    //     public function destroy(Request $request)
+    // {
+    //     $faqIds = $request->input('ids', []);
+    //     \Log::info('FAQ IDs: ', $faqIds); // Log IDs for debugging
+    //     if (!empty($faqIds)) {
+    //         Faq::whereIn('id', $faqIds)->delete();
+    //         return response()->json(['success' => true]);
+    //     }
+    //     return response()->json(['success' => false, 'message' => 'No FAQs selected.']);
+    // }
+
+    public function destroy(Request $request)
     {
-        //
+        // Log the entire request data for debugging
+        \Log::info('Request Data: ', $request->all());
+    
+        $faqIds = $request->input('ids', []);  // Get the IDs array from the request
+        \Log::info('FAQ IDs: ', $faqIds); // Log IDs for further debugging
+    
+        if (!empty($faqIds)) {
+            // Delete the FAQs with the given IDs
+            Faq::whereIn('id', $faqIds)->delete();
+            return response()->json(['success' => true]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'No FAQs selected.']);
     }
     
+
+
     public function hide(Request $request, $id)
     {
         Log::info("Toggling FAQ status with ID: $id");
@@ -177,4 +215,5 @@ class FaqController extends Controller
             'new_status' => $faq->status_id
         ], 200);
     }
+    
 }
