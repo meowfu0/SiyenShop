@@ -1,675 +1,95 @@
+<div class="adjust">
     <div class="content-purchase">
-        <div class="content-title-purchase">
-            <img src="{{ asset('images/products.svg') }}" class="logo-img">
-            <h1>My Purchases</h1>
-        </div>
-        <div class="buttons">
-            <button id="pend">Pending</button>
-            <button id="prec">Received Payment</button>
-            <button id="fpick">For Pickup</button>
-            <button id="ocomp">Completed Orders</button>
-            <button id="den">Denied Payments</button>
-            <div id="innerLine">
+    <!-- Title and Buttons -->
+    <div class="content-title-purchase">
+        <img src="{{ asset('images/products.svg') }}" class="logo-img">
+        <h1>My Purchases</h1>
+    </div>
 
-            </div>
-        </div>
-        <div class="lineBar">
-            <div id="dLine"></div>
-        </div>
+    <div class="buttons">
+    <button id="pend" onclick="filterOrders(7)">Pending</button>
+    <button id="prec" onclick="filterOrders(10)">Received Payment</button>
+    <button id="fpick" onclick="filterOrders(11)">For Pickup</button>
+    <button id="ocomp" onclick="filterOrders(12)">Completed Orders</button>
+    <button id="den" onclick="filterOrders(6)">Denied Payments</button>
+    <div id="innerLine"></div>
+</div>
 
-        <table id="pendTab">
-            <tr>
-                <td>
-                    <div class="other-content-high">
-                        <button class="shopName">CIRCUITS</button>
-                        <button class="status-box">Pending</button>
-                    </div>
-                    <div class="item-img"></div>
-                    <table class="dets">
-                        <tr>
-                            <th>Item</th>
-                            <th>Category</th>
-                            <th>Variant/Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                        <tr>
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>  <!---->
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P2.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">3</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <!--<button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>--> 
-                        <button type="button" class="btn btn-primary" fdprocessedid="kyrfo" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-pen">View Details</button>
-                        <!-- added up^ -->
-                    </div>
-                    <p class="multiple-indicator">Multiple items available. Click 'View Details' to see more</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="other-content-high">
-                        <button class="shopName">Symbiosis</button>
-                        <button class="status-box">Pending</button>
-                    </div>
-                    <div class="item-img"></div>
-                    <table class="dets">
-                        <tr>
-                            <th>Item</th>
-                            <th>Category</th>
-                            <th>Variant/Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                        <tr>
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P2.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="other-content-high">
-                        <button class="shopName">CIRCUITS</button>
-                        <button class="status-box">Pending</button>
-                    </div>
-                    <div class="item-img"></div>
-                    <table class="dets">
-                        <tr>
+<div class="lineBar">
+    <div id="dLine"></div>
+</div>
+
+        <!-- Orders Table -->
+        <table id="ordersTable">
+            @foreach ($orders as $order)
+                <tr class="order-row" data-status="{{ $order->order_status_id }}">
+                    <td class="order-cell">
+                        <!-- Header content -->
+                        <div class="other-content-high">
+                            <button class="shopName">{{ $order->shop ? $order->shop->shop_name : 'Unknown Shop' }}</button>
+                            <button class="status-box" style="
+                                @if($order->order_status_id == 6)
+                                    border-color: #eb5757; color: #eb5757;
+                                @elseif($order->order_status_id == 12)
+                                    border-color: green; color: green;
+                                @else
+                                    border-color: #ffc107; color: #ffc107;
+                                @endif
+                            ">
+                                {{ 
+                                    $order->order_status_id == 7 ? 'Pending' : 
+                                    ($order->order_status_id == 10 ? 'Payment Received' : 
+                                    ($order->order_status_id == 11 ? 'Ready for Pickup' : 
+                                    ($order->order_status_id == 12 ? 'Completed' : ' Denied'))) 
+                                }}
+                            </button>
+                        </div>
+
+                        <!-- Item Image -->
+                        <div class="item-img"></div>
+
+                        <!-- Order Details Table -->
+                        <table class="dets">
+                            <tr>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Variant/Size</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                            <tr>
+                                <td data-label="Item">N / A</td>
+                                <td data-label="Category">Category</td>
+                                <td data-label="Variant/Size">Size</td>
+                                <td data-label="Quantity">{{ $order->total_items }}</td>
+                                <td data-label="Price">P {{ $order->supplier_price_total_amount }}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Additional Order Info -->
+                        <div class="other-content-low">
+                            <h5>TOTAL:</h5>
+                            <p class="costPrice">P{{ number_format($order->total_amount, 2) }}</p>
+                            <p class="itemLab">Item(s):</p>
+                            <p class="itemCount">{{ $order->total_items }}</p>
+                            <p class="dateLabel">Date:</p>
+                            <p class="date">{{ \Carbon\Carbon::parse($order->order_date)->format('m-d-Y') }}</p>
+                            <p class="time">{{ \Carbon\Carbon::parse($order->order_date)->format('h:i a') }}</p>
+                            <button class="btn btn-light">Contact Seller</button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-{{ $order->id }}">View Details</button>
                             
-                            <th>Item</th>
-                            <th>Category</th>
-                            <th>Variant/Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                        <tr>
-                            
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P200.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <table id="precTab">
-            <tr>
-                <td>
-                    <div class="other-content-high">
-                            <button class="shopName">Symbiosis</button>
-                            <button class="status-box">Received Payment</button>
+                            <!-- Multiple Indicator -->
+                            @if ($order->total_items > 1)
+                                <p class="multiple-indicator">Multiple items available. Click 'View Details' to see more</p>
+                            @endif
                         </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P2.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <!--Prec Button-->
-                        <button type="button" class="btn btn-primary" fdprocessedid="kyrfo" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-prec">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Received Payment</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P80.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">2</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Received Payment</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P1000.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Received Payment</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P120.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            @endforeach
         </table>
 
-        <table id="fpickTab">
-            <tr>
-                <td>
-                    <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">For Pickup</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P100.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button type="button" class="btn btn-primary" fdprocessedid="kyrfo" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-fpick">View Details</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">For Pickup</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P1.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
 
-        <table id="ocompTab">
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Completed</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P150.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button type="button" class="btn btn-light" fdprocessedid="wsfgm" data-bs-toggle="modal" data-bs-target="#rateModal">Rate Order</button>
-                        <button type="button" class="btn btn-primary" fdprocessedid="kyrfo" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-ocomp">View Details</button>
 
-                    </div>
-                </td>
-            </tr>
-        </table>
-
-        <table id="denTab">
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Denied</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                        </tr>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P1200.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button type="button" class="btn btn-primary" fdprocessedid="kyrfo" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-den">View Details</button>
-
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <div class="other-content-high">
-                            <button class="shopName">CIRCUITS</button>
-                            <button class="status-box">Denied</button>
-                        </div>
-                        <div class="item-img"></div>
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                        </tr>
-                        <tr>    
-                            <td data-label="Item">Merch</td>
-                            <td data-label="Category">T-Shirt</td>
-                            <td data-label="Variant/Size">Small</td>
-                            <td data-label="Quantity">2</td>
-                            <td data-label="Price">P40.00</td>
-                    </table>
-                    <div class="other-content-low">
-                        <h5>TOTAL: </h5>
-                        <p class="costPrice">P100.00</p>
-                        <p class="itemLab">Item(s): </p>
-                        <p class="itemCount">1</p>
-                        <p class="dateLabel">Date: </p>
-                        <p class="date">08-10-2024</p>
-                        <p class="time">12:51 am</p>
-                        <button class="btn btn-light" fdprocessedid="wsfgm">Contact Seller</button>
-                        <button class="btn btn-primary" fdprocessedid="kyrfo">View Details</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-        <!-- added -->
-    <div class="modal fade" id="orderDetailsModal-pen" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <!-- Modal Header -->
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-header">
-                <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                <h5 class="modal-title" id="orderDetailsLabel">
-                Circle of Unified Information Technology Students (CIRCUITS)
-                </h5>
-                <div class="p-3 mb-2 bg-light text-dark">Pending</div>
-                
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Product Info -->
-                <div class="modal-items">
-                    <table class="modal-item-table">
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Merch</td>
-                                        <td>T-Shirt</td>
-                                        <td>Small</td>
-                                        <td>1</td>
-                                        <td>P2.00</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Merch</td>
-                                        <td>T-Shirt</td>
-                                        <td>Small</td>
-                                        <td>1</td>
-                                        <td>P2.00</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                                    <img src="{{ asset('images/manok.jpg') }}" class="logo-img" style="width: 100%; height: 100%">
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Manok ni Leonard</td>
-                                        <td>Mahal ko siya</td>
-                                        <td>Small</td>
-                                        <td>1</td>
-                                        <td>P1200.00</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <hr/>
-                <div class="transact-col1">
-                    <p>Order ID:</p>
-                    <p>Total Amount:</p>
-                    <p>Payment Method:</p>
-                    <p>Proof of Payment:</p>
-                    <p>Reference No.:</p>
-                </div>
-                <div class="transact-col2">
-                    <p>0123123</p>
-                    <p>P1402.00</p>
-                    <p>GCASH</p>
-                    <p>screenshot101.jpeg</p>
-                    <p>901234871</p>
-                </div>
-                <div class="transact-col3">
-                    <p>Date:</p>
-                    <p>Time:</p>
-                    <p>Item(s):</p>
-                </div>
-                <div class="transact-col4">
-                    <p>08-10-24</p>
-                    <p>12:51am</p>
-                    <p>3</p>
-                </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Contact Seller</button>
-            </div>
-            </div>
-        </div>
-    </div>
-    <!-- added -->
-    <div class="modal fade" id="orderDetailsModal-prec" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <!-- Modal Header -->
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-header">
-                <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                <h5 class="modal-title" id="orderDetailsLabel">
-                    BU Symbiosis
-                </h5>
-                <div class="p-3 mb-2 bg-light text-dark">Received Payment</div>
-                
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Product Info -->
-                <div class="modal-items">
-                    <table class="modal-item-table">
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Merch</td>
-                                        <td>T-Shirt</td>
-                                        <td>Small</td>
-                                        <td>1</td>
-                                        <td>P2.00</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <hr/>
-                <div class="transact-col1">
-                    <p>Order ID:</p>
-                    <p>Total Amount:</p>
-                    <p>Payment Method:</p>
-                    <p>Proof of Payment:</p>
-                    <p>Reference No.:</p>
-                </div>
-                <div class="transact-col2">
-                    <p>0123123</p>
-                    <p>P2.00</p>
-                    <p>GCASH</p>
-                    <p>screenshot101.jpeg</p>
-                    <p>901234871</p>
-                </div>
-                <div class="transact-col3">
-                    <p>Date:</p>
-                    <p>Time:</p>
-                    <p>Item(s):</p>
-                </div>
-                <div class="transact-col4">
-                    <p>08-10-24</p>
-                    <p>12:51am</p>
-                    <p>1</p>
-                </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Contact Seller</button>
-            </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="orderDetailsModal-fpick" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -749,162 +169,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="orderDetailsModal-ocomp" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <!-- Modal Header -->
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-header">
-                <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                <h5 class="modal-title" id="orderDetailsLabel">
-                    Circle of Unified Information Technology Students (CIRCUITS)
-                </h5>
-                <div class="p-3 mb-2 bg-light text-dark">Completed</div>
-                
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Product Info -->
-                <div class="modal-items">
-                    <table class="modal-item-table">
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>T-Shirt</td>
-                                        <td>Catergory Name</td>
-                                        <td>Variant/SizeValue</td>
-                                        <td>Quantity Value</td>
-                                        <td>Price Value</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <hr/>
-                <div class="transact-col1">
-                    <p>Order ID:</p>
-                    <p>Total Amount:</p>
-                    <p>Payment Method:</p>
-                    <p>Proof of Payment:</p>
-                    <p>Reference No.:</p>
-                </div>
-                <div class="transact-col2">
-                    <p>0123123</p>
-                    <p>Price Value</p>
-                    <p>GCASH</p>
-                    <p>screenshot101.jpeg</p>
-                    <p>901234871</p>
-                </div>
-                <div class="transact-col3">
-                    <p>Date:</p>
-                    <p>Time:</p>
-                    <p>Item(s):</p>
-                </div>
-                <div class="transact-col4">
-                    <p>08-10-24</p>
-                    <p>12:51am</p>
-                    <p>1</p>
-                </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="rate-order">Rate Order</button>
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="orderDetailsModal-den" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <!-- Modal Header -->
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-header">
-                <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                <h5 class="modal-title" id="orderDetailsLabel">
-                    Circle of Unified Information Technology Students (CIRCUITS)
-                </h5>
-                <div class="p-3 mb-2 bg-light text-dark">Denied</div>
-                
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Product Info -->
-                <div class="modal-items">
-                    <table class="modal-item-table">
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td data-label="Item">Merch</td>
-                                        <td data-label="Category">T-Shirt</td>
-                                        <td data-label="Variant/Size">Small</td>
-                                        <td data-label="Quantity">2</td>
-                                        <td data-label="Price">P40.00</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <hr/>
-                <div class="transact-col1">
-                    <p>Order ID:</p>
-                    <p>Total Amount:</p>
-                    <p>Payment Method:</p>
-                    <p>Proof of Payment:</p>
-                    <p>Reference No.:</p>
-                </div>
-                <div class="transact-col2">
-                    <p>0123123</p>
-                    <p>P1200.00</p>
-                    <p>GCASH</p>
-                    <p>screenshot101.jpeg</p>
-                    <p>901234871</p>
-                </div>
-                <div class="transact-col3">
-                    <p>Date:</p>
-                    <p>Time:</p>
-                    <p>Item(s):</p>
-                    <p>Reason: </p>
-                </div>
-                <div class="transact-col4">
-                    <p>08-10-24</p>
-                    <p>12:51am</p>
-                    <p>1</p>
-                    <p>Insufficient Payment</p>
-                </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" >Contact Seller</button>
-            </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -947,3 +211,19 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+function filterOrders(statusId) {
+    const rows = document.querySelectorAll('#ordersTable .order-row');
+    
+    rows.forEach(row => {
+        const orderStatus = parseInt(row.getAttribute('data-status'), 10);
+        if (orderStatus === statusId) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+</script>

@@ -2,13 +2,54 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Order;
 use Livewire\Component;
+use Illuminate\Http\Request;
 
 class ShopOrders extends Component
 {
-    
+    public function store(Request $request)
+    {
+        // Validate request data
+        $data = $request->validate([
+            'shop_id' => 'required|integer',
+            'user_id' => 'required|integer',
+            'order_status_id' => 'required|integer',
+            'total_amount' => 'required|numeric',
+            'supplier_price_total_amount' => 'required|numeric',
+            'total_items' => 'required|integer',
+            'order_date' => 'required|date',
+            'reference_number' => 'required|string',
+            'proof_of_payment' => 'nullable|string'
+        ]);
+
+    }
+
     public function render()
     {
-        return view('livewire.shop.shop-orders');
+        // Retrieve all orders
+        $orders = Order::all();
+
+        return view('livewire.shop.shop-orders', compact('orders'));
     }
+
+    public function index()
+    {
+        $orders = Order::paginate(10); // Default to 10 entries per page
+        return view('shop-orders', compact('orders'));
+    }
+    public function myPurchases()
+    {
+        $orders = Order::with('shop') // Assuming there's a relationship with a Shop model
+                        ->where('user_id', auth()->id()) // Fetch only the current user's orders
+                        ->get();
+                        
+        return view('My_Purchase_Page', compact('orders'));
+    }
+    
+    
+
+    
 }
+
+

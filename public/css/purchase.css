@@ -893,11 +893,6 @@ body{
         position: absolute !important;
         left: 65% !important;
     }
-    .multiple-indicator{
-        margin-left:38% !important;
-        margin-top: -8% !important;
-        font-size: 0.5rem !important;
-    }
     .modal-footer button{
         width: 30% !important;
         border-radius: 7px !important;
@@ -1036,4 +1031,32 @@ body{
         margin-left: -3% !important;
         display: block !important;
     }
+}
+
+
+.order-row {
+    width: 100%;
+    border: 1px solid #ddd; 
+    margin-bottom: 20px; /* Adjusted margin for bottom spacing */
+    background-color: #fff;
+    border-radius: 8px;
+    display: block; /* Use block to maintain normal flow */
+}
+.order-row:hover {
+    background-color: #f9f9f9;
+}
+
+.dets tr:hover {
+    background-color: #f9f9f9;
+}
+
+
+
+
+#ordersTable{
+    margin-top: 120px;
+    margin-left:140px;
+}
+.multiple-indicator{
+    margin-top:-22.5%;
 }

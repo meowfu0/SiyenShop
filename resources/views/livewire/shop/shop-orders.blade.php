@@ -1,4 +1,3 @@
-
 @extends('layouts.shop')
 
 @section('content')
@@ -11,631 +10,192 @@
         <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
      </div>
 
-        <div class="scrollable-content container-fluid">
-            <div class="identifiers">
-                <div class="d-flex gap-5 align-items-center">
-                    <div class="btn-group">
-                        <select class="dropdown">
-                            <option>10</option>
-                            <option>20</option>
-                            <option>30</option>
-                        </select>
-                        <span class="align-middle" style="margin-left: 5px;">entries per page</span>
-                    </div>
-        
-                    <div id="search" >
-                        <input type="text" id="search-box" class="search-box" placeholder="Search">
-                    </div>
-        
-                    <div class="btn-group">
+    <div class="scrollable-content container-fluid">
+        <div class="identifiers">
+            <div class="d-flex gap-5 align-items-center">
+                <div class="btn-group">
+                <select class="dropdown" id="entriesPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                    </select>
+                    <span class="align-middle" style="margin-left: 5px;">entries per page</span>
+                </div>
+    
+                <div id="search" >
+                    <input type="text" id="search-box" class="search-box" placeholder="Search">
+                </div>
+    
+                <div class="btn-group">
                     <span class="d-flex align-items-center" style="margin-right: 10px;">Status</span>
-                        <select class="filter-dropdown"  id="status-filter">
-                            <option value="all"><a href="#">All</a></option>
-                            <option value="pending"><a href="#">Pending</a></option>
-                            <option value="received-payment"><a href="#">Payment Received</a></option>
-                            <option  value="denied-payment"><a href="#">Denied Payment</a></option>
-                            <option value="for-pickup"><a href="#">For Pickup</a></option>
-                            <option value="completed-order"><a href="#">Completed Order</a></option>
-                        </select>
-                    </div>
+                    <select class="filter-dropdown" id="status-filter">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="received-payment">Payment Received</option>
+                        <option value="denied-payment">Denied Payment</option>
+                        <option value="for-pickup">For Pickup</option>
+                        <option value="completed-order">Completed Order</option>
+                    </select>
                 </div>
-    
-                <div class="icon">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal"><img  style="height: 23px; width:23px;"src="{{ asset('images/print.svg') }}" alt=""> </button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal"><img  style="height: 23px; width:23px;"src="{{ asset('images/export.svg') }}" alt=""> </button>
-                </div>
-    
-                </div>
-                <div class="order_table">
-                 <!-- Product Table -->
-                <!-- Product Table -->
-                    <table class="table table-hover table-borderless">
-                        <thead>
-                            <tr>
-                                </th>
-                                <th scope="col">Order ID</th>
-                                <th scope="col">Product</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Unit Price</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Ref no.</th>
-                                <th scope="col">Prof of payment</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="order-row" data-status="pending">
-                                <td>0123123</td>
-                                <td>Vintage Shoes</td>
-                                <td>1</td>
-                                <td>200.00</td>
-                                <td>200.00</td>
-                                <td>901234871</td>
-                                <td>screenshot101.jpeg</td>
-                                <!--<td><button class="status-box-y">Pending</button></td>-->
-                                <td><button type="button" class="status-box-y" fdprocessedid="kyrfo" 
-                                data-bs-toggle="modal" data-bs-target="#orderDetailsModal-pen">Pending</button></td>
-                                <td>08-10-24</td>
-                            </tr>
-                            <tr class="order-row" data-status="received-payment">
-                                <td>0123124</td>
-                                <td>Napkin</td>
-                                <td>1</td>
-                                <td>10.00</td>
-                                <td>10.00</td>
-                                <td>901234872</td>
-                                <td>screenshot103.jpeg</td>
-                                <td><button type="button" class="status-box-y" fdprocessedid="kyrfo" 
-                                data-bs-toggle="modal" data-bs-target="#orderDetailsModal-prec">Received Payment</button></td>
-                                <td>08-11-24</td>
-                            </tr>
-                            <tr class="order-row" data-status="for-pickup">
-                                <td>0123125</td>
-                                <td>CShirt</td>
-                                <td>1</td>
-                                <td>250.00</td>
-                                <td>250.00</td>
-                                <td>901234873</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button type="button" class="status-box-y" fdprocessedid="kyrfo" 
-                                data-bs-toggle="modal" data-bs-target="#orderDetailsModal-fpick">For Pickup</button></td>
-                                <td>08-12-24</td>
-                            </tr>
-                            <tr class="order-row" data-status="completed-order">
-                                <td>0123126</td>
-                                <td>Siomai</td>
-                                <td>2</td>
-                                <td>50.00</td>
-                                <td>50.00</td>
-                                <td>901234874</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button type="button" class="status-box-g" fdprocessedid="kyrfo" 
-                                data-bs-toggle="modal" data-bs-target="#orderDetailsModal-ocomp">Completed</button></td>
-                                
-                                <td>08-13-24</td>
-                            </tr>
-                            <tr class="order-row" data-status="denied-payment">
-                                <td>0123127</td>
-                                <td>sting</td>
-                                <td>1</td>
-                                <td>25.00</td>
-                                <td>25.00</td>
-                                <td>901234875</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button type="button" class="status-box-r" fdprocessedid="kyrfo" 
-                                data-bs-toggle="modal" data-bs-target="#orderDetailsModal-den">Denied Payment</button></td>
-                                <td>08-14-24</td>
-                            </tr>
-                            <tr  class="order-row" data-status="pending">
-                                <td>0123128</td>
-                                <td>borgir</td>
-                                <td>1</td>
-                                <td>25.00</td>
-                                <td>25.00</td>
-                                <td>901234876</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button class="status-box-y">Pending</button></td>
-                                <td>08-14-24</td>
-                            </tr>
-                            <tr  class="order-row" data-status="pending">
-                                <td>0123129</td>
-                                <td>palabok</td>
-                                <td>1</td>
-                                <td>35.00</td>
-                                <td>35.00</td>
-                                <td>901234877</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button class="status-box-y">Pending</button></td>
-                                <td>08-15-24</td>
-                            </tr>
-                            <tr  class="order-row" data-status="pending">
-                                <td>0123130</td>
-                                <td>mighty green</td>
-                                <td>1</td>
-                                <td>10.00</td>
-                                <td>10.00</td>
-                                <td>901234878</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button class="status-box-y">Pending</button></td>
-                                <td>08-16-24</td>
-                            </tr>
-                            <tr  class="order-row" data-status="pending">
-                                <td>0123131</td>
-                                <td>CS ID lace</td>
-                                <td>1</td>
-                                <td>250.00</td>
-                                <td>250.00</td>
-                                <td>901234879</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button class="status-box-y">Pending</button></td>
-                                <td>08-16-24</td>
-                            </tr>
-                            <tr  class="order-row" data-status="pending">
-                                <td>0123132</td>
-                                <td>turon</td>
-                                <td>1</td>
-                                <td>10.00</td>
-                                <td>10.00</td>
-                                <td>901234880</td>
-                                <td>screenshot.jpeg</td>
-                                <td><button class="status-box-y">Pending</button></td>
-                                <td>08-16-24</td>
-                            </tr>
-                </tbody>
-            </table>
             </div>
-            <div class="footer-btn">
-                <p>Showing 1 to 10 of 100 entries</p>
-                <div class="d-flex" >
-                    <a class="page-link rounded-start border border-start border-primary" href="#" aria-label="Previous" style="margin-left: 530px;">
-                        <span aria-hidden="true">&laquo;</span></a>
-                        <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&lsaquo;</span></a>
-                    <a  class="page-link" href="#">1</a>
-                    <a  class="page-link" href="#">2</a>
-                    <a  class="page-link" href="#">3</a>
-                    <a  class="page-link" href="#">4</a>
-                    <a  class="page-link" href="#">5</a>
-                    <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span></a>
-                    <a class="page-link rounded-end" href="#" aria-label="Next">
-                                <span aria-hidden="true">&rsaquo;</span></a>
+
+            <div class="icon">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal" onclick="printTable()">
+                    <img  style="height: 23px; width:23px;" src="{{ asset('images/print.svg') }}" alt="">
+                </button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal" onclick="downloadCSV()">
+                    <img  style="height: 23px; width:23px;" src="{{ asset('images/export.svg') }}" alt="">
+                </button>
+            </div>
+        </div>
+
+<!-- TABLE START -->
+<div class="order_table">
+    <table class="table table-hover table-borderless" id="order-table">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Ref no.</th>
+                <th scope="col">Proof of Payment</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $statusLabels = [
+                    6 => 'Denied',
+                    7 => 'Pending',
+                    10 => 'Payment Received',
+                    11 => 'Ready for Pickup',
+                    12 => 'Completed',
+                ];
+                
+                function getStatusClass($statusId) {
+                    switch ($statusId) {
+                        case 6:
+                            return 'denied-payment';
+                        case 7:
+                            return 'pending';
+                        case 10:
+                            return 'received-payment';
+                        case 11:
+                            return 'for-pickup';
+                        case 12:
+                            return 'completed-order';
+                        default:
+                            return 'unknown-status';
+                    }
+                }
+            @endphp
+
+            @foreach ($orders as $order)
+                <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ json_encode($order) }})">
+                    <td>{{ $order->id }}</td>
+                    <td class="product-name">{{ $order->product_name ?? 'N/A' }}</td>
+                    <td>{{ $order->total_items }}</td>
+                    <td>{{ number_format($order->supplier_price_total_amount, 1) }}</td>
+                    <td>{{ number_format($order->total_amount, 1) }}</td>
+                    <td class="reference-number">{{ $order->reference_number }}</td>
+                    <td>{{ $order->proof_of_payment }}</td>
+                    <td class="status-label {{ getStatusClass($order->order_status_id) }}">
+                        {{ $statusLabels[$order->order_status_id] ?? 'Unknown Status' }}
+                    </td>
+                    <td>{{ $order->order_date }}</td>
+                </tr>
+            @endforeach
+            <div id="no-results" style="display: none; position: absolute; left: 55%; transform: translateX(-50%); text-align: center; margin-top: 48px;">
+                No matching results found.
+            </div>
+        </tbody>
+    </table>
+</div>
+
+<!-- TABLE END -->
+
+<div class="footer-btn">
+    <p>Showing 1 to 10 of 100 entries</p>
+    <div class="d-flex" >
+        <a class="page-link rounded-start border border-start border-primary" href="#" aria-label="Previous" style="margin-left: 530px;">
+            <span aria-hidden="true">&laquo;</span></a>
+        <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&lsaquo;</span></a>
+        <a  class="page-link" href="#">1</a>
+        <a  class="page-link" href="#">2</a>
+        <a  class="page-link" href="#">3</a>
+        <a  class="page-link" href="#">4</a>
+        <a  class="page-link" href="#">5</a>
+        <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span></a>
+        <a class="page-link rounded-end" href="#" aria-label="Next">
+                    <span aria-hidden="true">&rsaquo;</span></a>
+    </div>
+</div>
+
+</div>
+ <!-- TABLE END -->
+
+
+    <!-- MODAL START DITESS -->
+
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header">
+                <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 25px; height: 25px;">
+                <h5 class="modal-title" id="orderDetailsLabel">Order Details</h5>
+                <div class="p-10 mb-2 bg-light text-dark" id="modalStatus"></div>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body"> 
+                <!-- Product Info -->
+                <div class="modal-items">
+                    <table class="modal-item-table" id="modalItemsTable">
+                        <!-- Items will be populated dynamically by JavaScript -->
+                    </table>
                 </div>
+                <hr/>
+                <div class="transact-col1">
+                    <p>Order ID:</p>
+                    <p>Total Amount:</p>
+                    <p>Payment Method:</p>
+                    <p>Proof of Payment:</p>
+                    <p>Reference No.:</p>
+                </div>
+                <div class="transact-col2">
+                    <p id="modalOrderId"></p>
+                    <p id="modalTotalAmount"></p>
+                    <p id="modalPaymentMethod"></p>
+                    <p id="modalProofOfPayment"></p>
+                    <p id="modalReferenceNumber"></p>
+                </div>
+                <div class="transact-col3">
+                    <p>Date:</p>
+                    <p>Time:</p>
+                    <p>Item(s):</p>
+                </div>
+                <div class="transact-col4">
+                    <p id="modalDate"></p>
+                    <p id="modalTime"></p>
+                    <p id="modalItemCount"></p>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#denyConfirmModal">Deny Payment</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approveConfirmModal" style="width: 150px !important;">Approve Payment</button>
             </div>
         </div>
     </div>
-     <!-- added Pending Modal-->
-     <div class="modal fade" id="orderDetailsModal-pen" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <!-- Modal Header -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-header">
-                    <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                    <h5 class="modal-title" id="orderDetailsLabel">
-                        Mr. Sapote
-                    </h5>
-                    <div class="p-3 mb-2 bg-light text-dark">Pending</div>
-                    
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <!-- Product Info -->
-                    <div class="modal-items">
-                        <table class="modal-item-table">
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Vintage Shoes</td>
-                                            <td>Shoes</td>
-                                            <td>Large</td>
-                                            <td>1</td>
-                                            <td>P200.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Peter's Shoes</td>
-                                            <td>Vintage Shoes</td>
-                                            <td>Small</td>
-                                            <td>1</td>
-                                            <td>P200.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Manok ni Leonard</td>
-                                            <td>Mahal ko siya</td>
-                                            <td>Small</td>
-                                            <td>1</td>
-                                            <td>P1200.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <hr/>
-                    <div class="transact-col1">
-                        <p>Order ID:</p>
-                        <p>Total Amount:</p>
-                        <p>Payment Method:</p>
-                        <p>Proof of Payment:</p>
-                        <p>Reference No.:</p>
-                    </div>
-                    <div class="transact-col2">
-                        <p>0123123</p>
-                        <p>P1600.00</p>
-                        <p>GCASH</p>
-                        <p>screenshot101.jpeg</p>
-                        <p>901234871</p>
-                    </div>
-                    <div class="transact-col3">
-                        <p>Date:</p>
-                        <p>Time:</p>
-                        <p>Item(s):</p>
-                    </div>
-                    <div class="transact-col4">
-                        <p>08-10-24</p>
-                        <p>12:51am</p>
-                        <p>3</p>
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#denyConfirmModal">Deny Payment</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approveConfirmModal" style="width: 150px !important;">Approve Payment</button>
-                </div>
-                </div>
-            </div>
-        </div>
-    
-        <!-- added Received Payment modal-->
-        <div class="modal fade" id="orderDetailsModal-prec" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <!-- Modal Header -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-header">
-                    <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                    <h5 class="modal-title" id="orderDetailsLabel">
-                        BU Symbiosis
-                    </h5>
-                    <div class="p-3 mb-2 bg-light text-dark">Received Payment</div>
-                    
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <!-- Product Info -->
-                    <div class="modal-items">
-                        <table class="modal-item-table">
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Napkin</td>
-                                            <td>Cleansing</td>
-                                            <td>Small</td>
-                                            <td>1</td>
-                                            <td>10.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <hr/>
-                    <div class="transact-col1">
-                        <p>Order ID:</p>
-                        <p>Total Amount:</p>
-                        <p>Payment Method:</p>
-                        <p>Proof of Payment:</p>
-                        <p>Reference No.:</p>
-                    </div>
-                    <div class="transact-col2">
-                        <p>0123124</p>
-                        <p>10.00</p>
-                        <p>GCASH</p>
-                        <p>screenshot101.jpeg</p>
-                        <p>901234872</p>
-                    </div>
-                    <div class="transact-col3">
-                        <p>Date:</p>
-                        <p>Time:</p>
-                        <p>Item(s):</p>
-                    </div>
-                    <div class="transact-col4">
-                        <p>08-11-24</p>
-                        <p>12:51am</p>
-                        <p>1</p>
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#PickUpConfirmModal" style="width: 150px !important;">Ready for Pick-up</button>
-                </div>
-                </div>
-            </div>
-        </div>
-    
-         <!-- added For Pickup modal-->
-        <div class="modal fade" id="orderDetailsModal-fpick" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <!-- Modal Header -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-header">
-                    <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                    <h5 class="modal-title" id="orderDetailsLabel">
-                        BU Symbiosis
-                    </h5>
-                    <div class="p-3 mb-2 bg-light text-dark">For Pickup</div>
-                    
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <!-- Product Info -->
-                    <div class="modal-items">
-                        <table class="modal-item-table">
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>CShirt</td>
-                                            <td>t-shirt</td>
-                                            <td>Large</td>
-                                            <td>1</td>
-                                            <td>250.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <hr/>
-                    <div class="transact-col1">
-                        <p>Order ID:</p>
-                        <p>Total Amount:</p>
-                        <p>Payment Method:</p>
-                        <p>Proof of Payment:</p>
-                        <p>Reference No.:</p>
-                    </div>
-                    <div class="transact-col2">
-                        <p>0123125</p>
-                        <p>250.00</p>
-                        <p>GCASH</p>
-                        <p>screenshot101.jpeg</p>
-                        <p>901234873</p>
-                    </div>
-                    <div class="transact-col3">
-                        <p>Date:</p>
-                        <p>Time:</p>
-                        <p>Item(s):</p>
-                    </div>
-                    <div class="transact-col4">
-                        <p>08-12-24</p>
-                        <p>12:51am</p>
-                        <p>1</p>
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CompletedConfirmModal">Order completed</button>
-                </div>
-                </div>
-            </div>
-        </div>
-    
-        <!-- added Completed Modal -->
-        <div class="modal fade" id="orderDetailsModal-ocomp" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <!-- Modal Header -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-header">
-                    <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                    <h5 class="modal-title" id="orderDetailsLabel">
-                        Circle of Unified Information Technology Students (CIRCUITS)
-                    </h5>
-                    <div class="p-3 mb-2 bg-light text-dark">Completed</div>
-                    
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <!-- Product Info -->
-                    <div class="modal-items">
-                        <table class="modal-item-table">
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Siomai</td>
-                                            <td>foods</td>
-                                            <td>Small</td>
-                                            <td>2</td>
-                                            <td>50.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <hr/>
-                    <div class="transact-col1">
-                        <p>Order ID:</p>
-                        <p>Total Amount:</p>
-                        <p>Payment Method:</p>
-                        <p>Proof of Payment:</p>
-                        <p>Reference No.:</p>
-                    </div>
-                    <div class="transact-col2">
-                        <p>0123126</p>
-                        <p>50.00</p>
-                        <p>GCASH</p>
-                        <p>screenshot101.jpeg</p>
-                        <p>901234874</p>
-                    </div>
-                    <div class="transact-col3">
-                        <p>Date:</p>
-                        <p>Time:</p>
-                        <p>Item(s):</p>
-                    </div>
-                    <div class="transact-col4">
-                        <p>08-13-24</p>
-                        <p>12:51am</p>
-                        <p>1</p>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    
-        <!-- added Denied Modal -->
-        <div class="modal fade" id="orderDetailsModal-den" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <!-- Modal Header -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-header">
-                    <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                    <h5 class="modal-title" id="orderDetailsLabel">
-                        Circle of Unified Information Technology Students (CIRCUITS)
-                    </h5>
-                    <div class="p-3 mb-2 bg-light text-dark">Denied</div>
-                    
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <!-- Product Info -->
-                    <div class="modal-items">
-                        <table class="modal-item-table">
-                            <tr class="modal-rows">
-                                <td class="modal-td">
-                                    <div class="img-holder">
-                                    </div>
-                                    <table class="modal-item-details">
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Category</th>
-                                            <th>Variant/Size</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Sting</td>
-                                            <td>Drinks</td>
-                                            <td>Small</td>
-                                            <td>1</td>
-                                            <td>25.00</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <hr/>
-                    <div class="transact-col1">
-                        <p>Order ID:</p>
-                        <p>Total Amount:</p>
-                        <p>Payment Method:</p>
-                        <p>Proof of Payment:</p>
-                        <p>Reference No.:</p>
-                    </div>
-                    <div class="transact-col2">
-                        <p>0123127</p>
-                        <p>25.00</p>
-                        <p>GCASH</p>
-                        <p>screenshot101.jpeg</p>
-                        <p>901234875</p>
-                    </div>
-                    <div class="transact-col3">
-                        <p>Date:</p>
-                        <p>Time:</p>
-                        <p>Item(s):</p>
-                        <p>Reason: </p>
-                    </div>
-                    <div class="transact-col4">
-                        <p>08-14-24</p>
-                        <p>12:51am</p>
-                        <p>1</p>
-                        <p>Sabi ni madam stap na kaan</p>
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ReceivedConfirmModal" style="width: 150px !important;">Received Payment</button>
-                </div>
-                </div>
-            </div>
-        </div>
+</div>
+        
     
         <!-- Confirmation Modal -->
         <div class="modal fade" id="approveConfirmModal" tabindex="-1" aria-labelledby="approveConfirmLabel" aria-hidden="true">
@@ -709,55 +269,595 @@
         </div>
     
         <!-- Export Modal -->
-        <div class="modal fade" id="ExportConfirmModal" tabindex="-1" aria-labelledby="ExportConfirmLabel" aria-hidden="true" >
+        <div class="modal fade" id="ExportConfirmModal" tabindex="-1" aria-labelledby="ExportConfirmLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0">
-                    <div class="modal-header border-0" >
-                        <h4>Select Date Range</h4>
+                    <div class="modal-header border-0">
+                        <h4 style="color:#092C4C; font-weight:800;">Select Date Range</h4>
                     </div>
-                    <div class="modal-body">
-                        <div id="from" >
-                            <p>From</p>
-                            <input type="date" class="form-control" placeholder="Select a date">
+                        <div class="modal-body">
+                            <div id="from">
+                                <p>From</p>
+                                <input type="date" id="export-from" class="form-control" placeholder="Select a date">
+                            </div>
+                            <br>
+                            <div id="to">
+                                <p>To</p>
+                                <input type="date" id="export-to" class="form-control" placeholder="Select a date">
+                            </div>
                         </div>
-                        <br>
-                        <div id="to" >
-                            <p>To</p>
-                            <input type="date" class="form-control" placeholder="Select a date">
-                        </div>
-                    </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button-exp" class="export-btn" data-bs-dismiss="modal" style="width: 76px; height: 28px;">pdf</button>
-                        <button type="button-exp" class="export-btn" data-bs-dismiss="modal" style="width: 76px; height: 28px;">csv</button>
-                        <button type="button-exp" class="export-btn" data-bs-dismiss="modal" style="width: 76px; height: 28px;">xlxs</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-         <!-- Print Modal -->
-         <div class="modal fade" id="PrintConfirmModal" tabindex="-1" aria-labelledby="PrintConfirmLabel" aria-hidden="true" >
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0">
-                    <div class="modal-header border-0" >
-                        <h4>Select Date Range</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div id="from" >
-                            <p>From</p>
-                            <input type="date" class="form-control" placeholder="Select a date">
-                        </div>
-                        <br>
-                        <div id="to" >
-                            <p>To</p>
-                            <input type="date" class="form-control" placeholder="Select a date">
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button type="button-exp" class="export-btn" data-bs-dismiss="modal" style="width: 76px; height: 28px;">print</button>
+                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadCSV()" style="width: 76px; height: 28px;">CSV</button>
+                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadExcel()" style="width: 76px; height: 28px;">XLXS</button>
+                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF()" style="width: 76px; height: 28px;">PDF</button>
+            
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Print Modal -->
+        <div class="modal fade" id="PrintConfirmModal" tabindex="-1" aria-labelledby="PrintConfirmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-header border-0">
+                        <h4 id="modalgear"style="color:#092C4C; font-weight:800;">Select Date Range</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="from">
+                            <p>From</p>
+                            <input type="date" id="print-from" class="form-control" placeholder="Select a date">
+                        </div>
+                        <br>
+                        <div id="to">
+                            <p>To</p>
+                            <input type="date" id="print-to" class="form-control" placeholder="Select a date">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="printTable()" style="width: 76px; height: 28px;">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+
+
+<script>
+    let currentPage = 1;
+    let entriesPerPage = 10; // Default entries per page
+
+    // Handle dropdown for entries per page
+    document.querySelector('#entriesPerPage').addEventListener('change', function () {
+        entriesPerPage = parseInt(this.value, 10); // Get the selected value
+        currentPage = 1; // Reset to first page
+        updateTable(); // Refresh table
+    });
+
+    // Update the table to show entries based on pagination
+    function updateTable() {
+        const rows = document.querySelectorAll('#order-table tbody tr'); // Select rows
+        const totalRows = rows.length;
+
+        // If entriesPerPage is undefined, show all rows
+        if (!entriesPerPage) {
+            rows.forEach(row => (row.style.display = ''));
+            updateFooter(totalRows);
+            updatePagination(totalRows);
+            return;
+        }
+
+        // Hide all rows initially
+        rows.forEach(row => (row.style.display = 'none'));
+
+        // Calculate start and end indices for the current page
+        const start = (currentPage - 1) * entriesPerPage;
+        const end = Math.min(start + entriesPerPage, totalRows);
+
+        // Display rows for the current page
+        for (let i = start; i < end; i++) {
+            rows[i].style.display = '';
+        }
+
+        // Update footer and pagination
+        updateFooter(totalRows);
+        updatePagination(totalRows);
+    }
+
+    // Update footer
+    function updateFooter(totalRows) {
+        const footerText = document.querySelector('.footer-btn p');
+        const startEntry = totalRows === 0 ? 0 : (currentPage - 1) * entriesPerPage + 1;
+        const endEntry = Math.min(currentPage * entriesPerPage, totalRows);
+
+        footerText.textContent = `Showing ${startEntry} to ${endEntry} of ${totalRows} entries`;
+    }
+
+    // Update pagination
+    function updatePagination(totalRows) {
+        const pagination = document.querySelector('.footer-btn .d-flex');
+        pagination.innerHTML = ''; // Clear existing pagination
+
+        const totalPages = Math.ceil(totalRows / entriesPerPage);
+
+        // Add "Previous" button
+        if (currentPage > 1) {
+            const prev = document.createElement('a');
+            prev.textContent = '«';
+            prev.classList.add('page-link');
+            prev.addEventListener('click', () => {
+                currentPage--;
+                updateTable();
+            });
+            pagination.appendChild(prev);
+        }
+
+        // Add page number buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const pageLink = document.createElement('a');
+            pageLink.textContent = i;
+            pageLink.classList.add('page-link');
+            if (i === currentPage) {
+                pageLink.classList.add('active');
+            }
+            pageLink.addEventListener('click', () => {
+                currentPage = i;
+                updateTable();
+            });
+            pagination.appendChild(pageLink);
+        }
+
+        // Add "Next" button
+        if (currentPage < totalPages) {
+            const next = document.createElement('a');
+            next.textContent = '»';
+            next.classList.add('page-link');
+            next.addEventListener('click', () => {
+                currentPage++;
+                updateTable();
+            });
+            pagination.appendChild(next);
+        }
+    }
+
+    // Initialize table on DOM load
+    document.addEventListener('DOMContentLoaded', function () {
+        updateTable();
+    });
+</script>
+
+<script>
+// STATUS
+    function setStatus(status) {
+    var modalStatus = document.getElementById("modalStatus");
+
+    // Remove all existing status classes
+    modalStatus.classList.remove("denied-payment", "completed-order", "pending", "received-payment", "for-pickup");
+
+    // Add the corresponding class based on the status
+    switch (status) {
+        case 'denied-payment':
+            modalStatus.classList.add("denied-payment");
+            modalStatus.textContent = "Payment Denied";
+            modalStatus.style.color = "#eb5757"; 
+            break;
+        case 'completed-order':
+            modalStatus.classList.add("completed-order");
+            modalStatus.textContent = "Order Completed";
+            break;
+        case 'pending':
+            modalStatus.classList.add("pending");
+            modalStatus.textContent = "Pending";
+            break;
+        case 'received-payment':
+            modalStatus.classList.add("received-payment");
+            modalStatus.textContent = "Payment Received";
+            break;
+        case 'for-pickup':
+            modalStatus.classList.add("for-pickup");
+            modalStatus.textContent = "Ready for Pickup";
+            modalStatus.style.color = "#17a2b8";
+            break;
+        default:
+            modalStatus.classList.add("bg-light");
+            modalStatus.textContent = "Unknown Status";
+    }
+}
+
+
+// MODAL
+function openOrderModal(order) {
+    // Populate the modal fields
+    document.getElementById("modalOrderId").textContent = order.id;
+    document.getElementById("modalTotalAmount").textContent = `P${order.total_amount}`;
+    document.getElementById("modalPaymentMethod").textContent = order.payment_method ?? 'N/A';
+    document.getElementById("modalProofOfPayment").textContent = order.proof_of_payment ?? 'N/A';
+    document.getElementById("modalReferenceNumber").textContent = order.reference_number;
+    document.getElementById("modalDate").textContent = order.order_date;
+    document.getElementById("modalTime").textContent = order.order_time ?? 'N/A'; // Assuming order_time is available
+
+    // Set the order items (if available)
+    let itemsHtml = '';
+    if (order.items) {
+        order.items.forEach(item => {
+            itemsHtml += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.variant ?? 'N/A'}</td>
+                    <td>${item.quantity}</td>
+                    <td>P${item.price}</td>
+                </tr>
+            `;
+        });
+    }
+    document.getElementById("modalItemsTable").innerHTML = itemsHtml;
+
+    // Update the modal status based on the order status
+    const modalStatusElement = document.getElementById("modalStatus");
+    const statusLabels = {
+        6: 'Payment Denied',
+        7: 'Pending',
+        10: 'Payment Received',
+        11: 'Ready for Pickup',
+        12: 'Order Complete',
+    };
+    const statusClasses = {
+        6: 'denied-payment',
+        7: 'pending',
+        10: 'received-payment',
+        11: 'for-pickup',
+        12: 'completed-order',
+    };
+
+    // Set the status label and class
+    const statusLabel = statusLabels[order.order_status_id] ?? 'Unknown Status';
+    const statusClass = statusClasses[order.order_status_id] ?? 'unknown-status';
+
+    modalStatusElement.textContent = statusLabel;
+    modalStatusElement.className = `p-3 mb-2 ${statusClass} text-dark`; // Add the correct class to style the status
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+    modal.show();
+}
+
+
+document.getElementById('status-filter').addEventListener('change', function() {
+    let selectedStatus = this.value;
+    let rows = document.querySelectorAll('.order_table tbody tr');
+    
+    rows.forEach(row => {
+        // Show all rows if "all" is selected
+        if (selectedStatus === 'all') {
+            row.style.display = '';
+        } else {
+            // Show only rows with the matching status class
+            row.style.display = row.classList.contains(selectedStatus) ? '' : 'none';
+        }
+    });
+});
+document.getElementById('search-box').addEventListener('input', function () {
+    let searchTerm = this.value.toLowerCase();
+    let rows = document.querySelectorAll('.order_table tbody tr');
+    let hasVisibleRows = false;
+
+    rows.forEach(row => {
+        let productName = row.querySelector('.product-name').textContent.toLowerCase();
+        let referenceNumber = row.querySelector('.reference-number').textContent.toLowerCase();
+
+        // Show rows that match the search term in product name or reference number
+        if (productName.includes(searchTerm) || referenceNumber.includes(searchTerm)) {
+            row.style.display = '';
+            hasVisibleRows = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Show "No matching results" message if no rows are visible
+    document.getElementById('no-results').style.display = hasVisibleRows ? 'none' : 'block';
+
+    // Hide pagination if no rows are visible
+    const pagination = document.querySelector('.footer-btn');
+    if (pagination) {
+        pagination.style.display = hasVisibleRows ? 'flex' : 'none';
+    }
+});
+
+
+
+
+// EXPORT AND PRINT
+function printTable() {
+    // Get the selected dates from the print modal
+    var startDate = document.getElementById('print-from').value;
+    var endDate = document.getElementById('print-to').value;
+
+    // Check if the user has selected both dates
+    if (startDate && endDate) {
+        var printContent = document.getElementById('order-table').outerHTML;
+        var printWindow = window.open('', '', 'height=800,width=800');
+        printWindow.document.write('<html><head><title>Print Order Table</title></head><body>');
+        printWindow.document.write('<h3>Orders from ' + startDate + ' to ' + endDate + '</h3>');
+        printWindow.document.write(printContent);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    } else {
+        alert("Please select both start and end dates.");
+    }
+}
+
+function downloadCSV() {
+    // Get the selected dates from the export modal
+    var startDate = document.getElementById('export-from').value;
+    var endDate = document.getElementById('export-to').value;
+
+    // Check if the user has selected both dates
+    if (startDate && endDate) {
+        var table = document.getElementById('order-table');
+        var rows = table.rows;
+        var csv = [];
+
+        // Add a header row with the date range
+        csv.push(['Orders from ' + startDate + ' to ' + endDate].join(','));
+
+        // Loop through the rows and add them to the CSV
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cols = row.cells;
+            var rowData = [];
+            for (var j = 0; j < cols.length; j++) {
+                rowData.push(cols[j].innerText);
+            }
+            csv.push(rowData.join(','));
+        }
+
+        var csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(csvFile);
+        link.download = 'orders.csv';
+        link.click();
+    } else {
+        alert("Please select both start and end dates.");
+    }
+}
+
+function downloadExcel() {
+    // Similar to CSV download, but this is where you'd generate an XLSX file
+    alert("Please Wait.");
+}
+
+function downloadPDF() {
+    // Get the selected dates from the export modal
+    var startDate = document.getElementById('export-from').value;
+    var endDate = document.getElementById('export-to').value;
+
+    // Check if the user has selected both dates
+    if (startDate && endDate) {
+        // Get the table content to export
+        var table = document.getElementById('order-table');
+        var rows = table.rows;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('l', 'mm', 'legal'); // 'l' for landscape, 'mm' for millimeters, 'legal' for page size
+
+        doc.setFontSize(10);
+        doc.text('Orders from ' + startDate + ' to ' + endDate, 10, 10);
+
+        var yPosition = 20;
+s
+        var headers = ['Order ID', 'Product', 'Quantity', 'Unit Price', 'Amount', 'Ref no.', 'Proof of Payment', 'Status', 'Date'];
+
+ 
+        var tableData = [];
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var rowData = [];
+            var cols = row.cells;
+            for (var j = 0; j < cols.length; j++) {
+                rowData.push(cols[j].innerText); 
+            }
+            tableData.push(rowData);
+        }
+
+  
+        doc.autoTable({
+            head: [headers],
+            body: tableData,
+            startY: yPosition,
+            margin: { top: 20, left: 5, right: 5, bottom: 5 },
+            tableWidth: 'wrap', 
+            styles: {
+                fontSize: 9,
+                cellPadding: 3,
+                halign: 'center',
+                valign: 'middle',
+                overflow: 'linebreak',
+                lineWidth: 0.1,
+                lineColor: [0, 0, 0],
+            },
+            headStyles: {
+                fillColor: [0, 0, 0], 
+                textColor: [255, 255, 255],
+                fontSize: 10,
+            },
+            alternateRowStyles: {
+                fillColor: [240, 240, 240],
+            },
+            didDrawPage: function (data) {
+                // Add page number to footer
+                var pageCount = doc.internal.getNumberOfPages();
+                doc.setFontSize(8);
+                doc.text('Page ' + data.pageCount + ' of ' + pageCount, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
+            }
+        });
+
+        // Save the generated PDF
+        doc.save('orders.pdf');
+    } else {
+        alert("Please select both start and end dates.");
+    }
+}
+
+
+
+//SORTING 
+document.getElementById('search-box').addEventListener('input', function () {
+    let searchTerm = this.value.toLowerCase();
+    let rows = document.querySelectorAll('.order_table tbody tr');
+    let hasVisibleRows = false;
+
+    rows.forEach(row => {
+        let productName = row.querySelector('.product-name').textContent.toLowerCase();
+        let referenceNumber = row.querySelector('.reference-number').textContent.toLowerCase();
+
+        // Show rows that match the search term in product name or reference number
+        if (productName.includes(searchTerm) || referenceNumber.includes(searchTerm)) {
+            row.style.display = '';
+            hasVisibleRows = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Show "No matching results" message if no rows are visible
+    document.getElementById('no-results').style.display = hasVisibleRows ? 'none' : 'block';
+
+    // Hide pagination if no rows are visible
+    const pagination = document.querySelector('.footer-btn');
+    if (pagination) {
+        pagination.style.display = hasVisibleRows ? 'flex' : 'none';
+    }
+});
+
+document.getElementById('status-filter').addEventListener('change', function() {
+    let selectedStatus = this.value;
+    let rows = document.querySelectorAll('.order_table tbody tr');
+    
+    rows.forEach(row => {
+        // Show all rows if "all" is selected
+        if (selectedStatus === 'all') {
+            row.style.display = '';
+        } else {
+            // Show only rows with the matching status class
+            row.style.display = row.classList.contains(selectedStatus) ? '' : 'none';
+        }
+    });
+});
+
+
+</script>
+
+<script>
+let currentPage = 1;
+let entriesPerPage = 10; // Default entries per page
+
+// Handle dropdown for entries per page
+document.querySelector('.dropdown').addEventListener('change', function () {
+    entriesPerPage = parseInt(this.value, 10); // Get the selected value
+    currentPage = 1; // Reset to first page
+    updateTable(); // Refresh table
+});
+
+// Update the table to show entries based on pagination
+function updateTable() {
+    const rows = document.querySelectorAll('#order-table tbody tr'); // Select rows
+    const totalRows = rows.length;
+
+    // If entriesPerPage is undefined, show all rows
+    if (!entriesPerPage) {
+        rows.forEach(row => (row.style.display = ''));
+        updateFooter(totalRows);
+        updatePagination(totalRows);
+        return;
+    }
+
+    // Hide all rows initially
+    rows.forEach(row => (row.style.display = 'none'));
+
+    // Calculate start and end indices for the current page
+    const start = (currentPage - 1) * entriesPerPage;
+    const end = Math.min(start + entriesPerPage, totalRows);
+
+    // Display rows for the current page
+    for (let i = start; i < end; i++) {
+        rows[i].style.display = '';
+    }
+
+    // Update footer and pagination
+    updateFooter(totalRows);
+    updatePagination(totalRows);
+}
+
+// Update footer
+function updateFooter(totalRows) {
+    const footerText = document.querySelector('.footer-btn p');
+    const startEntry = totalRows === 0 ? 0 : (currentPage - 1) * entriesPerPage + 1;
+    const endEntry = Math.min(currentPage * entriesPerPage, totalRows);
+
+    footerText.textContent = `Showing ${startEntry} to ${endEntry} of ${totalRows} entries`;
+}
+
+// Update pagination
+function updatePagination(totalRows) {
+    const pagination = document.querySelector('.footer-btn .d-flex');
+    pagination.innerHTML = ''; // Clear existing pagination
+
+    const totalPages = Math.ceil(totalRows / entriesPerPage);
+
+    // Add "Previous" button
+    if (currentPage > 1) {
+        const prev = document.createElement('a');
+        prev.textContent = '«';
+        prev.classList.add('page-link');
+        prev.addEventListener('click', () => {
+            currentPage--;
+            updateTable();
+        });
+        pagination.appendChild(prev);
+    }
+
+    // Add page number buttons
+    for (let i = 1; i <= totalPages; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.textContent = i;
+        pageLink.classList.add('page-link');
+        if (i === currentPage) {
+            pageLink.classList.add('active');
+        }
+        pageLink.addEventListener('click', () => {
+            currentPage = i;
+            updateTable();
+        });
+        pagination.appendChild(pageLink);
+    }
+
+    // Add "Next" button
+    if (currentPage < totalPages) {
+        const next = document.createElement('a');
+        next.textContent = '»';
+        next.classList.add('page-link');
+        next.addEventListener('click', () => {
+            currentPage++;
+            updateTable();
+        });
+        pagination.appendChild(next);
+    }
+}
+
+// Initialize table on DOM load
+document.addEventListener('DOMContentLoaded', function () {
+    updateTable();
+});
+
+</script>
+
+
+
 @endsection

@@ -82,4 +82,16 @@ class ShopController extends Controller
     {
         //
     }
+    // In your controller method
+    public function showOrders()
+    {
+        // Eager load the 'shop' relationship along with the orders
+        $orders = Order::with('shop')->get(); 
+
+        return view('your_view_name', compact('orders'));
+    }
+    
+    
+
+
 }

@@ -28,10 +28,10 @@ use App\Http\Livewire\Admin\Updateshop;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
-use App\Http\Controllers\shopPageController; // Use PascalCase
+use App\Http\Controllers\shopPageController; 
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-
+use App\Http\Controllers\Auth\RegisterController;
 
 
 Auth::routes();
@@ -41,6 +41,8 @@ Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 
 
 
@@ -84,7 +86,10 @@ Route::get('/shop', function () {
 Route::prefix('shop')->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
+
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
+    Route::post('/orders', [ShopOrders::class, 'store'])->name('shop.orders');//pang store order
+
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
