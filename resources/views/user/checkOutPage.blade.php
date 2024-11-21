@@ -7,7 +7,7 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-11">
             <div class="d-flex justify-content-start align-items-center mb-2">
-                <img src="{{ asset('images/cart.svg') }}" class="cart-logo mb-2">
+                <img src="{{ asset('images/cart.svg') }}" class="cart-logo mb-2"> 
                 <h1 class="ms-1 text-primary fw-bold">Checkout</h1>
             </div>
             <h3 class="mt-2 mb-3 fw-bold fs-5 text-primary">Order Summary</h3>

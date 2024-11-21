@@ -13,19 +13,57 @@ class CartPageController extends Controller
     public function index()
     {
         $userId = Auth::user()->id;
-     
 
-        // ---  QUERY TO GET THE SHIRTS --- 
+
+        // --- QUERY TO GET THE SHIRTS --- 
         $ShirtItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
+            ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->join ('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'i.size', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
+            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'i.size', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'p.shop_id')
             ->where('i.cart_id', '=', $userId)
-            ->where ('cat.id', '=', 4)
+            ->where('cat.id', '=', 4) // For shirts category
+            ->where('p.shop_id', '=', function ($query) use ($userId) {
+                // Subquery to get the shop_id of the first product
+                $query->select('shop_id')
+                    ->from('products')
+                    ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
+                    ->where('ci.cart_id', '=', $userId)
+                    ->limit(1); // Limit to just the first match
+            })
             ->distinct() // To ensure no duplicate rows
             ->get();
+
+        // --- OTHER ITEMS ---
+        $OtherItems = DB::table('carts as c')
+            ->join('users as u', 'c.user_id', '=', 'u.id')
+            ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
+            ->join('products as p', 'i.product_id', '=', 'p.id')
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
+            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'p.shop_id')
+            ->where('i.cart_id', '=', $userId)
+            ->where('cat.id', '!=', 4) // For other categories
+            ->where('p.shop_id', '=', function ($query) use ($userId) {
+                // Subquery to get the shop_id of the first product
+                $query->select('shop_id')
+                    ->from('products')
+                    ->join(
+                        'cart_items as ci',
+                        'products.id',
+                        '=',
+                        'ci.product_id'
+                    )
+                    ->where(
+                        'ci.cart_id',
+                        '=',
+                        $userId
+                    )
+                    ->limit(1); // Limit to just the first match
+            })
+            ->distinct() // To ensure no duplicate rows
+            ->get();
+
 
         // --- SIZES of the TShirts--- 
         $sizes = DB::table('product_variants as v')
@@ -34,18 +72,6 @@ class CartPageController extends Controller
             ->select('v.size', 'v.id', 'v.stock')
             ->where('cat.id', '=', 4)
             ->get();
-
-        // --- OTHER ITEMS --- 
-        $OtherItems = DB::table('carts as c')
-            ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
-            ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
-            ->where('i.cart_id', '=', $userId)
-            ->where('cat.id', '!=', 4)
-            ->get();
-
 
 
         // Return view with all the queries 
@@ -99,7 +125,7 @@ class CartPageController extends Controller
         $size = $request->input('size');  // Get the selected size
 
         $updated = DB::table('cart_items')
-        ->where('cart_id', '=', $userId)
+            ->where('cart_id', '=', $userId)
             ->where('id', '=', $id)
             ->update(['size' => $size]);
 
@@ -109,7 +135,4 @@ class CartPageController extends Controller
             return response()->json(['success' => false]);
         }
     }
-
-
-    
 }

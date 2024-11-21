@@ -1,7 +1,7 @@
 // FOR CHECKBOXES IN CART
 var TotalAmount = "total-amount";
 var totalItem = "item-count";
-var checked_Item = "selectAll-count";
+//var checked_Item = "selectAll-count";
 
 // Function to add checked products
 function AddCheckedProducts() {
@@ -25,6 +25,7 @@ function AddCheckedProducts() {
                 totalQuantity += quantity; // Calculate total quantity of checked products
             }
         }
+        
     });
 
     // Update the displayed total value and item count
@@ -33,7 +34,7 @@ function AddCheckedProducts() {
         { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     );
     document.getElementById(totalItem).innerHTML = totalQuantity;
-    document.getElementById(checked_Item).innerHTML = totalQuantity;
+    // document.getElementById(checked_Item).innerHTML = totalQuantity;
 }
 
 // SELECT ALL CHECKBOXES
@@ -56,7 +57,7 @@ function autoSelectAll() {
 }
 
 window.onload = function () {
-    autoSelectAll(); // Automatically check all items and call toggleSelectAll
+    // autoSelectAll(); // Automatically check all items and call toggleSelectAll
     updateCheckedProductIds(); // Set up event listeners and initial display
 };
 
@@ -98,9 +99,8 @@ function updateProductIdList(checkbox, checkedProductIds) {
     //AALISIN SOON PANG CHECK LANG NG ID ITO
     //  document.getElementById("PROD").innerHTML = checkedProductIds.join(', ');
 
-
     // Update the checkout button based on the number of checked items
-   
+
     if (checkedProductIds.length === 0) {
         // Disable the checkout button or show an error message
         const checkoutButton = document.querySelector("#button-size");
@@ -115,7 +115,7 @@ function updateProductIdList(checkbox, checkedProductIds) {
             "#ModalProceed .modal-footer .btn-primary"
         );
 
-        noButton.textContent = "Okay"; // Change the text of the 'Yes' button
+        noButton.style.display = "none"; // Hide the 'Yes' button
 
         yesButton.style.display = "none"; // Hide the 'Yes' button
 
@@ -127,7 +127,7 @@ function updateProductIdList(checkbox, checkedProductIds) {
         const checkoutButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-primary"
         );
-         //PASS THE DATA IN THE ARRAY TO OTHER PAGE   - THE ARRAY VALUE IS ID
+        //PASS THE DATA IN THE ARRAY TO OTHER PAGE   - THE ARRAY VALUE IS ID
         checkoutButton.setAttribute(
             "href",
             `/checkOutPage/Checkout-Items/${encodedIds}`
@@ -148,10 +148,6 @@ function updateProductIdList(checkbox, checkedProductIds) {
         modalBody.textContent = "Proceed to Checkout?"; // Reset to the original message
     }
 }
-
-
-
-
 
 //TO UPDATE QUANTITY OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -199,9 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 //END OF UPDATE QUANTITY OF ITEM IN CART IN DATABASE
-
-
-
 
 // //TO DELETE ITEM FROM CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -287,9 +280,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //end of delete item//
 
-
-
-
 //TO UPDATE SIZE OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
     // Event delegation for dynamically loaded elements
@@ -312,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                         //alert("Size updated successfully.");
+                        //alert("Size updated successfully.");
                     } else {
                         alert("Failed to update size.");
                     }

@@ -24,16 +24,16 @@ class CartItemsTableSeeder extends Seeder
                 'size' => 1,
             ],
             [
-                'product_id' => 3,
+                'product_id' => 2,
                 'cart_id' => 1,
                 'quantity' => 2,
-                'size' => 2,
+                'size' => null,
             ],
             [
                 'product_id' => 2,
                 'cart_id' => 2,
                 'quantity' => 1,
-                'size' => 1,
+                'size' => NULL,
             ],
             [
                 'product_id' => 3,
@@ -41,18 +41,7 @@ class CartItemsTableSeeder extends Seeder
                 'quantity' => 2,
                 'size' => 1,
             ],
-            [
-                'product_id' => 2,
-                'cart_id' => 4,
-                'quantity' => 3,
-                'size' => 1,
-            ],
-            [
-                'product_id' => 1,
-                'cart_id' => 5,
-                'quantity' => 1,
-                'size' => 1,
-            ],
+
         ];
 
         DB::table('cart_items')->insert($cart_items);

@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Livewire\Admin\AdminChat;
 use App\Http\Livewire\Admin\AdminFaqs;
 use App\Http\Livewire\Admin\AdminFaqsDeleted;
@@ -18,14 +19,14 @@ use App\Http\Livewire\ShopProductsAdd;
 use App\Http\Livewire\ShopProductsEdit;
 use App\Http\Livewire\ShopProductsHistory;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CartPageController; 
+use App\Http\Controllers\CartPageController;
 use App\Http\Controllers\checkOutPageController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
 use League\CommonMark\Node\Query\OrExpr;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Admin\CreateShop;
-use App\Http\Livewire\Admin\Updateshop; 
+use App\Http\Livewire\Admin\Updateshop;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
@@ -60,30 +61,27 @@ Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name(
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-// cart and checkout routes
+//=================== cart and checkout routes================================
 Route::get('/cartPage', [CartPageController::class, 'index'])->name('cartPage');
 Route::delete('/cart/remove/{id}', [CartPageController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
 // Route to update the size of a cart item
 Route::patch('/cart/update/size/{id}', [CartPageController::class, 'updateSize'])->name('cart.updateSize');
-
 // Route to update the quantity of a cart item
 Route::patch('/cart/update/quantity/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
-
-
 
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/checkOutPage/Checkout-Items/{encodedIds}', [CheckOutPageController::class, 'index'])->name('checkOutPage.Checkout-Items');
 Route::post('/update-total-amount', [checkOutPageController::class, 'updateTotalAmount'])->name('updateTotalAmount');
 
 
-
-
+Route::post('/payment/{id}', [paymentPageController::class, 'payment'])->name('payment');
 Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
 Route::get('/paymentPage/{id}', [paymentPageController::class, 'index'])->name('paymentPage.i');
 
 
 Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
+Route::get('/orderSummaryPage/{gcashNumber}/{id}', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
 // =================== end of cart and checkout module =======================
 
 
@@ -97,7 +95,7 @@ Route::get('/faqs', function () {
 })->name('faqs');
 
 // user purchases route
-Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+Route::get('/mypurchases', [MyPurchasesController::class, 'index'])->name('mypurchases');
 
 
 
@@ -115,7 +113,6 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
     Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
-
 });
 
 
@@ -137,4 +134,3 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 });
-

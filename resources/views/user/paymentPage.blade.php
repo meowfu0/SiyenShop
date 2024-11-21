@@ -10,10 +10,14 @@
                 <img src="{{ asset('images/credit-card.svg') }}" class="cart-logo mb-2">
                 <h1 class="ms-1 text-primary fs-6 fw-bold">Payment</h1>
             </div>
+
+
+
             @foreach($shopName as $shop)
             @php
-            $shops = "";
-            $shops = $shop->shop_name;
+                $shops = "";
+                $shops = $shop->shop_name;
+                $shopsid = $shop->id;
             @endphp
             @endforeach
 
@@ -22,75 +26,64 @@
             $amount_to_pay = $total->total_amount;
             @endphp
             @endforeach
+
+
+            \
             <!------- Sample data ------->
             <div class="container mt-2">
                 <div class="card border border-primary p-3">
                     <div class="card-body">
-                        <form>
+                        <form action="{{ route('payment', ['id' => base64_encode(implode(',', $productIds))]) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="mb-2">
                                 <label for="paymentMode" class="form-label fs-4">
                                     <span class="fs-5 fw-bold text-primary">Mode Of Payment: </span> GCash
                                 </label>
                             </div>
-                            <p class="fs-4">Please ensure that you make a payment of <span class="fw-bolder text-primary fs-3"><span class="fs-4 text-primary fw-bold"> ₱ </span>{{ number_format($amount_to_pay, 2) }}</span> to <span class="fw-bolder text-primary fs-3">{{ $shops}}</span>, and remember to provide accurate information.</p>
+                            <p class="fs-4"> Please ensure that you make a payment of <span class="fw-bolder text-primary fs-3"><span class="fs-4 text-primary fw-bold"> ₱ </span>{{ number_format($amount_to_pay, 2) }}</span> to <span class="fw-bolder text-primary fs-3">{{ $shops }}</span>, and remember to provide accurate information.</p>
 
                             <div class="mb-3">
                                 <label for="gcashNumber" class="form-label fw-bold">Pay to this GCash Number:</label>
-                                <select class="form-select" id="gcashNumber">
+                                <select class="form-select" id="gcashNumber" name="gcash_number"  required>
                                     @foreach($gcashInfo as $gcash)
                                     <option value="{{ $gcash->id }}"
-                                        @if($gcash->gcash_limit == 0)
-                                        class="text-danger" disabled @endif >
-
+                                        @if($gcash->gcash_limit == 0) class="text-danger" disabled @endif >
                                         @if($gcash->gcash_limit == 0)
                                             @php
                                                 $nameParts = explode(' ', $gcash->gcash_name);
                                                 $firstName = isset($nameParts[0]) ? $nameParts[0] : '';
-                                                $middleInitial = isset($nameParts[1]) ? $nameParts[1] : ''; // Handles case where there's no middle initial
-                                                $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1]; // Handles case where there's no surname
-                                            @endphp
-                                                {{ $gcash->gcash_number }} - *not available for payment*
+                                                $middleInitial = isset($nameParts[1]) ? $nameParts[1] : '';
+                                        $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1];
+                                        @endphp
+                                        {{ $gcash->gcash_number }} - *not available for payment*
                                         @else
-                                            @php
-                                                $nameParts = explode(' ', $gcash->gcash_name);
-                                                $firstName = $nameParts[0];
-                                                $middleInitial = isset($nameParts[1]) ? $nameParts[1] : ''; // Handles case where there's no middle initial
-                                                $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1]; // Handles case where there's no surname
-                                            @endphp
-                                                {{ $gcash->gcash_number }} - {{ substr($firstName, 0, 3) }}** {{ substr($middleInitial, 0, 1) }}* {{ substr($lastName, 0, 3) }}**
+                                        @php
+                                        $nameParts = explode(' ', $gcash->gcash_name);
+                                        $firstName = $nameParts[0];
+                                        $middleInitial = isset($nameParts[1]) ? $nameParts[1] : '';
+                                        $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1];
+                                        @endphp
+                                        {{ $gcash->gcash_number }} - {{ substr($firstName, 0, 3) }}** {{ substr($middleInitial, 0, 1) }}* {{ substr($lastName, 0, 3) }}**
                                         @endif
                                     </option>
                                     @endforeach
-
-                                    <style>
-                                        option[disabled] {
-                                            color: red;
-                                            ;
-                                        }
-                                    </style>
-
-                                    <!-- Add more options as needed -->
                                 </select>
                             </div>
 
                             <div class="mb-3">
                                 <label for="referenceNumber" class="form-label fw-bold">Reference Number</label>
-                                <input type="text" class="form-control fs-3" id="referenceNumber" placeholder="Enter reference number" required>
+                                <input type="text" class="form-control fs-3" id="referenceNumber" name="reference_number" placeholder="Enter reference number" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="proofPayment" class="form-label fw-bold">Proof of Payment</label>
-                                <input type="file" class="form-control" id="proofPayment" required>
+                                <input type="file" class="form-control" id="proofPayment" name="proof_of_payment" required>
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                @foreach($productIds as $id)
                                 @php
-
                                 $productIdsString = implode(',', $productIds);
-
                                 @endphp
-                                @endforeach
 
                                 <a href="{{ route('checkOutPage.Checkout-Items', ['encodedIds' => base64_encode($productIdsString)]) }}" id="cancelButton" class="btn btn-outline-primary me-1 payment-sizes">Cancel</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceedPayment" class="btn btn-primary payment-sizes">
@@ -98,7 +91,26 @@
                                     <img src="{{ asset('images/credit-card.svg') }}" class="mb-1">
                                 </a>
                             </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="ModalProceedPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header border-0">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body d-flex justify-content-center">
+                                            <p class="fw-semibold fs-5">Are the given information correct?</p>
+                                        </div>
+                                        <div class="modal-footer border-0 d-flex justify-content-end">
+                                            <button type="button" class="btn btn-outline-primary btn-md w-25" data-bs-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-primary btn-md w-25">Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -106,5 +118,5 @@
     </div>
 </div>
 
-@include('user.modal.checkpaymentinfo')
+
 @endsection

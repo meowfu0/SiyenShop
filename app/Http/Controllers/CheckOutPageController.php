@@ -21,36 +21,40 @@ class checkOutPageController extends Controller
 
         // Convert the comma-separated product IDs into an array
         $productIds = explode(',', $ids);
-        $productId = 3;
 
-        // Query to get the selected products (Shirts)
+
+        // ---  QUERY TO GET THE SHIRTS --- 
         $ShirtItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
             ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
             ->join('product_variants as v', 'i.size', '=', 'v.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'v.size')
+            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'i.size', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'v.size')
             ->where('i.cart_id', '=', $userId)
-            ->where('i.product_id', 3)
+            ->where('cat.id', '=', 4)
             ->whereIn('i.id', $productIds)  // Use whereIn to filter by multiple product IDs
             ->get();
 
-        // Query to get the sizes of the selected products
+        // --- SIZES of the TShirts--- 
         $sizes = DB::table('product_variants as v')
             ->join('products as p', 'v.product_id', '=', 'p.id')
-            ->select('v.size')
-            ->where('v.product_id', '=', $productId)
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
+            ->select('v.size', 'v.id',  'v.stock')
+            ->where('cat.id', '=', 4)
             ->where('v.stock', '>', 0) // Only return sizes with stock available
             ->get();
 
-        // Query to get other items in the cart that are not part of the selected products
+
+        // --- OTHER ITEMS --- 
         $OtherItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
             ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
+            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
             ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price')
             ->where('i.cart_id', '=', $userId)
-            ->where('i.product_id', '!=', $productId)
+            ->where('cat.id', '!=', 4)
             ->whereIn('i.id', $productIds)  // Use whereIn to filter by multiple product IDs
             ->get();
 
@@ -58,7 +62,7 @@ class checkOutPageController extends Controller
         return view('user.CheckOutPage', compact('ShirtItems', 'OtherItems', 'sizes', 'productIds'));
     }
 
-    
+
     public function updateTotalAmount(Request $request)
     {
         $userId = Auth::user()->id;

@@ -86,7 +86,7 @@
                     <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
                     <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
                         <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="decrement" type="button">-</button>
-                        <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 38px; border: none;">
+                        <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 45px; border: none;">
                         <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="increment" type="button">+</button>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                     <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
                     <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
                         <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="decrement" type="button">-</button>
-                        <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 38px; border: none;">
+                        <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 45px; border: none;">
                         <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="increment" type="button">+</button>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                     <div class="col-12 mt-2">
                         <div class="align-items-center" id="fixed-bottom-div4">
                             <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)" class="form-check-input border border-primary checkbox-all">
-                            <label class="fs-3 fw-bold mb-0 ms-1 text-primary">Select All (<span id="selectAll-count" class="fs-3">0</span>)</label>
+                            <label class="fs-3 fw-bold mb-0 ms-1 text-primary">Select All (<span id="selectAll-count" class="fs-3">{{ $ShirtItems->count() + $OtherItems->count() }}</span>)</label>
                         </div>
                     </div>
                     <hr class="hr-fixed">
@@ -208,15 +208,11 @@
                             <!-- data-bs-toggle="modal" data-bs-target="#ModalProceed -->
                             @if($ShirtItems->isEmpty() && $OtherItems->isEmpty())
 
-
+                            <!-- Modal for no items in the cart -->
                             <a href="#" data-bs-toggle="modal" data-bs-target="#noItemModal" class="btn btn-primary btn-md" id="button-size">
                                 Proceed To Checkout
                                 <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
                             </a>
-
-                            <!-- Modal for no items in the cart -->
-
-
 
 
                             @else
