@@ -10,7 +10,7 @@
     <!-- Display dynamic User Count -->
     <div class="d-flex gap-3 px-5 pt-5 pb-3">
         <div class="border border-primary rounded-4 p-3 px-4 flex-grow-1">
-            <h4 class="text-secondary fw-bold">User</h4>
+            <h4 class="text-secondary fw-bold">Users</h4>
             <h2 class="text-primary fw-bolder">{{ $userCount }}</h2> 
         </div>
     <!-- Display dynamic Shop Count -->
@@ -28,7 +28,7 @@
     <div class="d-flex px-5 py-3 gap-4 flex-grow-1 " style="display: table-row;">
         <div class=" border border-primary rounded-4 p-4 ">
              <div class="d-flex justify-content-between">
-                <h4 class="text-secondary fw-bold">User</h4>
+                <h4 class="text-secondary fw-bold">Users</h4>
                 <a href="{{ route('admin.users') }}" class="text-secondary fs-3">See all</a>
             </div>
             <div>
