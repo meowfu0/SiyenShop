@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Seller;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class ShopDashboard extends Component
+class Dashboard extends Component
 {
     public $startDate;
     public $endDate;
@@ -86,13 +86,60 @@ class ShopDashboard extends Component
             ->get();
     }
 
+    public function getUnverifiedOrders($limit = 15)
+    {
+        $shopId = 1;
+        $orderStatusId = DB::table('statuses')
+        ->where('status_name', 'pending')
+        ->pluck('id');
+
+        return DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->select(
+                'orders.id', 
+                'orders.reference_number',
+                'users.first_name as user_fname', 
+                'users.last_name as user_lname',
+            )
+            ->where('orders.shop_id', $shopId)
+            ->whereIn('orders.order_status_id', $orderStatusId)
+            ->whereBetween('orders.order_date', [$this->startDate, $this->endDate])
+            ->orderBy('orders.order_date', 'asc')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getLowStockProducts()
+    {
+        $shopId = 1;
+    
+        // Fetch products with stock 10 or below for the specified shop_id
+        return DB::table('products')
+            ->where('shop_id', $shopId)
+            ->where('stocks', '<=', 15)
+            ->select('product_name', 'stocks')
+            ->get();
+    }
+
     public function render()
     {
-        return view('livewire.shop.shop-dashboard', [
+        $formattedStartDate = Carbon::parse($this->startDate)->format('F j, Y');
+        $formattedEndDate = Carbon::parse($this->endDate)->format('F j, Y');
+        Log::info('dateRangeUpdated called', [
+            'fstartDate' => $formattedStartDate,
+            'fendDate' => $formattedEndDate
+        ]);
+        return view('livewire.seller.dashboard', [
             'Totals' => $this->totals,
             'orderCount' => $this->orderCount,
             'allOrdersCount' => $this->allOrdersCount,
-            'recentOrders' => $this->getRecentOrders()
+            'recentOrders' => $this->getRecentOrders(),
+            'lowStockProducts' => $this-> getLowStockProducts(),
+            'unverifiedOrders' => $this->getUnverifiedOrders(),
+            'startDate' => $formattedStartDate,
+            'endDate' => $formattedEndDate
         ]);
+        
     }
+
 }
