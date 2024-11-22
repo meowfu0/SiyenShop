@@ -84,7 +84,7 @@ Route::get('/email', [ OrderEmailsController::class, 'index'])->name('email');
 Route::get('/shop', function () {
     return redirect()->route('shop.dashboard');
 })->name('Shop');
-Route::prefix('shop')->middleware(['auth','checkUserRole'])->group(function () {
+Route::prefix('shop')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');

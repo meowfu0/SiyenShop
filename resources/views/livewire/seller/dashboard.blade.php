@@ -1,10 +1,10 @@
 <div class="flex-grow-1" style="width: 100%!important;">
     @include('components.profilenav')
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
-        <div class="ps-3">
-            <img src="{{ asset('images/Circuits.svg') }}" alt="">
+        <div class="ps-3" >
+            <img src="{{ asset('images/' . $shopInfo->shop_logo) }}" alt="" style="height: 30px; width:30px" >
         </div>
-        <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
+        <h2 class="fw-bold m-0 text-primary"> {{$shopInfo->shop_name }} </h2>
     </div>
 
     <div class="d-flex justify-content-between px-5 py-3">
