@@ -81,10 +81,13 @@
                 <h4 class="text-secondary fw-bold">Top Shops</h4>
             </div>
             <div>
-                @foreach($topShops as $shop)
-                    <h6 class="text-primary fw-bolder">{{ $shop }}</h6>
-                @endforeach
-            </div>
+            @foreach($topShops as $shop)
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-primary fw-bolder">{{ $shop->shop_name }}</h6>
+                    <h6 class="text-primary fw-bolder">{{ $shop->total_amount }} sales</h6>
+                </div>
+            @endforeach
+        </div>
         </div>
         <div class="border border-primary rounded-4 p-4 flex-grow-1" style="flex: 4;">
             <!-- Display dynamic Shops name -->
