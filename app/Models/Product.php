@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'products';
 
@@ -17,15 +18,17 @@ class Product extends Model
         'status_id',
         'visibility_id',
         'product_name',
-        'product_decription',  // Also fixed typo here
+        'product_decription',
         'product_image',
         'supplier_price',
-        'retail_price'
+        'retail_price',
+        'sales_count',
+        'stocks',
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsTo(Category::class);
     }
 
     public function visibility()
@@ -37,5 +40,5 @@ class Product extends Model
     {
         return $this->belongsTo(Status::class, 'status_id', 'id');
     }
-
+    
 }
