@@ -108,6 +108,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/faqs/{id}/hide', [FaqController::class, 'hide'])->name('admin.faqs.hide');
     Route::put('/faqs/{id}/show', [FaqController::class, 'show'])->name('admin.faqs.show'); 
     Route::delete('/faqs/{id}/delete', [FaqController::class, 'delete'])->name('admin.faqs.delete');
+    Route::post('/faqs-deleted/retrieve', [AdminFaqsDeleted::class, 'retrieve'])->name('faqs.retrieve');
 
     //other
     Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
