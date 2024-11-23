@@ -31,18 +31,16 @@
             </span>
             <input id="search-input" type="text" class="form-control border-start-0" placeholder="Search...">
         </div>
-
         <!-- Stock Level Selector -->
         <div class="d-flex align-items-center gap-2">
             <span class="text-primary fs-4">Stock Level</span>
-            <select class="form-select form-select-sm" style="width: auto;" id="stocksLevel">
+            <select class="form-select form-select-sm" style="width: auto;" wire:model="stockLevel">
                 <option value="All">All</option>
                 @foreach($products as $product)
                     <option value="{{ $product->stocks_level }}">{{ $product->stocks_level }}</option>
                 @endforeach
             </select>
         </div>
-
 
        <!-- Category Selector -->
         <div class="d-flex align-items-center gap-2">
@@ -119,48 +117,49 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($products as $product)
-                <tr class="product" data-stocks-level="{{ $product->stocks_level }}">
-                    <!-- Select Individual Item -->
-                    <td>
-                        <input type="checkbox" class="select-item" data-id="{{ $product->id }}">
-                    </td>
-                    <td>{{ $product->id }}</td>
-                    <td>
-                        <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
-                    </td>
-                    <td>{{ $product->product_name }}</td>
-                    <td>{{ number_format($product->retail_price, 2) }}</td>
-                    <td>{{ number_format($product->supplier_price, 2) }}</td>
-                    <td class="product-category" data-category-id="{{ $product->category_id }}">{{ $product->category_name }}</td> <!-- Access category_name directly -->
-                    <td>{{ $product->stocks }}</td>
-                    <td>{{ $product->status_name }}</td>
-                    <td>{{ $product->visibility_name }}</td>
-                    <td class="stocks-level" data-category-id="{{$product->stocks_level}}">{{ $product->stocks_level }}</td>
+    @foreach($products as $product)
+    <tr>
+        <!-- Select Individual Item -->
+        <td>
+            <input type="checkbox" class="select-item" data-id="{{ $product->id }}">
+        </td>
+        <td>{{ $product->id }}</td>
+        <td>
+            <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
+        </td>
+        <td>{{ $product->product_name }}</td>
+        <td>{{ number_format($product->retail_price, 2) }}</td>
+        <td>{{ number_format($product->supplier_price, 2) }}</td>
+        <td class="product-category" data-category-id="{{ $product->category_id }}">{{ $product->category_name }}</td> <!-- Access category_name directly -->
+        <td>{{ $product->stocks }}</td>
+        <td>{{ $product->status_name }}</td>
+        <td>{{ $product->visibility_name }}</td>
+        <td>{{ $product->stocks_level }}</td>
 
-                    <!-- Actions Column -->
-                    <td>
-                        <div class="dropdown">
-                            <!-- Dropdown Button -->
-                            <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu" class="me-2 dropdown-toggle" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $product->id }}">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('shop.products.edit', ['product' => $product->id]) }}">Edit</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal" data-product-id="{{ $product->id }}">Delete</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
+        <!-- Actions Column -->
+        <td>
+            <div class="dropdown">
+                <!-- Dropdown Button -->
+                <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu" class="me-2 dropdown-toggle" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $product->id }}">
+                    <li>
+                        <a class="dropdown-item" href="{{ route('shop.products.edit', ['product' => $product->id]) }}">Edit</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal" data-product-id="{{ $product->id }}">Delete</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
         </table>
+  
     </div>
-</div>
-<div class="d-flex justify-content-center">
-    {{ $products->links() }}
+    <div class="d-flex justify-content-center">
+        {{ $products->links() }}
+    </div>
 </div>
 
 
@@ -288,39 +287,11 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-    const stockLevelSelect = document.getElementById('stocksLevel'); // Correct ID selection
-    const productList = document.querySelector('#example tbody'); // Select tbody directly
-    const products = productList.getElementsByClassName('product'); // Get all product rows
-
-    stockLevelSelect.addEventListener('change', function () {
-        const selectedValue = this.value.trim(); // Trim any whitespace
-        console.log('Selected Stock Level:', selectedValue); // Log the selected stock level
-
-        // Loop through each product row
-        for (let product of products) {
-            // Assuming the stock level is stored in a data attribute in the product row
-            const productStockLevel = product.getAttribute('data-stocks-level'); // Get the stock level
-            console.log('Product Stock Level:', productStockLevel); // Log the stock level of the current product
-
-            // Show or hide the product based on the selected stock level
-            if (selectedValue === 'All' || (productStockLevel && productStockLevel.trim() === selectedValue)) {
-                product.style.display = ''; // Show product
-                console.log('Showing product:', product); // Log that the product is being shown
-            } else {
-                product.style.display = 'none'; // Hide product
-                console.log('Hiding product:', product); // Log that the product is being hidden
-            }
-        }
-    });
-});
-
-
-    document.addEventListener('DOMContentLoaded', function () {
         const entriesPerPageSelect = document.getElementById('entries-per-page');
         const productRows = document.querySelectorAll('#example tbody tr');
 
         // Define the options you want to show in the dropdown
-        const options = [10, 20, 30];
+        const options = [10, 20, 30]; // You can add more options if needed
         console.log('Options to populate:', options); // Log the options array
 
         // Clear existing options
