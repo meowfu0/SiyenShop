@@ -3,101 +3,151 @@
 @section('content')
 <div class="container" style="max-width: 500px; margin-top: 50px;">
     <h1 class="text-center mb-4 fw-bold" style="font-size: 36px; color: #092C4C;">Sign up</h1>
-    
-    <form action="{{ route('register') }}" method="POST">
-    @csrf
 
-
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
+        
         <div class="d-flex gap-3 w-100">
              <!-- First Name -->
             <div class="mb-3 w-100">
                 <label for="first_name" class="form-label" style="font-size: 16px; color: #092C4C;">First Name</label>
-                <input id="first_name" type="text" class="form-control py-2" name="first_name" required placeholder="Input text" style="font-size: 14px;">
+                <input id="first_name" type="text" class="form-control py-2 @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required placeholder="Input text" style="font-size: 14px;">
+                @error('first_name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <!-- Last Name -->
             <div class="mb-3 w-100">
                 <label for="last_name" class="form-label" style="font-size: 16px; color: #092C4C;">Last Name</label>
-                <input id="last_name" type="text" class="form-control py-2" name="last_name" required placeholder="Input text" style="font-size: 14px;">
+                <input id="last_name" type="text" class="form-control py-2 @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required placeholder="Input text" style="font-size: 14px;">
+                @error('last_name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-
         </div>
+
         <!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label" style="font-size: 16px; color: #092C4C;">Email</label>
-            <input id="email" type="email" class="form-control py-2" name="email" required placeholder="Input text" style="font-size: 14px;">
-        </div>
-
-        <!-- Password -->
-        <div class="mb-3">
-            <label for="password" class="form-label" style="font-size: 16px; color: #092C4C;">Password</label>
-            <input id="password" type="password" class="form-control py-2" name="password" required placeholder="Input text" style="font-size: 14px;">
-        </div>
-
-        <!-- Phone Number -->
-        <div class="mb-3">
-            <label for="phone_number" class="form-label" style="font-size: 16px; color: #092C4C;">Phone Number</label>
-            <input id="phone_number" type="text" class="form-control py-2" name="phone_number" required placeholder="Input text" style="font-size: 14px;">
-        </div>
-
-        <!-- Course -->
-        <div class="mb-3">
-            <label for="course_id" class="form-label" style="font-size: 16px; color: #092C4C;">Course</label>
-            <select id="course_id" class="form-select" name="course_id" required style="font-size: 14px;">
-                <option value="" disabled selected>Select your course</option>
-                @foreach($courses as $course)
-                    <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
-                        {{ $course->course_name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('course_id')
+            <input id="email" type="email" class="form-control py-2 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required placeholder="Input text" style="font-size: 14px;">
+            @error('email')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
         </div>
 
-        <!-- Year and Block side by side -->
+        <!-- Password -->
+        <div class="mb-3">
+            <label for="password" class="form-label" style="font-size: 16px; color: #092C4C;">Password</label>
+            <input id="password" type="password" class="form-control py-2 @error('password') is-invalid @enderror" name="password" required placeholder="Input text" style="font-size: 14px;">
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        <!-- Phone Number -->
+        <div class="mb-3">
+            <label for="phone_number" class="form-label" style="font-size: 16px; color: #092C4C;">Phone Number</label>
+            <input id="phone_number" type="text" class="form-control py-2 @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required placeholder="Input text" style="font-size: 14px;">
+            @error('phone_number')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        <!-- Course -->
+       <!-- Course Dropdown (This is the only field that pulls data from the courses table) -->
+       <div class="row mb-3">
+       <label for="course_id" class="form-label" style="font-size: 16px; color: #092C4C;">{{ __('Course') }}</label>
+                            <div class="col-md-6">
+                            <select id="course_id" class="form-select py-2 @error('course_id') is-invalid @enderror" name="course_id" required style="font-size: 14px; border-radius: 5px; border: 1px solid #ced4da; color: #6c757d; width: 210%;">
+                                    <option value="">{{ __('Select a Course') }}</option>
+                                    @foreach($courses as $course)
+                                        <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
+                                            {{ $course->course_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('course_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+        <!-- Year and Course Block side by side -->
         <div class="mb-3 row">
             <div class="col">
                 <label for="year" class="form-label" style="font-size: 16px; color: #092C4C;">Year</label>
-                <select id="year" class="form-select" name="year" required style="font-size: 14px;">
+                <select id="year" class="form-select @error('year') is-invalid @enderror" name="year" required style="font-size: 14px; color: #6c757d;">
                     <option value="" disabled selected>Select your year</option>
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="4th Year">4th Year</option>
-                    <option value="5th Year">5th Year</option>
+                    <option value="1st Year" {{ old('year') == '1st Year' ? 'selected' : '' }}>1st Year</option>
+                    <option value="2nd Year" {{ old('year') == '2nd Year' ? 'selected' : '' }}>2nd Year</option>
+                    <option value="3rd Year" {{ old('year') == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
+                    <option value="4th Year" {{ old('year') == '4th Year' ? 'selected' : '' }}>4th Year</option>
+                    <option value="5th Year" {{ old('year') == '5th Year' ? 'selected' : '' }}>5th Year</option>
                 </select>
+                @error('year')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="col">
                 <label for="course_bloc" class="form-label" style="font-size: 16px; color: #092C4C;">Block</label>
-                <select id="course_bloc" class="form-select" name="course_bloc" required style="font-size: 14px;">
+                <select id="course_bloc" class="form-select @error('course_bloc') is-invalid @enderror" name="course_bloc" required style="font-size: 14px; color: #6c757d;">
                     <option value="" disabled selected>Select your block</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
+                    <option value="A" {{ old('course_bloc') == 'A' ? 'selected' : '' }}>A</option>
+                    <option value="B" {{ old('course_bloc') == 'B' ? 'selected' : '' }}>B</option>
+                    <option value="C" {{ old('course_bloc') == 'C' ? 'selected' : '' }}>C</option>
+                    <option value="D" {{ old('course_bloc') == 'D' ? 'selected' : '' }}>D</option>
+                    <option value="E" {{ old('course_bloc') == 'E' ? 'selected' : '' }}>E</option>
                 </select>
+                @error('course_bloc')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
         </div>
 
         <!-- Terms and Conditions -->
         <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="terms" required data-bs-toggle="modal" data-bs-target="#termsModal">
+            <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" id="terms" required data-bs-toggle="modal" data-bs-target="#termsModal">
             <label class="form-check-label" for="terms" style="font-size: 14px; color: #092C4C;">I read and agreed to the <a href="#" style="color: #092C4C; text-decoration: underline;">Terms and Conditions</a></label>
+            @error('terms')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn" style="background-color: #092C4C; color: white; width: 100%; font-size: 16px; font-weight: bold;">Sign Up</button>
+            <!-- Submit Button -->
+            <div class="row mb-0">
+            <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary" style="background-color: #092C4C; color: white; width: 210%; font-size: 16px; font-weight: bold; margin-left: -160px;  ">
+                    {{ __('Register') }}
+                </button>
+            </div>
+        </div>
+
 
         <div class="d-flex align-items-center py-3">
             <hr class="flex-grow-1 m-0" style="border-top: 1px solid #092C4C;">
             <span style="font-size: 14px; color: #092C4C; padding: 0 10px;">or</span>
             <hr class="flex-grow-1 m-0" style="border-top: 1px solid #092C4C;">
         </div>
+        
         <!-- Log in Link with lines and or text -->
         <div class="text-center">
             <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg fw-bold register-btn" style="width: 100%; font-size: 16px; color:#092C4C;">Log in</a>
@@ -153,7 +203,7 @@
                     <label class="form-check-label" for="agreeCheck" style="color: #333333;">
                         I agree to these Terms and Conditions.
                     </label>
-                </div>
+                </div> 
             </div>
 
             <!-- Modal Footer (Buttons) -->
@@ -164,6 +214,4 @@
         </div>
     </div>
 </div>
-
-
 @endsection

@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Models\Course; // Add this line to import the Course model
+use App\Models\Course;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -19,7 +20,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/register'; // Replace with your desired route after registration
 
     /**
      * Create a new controller instance.
@@ -54,11 +55,11 @@ class RegisterController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'string', 'max:15'],
-            'course_bloc' => ['required', 'in:A,B,C,D,E,F'], 
-            'course_id' => ['required', 'exists:courses,id'],
-            'year' => ['required', 'in:1st,2nd,3rd,4th,5th'],
+            'course_bloc' => ['required', 'in:A,B,C,D,E'], // Updated to match the table field
+            'course_id' => ['required', 'exists:courses,id'], // Assuming course_name is used in the courses table
+            'year' => ['required', 'in:1st Year,2nd Year,3rd Year,4th Year,5th Year'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'], // Removed 'confirmed' rule
         ]);
     }
 
@@ -74,13 +75,24 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'phone_number' => $data['phone_number'],
-            'course_bloc' => $data['course_bloc'],
-            'course_id' => $data['course_id'],
+            'course_bloc' => $data['course_bloc'], // Updated to course_bloc
+            'course_id' => $data['course_id'], // Assuming course_name is stored directly in the users table
             'year' => $data['year'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
 
-    
+    /**
+     * Handle actions after user registration.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function registered(Request $request, $user)
+    {
+        // Redirect to the desired route after registration
+        return redirect()->route('register'); // Replace 'dashboard' with the route you want
+    }
 }
