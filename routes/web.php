@@ -33,6 +33,7 @@ use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\EmailerController;
 
 
 Auth::routes();
@@ -125,4 +126,18 @@ Route::prefix('admin')->group(function () {
 
 
 
+
+use App\Http\Controllers\MessageController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/fetch-messages/{recipient}', [MessageController::class, 'fetchMessages']);
+    Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
+    
+    // Chat Routes
+    Route::get('/admin/chat', [MessageController::class, 'getChatContacts'])->name('admin.chat');
+    Route::get('/shop/chat', [MessageController::class, 'getChatContacts'])->name('shop.chat');
+    Route::get('/chat', [MessageController::class, 'getChatContacts'])->name('chat'); 
+    Route::post('chat', [MessageController::class, 'startChat'])->name('start.chat');
+    Route::get('/emailer', [EmailerController::class, 'index'])->name('emailer');
+});
 
