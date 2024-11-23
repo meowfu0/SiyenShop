@@ -53,6 +53,9 @@ Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.e
 // shopping module
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
 Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
+
+Route::post('/productDetails/addToCart', [ProductDetailsController::class, 'addToCart'])->name('productDetails.addToCart');
+
 Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
 Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
 

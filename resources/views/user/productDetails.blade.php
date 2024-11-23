@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="container-xl">
     <div class="row justify-content-center">
@@ -45,11 +46,19 @@
                                 <img src="{{ asset('images/chat.svg') }}" class="chat-icon"
                                     style="width:22px; height:22px">
                                 <!-- Add to Cart Button -->
-                                <button class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2" style="width:130px; height:48px"
-                                    data-toggle="modal" data-target="#exampleModalCenter">
-                                    <img src="{{ asset('images/cart.svg') }}" class="invert"
-                                        style="width:15px; height:15px"> Add to Cart
-                                </button>
+                                <form action="{{ route('productDetails.addToCart') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" 
+                                        class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
+                                        style="width:130px; height:48px">
+                                        <img src="{{ asset('images/cart.svg') }}" class="invert" style="width:15px; height:15px"> 
+                                        Add to Cart
+                                    </button>
+                                </form>
+                                
+                                
+                                
                                 <!-- Buy Now Button -->
                                 <button class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
                                     style="width:130px; height:48px; color:white" data-toggle="modal"
@@ -126,7 +135,32 @@
         </div>
     </div>               
 </div>
-<!-- Modal -->
+
+@if(session('success'))
+<div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-body">
+               Added to cart
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Add Anyway</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
+
+@if($showModal)
+<script>
+    $(document).ready(function() {
+        $('#exampleModalCenter').modal('show');
+    });
+</script>
+@endif
+
 <div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content p-2">
@@ -140,7 +174,7 @@
                 </button>
             </div>
             <div class="modal-body">
-            This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
+                This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -151,35 +185,22 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-        const decrementButton = document.getElementById('decrement');
-        const incrementButton = document.getElementById('increment');
-        const quantityInput = document.getElementById('quantity');
-
-        let quantity = parseInt(quantityInput.value);
-
-        incrementButton.addEventListener('click', () => {
-            quantity++;
-            quantityInput.value = quantity;
-            if (quantity > 1) {
-                decrementButton.disabled = false;
-            }
-        });
-
-        decrementButton.addEventListener('click', () => {
-            if (quantity > 1) {
-                quantity--;
-                quantityInput.value = quantity;
-            }
-            if (quantity === 1) {
-                decrementButton.disabled = true;
-            }
-        });
-
-        // Disable decrement button initially since quantity is 1
-        if (quantity === 1) {
-            decrementButton.disabled = true;
+    // Increment and decrement button functionality
+    document.getElementById('decrement').addEventListener('click', function() {
+        let quantity = document.getElementById('quantity');
+        if (parseInt(quantity.value) > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
         }
-    </script>
+    });
+
+    document.getElementById('increment').addEventListener('click', function() {
+        let quantity = document.getElementById('quantity');
+        quantity.value = parseInt(quantity.value) + 1;
+    });
+
+    
+
+        
+</script>
 @endsection

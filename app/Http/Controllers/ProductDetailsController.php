@@ -5,40 +5,139 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Product;
+use App\Models\Cart;
+use App\Models\CartItem;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductDetailsController extends Controller
 {
-  public function index(Request $request) 
-  {
-      // Retrieve product 
-      $product_id = $request->query('id');
+    public function index(Request $request) 
+    {
+        Log::info('ProductDetailsController@index: Start');
+        
+        // Retrieve product ID from request
+        $product_id = $request->query('id');
+        session(['product_id' => $product_id]); // Store product ID in session
+        Log::info('Product ID retrieved', ['product_id' => $product_id]);
   
-      // Fetch the product 
-      $product = Product::findOrFail($product_id);
+        // Fetch the product
+        try {
+            $product = Product::findOrFail($product_id);
+            Log::info('Product retrieved successfully', ['product' => $product]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching product', ['error' => $e->getMessage()]);
+            abort(404, 'Product not found');
+        }
   
-      //for the review part
-      $reviews = Review::where('product_id', $product_id)
-                       ->with('user')
-                       ->take(2) // Limit to 2 reviews
-                       ->get(); 
+        // Fetch reviews for the product
+        $reviews = Review::where('product_id', $product_id)
+                         ->with('user')
+                         ->take(2) // Limit to 2 reviews
+                         ->get();
+        Log::info('Reviews fetched', ['reviews' => $reviews]);
   
-      // Calculate the average rating
-      $averageRating = $reviews->avg('ratings'); 
-      $roundedAverageRating = number_format($averageRating, 1); // Format to one decimal
+        // Calculate the average rating
+        $averageRating = $reviews->avg('ratings'); 
+        $roundedAverageRating = number_format($averageRating, 1);
+        Log::info('Average rating calculated', ['averageRating' => $roundedAverageRating]);
   
-      // Check if the product is a T-shirt and redirect to ProductDetailswithSizeController
-      if ($product->category->name === 'T-Shirt') {
-          return redirect()->route('productDetailswithSize', ['id' => $product_id]);
-      }
+        // Check if the product is a T-shirt and redirect if necessary
+        if ($product->category->name === 'T-Shirt') {
+            Log::info('Product is a T-Shirt, redirecting');
+            return redirect()->route('productDetailswithSize', ['id' => $product_id]);
+        }
   
-      // Related products
-      $relatedProducts = Product::where('shop_id', $product->shop_id) 
-                                ->where('id', '!=', $product_id) 
-                                ->take(5) // Limit to 5 items 
-                                ->get(); 
+        // Fetch related products
+        $relatedProducts = Product::where('shop_id', $product->shop_id) 
+                                  ->where('id', '!=', $product_id) 
+                                  ->take(5)
+                                  ->get();
+        Log::info('Related products fetched', ['relatedProducts' => $relatedProducts]);
   
-      // Pass data to the view 
-      return view('user.productDetails', compact('product', 'relatedProducts', 'reviews', 'averageRating'));
-  }  
+        $showModal = false;
+
+        Log::info('ProductDetailsController@index: End');
+        return view('user.productDetails', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'showModal'));
+    }  
+
+    public function addToCart(Request $request)
+    {
+        Log::info('ProductDetailsController@addToCart: Start');
+        
+        $product_id = session('product_id');
+        $quantity = $request->input('quantity');
+        Log::info('Add to cart request received', ['product_id' => $product_id, 'quantity' => $quantity]);
+  
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            Log::warning('Unauthenticated user tried to add to cart');
+            return redirect()->route('login');
+        }
+  
+        // Fetch product and shop details
+        try {
+            $currentProduct = Product::findOrFail($product_id);
+            $currentShopId = $currentProduct->shop_id;
+            Log::info('Product details retrieved', ['currentShopId' => $currentShopId]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching product for add to cart', ['error' => $e->getMessage()]);
+            abort(404, 'Product not found');
+        }
+  
+        // Get or create a cart for the user
+        $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
+        Log::info('Cart retrieved or created', ['cart_id' => $cart->id]);
+  
+        // Check if the cart already has items
+        $cartItem = CartItem::where('cart_id', $cart->id)->first();
+        if ($cartItem) {
+            $cartProduct = Product::findOrFail($cartItem->product_id);
+            $cartShopId = $cartProduct->shop_id;
+
+            if ($cartShopId != $currentShopId) {
+                Log::info('Shop mismatch detected', [
+                    'cartShopId' => $cartShopId,
+                    'currentShopId' => $currentShopId
+                ]);
+                return back()->with('Failed', 'Shop Mismatch')->with('showModal', true);
+
+            }
+        }
+  
+        // Add the product to the cart
+        $this->addToCartDB($cart, $product_id, $quantity);
+        Log::info('Product added to cart successfully', ['product_id' => $product_id, 'quantity' => $quantity]);
+
+        Log::info('ProductDetailsController@addToCart: End');
+        return back()->with('success', 'Product added to cart');
+
+    }
+  
+    public function addToCartDB($cart, $product_id, $quantity)
+{
+    Log::info('Adding product to the cart database', ['cart_id' => $cart->id, 'product_id' => $product_id, 'quantity' => $quantity]);
+
+    // Try to find the CartItem by cart_id and product_id
+    $cartItem = CartItem::where('cart_id', $cart->id)
+                        ->where('product_id', $product_id)
+                        ->first();
+
+    if ($cartItem) {
+        // If it exists, update the quantity by adding the new quantity
+        $cartItem->quantity += $quantity;
+        $cartItem->save(); // Save the updated quantity
+        Log::info('CartItem updated successfully', ['cartItem' => $cartItem]);
+    } else {
+        // If the CartItem does not exist, create a new one
+        CartItem::create([
+            'cart_id' => $cart->id,
+            'product_id' => $product_id,
+            'quantity' => $quantity,
+        ]);
+        Log::info('CartItem created successfully');
+    }
 }
 
+}
