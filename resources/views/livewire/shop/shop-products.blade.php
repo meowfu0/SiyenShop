@@ -90,7 +90,7 @@
         <!-- Add Category Button -->
         <a href="{{ route('shop.products.add') }}" class="text-decoration-none">
             <button type="button" class="btn btn-outline-primary btn-sm">
-                Add Category
+                Add Product
                 <img src="{{ asset('images/add.svg') }}" alt="" style="width: 8px; height: px; margin-left: 3px;">
             </button>
         </a>

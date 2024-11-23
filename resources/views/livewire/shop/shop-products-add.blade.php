@@ -245,10 +245,16 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="d-flex justify-content-end mt-4">
-                <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
+            <form wire:submit.prevent="saveProduct">
+    <!-- Other Form Inputs -->
+
+    <!-- Submit Button -->
+    <div class="d-flex justify-content-end mt-4">
+        <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form>
+            
             
         </div>
     </div>
