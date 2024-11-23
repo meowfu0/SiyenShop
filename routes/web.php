@@ -31,6 +31,8 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
+use App\Http\Controllers\ProductExportController;
+
 
 
 
@@ -85,7 +87,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
     Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
-
+    Route::get('/export-csv', [ProductExportController::class, 'exportCSV'])->name('export.csv');
+    Route::get('/export-xlsx', [ProductExportController::class, 'exportXLSX'])->name('export.xlsx');
+    Route::get('/export-pdf', [ProductExportController::class, 'exportPDF'])->name('export.pdf');
 });
 
 

@@ -69,9 +69,9 @@
                 <img src="{{ asset('images/Export.svg') }}" alt="Export" class="img-thumbnail dropdown-toggle" 
                     style="width: 35px; height: 35px;" data-bs-toggle="dropdown" aria-expanded="false">
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" id="exportCsv">Export as CSV</a></li>
-                    <li><a class="dropdown-item" href="#" id="exportXlsx">Export as XLSX</a></li>
-                    <li><a class="dropdown-item" href="#" id="exportPdf">Export as PDF</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.csv') }}" id="exportCsv">Export as CSV</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.xlsx') }}" id="exportXlsx">Export as XLSX</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.pdf') }}" id="exportPdf">Export as PDF</a></li>
                 </ul>
             </div>
 
