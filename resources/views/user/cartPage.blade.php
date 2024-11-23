@@ -22,20 +22,19 @@
             </div>
             @else
 
+            <!-- Combine ShirtItems and OtherItems and sort by descending ID -->
+            @php
+            $AllItems = $ShirtItems->merge($OtherItems)->sortByDesc('id');
+            @endphp
 
-            <!-- LOOP FOR Shirt Items only  -->
-            @foreach($ShirtItems as $item)
-
-            <!-- <h1  id="PROD"></h1> -->
-
-
+            <!-- LOOP FOR All Items -->
+            @foreach($AllItems as $item)
             <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
                 <div class="d-flex flex-row align-items-center">
                     <div class="p-4 d-flex align-items-left" id="form-check">
-                        <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{$item->id}}" value="{{ number_format($item->retail_price, 2) }}">
+                        <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{ $item->id }}" value="{{ number_format($item->retail_price, 2) }}">
                     </div>
                     <div>
-                        <!-- put image here from db-->
                         <img src="{{ asset('images/' . $item->product_image) }}" class="img-fluid rounded-2 img-items">
                     </div>
                 </div>
@@ -60,6 +59,7 @@
                             <div class="p-2 text-primary" id="remove"><b>Variant/Size</b></div>
                             <div class="p-2 text-primary">
                                 <!-- Size dropdown -->
+                                @if (isset($item->size))
                                 <select class="form-select border border-primary size-input text-primary sizeDropdown" data-item-id="{{ $item->id }}">
                                     @foreach($sizes as $sizeOption)
                                     <option value="{{ $sizeOption->id }}"
@@ -75,75 +75,11 @@
                                     </option>
                                     @endforeach
                                 </select>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center flex-column" id="input-quantity">
-                    <div class="p-2 text-primary" id="remove"><b>Quantity</b></div>
-                    <div class="input-group mt-2 border rounded border-primary" id="Quantity-input" style="overflow: hidden; height: 34px;">
-                        <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="decrement" type="button">-</button>
-                        <input id="quantity_{{ $item->id }}" min="0" data-id="{{ $item->id }}" name="quantity" value="{{ $item->quantity }}" type="text" readonly class="form-control text-center outline-primary text-primary quantities" style="width: 45px; border: none;">
-                        <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="increment" type="button">+</button>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center flex-column" id="remove">
-                    <div class="p-2 text-primary" id="remove"><b>Total</b></div>
-                    <div class="p-2">
-                        <p class="mt-1 text-primary">₱ {{ number_format($item->retail_price, 2) }}</p>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-row align-items-center" id="trashbin">
-                    <div class="p-4 d-flex align-items-left" id="trashbin">
-                        <button type="button" class="btn" id="trashbin-main" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $item->id }}" data-id="{{ $item->id }}">
-                            <img src="{{ asset('images/trash3.svg') }}" class="mt-1">
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Delete Confirmation Modal -->
-            @include('user.modal.cartDeleteModal')
-            @endforeach
-
-            <!-- LOOP FOR Other Items  like lanyard , etc -->
-            @foreach($OtherItems as $item)
-            <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
-                <div class="d-flex flex-row align-items-center">
-                    <div class="p-4 d-flex align-items-left" id="form-check">
-                        <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{$item->id}}" value="{{ number_format($item->retail_price, 2) }}">
-                    </div>
-                    <div>
-                        <img src="{{ asset('images/' . $item->product_image) }}" class="img-fluid rounded-2 img-items">
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-start flex-row justify-content-between gap-5" id="ProductName">
-                    <div class="d-flex align-items-start flex-column">
-                        <div class="p-2 text-primary" id="remove"><b>Item</b></div>
-                        <div class="p-2 fixed-width" id="prod-name">
-                            <p class="mt-2 text-primary fs-4" id="name">{{ $item->product_name }}</p>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-start flex-row gap-5" id="Price-Variant">
-                        <div class="d-flex align-items-center flex-column">
-                            <div class="p-2 text-primary" id="remove"><b>Unit Price</b></div>
-                            <div class="p-2">
-                                <p class="price mt-2 text-primary">₱ {{ number_format($item->supplier_price, 2) }}</p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center flex-column">
-                            <div class="p-2 text-primary" id="remove"><b>Variant/Size</b></div>
-                            <div class="p-2">
+                                @else
                                 <select class="form-select border border-primary size-input text-primary">
-                                    <option selected>none</option>
+                                    <option selected>None</option>
                                 </select>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -157,7 +93,6 @@
                         <button class="btn no-hover text-primary quantity-button" id="buttons" data-id="{{ $item->id }}" data-action="increment" type="button">+</button>
                     </div>
                 </div>
-
 
                 <div class="d-flex align-items-center flex-column" id="remove">
                     <div class="p-2 text-primary" id="remove"><b>Total</b></div>
@@ -177,6 +112,7 @@
             <!-- Delete Confirmation Modal -->
             @include('user.modal.cartDeleteModal')
             @endforeach
+
 
             @endif
 
@@ -204,7 +140,6 @@
                         </div>
                         <!-- Proceed to Checkout button -->
                         <div>
-
                             <!-- data-bs-toggle="modal" data-bs-target="#ModalProceed -->
                             @if($ShirtItems->isEmpty() && $OtherItems->isEmpty())
 
@@ -214,9 +149,7 @@
                                 <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
                             </a>
 
-
                             @else
-
                             <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceed" class="btn btn-primary btn-md  " id="button-size">
                                 Proceed To Checkout
                                 <img src="{{ asset('images/cart3.svg') }}" class="mb-1">

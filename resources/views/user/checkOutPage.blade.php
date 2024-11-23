@@ -7,7 +7,7 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-11">
             <div class="d-flex justify-content-start align-items-center mb-2">
-                <img src="{{ asset('images/cart.svg') }}" class="cart-logo mb-2"> 
+                <img src="{{ asset('images/cart.svg') }}" class="cart-logo mb-2">
                 <h1 class="ms-1 text-primary fw-bold">Checkout</h1>
             </div>
             <h3 class="mt-2 mb-3 fw-bold fs-5 text-primary">Order Summary</h3>
@@ -26,53 +26,49 @@
                     </thead>
                     <tbody class="noBorder">
 
-
                         @php
-                            $totalRetailPrice = 0;
-                            $total_items = 0;
+                        $totalRetailPrice = 0;
+                        $total_items = 0;
+
+                        // Combine ShirtItems and OtherItems and sort by descending ID
+                        $AllItems = $ShirtItems->merge($OtherItems)->sortByDesc('id');
                         @endphp
 
-                        @foreach($ShirtItems as $item)
-                            @php
-                                $totalRetailPrice += $item->retail_price * $item->quantity;
-                                $total_items += $item->quantity;
-                            @endphp
+                        <!-- LOOP FOR All Items -->
+                        @foreach($AllItems as $item)
+
+
+                        @php
+                        $totalRetailPrice += $item->retail_price * $item->quantity;
+                        $total_items += $item->quantity;
+                        @endphp
+
+                        
                         <tr>
                             <td>{{ $item->product_name }}</td>
                             <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
-
                             <td>
+                                @if(isset($item->size)) <!-- Check if size exists -->
                                 @if($item->size == 'L' || $item->size == 'l')
-                                    Large
+                                Large
                                 @elseif($item->size == 'S' || $item->size == 's')
-                                    Small
+                                Small
                                 @elseif($item->size == 'M' || $item->size == 'm')
-                                    Medium
+                                Medium
                                 @elseif($item->size == 'XL' || $item->size == 'xl')
-                                    X-Large
+                                X-Large
                                 @else
-                                    {{ $item->size }}
+                                {{ $item->size }}
+                                @endif
+                                @else
+                                    None
                                 @endif
                             </td>
-
                             <td>x{{ $item->quantity }}</td>
                             <td>₱ {{ number_format($item->retail_price, 2) }}</td>
                         </tr>
                         @endforeach
 
-                        @foreach($OtherItems as $item)
-                            @php
-                                $totalRetailPrice += $item->retail_price * $item->quantity;
-                                $total_items += $item->quantity;
-                            @endphp
-                        <tr>
-                            <td>{{ $item->product_name }}</td>
-                            <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
-                            <td class="fst-italic">None</td>
-                            <td>x{{ $item->quantity }}</td>
-                            <td>₱ {{ number_format($item->retail_price, 2) }}</td>
-                        </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>

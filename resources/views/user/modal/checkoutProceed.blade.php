@@ -11,13 +11,15 @@
       </div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-outline-primary btn-md w-25" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-secondary btn-md w-25" data-bs-dismiss="modal" style="display: none;">Okay</button>
+
         <a href="{{ route('checkOutPage') }}" class="btn btn-primary btn-md w-25">Yes</a>
       </div>
     </div>
   </div>
 </div>
 
-
+ 
 <!------------------MODAL FOR NO ITEM IN CART------->
 
 <div class="modal fade" id="noItemModal" tabindex="-1" aria-labelledby="noItemModalLabel" aria-hidden="true">
@@ -36,4 +38,3 @@
     </div>
   </div>
 </div>
-

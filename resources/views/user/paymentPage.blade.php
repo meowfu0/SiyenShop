@@ -15,16 +15,21 @@
 
             @foreach($shopName as $shop)
             @php
-                $shops = "";
-                $shops = $shop->shop_name;
-                $shopsid = $shop->id;
+
+            $shops = "";
+            $shops = $shop->shop_name;
+            $shopsid = $shop->id;
+
             @endphp
             @endforeach
 
+
             @foreach($total_amount_toPay as $total)
+
             @php
             $amount_to_pay = $total->total_amount;
             @endphp
+            
             @endforeach
 
 
@@ -33,7 +38,7 @@
             <div class="container mt-2">
                 <div class="card border border-primary p-3">
                     <div class="card-body">
-                        <form action="{{ route('payment', ['id' => base64_encode(implode(',', $productIds))]) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('payment', ['id' => base64_encode(implode(',', $productIds))]) }}" method="POST" enctype="multipart/form-data ">
                             @csrf
                             <div class="mb-2">
                                 <label for="paymentMode" class="form-label fs-4">
@@ -44,25 +49,33 @@
 
                             <div class="mb-3">
                                 <label for="gcashNumber" class="form-label fw-bold">Pay to this GCash Number:</label>
-                                <select class="form-select" id="gcashNumber" name="gcash_number"  required>
+                                <select class="form-select" id="gcashNumber" name="gcash_number" required>
                                     @foreach($gcashInfo as $gcash)
                                     <option value="{{ $gcash->id }}"
                                         @if($gcash->gcash_limit == 0) class="text-danger" disabled @endif >
                                         @if($gcash->gcash_limit == 0)
-                                            @php
-                                                $nameParts = explode(' ', $gcash->gcash_name);
-                                                $firstName = isset($nameParts[0]) ? $nameParts[0] : '';
-                                                $middleInitial = isset($nameParts[1]) ? $nameParts[1] : '';
-                                        $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1];
-                                        @endphp
-                                        {{ $gcash->gcash_number }} - *not available for payment*
-                                        @else
                                         @php
+                                        $nameParts = explode(' ', $gcash->gcash_name);
+
+                                        $firstName = isset($nameParts[0]) ? $nameParts[0] : '';
+                                        $middleInitial = isset($nameParts[1]) ? $nameParts[1] : '';
+                                        $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1];
+
+                                        @endphp
+
+                                        {{ $gcash->gcash_number }} - *not available for payment*
+
+                                        @else
+
+                                        @php
+
                                         $nameParts = explode(' ', $gcash->gcash_name);
                                         $firstName = $nameParts[0];
                                         $middleInitial = isset($nameParts[1]) ? $nameParts[1] : '';
                                         $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1];
+
                                         @endphp
+
                                         {{ $gcash->gcash_number }} - {{ substr($firstName, 0, 3) }}** {{ substr($middleInitial, 0, 1) }}* {{ substr($lastName, 0, 3) }}**
                                         @endif
                                     </option>
@@ -86,9 +99,9 @@
                                 @endphp
 
                                 <a href="{{ route('checkOutPage.Checkout-Items', ['encodedIds' => base64_encode($productIdsString)]) }}" id="cancelButton" class="btn btn-outline-primary me-1 payment-sizes">Cancel</a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceedPayment" class="btn btn-primary payment-sizes">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceedPayment" id="confirmPaymentBtn" class="btn btn-primary payment-sizes">
                                     Confirm Payment
-                                    <img src="{{ asset('images/credit-card.svg') }}" class="mb-1">
+                                    <img src="{{ asset('images/credit-card.svg') }}" class="mb-1" />
                                 </a>
                             </div>
 
@@ -104,6 +117,7 @@
                                         </div>
                                         <div class="modal-footer border-0 d-flex justify-content-end">
                                             <button type="button" class="btn btn-outline-primary btn-md w-25" data-bs-dismiss="modal">No</button>
+                                            <button type="button" class="btn btn-secondary btn-md w-25" data-bs-dismiss="modal" style="display: none;">Okay</button>
                                             <button type="submit" class="btn btn-primary btn-md w-25">Yes</button>
                                         </div>
                                     </div>
@@ -117,6 +131,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 @endsection

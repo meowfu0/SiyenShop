@@ -31,9 +31,8 @@ class orderSummaryPageController extends Controller
             ->join('order_items as oi', 'o.id', '=', 'oi.order_id')
             ->join('products as p', 'oi.product_id', '=', 'p.id')
             ->join('shops as s', 'o.shop_id', '=', 's.id')
-            ->join('cart_items as ci', 'ci.cart_id', '=', 'o.user_id')
             ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->join('product_variants as v', 'ci.size', '=', 'v.id')
+            ->join('product_variants as v', 'oi.size', '=', 'v.id')
             ->select(
                 's.shop_name',
                 'o.total_amount',
@@ -41,11 +40,12 @@ class orderSummaryPageController extends Controller
                 'o.order_date',
                 'o.reference_number',
                 'o.proof_of_payment',
+                'o.order_date',
                 'oi.quantity',
                 'oi.price',
+                'oi.size',
                 'p.product_name',
                 'p.supplier_price',
-                'ci.size',
                 'v.size',
                 'p.supplier_price',
                 'p.retail_price',
@@ -53,13 +53,13 @@ class orderSummaryPageController extends Controller
             )
             ->where('o.user_id', '=', $userId)
             ->where('cat.id', '=', 4)
-            ->whereIn('ci.id', $productIds)
+          //  ->whereIn('ci.id', $productIds)
             ->where('o.order_date', '=', function ($query) use ($userId) {
                 $query->selectRaw('MAX(order_date)')
                     ->from('orders')
                     ->where('user_id', $userId);
             })
-            ->distinct()
+            //->distinct()
             ->get();
 
 
@@ -67,9 +67,7 @@ class orderSummaryPageController extends Controller
             ->join('order_items as oi', 'o.id', '=', 'oi.order_id')
             ->join('products as p', 'oi.product_id', '=', 'p.id')
             ->join('shops as s', 'o.shop_id', '=', 's.id')
-            ->join('cart_items as ci', 'ci.cart_id', '=', 'o.user_id')
             ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->join('product_variants as v', 'ci.size', '=', 'v.id')
             ->select(
                 's.shop_name',
                 'o.total_amount',
@@ -77,22 +75,24 @@ class orderSummaryPageController extends Controller
                 'o.order_date',
                 'o.reference_number',
                 'o.proof_of_payment',
+                'o.order_date',
                 'oi.quantity',
                 'oi.price',
+                'oi.size',
                 'p.product_name',
                 'p.supplier_price',
                 'p.retail_price',
             )
             ->where('o.user_id', '=', $userId)
             ->where('cat.id', '!=', 4)
-            ->whereIn('ci.id', $productIds)
             ->where('o.order_date', '=', function ($query) use ($userId) {
                 $query->selectRaw('MAX(order_date)')
                     ->from('orders')
                     ->where('user_id', $userId);
             })
-            ->distinct()
+          //  ->distinct()
             ->get();
+
 
         // --- QUERY TO GET GCASH INFO ---
         $gcashInfo = DB::table('g_cash_infos as g')
@@ -100,6 +100,11 @@ class orderSummaryPageController extends Controller
             ->where('g.id', '=', $gcash)
             ->get();
 
+
+        // Delete the cart items after the order has been placed
+        $deleted = DB::table('cart_items')
+            ->whereIn('id', $productIds)
+            ->delete();
 
         return view('user.orderSummaryPage', compact('productIds', 'OrderDetailsShirts', 'OrderDetailsOtherItems', 'gcashInfo'));
     }

@@ -30,9 +30,9 @@ class CartPageController extends Controller
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
                     ->where('ci.cart_id', '=', $userId)
-                    ->limit(1); // Limit to just the first match
+                  ->limit(1); // Limit to just the first match
             })
-            ->distinct() // To ensure no duplicate rows
+           // ->distinct() // To ensure no duplicate rows
             ->get();
 
         // --- OTHER ITEMS ---
@@ -61,7 +61,7 @@ class CartPageController extends Controller
                     )
                     ->limit(1); // Limit to just the first match
             })
-            ->distinct() // To ensure no duplicate rows
+            //->distinct() // To ensure no duplicate rows
             ->get();
 
 
@@ -77,6 +77,8 @@ class CartPageController extends Controller
         // Return view with all the queries 
         return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes'));
     }
+
+
 
     public function remove($id)
     {
