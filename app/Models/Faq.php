@@ -18,6 +18,6 @@ class Faq extends Model
     // Specify that the model should use 'modified_at' instead of 'updated_at'
     const UPDATED_AT = 'modified_at';
 
-    // Optional: If you do not want Laravel to automatically manage created_at and modified_at
-    public $timestamps = false; // Disable automatic timestamps
+
+    public $timestamps = false; 
 }

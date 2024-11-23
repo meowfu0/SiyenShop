@@ -7,7 +7,7 @@
 
     <!-- Welcome Message Below Navbar -->
     <div class="container">
-        <div class="row align-items-center justify-content-center my-4 ms-4 me-4">
+        <div class="row align-items-center justify-content-center my-4 ms-4 me-4" id="faqs">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="me-auto">FAQs Section</h1>
@@ -239,7 +239,7 @@
                         </div>
 
                         <div class="modal-footer mx-2" style="border: none;">
-                            <button type="button" class="btn border" data-dismiss="modal" style="width: 111px;">Close</button>
+                            <button type="button" class="btn border" data-bs-dismiss="modal" style="width: 111px;">Close</button>
                             <button type="button" class="btn btn-primary" style="width: 111px;" id="saveDelBtn">Save </button>
                         </div>
                     </div>

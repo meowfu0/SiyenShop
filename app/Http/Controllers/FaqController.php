@@ -18,7 +18,11 @@ class FaqController extends Controller
      */
     public function index()
     {
-
+        // Fetch FAQs with status_id = 1 (active FAQs)
+        $faqs = Faq::where('status_id', 1)->get();
+    
+        // Pass the FAQs to the view
+        return view('customer_support.faqs', compact('faqs'));
     }
 
     /**

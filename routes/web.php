@@ -33,7 +33,7 @@ use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FaqController;
-
+use App\Mail\MessageNotification;
 
 Auth::routes();
 
@@ -74,8 +74,7 @@ Route::get('/faqs', function () {
 
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
-
-
+ 
 
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
@@ -108,6 +107,8 @@ Route::prefix('admin')->group(function () {
     Route::put('/faqs/{id}/show', [FaqController::class, 'show'])->name('admin.faqs.show'); 
     Route::delete('/faqs/{id}/delete', [FaqController::class, 'delete'])->name('admin.faqs.delete');
 
+    Route::post('/faqs-deleted/retrieve', [AdminFaqsDeleted::class, 'retrieve'])->name('faqs.retrieve');
+    Route::delete('/faqs-deleted/destroy/{id}', [AdminFaqsDeleted::class, 'destroy'])->name('faqs.delete');
     //other
     Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
     Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
@@ -115,7 +116,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
-    Route::get('/faqs-deleted', [AdminFaqsDeleted::class, 'render'])->name('admin.faqs-deleted');  
+    Route::get('/faqs-deleted', [AdminFaqsDeleted::class, 'render'])->name('admin.faqs-deleted'); 
     Route::prefix('shops')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
@@ -137,5 +138,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/shop/chat', [MessageController::class, 'getChatContacts'])->name('shop.chat');
     Route::get('/chat', [MessageController::class, 'getChatContacts'])->name('chat'); 
     Route::post('chat', [MessageController::class, 'startChat'])->name('start.chat');
+    Route::get('/search-users', [MessageController::class, 'searchUsers']);
+    Route::post('/mark-messages-read/{recipientId}', [MessageController::class, 'markMessagesRead']);
+    Route::post('/admin/faqs/retrieve', [FaqController::class, 'retrieve'])->name('faqs.retrieve');
+    Route::get('/chat/view/{recipientId}', [MessageController::class, 'viewChat'])->name('chat.view');
 });
 
+Route::get('/faqs', [FaqController::class, 'index'])->name('faqs.index');
+
+Route::get('/message_notification', [MessageController::class, 'email'])->name('components.message_notification');

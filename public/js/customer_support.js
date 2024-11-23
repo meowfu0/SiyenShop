@@ -249,7 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //scroll input text message
 document.addEventListener("DOMContentLoaded", function() {
-
     const messagesContainer = document.getElementById('messages-container');
     messagesContainer.addEventListener('wheel', function(event) {
         event.preventDefault();
@@ -262,5 +261,105 @@ document.addEventListener("DOMContentLoaded", function() {
         messageArea.scrollTop += event.deltaY;
     });
 });
+
+
+
+//deleted faqs
+document.addEventListener('DOMContentLoaded', function () {
+    function updateSelectedIds() {
+        const selectedIds = [];
+        const checkboxes = document.querySelectorAll('.faq-checkbox:checked');
+        checkboxes.forEach(checkbox => {
+            selectedIds.push(checkbox.value);
+        });
+        document.getElementById('retrieveFaqIds').value = JSON.stringify(selectedIds);
+        document.getElementById('deleteFaqIds').value = JSON.stringify(selectedIds);
+    }
+
+    const checkboxes = document.querySelectorAll('.faq-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectedIds);
+    });
+
+    // Retrieve FAQs
+    $("#retrieveBtn").click(function () {
+        const faqIdsToRetrieve = JSON.parse(document.getElementById('retrieveFaqIds').value || '[]');
+
+        if (faqIdsToRetrieve.length > 0) {
+            $('#retrieveModal').modal('show'); 
+        } else {
+            $('#noCheckboxModal').modal('show'); 
+        }
+    });
+
+    // Confirm retrieval
+    $("#confirmRetrieveBtn").click(function () {
+    const faqIdsToRetrieve = JSON.parse(document.getElementById('retrieveFaqIds').value || '[]');
+    if (faqIdsToRetrieve.length > 0) {
+        fetch('/admin/faqs-deleted/retrieve', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            body: JSON.stringify({ faq_ids: faqIdsToRetrieve }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+});
+
+
+    // Delete FAQs
+    $("#deleteBtn").click(function () {
+        const faqIdsToDelete = JSON.parse(document.getElementById('deleteFaqIds').value || '[]');
+
+        if (faqIdsToDelete.length > 0) {
+            $('#PdeleteModalCenter').modal('show'); 
+        } else {
+            $('#noCheckboxModal').modal('show'); l
+        }
+    });
+
+
+    $("#savePDelBtn").click(function () {
+        const faqIdsToDelete = JSON.parse(document.getElementById('deleteFaqIds').value || '[]');
+
+        if (faqIdsToDelete.length > 0) {
+            faqIdsToDelete.forEach(id => {
+                fetch(`/admin/faqs-deleted/destroy/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        console.error(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            });
+        }
+    });
+});
+
+
+//chat funtionc
 
 

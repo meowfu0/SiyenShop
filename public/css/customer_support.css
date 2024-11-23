@@ -112,6 +112,7 @@
     }
 }
 
+  
 @media screen and (max-width: 425px) {
     .hide-on-mobile {
         display: flex;
@@ -164,4 +165,28 @@
 
 .accordion-collapse.show {
     height: auto;
+}
+
+#messages-container {
+    overflow-y: auto; 
+    height: 63vh; 
+}
+
+#messages-container::-webkit-scrollbar {
+    width: 0px;  
+    height: 0px; 
+}
+
+#messages-container {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+
+.email-bg {
+    background-image: url('https://i.ibb.co/Jnfdf1q/emailer-bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center 300px;
+    padding: 0;
 }

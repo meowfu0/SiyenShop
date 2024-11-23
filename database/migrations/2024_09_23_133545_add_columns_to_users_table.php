@@ -19,7 +19,8 @@ class AddColumnsToUsersTable extends Migration
             $table->string('phone_number')->after('email')->nullable(); 
             $table->string('course_bloc')->after('phone_number')->nullable(); 
             $table->string('year')->after('course_bloc'); 
-            $table->unsignedBigInteger('course_id')->after('year'); 
+            $table->unsignedBigInteger('course_id')->after('year');
+            $table->string('profile_picture', 255)->nullable(); 
 
     
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
@@ -36,7 +37,7 @@ class AddColumnsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['course_id']); // Drop foreign key
             $table->dropColumn(['first_name', 'last_name', 'phone_number', 'course_bloc', 'year', 'course_id']); // Drop the columns
-            $table->timestamp('updated_at')->nullable(false)->change(); // Revert updated_at to NOT NULL if necessary
+            //$table->timestamp('updated_at')->nullable(false)->change(); // Revert updated_at to NOT NULL if necessary
         });
     }
 }
