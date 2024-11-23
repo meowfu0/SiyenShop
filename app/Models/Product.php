@@ -35,10 +35,25 @@ public function variants()
     return $this->hasMany(ProductVariant::class, 'product_id');
 }
 
-    // Define the relationship with Review
     public function reviews()
     {
         return $this->hasMany(Review::class, 'product_id');
+    }
+
+
+public function images()
+{
+    return $this->hasMany(Image::class);
+ }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 
 

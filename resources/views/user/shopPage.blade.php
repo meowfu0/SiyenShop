@@ -31,7 +31,13 @@
     <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 p-4">
         @foreach ($products as $product)
         <div class="block-7">
+
+        @if (!empty($product->product_image))
+            <img src="{{ asset('images/' . $product->product_image) }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+        @else
             <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+        @endif
+
             <div class="text-center p-4">
                 <div class="badge">{{$product->organization->shop_name}}</div>
                 <span class="excerpt d-block">{{$product->product_name}}</span>
@@ -45,18 +51,16 @@
                 <hr>
                 
                 <a href="{{ $product->category->category_name === 'T-Shirt' 
-            ? route('productDetailswithSize', ['id' => $product->id]) 
-            : route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span>
+                ? route('productDetails', ['id' => $product->id]) 
+                : route('productDetails', ['id' => $product->id]) }}" 
+                class="btn btn-primary d-block px-2 py-3"> View Details<span style="margin-left: 5px;">&#8599;</span>
                 </a>
+
             </div>
         </div>
-
         @endforeach
     </div>
 </div>
 
-    <script>
-
-    </script>
 
 @endsection

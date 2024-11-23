@@ -30,7 +30,8 @@ use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
-use App\Http\Controllers\ProductDetailswithSizeController;
+//use App\Http\Controllers\ProductDetailswithSizeController;
+use App\Http\Controllers\AddtoCartController;
 
 
 
@@ -47,16 +48,16 @@ Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.e
 
 // shopping module
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
-Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
-Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
+Route::get('/productDetails/{id}', [ProductDetailsController::class, 'productDetails'])->name('productDetails');
+//Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
 Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // cart and checkout routes
 Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
 Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
 Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
+
 // =================== end of cart and checkout module =======================
 // chat route
 Route::get('/chat', [UserChat::class, 'render'])->name('chat');
@@ -106,5 +107,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
+
+// Add product to cart
+
+Route::post('/cart/add', [AddtoCartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [AddtoCartController::class, 'view'])->name('cart.view');
+
+
+
 });
 

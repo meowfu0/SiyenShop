@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
 
 <div class="container-xl">
@@ -11,7 +12,11 @@
                     
                     <!-- Left Column for Image -->
                     <div class="col-md-5 d-flex align-items-start justify-content-center">
+                    @if (!empty($product->product_image))
+                        <img src="{{ asset('images/' . $product->product_image) }}" class="img-fluid" style="width: 400px !important; height: 100% !important; border-radius:5px">
+                    @else
                         <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 400px !important; height: 100% !important; border-radius:5px">
+                    @endif
                     </div>
                     <!-- Right Column for Details -->
                      
@@ -31,9 +36,31 @@
                             </div>
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
                             <div class="quantity mb-4" style="margin-top: 150px;">
-                                @if($product->status->status_name === 'onhand')
+                                @if($product->status->status_name === 'ONHAND')
                                         <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
                                 @endif
+
+                                  <!-- Size Variations -->
+                                @if ($product->category->category_name === 'T-Shirt')
+                                <div class="size-variation">
+                                    <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
+                                    <input type="hidden" id="selectedSize" name="selected_size" value="">
+                                    @if ($product->variants->count() > 0)
+                                        @foreach ($product->variants as $variant)
+                                            <button type="button"
+                                                class="btn btn-outline-primary fw-semibold size-button 
+                                                    {{ $variant->stock <= 0 ? 'disabled' : '' }}"
+                                                data-size="{{ $variant->size }}" data-bs-toggle="button"
+                                                aria-pressed="false" autocomplete="off">
+                                                {{ $variant->size }}
+                                            </button>
+                                        @endforeach
+                                    @else
+                                        <p>No size variants available.</p>
+                                    @endif
+                                </div>
+                            @endif
+
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button id="decrement" style="color: #092C4C">-</button>
@@ -44,19 +71,31 @@
                             <div class="d-flex justify-content-between align-items-center w-100" style="margin-top: 5rem;">
                                 <img src="{{ asset('images/chat.svg') }}" class="chat-icon"
                                     style="width:22px; height:22px">
-                                <!-- Add to Cart Button -->
-                                <button class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2" style="width:130px; height:48px"
-                                    data-toggle="modal" data-target="#exampleModalCenter">
-                                    <img src="{{ asset('images/cart.svg') }}" class="invert"
-                                        style="width:15px; height:15px"> Add to Cart
-                                </button>
+
+                               <!-- Add to Cart Button -->
+                               <form class="add-to-cart-form" action="{{ route('cart.add') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="productName" value="{{ $product->name }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="price" value="{{ $product->price }}">
+                            <input type="hidden" name="image_url" value="{{ $product->image_url }}">
+
+                            <button type="submit" 
+                                class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
+                                style="width:130px; height:48px">
+                                <img src="{{ asset('images/cart.svg') }}" class="invert" style="width:15px; height:15px"> 
+                                Add to Cart
+                            </button>
+                        </form>
+
+
                                 <!-- Buy Now Button -->
                                 <button class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
-                                    style="width:130px; height:48px; color:white" data-toggle="modal"
-                                    data-target="#exampleModalCenter">
-                                    <img src="{{ asset('images/cart.svg') }}" class="invert"
-                                        style="width: 15px; height:15px"> Buy Now
+                                    style="width:130px; height:48px; color:white"
+                                    onclick="window.location.href='/checkOutPage'">
+                                    <img src="{{ asset('images/cart.svg') }}" class="invert" style="width: 15px; height:15px"> Buy Now
                                 </button>
+
                             </div>
                         </div>
                     </div>
@@ -73,59 +112,66 @@
                             </h2>
 
                                 <!-- Review Section-->
-                            @foreach ($reviews as $review)
-                                <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px;">
-                                    <div class="p-2 mt-2">
-                                        <span class="round"><img src="{{ asset('images/user.svg') }}" alt="user" width="25"></span>
-                                    </div>
-                                    <div class="comment-text w-100">
-                                        <!-- Name and date -->
-                                        <p class="fs-4 mt-3 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}
-                                            <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date }}</span>
-                                        </p>
-                                        <div class="ratings-below" style="margin-top: -5px;">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <i class="fa fa-star{{ $i <= $review->ratings ? ' rating-color2' : '' }} mr-1"></i>
-                                            @endfor
-                                        </div>
-                                        <p class="mt-2">{{ $review->review_text }}</p>
-                                    </div>
+                                @foreach ($reviews as $review)
+                                <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px; padding: 10px;">
+                                <div class="p-2" style="margin-top: -2px;"> 
+                                <span class="round">
+                                    <img src="{{ asset('images/user.svg') }}" alt="user" width="25" style="margin-top: -3px;">
+                                </span>
+                            </div>
+                            <div class="comment-text w-100">
+                                <!-- Name and Date -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fs-5 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}</p>
+                                    <p class="fs-3 text-muted mb-1" style="margin-right: 5px;">{{ $review->review_date }}</p>
                                 </div>
-                            @endforeach
+                                
+                                <!-- Ratings -->
+                                <div class="ratings-below" style="margin-top: -5px;">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="fa fa-star{{ $i <= $review->ratings ? ' rating-color2' : '' }} mr-1"></i>
+                                    @endfor
+                                </div>
+                                
+                                <!-- Review Text -->
+                                <p class="mt-2">{{ $review->review_text }}</p>
+                            </div>
                         </div>
+                    @endforeach
                     </div>
                 </div>
             </div>
 
                 <!-- You may also like -->
                 <div class="row col-md-12 justify-content-center">
-                    <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
-                    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 gap-5 justify-content-center">
-                        @foreach ($relatedProducts as $relatedProduct)
+                <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
+                <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 gap-5 justify-content-center">
+                    @foreach ($relatedProducts as $relatedProduct)
                         <div class="block-7 pd">
+                    @if (!empty($relatedProduct->product_image))
+                        <img src="{{ asset('images/' . $relatedProduct->product_image) }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+                    @else
                         <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
-                            <div class="text-center p-4">
-                                <div class="badge">{{$relatedProduct->organization->shop_name}}</div>
-                                <span class="excerpt d-block">{{$relatedProduct->product_name}}</span>
-                                <span class="price"><span class="number">₱{{number_format($relatedProduct->retail_price, 2)}}</span></span>
-                                <div class="ratings d-flex align-items-center mt-0">
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star mr-1"></i>
-                                                <span class="solds">{{$relatedProduct->sales_count}} solds</span>          
-                                </div>
-                                <a href="{{route('productDetails', ['id' => $product->id])}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
-                            </div>
-                        </div>
-                        @endforeach
+                    @endif
+                <div class="text-center p-4">
+                    <div class="badge">{{ $relatedProduct->organization->shop_name }}</div>
+                    <span class="excerpt d-block">{{ $relatedProduct->product_name }}</span>
+                    <span class="price"><span class="number">₱{{ number_format($relatedProduct->retail_price, 2) }}</span></span>
+                    <div class="ratings d-flex align-items-center mt-0">
+                        <i class="fa fa-star rating-color mr-1"></i>
+                        <i class="fa fa-star rating-color mr-1"></i>
+                        <i class="fa fa-star rating-color mr-1"></i>
+                        <i class="fa fa-star rating-color mr-1"></i>
+                        <i class="fa fa-star mr-1"></i>
+                        <span class="solds">{{ $relatedProduct->sales_count }} solds</span>          
                     </div>
+                    <a href="{{ route('productDetails', ['id' => $relatedProduct->id]) }}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
                 </div>
             </div>
-        </div>
-    </div>               
+        @endforeach
+    </div>
 </div>
+
 <!-- Modal -->
 <div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -182,4 +228,5 @@
             decrementButton.disabled = true;
         }
     </script>
+
 @endsection
