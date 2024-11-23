@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Course::class, 'course_id'); 
     }
+
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'reviews_id');
+    }
 }
