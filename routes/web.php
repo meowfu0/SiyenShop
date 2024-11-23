@@ -141,3 +141,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/emailer', [EmailerController::class, 'index'])->name('emailer');
 });
 
+Route::get('/faqs', [FaqController::class, 'index'])->name('faqs.index');

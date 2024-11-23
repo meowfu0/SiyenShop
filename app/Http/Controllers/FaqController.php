@@ -10,15 +10,19 @@ use Illuminate\Support\Facades\Log;
 
 class FaqController extends Controller
 {
-    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-
+        // Fetch FAQs with status_id 1 or any condition you need
+        $faqs = Faq::where('status_id', 1)->get();
+    
+        // Pass $faqs to the view
+        return view('customer_support.faqs', compact('faqs'));
     }
 
     /**
