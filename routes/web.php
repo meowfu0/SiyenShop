@@ -28,11 +28,11 @@ use App\Http\Livewire\Admin\Updateshop;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
-use App\Http\Controllers\shopPageController; // Use PascalCase
+use App\Http\Controllers\shopPageController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductVariantController;
 
 Auth::routes();
 
@@ -69,8 +69,6 @@ Route::get('/faqs', function () {
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
-
-
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
 Route::get('/shop', function () {
@@ -83,11 +81,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
-    Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
+    Route::get('/products/edit', ShopProductsEdit::class)->name('shop.products.edit');
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
-
 });
-
 
 // admin routes
 Route::get('/admin', function () {
@@ -108,3 +104,17 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+// Products Routes
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+Route::get('/products/history', [ProductController::class, 'history'])->name('products.history');
+
+// Product Variant Routes
+Route::get('/product-variants', [ProductVariantController::class, 'index'])->name('product-variants.index');
+Route::get('/product-variants/create', [ProductVariantController::class, 'create'])->name('product-variants.create');
+Route::post('/product-variants', [ProductVariantController::class, 'store'])->name('product-variants.store');
+Route::get('/product-variants/{productVariant}', [ProductVariantController::class, 'show'])->name('product-variants.show');
+Route::get('/product-variants/{productVariant}/edit', [ProductVariantController::class, 'edit'])->name('product-variants.edit');
+Route::put('/product-variants/{productVariant}', [ProductVariantController::class, 'update'])->name('product-variants.update');
+Route::delete('/product-variants/{productVariant}', [ProductVariantController::class, 'destroy'])->name('product-variants.destroy');

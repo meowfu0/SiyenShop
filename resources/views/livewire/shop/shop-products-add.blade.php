@@ -3,7 +3,6 @@
 @section('content')
 <head>
     <link rel="stylesheet" href="{{ asset('css/toggleswitch.css') }}">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
@@ -29,6 +28,12 @@
         <h2 class="fw-bold m-0 text-primary">Add Product</h2>
     </div>
 
+    @if (session()->has('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <form wire:submit.prevent="submit">
+
     <div class="d-flex px-5 py-4 flex-grow-1">
         <div class="container">
             <div class="row">
@@ -36,12 +41,14 @@
                 <div class="col-md-6 d-flex flex-column gap-3">
                     <div class="form-group mb-1">
                         <label for="product_name" class="fw-bold text-primary">Product Name</label>
-                        <input type="text" id="product_name" class="form-control" placeholder="Input product name" required>
+                        <input type="text" id="product_name" class="form-control" placeholder="Input product name" wire:model="product_name">
+                        @error('product_name') <span class="text-red-500">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group mb-1">
                         <label for="product_description" class="fw-bold text-primary">Product Description</label>
-                        <textarea id="product_description" class="form-control" rows="4" placeholder="Input product description"></textarea>
+                        <textarea id="product_description" class="form-control" rows="4" placeholder="Input product description" wire:model="product_decription"></textarea>
+                        @error('product_decription') <span class="text-red-500">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group mb-3">
@@ -50,7 +57,7 @@
                         <!-- Drag and Drop Zone -->
                         <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
                             <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                            <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*">
+                            <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*" wire:model="product_image">
                             <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
                         </div>
                     </div>
@@ -71,34 +78,31 @@
                         <label for="category" class="fw-bold text-primary">Category</label>
                         <div class="dropdown">
                             <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Category
+                                @if($category_id)
+                                    {{ $categories->firstWhere('id', $category_id)->category_name }}
+                                @else
+                                    Select Category
+                                @endif
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('T-Shirt')">
-                                    <span>T-Shirt</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn p-0" onclick="openEditModal('T-Shirt'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button class="btn p-0" onclick="deleteCategory('T-Shirt'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('Lanyard')">
-                                    <span>Lanyard</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn p-0" onclick="openEditModal('Lanyard'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button class="btn p-0" onclick="deleteCategory('Lanyard'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
+                                @foreach ($categories as $category)
+                                    <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('{{ $category->id }}')">
+                                        <span>{{ $category->category_name }}</span>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn p-0" onclick="openEditModal('{{ $category->id }}', '{{ $category->category_name }}'); event.stopPropagation();">
+                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                            </button>
+                                            <button type="button" class="btn p-0" onclick="deleteCategory('{{ $category->id }}'); event.stopPropagation();">
+                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                            </button>
+                                        </div>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
+                        @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+
                     
 
                     <!-- Category Modal -->
@@ -142,21 +146,24 @@
                         <div class="row g-2"> 
                             <div class="col-md-6 mb-1"> 
                                 <label for="status_id" class="fw-bold text-primary">Status</label>
-                                <select id="status_id" class="form-select form-control" onchange="toggleQuantity()" required>
-                                    <option value="" hidden selected>Select Status</option>
-                                    <option value="on-hand">On-Hand</option>
-                                    <option value="pre-order">Pre-Order</option>
-                                </select>
+                                <select id="status_id" class="form-select form-control" onchange="toggleQuantity()"  wire:model="status_id">
+                                    <option value="">Select Status</option>
+                                        <option value="preorder" {{ old('status_id') == 'preorder' ? 'selected' : '' }}>Preorder</option>
+                                        <option value="onhand" {{ old('status_id') == 'onhand' ? 'selected' : '' }}>Onhand</option>
+                                    </select>
+                                @error('status_id') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="col-md-6 mb-1"> 
                                 <div class="form-group">
                                     <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                    <select id="visibility" class="form-select form-control" onchange="visibility()">
-                                        <option value="" hidden selected>Select Visibility</option>
-                                        <option value="visible">Visible</option>
-                                        <option value="hidden">Hidden</option>
+                                    <select id="visibility" class="form-select form-control" wire:model="visibility_id">
+                                        <option value="">Select Visibility</option>
+                                        <option value="visible" {{ old('visibility_id') == 'visible' ? 'selected' : '' }}>Visible</option>
+                                        <option value="hidden" {{ old('visibility_id') == 'hidden' ? 'selected' : '' }}>Hidden</option>
                                     </select>
+                                    @error('visibility_id') <span class="text-red-500">{{ $message }}</span> @enderror
+
                                 </div>
                             </div>
                         </div>
@@ -219,14 +226,16 @@
                             <div class="col-md-6 mt-3 mb-1"> 
                                 <div class="form-group">
                                     <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price"  type="text" id="form2" class="form-control" required>
+                                    <input id="supplier_price"  type="text" id="form2" class="form-control" wire:model="supplier_price">
+                                    @error('supplier_price') <span class="text-red-500">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
                                     <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price"  type="text" id="form2" class="form-control" required>
+                                    <input id="price"  type="text" id="form2" class="form-control" wire:model="retail_price">
+                                    @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
@@ -249,9 +258,14 @@
                 <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
-            
+            @if (session()->has('message'))
+                <div class="mt-4 text-green-500">
+                    {{ session('message') }}
+                </div>
+            @endif
         </div>
     </div>
+    </form>
 </div>
 
 
@@ -264,17 +278,17 @@
         const quantityTitle2 = document.getElementById('quantity_1');
         const variationToggle = document.getElementById('variationToggle');
 
-        if (statusSelect.value === 'pre-order' || variationToggle.checked) { //Hides the quantity field
+        if (statusSelect.value === 'preorder' || variationToggle.checked) { //Hides the quantity field
             quantityInput.style.display = 'none';
             quantityTitle.style.display = 'none';
             
             //Hide the quantity in the hidden fields
-            if (statusSelect.value === 'pre-order') {
+            if (statusSelect.value === 'preorder') {
                 quantityTitle2.style.visibility = 'hidden'; 
             } else {
                 quantityTitle2.style.visibility = 'visible'; 
             }
-        } else if (statusSelect.value === 'on-hand' && !variationToggle.checked){ //Shows the quantity field
+        } else if (statusSelect.value === 'onhand' && !variationToggle.checked){ //Shows the quantity field
             quantityInput.style.display = 'block';
             quantityTitle.style.display = 'block';
         }
@@ -371,7 +385,7 @@
 
     // Function to update the quantity cell based on status
     function updateQuantityCell(cell, rowCount) {
-        if (document.getElementById('status_id').value === 'pre-order') {
+        if (document.getElementById('status_id').value === 'preorder') {
             cell.innerHTML = ''; // Clear the cell for quantity if pre-order
         } else {
             cell.innerHTML = `

@@ -7,79 +7,35 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    public function destroy($id)
+{
+    // Attempt to find the product by its ID
+    $product = Product::find($id);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    if ($product) {
+        // Soft delete the product
+        $product->delete();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // Optionally, you can move the product to a history table
+        // Assuming you have a ShopProductHistory model and table
+        // ShopProductHistory::create($product->toArray());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
+        return response()->json(['message' => 'Product deleted successfully.'], 200);
+    } else {
+        // Handle the case where the product does not exist
+        return response()->json(['message' => 'Product not found!'], 404);
     }
+}   
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
+    public function restore($id)
     {
-        //
-    }
+        $product = Product::withTrashed()->find($id);
+        
+        if ($product) {
+            $product->restore(); // This sets the deleted_at column back to NULL
+            return response()->json(['message' => 'Product restored successfully.']);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
-    {
-        //
+        return response()->json(['message' => 'Product not found.'], 404);
     }
 }
