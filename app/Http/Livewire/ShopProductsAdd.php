@@ -10,7 +10,7 @@ class ShopProductsAdd extends Component
 {
     use WithFileUploads;
 
-    public $category_id;
+    public $category_id = null; // Initialize category_id
     public $shop_id;
     public $status_id;
     public $visibility_id;
@@ -36,8 +36,9 @@ class ShopProductsAdd extends Component
         'stocks' => 'required|integer',
     ];
 
-    public function submit()
+    public function create()
     {
+        dd('test');
         $this->validate();
 
         // Handle image upload
@@ -72,6 +73,7 @@ class ShopProductsAdd extends Component
         $categories = DB::table('categories')->get();
 
         return view('livewire.shop.shop-products-add', [
+            'products' => $this->products,
             'categories' => $categories, // Pass categories to the view
         ]);
     }

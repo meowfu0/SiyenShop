@@ -1,6 +1,7 @@
 @extends('layouts.shop')
 
 @section('content')
+
 <div class="flex-grow-1" style="width: 100%!important;">
     @include('components.profilenav')
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
@@ -108,6 +109,7 @@
                     <th scope="col" class="sortable" data-sort="id">ID <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="thumbnail">Thumbnail</th>
                     <th scope="col" class="sortable" data-sort="name">Name <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="name">Description <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="price">Price <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="supplier-price">Supplier Price <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="category">Category <i class="fas fa-sort"></i></th>
@@ -130,6 +132,7 @@
                         <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
                     </td>
                     <td>{{ $product->product_name }}</td>
+                    <td>{{ $product->product_decription }}</td>
                     <td>{{ number_format($product->retail_price, 2) }}</td>
                     <td>{{ number_format($product->supplier_price, 2) }}</td>
                     <td class="product-category" data-category-id="{{ $product->category_id }}">{{ $product->category_name }}</td> <!-- Access category_name directly -->
@@ -148,7 +151,7 @@
                                     <a class="dropdown-item" href="{{ route('shop.products.edit', ['product' => $product->id]) }}">Edit</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal" data-product-id="{{ $product->id }}">Delete</a>
+                                <a class="dropdown-item" href="#" wire:click.prevent="confirmDelete({{ $product->id }})" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</a>
                                 </li>
                             </ul>
                         </div>
@@ -165,53 +168,28 @@
 
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+
+<div wire:ignore.self class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+
             <div class="modal-body">
                 Are you sure you want to delete this product?
             </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmDelete'product' => $product->id]   ">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" wire:click="deleteProduct" class="btn btn-danger" data-dismiss="modal">Delete</button>
             </div>
         </div>
     </div>
 </div>
-
-
-<script>
-    let productIdToDelete;
-
-    // Function to set the product ID when the delete link is clicked
-    function setProductId(productId) {
-        productIdToDelete = productId; // Store the product ID
-    }
-
-    document.getElementById('confirmDelete').addEventListener('click', function() {
-        deleteProduct(productIdToDelete); // Call the delete function
-    });
-
-    function deleteProduct(productId) {
-        $.ajax({
-            url: '/products/' + productId, // Ensure this URL is correct
-            type: 'DELETE',
-            success: function(response) {
-                alert(response.message); // Show success message
-                location.reload(); // Reload the page
-            },
-            error: function(xhr) {
-                alert('Error: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'An unexpected error occurred.'));
-            }
-        });
-    }
-</script>
-
-
 
 <script>
     const selectAllCheckbox = document.getElementById('select-all');
@@ -273,7 +251,7 @@
                 cells.forEach(cell => {
                     const cellText = cell.textContent.toLowerCase(); // Get the text content of the cell
                     if (cellText.includes(searchTerm)) {
-                        rowContainsSearchTerm = true; // Set the flag to true if the cell matches
+ rowContainsSearchTerm = true; // Set the flag to true if the cell matches
                     }
                 });
 
