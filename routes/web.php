@@ -90,6 +90,7 @@ Route::prefix('shop')->group(function () {
     Route::get('/export-csv', [ProductExportController::class, 'exportCSV'])->name('export.csv');
     Route::get('/export-xlsx', [ProductExportController::class, 'exportXLSX'])->name('export.xlsx');
     Route::get('/export-pdf', [ProductExportController::class, 'exportPDF'])->name('export.pdf');
+    Route::get('/print-products', [ProductExportController::class, 'printProducts'])->name('print.products');
 });
 
 

@@ -61,7 +61,9 @@
         <div class="d-flex align-items-center gap-1">
             <!-- Print Icon -->
             <div>
-                <img src="{{ asset('images/print.svg') }}" alt="Print" class="img-thumbnail" style="width: 35px; height: 35px;">
+                <a href="{{ route('print.products') }}" target="_blank">
+                    <img src="{{ asset('images/print.svg') }}" alt="Print" class="img-thumbnail" style="width: 35px; height: 35px;">
+                </a>
             </div>
 
             <!-- Export Dropdown -->
