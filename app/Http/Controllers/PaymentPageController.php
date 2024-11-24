@@ -173,6 +173,8 @@ class PaymentPageController extends Controller
         $total_items1 = 0;
         $total_items2 = 0;
         $overall_total_items = 0;
+        $total_amounts = 0.0;
+
 
 
         foreach ($shopName as $s) {
