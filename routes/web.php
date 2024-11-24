@@ -62,7 +62,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 //=================== cart and checkout routes================================
-Route::get('/cartPage', [CartPageController::class, 'index'])->name('cartPage');
+//THE ID MUST BE FROM THE BUY NOW BUTTON
+Route::get('/cartPage/{id?}', [CartPageController::class, 'index'])->name('cartPage');
+
 Route::delete('/cart/remove/{id}', [CartPageController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
 // Route to update the size of a cart item

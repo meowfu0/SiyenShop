@@ -29,16 +29,16 @@
             @php
             $amount_to_pay = $total->total_amount;
             @endphp
-            
+
             @endforeach
 
 
-            \
+
             <!------- Sample data ------->
             <div class="container mt-2">
                 <div class="card border border-primary p-3">
                     <div class="card-body">
-                        <form action="{{ route('payment', ['id' => base64_encode(implode(',', $productIds))]) }}" method="POST" enctype="multipart/form-data ">
+                        <form action="{{ route('payment', ['id' => base64_encode(implode(',', $productIds))]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-2">
                                 <label for="paymentMode" class="form-label fs-4">

@@ -84,18 +84,14 @@ class PaymentPageController extends Controller
 
         $gcashNumber = $request->input('gcash_number');
         $referenceNumber = $request->input('reference_number');
-        // Check if the 'proof_of_payment' file is uploaded
+
         if ($request->hasFile('proof_of_payment')) {
-            // Get the uploaded file
             $proofOfPayment = $request->file('proof_of_payment');
 
+            $fileName = $proofOfPayment->store('GcashReceipt', 'public');
 
-            //auto generate random value for file name
-            // $proofOfPaymentPath = $proofOfPayment->store('proofs', 'public'); // stores in storage/app/public/proofs
-            // Store the file and get the file path
-            $proofOfPaymentPath = $proofOfPayment->storeAs('', $proofOfPayment->getClientOriginalName(), 'public');
+            $proofOfPaymentPath = basename($fileName);
         } else {
-            //  if no file uploaded
             $proofOfPaymentPath = 'default_payment.jpg';
         }
 
@@ -207,14 +203,14 @@ class PaymentPageController extends Controller
         $orderId = DB::table('orders')->insertGetId([
 
             'user_id' => $userId,
-            'shop_id' => $shop_id, // Assuming the shop ID is 1
+            'shop_id' => $shop_id, 
             'total_amount' => $total_amount,
             'order_status_id' => 7,
-            'supplier_price_total_amount' => $overall_total_supplier_amount, // Assuming the supplier price total amount is 90
-            'total_items' => $overall_total_items, // Assuming there are 2 items in the order
+            'supplier_price_total_amount' => $overall_total_supplier_amount,
+            'total_items' => $overall_total_items, 
             'reference_number' => $referenceNumber,
             'proof_of_payment' => $proofOfPaymentPath,
-            'order_date' => \Carbon\Carbon::now('Asia/Manila'), // Correct timezone
+            'order_date' => \Carbon\Carbon::now('Asia/Manila'), 
 
 
         ]);
@@ -222,7 +218,6 @@ class PaymentPageController extends Controller
 
 
         // Update stocks for all products
-
         $processedProducts = [];
         // Process ShirtItems
         foreach ($ShirtItems as $item) {
@@ -265,8 +260,8 @@ class PaymentPageController extends Controller
 
             // Update the stock value in the database
             DB::table('products')
-            ->where('id', '=', $productId)
-            ->update(['stocks' => $newStock]);
+                ->where('id', '=', $productId)
+                ->update(['stocks' => $newStock]);
         }
 
 
@@ -283,7 +278,8 @@ class PaymentPageController extends Controller
                 'v.stock as current_stock' // Current stock in product_variants
             )
             ->where('i.cart_id', '=', $userId)
-            ->where('cat.id',
+            ->where(
+                'cat.id',
                 '=',
                 4
             )
@@ -304,27 +300,28 @@ class PaymentPageController extends Controller
             $newStock = $currentStock - $totalQuantity;
 
             // Ensure stock doesn't go negative
-            if ($newStock < 0
-            ) {
-                $newStock = 0; // Or handle it as an error
+            if ( $newStock < 0 ) {
+                $newStock = 0; 
             }
 
             // Update the stock in the product_variants table
             DB::table('product_variants')
-            ->where('id', $sizeId)
-            ->update(['stock' => $newStock]);
+                ->where('id', $sizeId)
+                ->update(['stock' => $newStock]);
         }
+
 
 
         // Fetch the total amount to be deducted from GCash
         $reducegcash = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.id', '=', 'i.cart_id') // Fixed join: carts.id to cart_items.cart_id
+            ->join('cart_items as i', 'c.id', '=', 'i.cart_id') 
             ->join('products as p', 'i.product_id', '=', 'p.id')
             ->join('shops as s', 'p.shop_id', '=', 's.id')
             ->join('g_cash_infos as g', 's.id', '=', 'g.shop_id')
             ->select('c.total_amount', 'g.id as gcash_id', 'g.gcash_limit')
-            ->where('c.user_id', '=', $userId) // Ensure correct linkage to the user
+            ->where('g.id', '=', $gcashNumber)
+            ->where('c.user_id', '=', $userId) 
             ->where('p.shop_id', '=', function ($query) use ($userId) {
                 // Subquery to get the shop_id of the first product in the cart
                 $query->select('shop_id')
@@ -347,12 +344,6 @@ class PaymentPageController extends Controller
                 ->where('id', $data->gcash_id)
                 ->update(['gcash_limit' => $newLimit]);
         }
-
-
-
-
-
-
 
 
         // Assuming $productIds is an array of product IDs

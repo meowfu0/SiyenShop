@@ -43,7 +43,6 @@
                         $total_items += $item->quantity;
                         @endphp
 
-                        
                         <tr>
                             <td>{{ $item->product_name }}</td>
                             <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
@@ -61,7 +60,7 @@
                                 {{ $item->size }}
                                 @endif
                                 @else
-                                    None
+                                None
                                 @endif
                             </td>
                             <td>x{{ $item->quantity }}</td>

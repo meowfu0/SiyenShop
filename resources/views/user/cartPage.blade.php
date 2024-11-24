@@ -29,10 +29,26 @@
 
             <!-- LOOP FOR All Items -->
             @foreach($AllItems as $item)
+
+
+            <!-- Check if item is checked from buy now -->
+            <!--------optional code sample-------->
+            <!-----ID IS FROM BUY NOW PAGE (PRODUCT)------>
+            @if($id == $item->id)
+            @php
+            $Checked = 'Checked';
+            @endphp
+            @else
+            @php
+            $Checked = '';
+            @endphp
+            @endif
+
             <div class="card-body d-flex justify-content-between border border-2 rounded-3 border-grey p-2 mb-2" id="main-card">
                 <div class="d-flex flex-row align-items-center">
-                    <div class="p-4 d-flex align-items-left" id="form-check">
-                        <input type="checkbox" class="form-check-input border border-primary checkboxs" onclick="AddCheckedProducts()" id="{{ $item->id }}" value="{{ number_format($item->retail_price, 2) }}">
+                    <div class="p-4 d-flex align-items-left" id="form-check"> <!---Depends on the condition it will display checked---->
+                        <input type="checkbox" class="form-check-input border border-primary checkboxs"
+                            onclick="AddCheckedProducts()" id="{{ $item->id }}" value="{{ number_format($item->retail_price, 2) }}" {{ $Checked }}>
                     </div>
                     <div>
                         <img src="{{ asset('images/' . $item->product_image) }}" class="img-fluid rounded-2 img-items">
@@ -122,7 +138,14 @@
                 <div class="container px-5 pt-1 pb-3 bg-white shadow-sm  rounded-2" id="fixed-bottom-div1">
                     <div class="col-12 mt-2">
                         <div class="align-items-center" id="fixed-bottom-div4">
+
+                            @if($ShirtItems->isEmpty() && $OtherItems->isEmpty())
+
+                            <input type="checkbox"  class="form-check-input border border-primary ">
+                            @else
                             <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)" class="form-check-input border border-primary checkbox-all">
+
+                            @endif
                             <label class="fs-3 fw-bold mb-0 ms-1 text-primary">Select All (<span id="selectAll-count" class="fs-3">{{ $ShirtItems->count() + $OtherItems->count() }}</span>)</label>
                         </div>
                     </div>
@@ -148,6 +171,8 @@
                                 Proceed To Checkout
                                 <img src="{{ asset('images/cart3.svg') }}" class="mb-1">
                             </a>
+
+
 
                             @else
                             <a href="#" data-bs-toggle="modal" data-bs-target="#ModalProceed" class="btn btn-primary btn-md  " id="button-size">

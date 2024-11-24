@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\Item;
+
 
 
 class CartPageController extends Controller
 {
-    public function index()
+
+    public function index($encodedId = null)
     {
+
+        $id = base64_decode($encodedId);
         $userId = Auth::user()->id;
 
 
@@ -30,9 +33,9 @@ class CartPageController extends Controller
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
                     ->where('ci.cart_id', '=', $userId)
-                  ->limit(1); // Limit to just the first match
+                    ->limit(1); // Limit to just the first match
             })
-           // ->distinct() // To ensure no duplicate rows
+            // ->distinct() // To ensure no duplicate rows
             ->get();
 
         // --- OTHER ITEMS ---
@@ -74,8 +77,8 @@ class CartPageController extends Controller
             ->get();
 
 
-        // Return view with all the queries 
-        return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes'));
+        // Return view with all the queries                                       optional id
+        return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes', 'id'));
     }
 
 
