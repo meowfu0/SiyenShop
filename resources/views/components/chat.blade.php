@@ -84,6 +84,7 @@
             </div>
     </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
     Pusher.logToConsole = true;
