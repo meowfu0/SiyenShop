@@ -150,7 +150,7 @@
 
                 </div>
                 <div class="modal-body d-flex justify-content-center p-0">
-                    <img src="{{ asset('storage/GcashReceipt/' . $item->proof_of_payment) }}" alt="Proof of Payment" class="img-fluid w-75">
+                    <img src="{{ asset('storage/GcashReceipts/' . $item->proof_of_payment) }}" alt="Proof of Payment" class="img-fluid w-75">
                 </div>
             </div>
         </div>

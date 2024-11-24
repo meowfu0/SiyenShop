@@ -88,7 +88,7 @@ class PaymentPageController extends Controller
         if ($request->hasFile('proof_of_payment')) {
             $proofOfPayment = $request->file('proof_of_payment');
 
-            $fileName = $proofOfPayment->store('GcashReceipt', 'public');
+            $fileName = $proofOfPayment->store('GcashReceipts', 'public');
 
             $proofOfPaymentPath = basename($fileName);
         } else {
