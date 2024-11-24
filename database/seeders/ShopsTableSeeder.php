@@ -15,36 +15,17 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-        $shops = [
-            [
-                'shop_name' => 'Circuits',
-                'shop_description' => 'A store focused on electronics and circuitry components.',
-                'shop_logo' => 'circuits_logo.png',
-                'user_id' => 1, // Assume the user ID exists in the users table
-                'status_id' => 1, // Assume 1 corresponds to 'active' status in statuses
-                'course_id' => 1, // Assume 1 corresponds to BSIT in courses
-                'created_at' => Carbon::now(),
-            ],
-            [
-                'shop_name' => 'Access',
-                'shop_description' => 'An online store providing accessories and peripherals.',
-                'shop_logo' => 'access_logo.png',
-                'user_id' => 2, // Assume this user ID exists
-                'status_id' => 1, // Active status
-                'course_id' => 2, // Corresponding course ID
-                'created_at' => Carbon::now(),
-            ],
-            [
-                'shop_name' => 'CSC',
-                'shop_description' => 'Central Supplies Center for all student needs.',
-                'shop_logo' => 'csc_logo.png',
-                'user_id' => 3, // Assume this user ID exists
-                'status_id' => 1, // Active status
-                'course_id' => 3, // Corresponding course ID
-                'created_at' => Carbon::now(),
-            ],
+        // New Shop insert
+        $newShop = [
+            'shop_name' => 'Meteorology',
+            'shop_description' => 'A specialized shop for meteorology students, providing weather instruments, charts, and resources for atmospheric science studies.',
+            'shop_logo' => 'meteorology_logo.png',
+            'user_id' => 5,
+            'status_id' => 1,
+            'course_id' => 4,
+            'created_at' => Carbon::now(),
         ];
 
-        DB::table('shops')->insert($shops);
+        DB::table('shops')->insert($newShop);
     }
 }
