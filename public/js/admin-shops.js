@@ -148,3 +148,148 @@ document.addEventListener('click', function(event) {
         }
     }
 });
+
+
+
+////////CREATE SHOP AND UPDATE SHOP/////////
+
+
+    // Get references to input fields
+    const shopNameInput = document.getElementById('shopName');
+    const shopEmailInput = document.getElementById('shopEmail');
+    const courseInput = document.getElementById('course');
+    const managerInput = document.getElementById('managerName1');
+    const managerInput2 = document.getElementById('managerName2');
+    const managerRow2 = document.getElementById('managerRow2');
+    const dropdown2 = document.getElementById('managerName2');
+    const trashButton2 = document.getElementById('trash-btn2');
+
+    // Reference to the dropdown and trash button
+const dropdown1 = document.getElementById('managerName1');
+    const trashButton1 = document.getElementById('trash-btn1');
+
+    
+    
+
+    // Get references to display elements
+    const displayShopName = document.getElementById('displayShopName');
+    const displayCourse = document.getElementById('displayCourse');
+    const displayShopEmail = document.getElementById('displayShopEmail');
+    const displayManager = document.getElementById('displayManager');
+    const displayManager2 = document.getElementById('displayManager2');
+
+
+    function cancel(){
+        
+        window.location.href = "{{ route('admin.shops') }}";
+    
+    }
+
+    function shops(){
+        //create function tbf
+        window.location.href = "{{ route('admin.shops') }}";
+    }
+;
+    
+    
+
+    // Update display elements when input fields change
+    shopNameInput.addEventListener('input', () => {
+        displayShopName.textContent = shopNameInput.value;
+    });
+
+    shopEmailInput.addEventListener('input', () => {
+        displayShopEmail.textContent = shopEmailInput.value;
+    });
+
+
+    managerInput.addEventListener('change', () => {
+        const selectedOptionText = managerInput.options[managerInput.selectedIndex].text;
+
+        displayManager.textContent = selectedOptionText;
+       
+    });
+
+    managerInput2.addEventListener('change', () => {
+        const selectedOptionText = managerInput2.options[managerInput2.selectedIndex].text;
+        displayManager2.textContent = selectedOptionText;
+       
+    });
+
+    
+        
+
+
+
+    courseInput.addEventListener('change', () => {
+    // Get the text of the selected option
+    const selectedOptionText = courseInput.options[courseInput.selectedIndex].text;
+
+
+    // Update the display element
+    displayCourse.textContent = selectedOptionText !== 'Choose...' ? selectedOptionText : 'Course';
+});
+
+
+
+
+//add button
+
+function addManager(event) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    // Get the elements for managerRow2 and managerRow3
+    const managerRow2 = document.getElementById('managerRow2');
+    const displayManager2 = document.getElementById('displayManager2');
+
+    // Show the elements
+    if (managerRow2) {
+        managerRow2.style.display = 'flex'; // Or 'block'
+    }
+
+    if (displayManager2) {
+        displayManager2.style.display = 'flex'; // Or 'block'
+    }
+
+
+   
+}
+
+
+
+
+
+    // Reset dropdown to default when delete button is clicked
+    trashButton1.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent any default behavior
+        dropdown1.selectedIndex = 0; // Reset dropdown to the first option
+        // Display the newly selected option (default option)
+
+    const selectedText = dropdown1.options[dropdown1.selectedIndex].text; // Get the text of the selected option
+    displayManager.textContent = selectedText; 
+    });
+
+
+
+
+
+
+
+// Hide managerRow2 when the delete button is clicked
+trashButton2.addEventListener('click', function () {
+
+    event.preventDefault();
+        managerRow2.style.display = 'none'; // Hide the row
+        dropdown2.selectedIndex = 0;
+       const selectedText = dropdown2.options[dropdown2.selectedIndex].text; // Get the text of the selected option
+    displayManager2.textContent = selectedText; 
+    displayManager2.style.display = 'none';
+    });
+
+
+
+
+
+///////// END /////////////
+

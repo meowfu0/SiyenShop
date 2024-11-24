@@ -153,22 +153,56 @@ else {
 });
 
         // Edit/Deactivate Button functionality
-        const editBtn = document.getElementById('editBtn');
-        const deactivateBtn = document.getElementById('deactivateBtn');
-        let isEditing = false;
+const editBtn = document.getElementById('editBtn');
+const deactivateBtn = document.getElementById('deactivateBtn');
+const modalRole = document.getElementById('modalRole'); // Dropdown
+let isEditing = false;
+let savedRoleValue = modalRole.value; // Store initial dropdown value
 
-        editBtn?.addEventListener('click', function() {
-            if (!isEditing) {
-                editBtn.innerText = 'Save Changes';
-                deactivateBtn.innerText = 'Cancel';
-                isEditing = true;
-            } 
-            else {
-                // Handle saving changes
-                alert('Changes saved!');
-                resetButtons();
-            }
-        });
+// Initially disable the dropdown
+modalRole.disabled = true;
+
+// Edit button functionality
+editBtn?.addEventListener('click', function() {
+    if (!isEditing) {
+        // Switch to editing mode
+        editBtn.innerText = 'Save Changes';
+        deactivateBtn.innerText = 'Cancel';
+        isEditing = true;
+
+        // Enable the dropdown for editing
+        modalRole.disabled = false;
+    } else {
+        // Handle saving changes
+        savedRoleValue = modalRole.value; // Save the selected value
+        alert('Changes saved!');
+
+        // After saving, disable the dropdown and reset button states
+        modalRole.disabled = true;
+        resetButtons();
+    }
+});
+
+// Deactivate (Cancel) button functionality
+deactivateBtn?.addEventListener('click', function() {
+    if (isEditing) {
+        // If editing, reset to the saved value (in case of cancel)
+        modalRole.value = savedRoleValue;
+        alert('Changes canceled!');
+
+        // After cancel, disable the dropdown and reset button states
+        modalRole.disabled = true;
+        resetButtons();
+    }
+});
+
+// Function to reset the buttons after save or cancel
+function resetButtons() {
+    editBtn.innerText = 'Edit Account';
+    deactivateBtn.innerText = 'Deactivate Account';
+    isEditing = false;
+}
+
 
         deactivateBtn?.addEventListener('click', function() {
             if (isEditing) {
@@ -226,4 +260,4 @@ else {
             }, 300);
         }
     
-    
+ 
