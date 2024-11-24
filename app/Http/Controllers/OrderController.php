@@ -83,6 +83,28 @@ class OrderController extends Controller
     {
         //
     }
-    
+    public function changeStatus(Request $request, $id)
+{
+    // Validate the input to ensure 'status' is provided and is an integer
+    $request->validate([
+        'status' => 'required|integer',
+    ]);
+
+    // Retrieve the order by its ID
+    $order = Order::find($id);
+
+    // If the order does not exist, return an error response
+    if (!$order) {
+        return response()->json(['message' => 'Order not found'], 404);
+    }
+
+    // Update the order's status in the database
+    $order->order_status_id = $request->status;
+    $order->save();
+
+    // Return a success message
+    return response()->json(['message' => 'Order status updated successfully']);
+}
+
 
 }

@@ -7,11 +7,11 @@
     </div>
 
     <div class="buttons">
-    <button id="pend" onclick="filterOrders(7)">Pending</button>
-    <button id="prec" onclick="filterOrders(10)">Received Payment</button>
-    <button id="fpick" onclick="filterOrders(11)">For Pickup</button>
-    <button id="ocomp" onclick="filterOrders(12)">Completed Orders</button>
-    <button id="den" onclick="filterOrders(6)">Denied Payments</button>
+        <button id="pend" onclick="filterOrders(7)">Pending</button>
+        <button id="prec" onclick="filterOrders(10)">Received Payment</button>
+        <button id="fpick" onclick="filterOrders(11)">For Pickup</button>
+        <button id="ocomp" onclick="filterOrders(12)">Completed Orders</button>
+        <button id="den" onclick="filterOrders(6)">Denied Payments</button>
     <div id="innerLine"></div>
 </div>
 
@@ -21,153 +21,117 @@
 
         <!-- Orders Table -->
         <table id="ordersTable">
-            @foreach ($orders as $order)
-                <tr class="order-row" data-status="{{ $order->order_status_id }}">
-                    <td class="order-cell">
-                        <!-- Header content -->
-                        <div class="other-content-high">
-                            <button class="shopName">{{ $order->shop ? $order->shop->shop_name : 'Unknown Shop' }}</button>
-                            <button class="status-box" style="
-                                @if($order->order_status_id == 6)
-                                    border-color: #eb5757; color: #eb5757;
-                                @elseif($order->order_status_id == 12)
-                                    border-color: green; color: green;
-                                @else
-                                    border-color: #ffc107; color: #ffc107;
-                                @endif
-                            ">
-                                {{ 
-                                    $order->order_status_id == 7 ? 'Pending' : 
-                                    ($order->order_status_id == 10 ? 'Payment Received' : 
-                                    ($order->order_status_id == 11 ? 'Ready for Pickup' : 
-                                    ($order->order_status_id == 12 ? 'Completed' : ' Denied'))) 
-                                }}
-                            </button>
+    @foreach ($orders as $order)
+        <tr class="order-row" data-status="{{ $order->order_status_id }}">
+            <td class="order-cell">
+                <!-- Header Content -->
+                <div class="other-content-high">
+                    <button class="shopName">{{ $order->shop ? $order->shop->shop_name : 'Unknown Shop' }}</button>
+                    <button class="status-box" style="
+                        @if($order->order_status_id == 6)
+                            border-color: #eb5757; color: #eb5757;
+                        @elseif($order->order_status_id == 12)
+                            border-color: green; color: green;
+                        @else
+                            border-color: #ffc107; color: #ffc107;
+                        @endif
+                    ">
+                        {{ 
+                            $order->order_status_id == 7 ? 'Pending' : 
+                            ($order->order_status_id == 10 ? 'Payment Received' : 
+                            ($order->order_status_id == 11 ? 'Ready for Pickup' : 
+                            ($order->order_status_id == 12 ? 'Completed' : 'Denied'))) 
+                        }}
+                    </button>
+                </div>
+
+                <!-- Item Image -->
+                <div class="item-img"></div>
+
+                <!-- Order Details Table -->
+                <table class="dets">
+                    <tr>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Variant/Size</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                    <tr>
+                        <td data-label="Item">N / A</td>
+                        <td data-label="Category">Category</td>
+                        <td data-label="Variant/Size">Size</td>
+                        <td data-label="Quantity">{{ $order->total_items }}</td>
+                        <td data-label="Price">P {{ $order->supplier_price_total_amount }}</td>
+                    </tr>
+                </table>
+
+                <!-- Additional Order Info -->
+                <div class="other-content-low">
+                    <h5>TOTAL:</h5>
+                    <p class="costPrice">P{{ number_format($order->total_amount, 2) }}</p>
+                    <p class="itemLab">Item(s):</p>
+                    <p class="itemCount">{{ $order->total_items }}</p>
+                    <p class="dateLabel">Date:</p>
+                    <p class="date">{{ \Carbon\Carbon::parse($order->order_date)->format('m-d-Y') }}</p>
+                    <p class="time">{{ \Carbon\Carbon::parse($order->order_date)->format('h:i a') }}</p>
+                    <button class="btn btn-light">Contact Seller</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-{{ $order->id }}">View Details</button>
+
+                    <!-- Multiple Indicator -->
+                    @if ($order->total_items > 1)
+                        <p class="multiple-indicator">Multiple items available. Click 'View Details' to see more</p>
+                    @endif
+                </div>
+            </td>
+        </tr>
+
+        <!-- Modal -->
+        <div class="modal fade" id="orderDetailsModal-{{ $order->id }}" tabindex="-1" aria-labelledby="orderDetailsLabel-{{ $order->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header">
+                        <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 25px; height: 25px;">
+                        <h5 class="modal-title" id="orderDetailsLabel">Order Details</h5>
+                        <div class="p-10 mb-2 bg-light text-dark" id="modalStatus" style="padding-top:18px;"></div>
+                        <hr/>
+                    </div>
+                    
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div>
+                        <div class="transact-col1">
+                            <ul>
+                                <li><strong>Order ID:</strong> {{ $order->id }}</li>
+                                <li><strong>Total Amount:</strong> P{{ number_format($order->total_amount, 2) }}</li>
+                                <li><strong>Payment Method:</strong> {{ $order->payment_method ?? 'N/A' }}</li>
+                                <li><strong>Proof of Payment:</strong> {{ $order->proof_of_payment ?? 'N/A' }}</li>
+                                <li><strong>Reference No.:</strong> {{ $order->reference_number }}</li>
+                            </ul>
                         </div>
 
-                        <!-- Item Image -->
-                        <div class="item-img"></div>
-
-                        <!-- Order Details Table -->
-                        <table class="dets">
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Variant/Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                            </tr>
-                            <tr>
-                                <td data-label="Item">N / A</td>
-                                <td data-label="Category">Category</td>
-                                <td data-label="Variant/Size">Size</td>
-                                <td data-label="Quantity">{{ $order->total_items }}</td>
-                                <td data-label="Price">P {{ $order->supplier_price_total_amount }}</td>
-                            </tr>
-                        </table>
-
-                        <!-- Additional Order Info -->
-                        <div class="other-content-low">
-                            <h5>TOTAL:</h5>
-                            <p class="costPrice">P{{ number_format($order->total_amount, 2) }}</p>
-                            <p class="itemLab">Item(s):</p>
-                            <p class="itemCount">{{ $order->total_items }}</p>
-                            <p class="dateLabel">Date:</p>
-                            <p class="date">{{ \Carbon\Carbon::parse($order->order_date)->format('m-d-Y') }}</p>
-                            <p class="time">{{ \Carbon\Carbon::parse($order->order_date)->format('h:i a') }}</p>
-                            <button class="btn btn-light">Contact Seller</button>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal-{{ $order->id }}">View Details</button>
-                            
-                            <!-- Multiple Indicator -->
-                            @if ($order->total_items > 1)
-                                <p class="multiple-indicator">Multiple items available. Click 'View Details' to see more</p>
-                            @endif
+                        <hr />
+                        <div class="transact-col2">
+                            <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('m-d-Y') }}</p>
+                            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($order->order_date)->format('h:i a') }}</p>
+                            <p><strong>Item(s):</strong> {{ $order->total_items }}</p>
                         </div>
-                    </td>
-                </tr>
-            @endforeach
-        </table>
-
-
-
-
-    <div class="modal fade" id="orderDetailsModal-fpick" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <!-- Modal Header -->
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-header">
-                <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 24px; height: 24px;">
-                <h5 class="modal-title" id="orderDetailsLabel">
-                    Circle of Unified Information Technology Students (CIRCUITS)
-                </h5>
-                <div class="p-3 mb-2 bg-light text-dark">For Pickup</div>
-                
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Product Info -->
-                <div class="modal-items">
-                    <table class="modal-item-table">
-                        <tr class="modal-rows">
-                            <td class="modal-td">
-                                <div class="img-holder">
-                               
-                                </div>
-                                <table class="modal-item-details">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Variant/Size</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    <tr>
-                                        <td>ID lanyard</td>
-                                        <td>Lanyard</td>
-                                        <td>Pink</td>
-                                        <td>1</td>
-                                        <td>P100.00</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                        </div>
+                    </div>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Contact Seller</button>
+                    </div>
                 </div>
-                <hr/>
-                <div class="transact-col1">
-                    <p>Order ID:</p>
-                    <p>Total Amount:</p>
-                    <p>Payment Method:</p>
-                    <p>Proof of Payment:</p>
-                    <p>Reference No.:</p>
-                </div>
-                <div class="transact-col2">
-                    <p>0123123</p>
-                    <p>P100.00</p>
-                    <p>GCASH</p>
-                    <p>screenshot101.jpeg</p>
-                    <p>901234871</p>
-                </div>
-                <div class="transact-col3">
-                    <p>Date:</p>
-                    <p>Time:</p>
-                    <p>Item(s):</p>
-                </div>
-                <div class="transact-col4">
-                    <p>08-10-24</p>
-                    <p>12:51am</p>
-                    <p>1</p>
-                </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Contact Seller</button>
-            </div>
             </div>
         </div>
-    </div>
+    @endforeach
+</table>
+
+
 
     <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

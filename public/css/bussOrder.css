@@ -180,6 +180,7 @@ th, td {
     width: 140px;
     border-radius: 7px !important;
     font-weight: 500 !important;
+
 }
 .modal-footer .btn.btn-light{
     color: #092C4C !important;
@@ -365,7 +366,7 @@ td.status-label:hover {
     border-radius: 8px;
     font-size: 12px;
     font-weight: bold;
-    margin-right: 50px;
+    margin-right: 20px;
 }
 
 #modalStatus.denied-payment {
@@ -454,6 +455,7 @@ td.status-label:hover {
     font-size: 14px;    
     width: 60px;       /* Adjust the font size */
     height: 30px;
+    margin-left: -10px;
 }
 #search-box{
     padding: 8px ;         
@@ -470,5 +472,129 @@ td.status-label:hover {
 #modalgear{
     margin-top: -20px;
 }
+.pagination-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 10px 10px 10px 10px;
+    font-size: 14px;
+    color: #000;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 0;
+    transition: background-color 0.3s, color 0.3s;
+    
+}
+
+.page-link.active {
+    color: #fff;
+    background-color: #001f3f; /* Navy blue */
+    border-color: #001f3f;
+}
+
+.page-link:hover {
+    background-color: #f8f9fa; /* Light gray hover effect */
+    color: #000;
+}
+
+.page-link.rounded-start {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.page-link.rounded-end {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/*  MODAL */
+
+.modal-header {
+    margin: 0px 40px; /* Example: top-bottom 10px, left-right 20px */
+}
+
+/* Adjust margin for the modal body */
+.modal-body {
+    margin: 0px 30px; /* Example: top-bottom 15px, left-right 20px */
+}
+
+/* Adjust margin for the modal footer */
+.modal-footer {
+    margin: 0px 40px; /* Example: top-bottom 10px, left-right 20px */
+
+}
+
+.modal-item-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.modal-item-table th,
+.modal-item-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.modal-item-table th {
+    background-color: #f8f8f8;
+}
+
+.modal-item-table td img.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.modal-item-table td {
+    vertical-align: middle;
+}
 
 
+.modal-list-inline {
+    list-style-type: none; 
+    padding: 0;           
+    margin: 0;            
+    display: flex;        
+    gap: 10px;      
+    margin-left: 210px;   
+    margin-top: 10px;  
+
+}
+
+.modal-list-inline li {
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 80px;   
+}
+.modalinside2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 200px;
+    margin-right: 140px;
+}
+
+.modalinside2 p {
+    margin-right: -30px;
+}
+#modalQuantity{
+    margin-left: -70px;
+}
+#productImg{
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    margin-left: 40px;
+    margin-top: -20px;
+    border-radius: 10px;
+}

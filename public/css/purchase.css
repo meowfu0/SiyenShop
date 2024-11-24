@@ -1,5 +1,6 @@
 body{
     overflow-x: none !important;
+    height: 100%;
 }
 
 #sidebar{
@@ -1032,6 +1033,9 @@ body{
         display: block !important;
     }
 }
+#ordersTable{
+    height: 100%;
+}
 
 
 .order-row {
@@ -1059,4 +1063,37 @@ body{
 }
 .multiple-indicator{
     margin-top:-22.5%;
+}
+.modal-body {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.transact-col1, .transact-col2 {
+    margin-bottom: 15px;
+}
+
+.modal-footer button {
+    margin-right: 10px;
+}
+#orderDetailsModal{
+    height: 500px;
+}
+
+.hidden-content {
+    display: none;
+}
+.modal-body{
+    position: absolute;
+    margin-top: -50px;
+}
+.transact-col1 ul {
+    height: 500px;
+    list-style-type: none; /* Removes bullet points */
+    padding: 0;
+}
+
+.transact-col1 li {
+    margin-bottom: 10px; /* Adds space between list items */
 }
