@@ -124,6 +124,10 @@
 </div>
 
 
+
+<script src="{{asset('js/admin-shops.js')}}" ></script>
+
+<!--
 <script>
 
 
@@ -263,4 +267,5 @@ trashButton2.addEventListener('click', function () {
 
 
 </script>
+-->
 @endsection

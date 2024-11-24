@@ -13,7 +13,7 @@
             </div>
             
            
-<!-- FORM-->   
+<!-- FORM ROUTE-->   
             <form action="{{ route('shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
             @csrf
 <!--LOGO/PROFILE PIC--> 
@@ -113,7 +113,7 @@
                     <div class="text-start">
                         <p class="mb-1"><strong id="displayManager">Business Manager Name</strong></p>
                         <p class="mb-1"><strong id="displayManager2" style="display: none;">Business Manager Name</strong></p>
-                        <p class="m-0" id="gcashNum">GCash Number</p>
+                        <p class="m-0" id="gcashNumber">GCash Number</p>
                         <p class="m-0" id="gcashReceiver">GCash Receiver</p>
                     </div>
                 </div>
@@ -124,6 +124,22 @@
 </div>
 
 
+<script src="{{asset('js/admin-shops.js')}}" ></script>
+
+<script>
+    function cancel(){
+        
+        window.location.href = "{{ route('admin.shops') }}";
+    
+    }
+
+    function shops(){
+        //create function tbf
+        window.location.href = "{{ route('admin.shops') }}";
+    }
+
+</script>
+<!--
 <script>
 
 
@@ -152,17 +168,7 @@ const dropdown1 = document.getElementById('managerName1');
     const displayManager2 = document.getElementById('displayManager2');
 
 
-    function cancel(){
-        
-        window.location.href = "{{ route('admin.shops') }}";
     
-    }
-
-    function shops(){
-        //create function tbf
-        window.location.href = "{{ route('admin.shops') }}";
-    }
-;
     
     
 
@@ -263,4 +269,6 @@ trashButton2.addEventListener('click', function () {
 
 
 </script>
+-->
+
 @endsection
