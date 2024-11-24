@@ -16,14 +16,17 @@ class RoleAccessValidate
      * @param  mixed  ...$roles  (roles passed as parameters)
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ...$roles)
+    public function handle(Request $request, Closure $next, $role)
     {
-        // Check if the user is authenticated and has a role in the provided list of roles
+        // Check if the user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to access this page.');
+        }
+
+        // Check if the user has the required role
         $user = Auth::user();
-        
-        if (!$user || !in_array($user->roles->role_name, $roles)) {
-            // Redirect to a specific page or abort with a 403 Forbidden status
-            return abort(403, 'Unauthorized access');
+        if ($user->role->role_name !== $role) {
+            return redirect()->route('unauthorized')->with('error', 'Unauthorized access.');
         }
 
         return $next($request);

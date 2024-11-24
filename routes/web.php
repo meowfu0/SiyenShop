@@ -20,6 +20,7 @@ use App\Http\Livewire\ShopProductsHistory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\cartPageController; 
 use App\Http\Controllers\checkOutPageController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
 use App\Http\Controllers\UserController;
@@ -41,83 +42,86 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// =================== user side routes ==================================
-// profile page
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::middleware(['role:Admin, Student'])->group(function () {
+        // =================== user side routes ==================================
+    // profile page
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
-// shopping module
-Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
-Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
-Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
-Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
+    // shopping module
+    Route::get('/shopPage', [ShopController::class, 'index'])->name('shopPage');
+    Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
+    Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
+    Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// cart and checkout routes
-Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
-Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
-Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
-Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
-// =================== end of cart and checkout module =======================
-// chat route
-Route::get('/chat', [UserChat::class, 'render'])->name('chat');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // cart and checkout routes
+    Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
+    Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
+    Route::get('/paymentPage', [paymentPageController::class, 'index'])->name('paymentPage');
+    Route::get('/orderSummaryPage', [orderSummaryPageController::class, 'index'])->name('orderSummaryPage');
+    // =================== end of cart and checkout module =======================
+    // chat route
+    Route::get('/chat', [UserChat::class, 'render'])->name('chat');
 
-// faqs route
-Route::get('/faqs', function () {
-    return view('customer_support/faqs');
-})->name('faqs');
+    // faqs route
+    Route::get('/faqs', function () {
+        return view('customer_support/faqs');
+    })->name('faqs');
 
-// user purchases route
-Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+    // user purchases route
+    Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
-
-// Shop Routes Group
-//add middleware for authenticatio'n purposes
-Route::get('/shop', function () {
-    return redirect()->route('shop.dashboard');
-})->name('Shop');
-Route::prefix('shop')->group(function () {
-    Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
-    Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
-    Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
-    Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
-
-    Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
-    Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
-    Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 
 });
 
-// admin routes
-Route::get('/admin', function () {
-    return redirect()->route('admin.dashboard');
-})->name('Admin');
-
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
-    Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
-    Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
-    Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
-    Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
-    Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
-    Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
-    Route::prefix('shops')->group(function () {
-        Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
-        Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
+Route::middleware(['role:Business Manager'])->group(function () {
+    // Shop Routes Group
+    //add middleware for authenticatio'n purpose
+    Route::get('/shop', function () {
+        return redirect()->route('shop.dashboard');
+    })->name('Shop');
+    Route::prefix('shop')->group(function () {
+        Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
+        Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
+        Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
+        Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
+    
+        Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
+        Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
+        Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
+    
     });
     
-});
-
+}); 
 //roles management module
-Route::prefix('admin')->group(function () {
-    //users roles list
-    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
-    Route::get('/users/{id}', [UserController::class, 'show']);
-    
-    //shops page list
-    Route::get('/shops', [shopPageController::class, 'index'])->name('admin.shops');
-    Route::get('/shops/{id}', [shopPageController::class, 'show']);
-    
-    });
 
 
+Route::middleware(['role:Admin'])->group(function () {
+
+    // admin routes
+    Route::get('/admin', function () {
+        return redirect()->route('admin.dashboard');
+    })->name('Admin');
+
+        Route::prefix('admin')->group(function () {
+            Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
+            Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+            Route::get('/shops', [shopPageController::class, 'index'])->name('admin.shops');
+            Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
+            Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
+            Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
+            Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
+            Route::prefix('shops')->group(function () {
+                Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
+                Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
+            });
+            
+        });
+
+        Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
+});
+
+    //for user
+
+    

@@ -169,6 +169,21 @@ class UsersTableSeeder extends Seeder
                 'role_id' => 2,
                 'status_id' => 1,
             ],
+            [
+                'first_name' => 'Adornado',
+                'last_name' => 'Cabalbag',
+                'email' => 'acabalbag22@gmail.com',
+                'phone_number' => '09491232598',
+                'course_bloc' => 'B',
+                'year' => '3rd Year',
+                'course_id' => 5,
+                'password' => Hash::make('webpass'),
+                'created_at' => Carbon::now(),
+                'profile_picture' => 'picture9.png',
+                'updated_at' => Carbon::now(),
+                'role_id' => 3,
+                'status_id' => 1,
+            ],
         ];
 
         DB::table('users')->insert($users);

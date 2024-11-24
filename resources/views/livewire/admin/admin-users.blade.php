@@ -306,7 +306,7 @@
     <script> 
         const usersData = @json($users);
     </script>
-    <script  src="{{asset('js/admin-users.js')}}">
+    <script src="{{asset('js/admin-users.js')}}">
         
     </script>
 @endsection
