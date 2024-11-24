@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; 
 
 
 class UserProfileController extends Controller
@@ -35,42 +36,75 @@ class UserProfileController extends Controller
         // Pass the $user variable to the view
         return view('components.edit', compact('user'));
     }
-  public function update(Request $request, User $user)
+ // Add this if not already included
+
+public function update(Request $request, User $user)
 {
-    // Validate the incoming request
     $validated = $request->validate([
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         'phone_number' => 'nullable|string|max:20',
-        'course' => 'required|string',
+        'course_bloc' => 'required|string',
         'year' => 'required|string',
-        'block' => 'required|string',
+        'course_id' => 'required|integer|exists:courses,id',
         'password' => 'nullable|string|min:6|confirmed',
+        'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the image
+        'gcash_name' => 'nullable|string|max:255',
+        'gcash_number' => 'nullable|string|max:20',
+        
     ]);
 
-    // Ensure that the user object is correct
-    dd($user); // Debugging: Check if the correct user object is passed
+    // Initialize a variable to track profile picture updates
+    $updatedData = $validated;
+    $profilePicturePath = null;
 
-    // Manually update the user data
+    // Check if the user uploaded a new profile picture
+    if ($request->hasFile('profile_picture')) {
+        $profile_picture = $request->file('profile_picture');
+        $fileName = time() . '.' . $profile_picture->getClientOriginalExtension();
+        $profile_picture->storeAs('public/profile_picture', $fileName);
+        $profilePicturePath = 'profile_picture/' . $fileName;
+        $user->profile_picture = $profilePicturePath;
+        $updatedData['profile_picture'] = $profilePicturePath;
+    }
+
+    // Update other user details
     $user->first_name = $validated['first_name'];
     $user->last_name = $validated['last_name'];
     $user->email = $validated['email'];
-    $user->phone_number = $validated['phone_number'];
-    $user->course = $validated['course'];
+    $user->phone_number = $validated['phone_number'] ?? $user->phone_number;
+    $user->course_bloc = $validated['course_bloc'];
     $user->year = $validated['year'];
-    $user->block = $validated['block'];
+    $user->course_id = $validated['course_id'];
+    $user->gcash_name = $validated['gcash_name'] ?? $user->gcash_name;
+    $user->gcash_number = $validated['gcash_number'] ?? $user->gcash_number;
 
-    // Only update password if it's provided
-    if ($validated['password']) {
+    
+
+
+     // Hash and update password if provided
+     if (!empty($validated['password'])) {
+        $user->password = bcrypt($validated['password']);
+    }
+    // Update password if it's provided
+    if (!empty($validated['password'])) {
         $user->password = bcrypt($validated['password']);
     }
 
-    // Save the user record
+    // Save the updated user and log the changes
     if ($user->save()) {
-        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully');
+        // Log profile update
+        Log::info('Profile updated successfully.', [
+            'user_id' => $user->id,
+            'updated_data' => $updatedData,
+
+            
+        ]);
+
+        return redirect()->route('profile', $user->id)->with('success', 'Profile updated successfully!');
     } else {
-        return redirect()->route('profile.edit')->with('error', 'Failed to update profile');
+        return back()->with('error', 'Failed to update profile. Please try again.');
     }
 }
 }

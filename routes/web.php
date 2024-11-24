@@ -62,6 +62,7 @@ Route::put('/profile/update/{user}', [UserProfileController::class, 'update'])->
 
 
 
+
 // shopping module
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
 Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
@@ -86,6 +87,7 @@ Route::get('/faqs', function () {
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
+Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('profile.update');
 
 
 // Shop Routes Group
