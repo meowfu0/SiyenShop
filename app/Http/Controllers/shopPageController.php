@@ -27,6 +27,7 @@ class shopPageController extends Controller
         ]);
     }
 
+
     
 
 }
