@@ -18,10 +18,10 @@ class UsersTableSeeder extends Seeder
     {
         $users = [
             [
-                'first_name' => 'Arlere',
+                'first_name' => 'Arlegrffe',
                 'last_name' => 'Montero',
-                'email' => 'arlenes@example.com',
-                'phone_number' => '1334567890',
+                'email' => 'arlenesfggs@exhhfample.com',
+                'phone_number' => '133g4567890',
                 'course_bloc' => 'A',
                 'year' => '1st Year',
                 'course_id' => 2,

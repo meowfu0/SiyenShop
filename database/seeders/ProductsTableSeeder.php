@@ -22,7 +22,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 1,
                 'shop_id' => 1,
                 'status_id' => 9,
-                'visibility_id' => 1,
+                'visibility_id' => 1, // Added visibility_id
                 'product_name' => 'Circuits Lanyard',
                 'product_decription' => 'A lanyard made by Circuits',
                 'product_image' => 'lanyard.png',
@@ -78,6 +78,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 3,
                 'shop_id' => 1,
                 'status_id' => 8,
+                'visibility_id' => 2, // Added visibility_id
                 'product_name' => 'Circuits Coding Stickers',
                 'product_decription' => 'Coding Stickers made by Circuits',
                 'product_image' => 'Sticker.png',
@@ -91,6 +92,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 6,
                 'shop_id' => 1,
                 'status_id' => 8,
+                'visibility_id' => 1,
                 'product_name' => 'Circuits Keyholder',
                 'product_decription' => 'A keyholder made by Circuits',
                 'product_image' => 'keyholder.png',
@@ -104,6 +106,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 2,
                 'shop_id' => 1,
                 'status_id' => 9,
+                'visibility_id' => 1,
                 'product_name' => 'Circuits Pins',
                 'product_decription' => 'Pins made by Circuits',
                 'product_image' => 'Pin.png',
@@ -117,6 +120,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 1,
                 'shop_id' => 1,
                 'status_id' => 9,
+                'visibility_id' => 1,
                 'product_name' => 'Circuits Reversible Lanyard',
                 'product_decription' => 'A Reversible lanyard made by Circuits',
                 'product_image' => 'lanyard.png',
@@ -126,7 +130,6 @@ class ProductsTableSeeder extends Seeder
                 'stocks' => 10,
                 'created_at' => Carbon::now(),
             ],
-            
         ];
 
         DB::table('products')->insert($products);

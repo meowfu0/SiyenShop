@@ -23,13 +23,14 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriesTableSeeder::class);
         // $this->call(GCashInfoSeeder::class); merong error yong number
         $this->call(MessagesTableSeeder::class);
+        $this->call(VisibilitiesTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
         $this->call(OrdersTableSeeder::class);
         $this->call(OrderItemsTableSeeder::class); 
-        $this->call(ProductsTableSeeder::class);
         $this->call(OrderItemsTableSeeder::class); 
         $this->call(ProductVariantsTableSeeder::class);
-        $this->call(CartsTableSeeder::class);
-        $this->call(CartItemsTableSeeder::class);
+        // $this->call(CartsTableSeeder::class);
+        // $this->call(CartItemsTableSeeder::class);
         $this->call(ReviewsTableSeeder::class); 
     }
 
