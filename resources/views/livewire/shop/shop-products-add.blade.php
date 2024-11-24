@@ -63,39 +63,38 @@
                 <div class="col-md-6 d-flex flex-column gap-3"> 
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"  onclick="resetModal()">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
                             Add Category
                             <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
                         </button>
                     </div>
         
+                    <div>
                     <!-- Category Selection -->
                     <div class="form-group mb-1">
                         <label for="category" class="fw-bold text-primary">Category</label>
                         <div class="dropdown">
                             <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                               Select Category
+                                Select Category
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
-                            @foreach ($categories as $category)
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" data-category-id="{{ $category->id }}" onclick="selectCategory('{{ $category->category_name }}')">
-                                    <span>{{ $category->category_name }}</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button type="submit" class="btn p-0"  onclick="openEditModal('{{ $category->id }}', '{{ $category->category_name }}'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button type="button" class="btn p-0" onclick="deleteCategory('{{ $category->category_name }}'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                                @foreach ($categories as $category)
+                                    <li class="dropdown-item d-flex justify-content-between align-items-center" data-category-id="{{ $category->id }}" onclick="selectCategory('{{ $category->category_name }}')">
+                                        <span>{{ $category->category_name }}</span>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn p-0" onclick="openEditModal('{{ $category->id }}', '{{ $category->category_name }}'); event.stopPropagation();">
+                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                            </button>
+                                            <button type="button" class="btn p-0" onclick="deleteCategory('{{ $category->category_name }}'); event.stopPropagation();">
+                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                            </button>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                         @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
-
-                    
 
                     <!-- Category Modal -->
                     <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
@@ -106,20 +105,47 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="editCategoryForm">
+                                    <form wire:submit.prevent="save">
                                         <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
                                         <div class="form-group mb-2 d-flex align-items-center">
-                                            <input type="text" id="category_name" class="form-control me-2" value="">
+                                            <input type="text" id="category_name" class="form-control me-2" wire:model="categoryName">
                                         </div>
+                                        @error('categoryName') <span class="text-danger">{{ $message }}</span> @enderror
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-                                    <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
+                                    <button type="submit" class="btn btn-primary" wire:click="save">Save</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- ADD Category Modal -->
+                    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add Category</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form wire:submit.prevent="save">
+                                        <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                        <div class="form-group mb-2 d-flex align-items-center">
+                                            <input type="text" id="category_name" class="form-control me-2" wire:model="categoryName">
+                                        </div>
+                                        @error('categoryName') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                    <button type="submit" class="btn btn-primary" wire:click="save">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                     <div class="form-group mb-1">
                         <label for="shop_id" class="fw-bold text-primary">Organization</label>
@@ -255,16 +281,6 @@
     </form>
 </div>
 
-
-
-
-
-
-
-
-
-
-
 <script>
 
     function toggleQuantity() {
@@ -292,77 +308,77 @@
 
     let currentCategoryId; // Variable to hold the current category ID
 
-function openEditModal(categoryId, categoryName) {
-    // Set the current category name in the input field
-    document.getElementById('category_name').value = categoryName; // This should be the category name
-    // Store the category ID in a variable for later use
-    currentCategoryId = categoryId; // This should be the category ID
-    // Show the modal
-    var myModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
-    myModal.show();
+    function openEditModal(categoryId, categoryName) {
+        // Set the current category name in the input field
+        document.getElementById('category_name').value = categoryName; // This should be the category name
+        // Store the category ID in a variable for later use
+        currentCategoryId = categoryId; // This should be the category ID
+        // Show the modal
+        var myModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+        myModal.show();
 
-    // Handle the Save button click
-    document.getElementById('saveCategoryBtn').onclick = function() {
-        saveCategory(categoryName); // Pass the old category name
-        myModal.hide(); // Hide the modal after saving
-    };
-}
-
-function selectCategory(categoryName) {
-    // Update the button text
-    document.getElementById('dropdownMenuButton').innerText = categoryName;
-
-    // Close the dropdown
-    const dropdown = new bootstrap.Dropdown(document.getElementById('dropdownMenuButton'));
-    dropdown.hide(); // This will close the dropdown
-}
-
-function saveCategory(oldCategory) {
-    const newCategory = document.getElementById('category_name').value.trim();
-    if (newCategory && newCategory !== oldCategory) {
-        const items = document.querySelectorAll('#category-dropdown .dropdown-item');
-        items.forEach(item => {
-            const span = item.querySelector('span');
-            if (span.textContent === oldCategory) {
-                span.textContent = newCategory; // Update the displayed name
-
-                // Update the onclick function for the buttons
-                item.querySelector('button[onclick^="openEditModal"]').setAttribute('onclick', `openEditModal('${currentCategoryId}', '${newCategory}');`);
-                item.querySelector('button[onclick^="deleteCategory"]').setAttribute('onclick', `deleteCategory('${newCategory}');`);
-            }
-        });
-
-        // Also update the button text if the current selection was the edited category
-        if (document.getElementById('dropdownMenuButton').innerText === oldCategory) {
-            document.getElementById('dropdownMenuButton').innerText = newCategory;
-        }
-
-        // Send the updated category name to the server to update the database
-        sendUpdateToDatabase(currentCategoryId, newCategory);
+        // Handle the Save button click
+        document.getElementById('saveCategoryBtn').onclick = function() {
+            saveCategory(categoryName); // Pass the old category name
+            myModal.hide(); // Hide the modal after saving
+        };
     }
-}
 
-function sendUpdateToDatabase(categoryId, newCategory) {
-    fetch('/update-category', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // If using Laravel
-        },
-        body: JSON.stringify({ id: categoryId, name: newCategory })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Category updated successfully');
-        } else {
-            console.error('Error updating category:', data.message);
+    function selectCategory(categoryName) {
+        // Update the button text
+        document.getElementById('dropdownMenuButton').innerText = categoryName;
+
+        // Close the dropdown
+        const dropdown = new bootstrap.Dropdown(document.getElementById('dropdownMenuButton'));
+        dropdown.hide(); // This will close the dropdown
+    }
+
+    function saveCategory(oldCategory) {
+        const newCategory = document.getElementById('category_name').value.trim();
+        if (newCategory && newCategory !== oldCategory) {
+            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
+            items.forEach(item => {
+                const span = item.querySelector('span');
+                if (span.textContent === oldCategory) {
+                    span.textContent = newCategory; // Update the displayed name
+
+                    // Update the onclick function for the buttons
+                    item.querySelector('button[onclick^="openEditModal"]').setAttribute('onclick', `openEditModal('${currentCategoryId}', '${newCategory}');`);
+                    item.querySelector('button[onclick^="deleteCategory"]').setAttribute('onclick', `deleteCategory('${newCategory}');`);
+                }
+            });
+
+            // Also update the button text if the current selection was the edited category
+            if (document.getElementById('dropdownMenuButton').innerText === oldCategory) {
+                document.getElementById('dropdownMenuButton').innerText = newCategory;
+            }
+
+            // Send the updated category name to the server to update the database
+            sendUpdateToDatabase(currentCategoryId, newCategory);
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
+    }
+
+    function sendUpdateToDatabase(categoryId, newCategory) {
+        fetch('/update-category', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // If using Laravel
+            },
+            body: JSON.stringify({ id: categoryId, name: newCategory })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Category updated successfully');
+            } else {
+                console.error('Error updating category:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
     //Updated Add Size fields
     let rowCount = 1; // Keeps track of the number of rows
     function myCreateFunction() {

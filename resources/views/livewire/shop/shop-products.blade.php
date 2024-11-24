@@ -17,13 +17,13 @@
 
     <div class="container d-flex justify-content-center py-3">
     <div class="d-flex align-items-center gap-3">
-        <!-- Entries per page Dropdown -->
-        <select id="entries-per-page" class="form-select form-select-sm" style="width: auto;">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-    </select>
-    <span class="text-primary">Entries per page</span>
+       <!-- Entries per page Dropdown -->
+       <select id="entries-per-page" class="form-select form-select-sm" style="width: auto;">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+            </select>
+            <span class="text-primary">Entries per page</span>
     
         <!-- Search Input -->
         <div class="input-group input-group-sm" style="width: 200px;">
@@ -38,9 +38,9 @@
             <span class="text-primary fs-4">Stock Level</span>
             <select class="form-select form-select-sm" style="width: auto;" id="stocksLevel">
                 <option value="All">All</option>
-                @foreach($products as $product)
-                    <option value="{{ $product->stocks_level }}">{{ $product->stocks_level }}</option>
-                @endforeach
+                <option value="In Stock">In Stock</option>
+                <option value="Low Stock">Low Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
             </select>
         </div>
 
@@ -162,34 +162,38 @@
         </table>
     </div>
 </div>
-<div class="d-flex justify-content-center">
-    {{ $products->links() }}
+<div class="d-flex justify-content-between align-items-center px-5 py-4 flex-grow-1">
+    <p>
+        Showing {{ $products->count() }} of {{ $products->total() }} entries.
+    </p>
+    
+        <!--{{ $products->links('') }}-->
+    
 </div>
 
 
-<!-- Delete Confirmation Modal -->
 
+
+
+<!-- Delete Confirmation Modal -->
 <div wire:ignore.self class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div class="modal-body">
                 Are you sure you want to delete this product?
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" wire:click="deleteProduct" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmDelete'product' => $product->id]   ">Delete</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     const selectAllCheckbox = document.getElementById('select-all');
@@ -209,34 +213,8 @@
         });
     });
 
-        //category filter
-    document.addEventListener('DOMContentLoaded', function () {
-        const categorySelect = document.getElementById('category-select');
-        const productRows = document.querySelectorAll('#example tbody tr');
-
-        categorySelect.addEventListener('change', function () {
-            const selectedCategory = this.value;
-            console.log('Selected Category:', selectedCategory); // Debugging line
-
-            productRows.forEach(row => {
-                const categoryCell = row.querySelector('.product-category');
-                const categoryId = categoryCell.getAttribute('data-category-id');
-
-                if (categoryCell) {
-                    console.log('Row Category ID:', categoryId); // Debugging line
-                    if (selectedCategory === 'All' || selectedCategory === categoryId) {
-                        row.style.display = ''; // Show the row
-                    } else {
-                        row.style.display = 'none'; // Hide the row
-                    }
-                }
-            });
-        });
-    });
-    
-
-    // Search filter
-    document.addEventListener('DOMContentLoaded', function () {
+        // Search filter
+        document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search-input');
         const productRows = document.querySelectorAll('#example tbody tr');
 
@@ -251,7 +229,7 @@
                 cells.forEach(cell => {
                     const cellText = cell.textContent.toLowerCase(); // Get the text content of the cell
                     if (cellText.includes(searchTerm)) {
- rowContainsSearchTerm = true; // Set the flag to true if the cell matches
+                        rowContainsSearchTerm = true; // Set the flag to true if the cell matches
                     }
                 });
 
@@ -265,33 +243,45 @@
         });
     });
 
+    //stocks level and category filter
     document.addEventListener('DOMContentLoaded', function () {
-    const stockLevelSelect = document.getElementById('stocksLevel'); // Correct ID selection
-    const productList = document.querySelector('#example tbody'); // Select tbody directly
-    const products = productList.getElementsByClassName('product'); // Get all product rows
+        const categorySelect = document.getElementById('category-select');
+        const stockLevelSelect = document.getElementById('stocksLevel');
+        const productRows = document.querySelectorAll('#example tbody tr');
 
-    stockLevelSelect.addEventListener('change', function () {
-        const selectedValue = this.value.trim(); // Trim any whitespace
-        console.log('Selected Stock Level:', selectedValue); // Log the selected stock level
+        function filterProducts() {
+            const selectedCategory = categorySelect.value;
+            const selectedStockLevel = stockLevelSelect.value.trim();
 
-        // Loop through each product row
-        for (let product of products) {
-            // Assuming the stock level is stored in a data attribute in the product row
-            const productStockLevel = product.getAttribute('data-stocks-level'); // Get the stock level
-            console.log('Product Stock Level:', productStockLevel); // Log the stock level of the current product
+            console.log('Selected Category:', selectedCategory); // Debugging line
+            console.log('Selected Stock Level:', selectedStockLevel); // Debugging line
 
-            // Show or hide the product based on the selected stock level
-            if (selectedValue === 'All' || (productStockLevel && productStockLevel.trim() === selectedValue)) {
-                product.style.display = ''; // Show product
-                console.log('Showing product:', product); // Log that the product is being shown
-            } else {
-                product.style.display = 'none'; // Hide product
-                console.log('Hiding product:', product); // Log that the product is being hidden
-            }
+            productRows.forEach(row => {
+                const categoryCell = row.querySelector('.product-category');
+                const categoryId = categoryCell.getAttribute('data-category-id');
+                const productStockLevel = row.getAttribute('data-stocks-level'); // Get the stock level from the row
+
+                let showRow = true; // Assume we want to show the row
+
+                // Check category filter
+                if (selectedCategory !== 'All' && selectedCategory !== categoryId) {
+                    showRow = false; // Hide if category doesn't match
+                }
+
+                // Check stock level filter
+                if (selectedStockLevel !== 'All' && selectedStockLevel !== productStockLevel) {
+                    showRow = false; // Hide if stock level doesn't match
+                }
+
+                // Show or hide the row based on the filters
+                row.style.display = showRow ? '' : 'none';
+            });
         }
-    });
-});
 
+        // Event listeners for both dropdowns
+        categorySelect.addEventListener('change', filterProducts);
+        stockLevelSelect.addEventListener('change', filterProducts);
+    });
 
     document.addEventListener('DOMContentLoaded', function () {
         const entriesPerPageSelect = document.getElementById('entries-per-page');
@@ -324,7 +314,8 @@
 
             // Hide all rows initially
             productRows.forEach(row => {
-                row.style.display = 'none'; // Corrected: Added closing brace
+                row.style.display = 'none';
+                console.log(row);
             });
 
             // Show the selected number of rows

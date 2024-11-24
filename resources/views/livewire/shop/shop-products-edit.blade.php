@@ -23,12 +23,8 @@
         </div>
         <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students</h2>
      </div>
-
-    <div class="d-flex justify-content-between px-5 py-3">
-        <h2 class="fw-bold m-0 text-primary">Edit Product</h2>
-    </div>
-
-    @if(request()->has('product'))
+    
+     @if(request()->has('product'))
         @php
             // Fetch the specific product based on the ID from the query string
             $productId = request()->query('product');
@@ -36,6 +32,10 @@
         @endphp
 
         @if($product)
+
+    <div class="d-flex justify-content-between px-5 py-3">
+        <h2 class="fw-bold m-0 text-primary">Edit Product</h2>
+    </div>
             
     <div class="d-flex px-5 py-4 flex-grow-1">
         <div class="container">
@@ -238,7 +238,7 @@
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
                                     <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price"  type="text" id="form2" class="form-control" wire:model="retail_price">
+                                    <input id="price"  type="text" id="form2" class="form-control">
                                     @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
                                 </div>
                             </div>

@@ -63,6 +63,12 @@ class ShopProductsEdit extends Component
 
     public function render()
     {
+        $query = DB::table('products')
+        ->select('products.*', 'categories.category_name', 'visibilities.visibility_name', 'statuses.status_name')
+        ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+        ->leftJoin('visibilities', 'products.visibility_id', '=', 'visibilities.id')
+        ->leftJoin('statuses', 'products.status_id', '=', 'statuses.id');
+        
         return view('livewire.shop.shop-products-edit'); // No need to pass variables explicitly
     }
 }
