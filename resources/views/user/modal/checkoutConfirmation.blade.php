@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body d-flex justify-content-center align-items-center flex-column text-center">
         <img src="{{ asset('images/check.png') }}" style="height: 70px; width:70px;" alt="Cart Logo">
-        <p class="fw-semibold fs-6 mt-3">Your order has been confirmed!</p>
+        <p class="fw-semibold fs-6 mt-3">Thank you for buying with us! </p>
       </div>
       <div class="modal-footer border-0 d-flex justify-content-center mb-2">
         <!-- Need to change the route to the homepage -->

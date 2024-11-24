@@ -7,6 +7,7 @@ var totalItem = "item-count";
 function AddCheckedProducts() {
     var totalValue = 0.0;
     var totalQuantity = 0;
+    var allChecked = true;
 
     // Loop through each checkbox with class 'checkboxs'
     document.querySelectorAll(".checkboxs").forEach(function (checkbox) {
@@ -24,9 +25,15 @@ function AddCheckedProducts() {
                 totalValue += parseFloat(checkbox.value) * quantity;
                 totalQuantity += quantity; // Calculate total quantity of checked products
             }
+        } else {
+            allChecked = false;
         }
-        
     });
+
+    var selectAllCheckbox = document.querySelector("#selectAll");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.checked = allChecked;
+    }
 
     // Update the displayed total value and item count
     document.getElementById(TotalAmount).innerHTML = totalValue.toLocaleString(
@@ -43,6 +50,7 @@ function toggleSelectAll(selectAllCheckbox) {
     checkboxes.forEach(function (checkbox) {
         checkbox.checked = selectAllCheckbox.checked;
     });
+
     AddCheckedProducts(); // Update totals after selecting/deselecting all
     updateCheckedProductIds(); // Call this to update displayed IDs
 }
@@ -96,11 +104,8 @@ function updateProductIdList(checkbox, checkedProductIds) {
         }
     }
 
-    //AALISIN SOON PANG CHECK LANG NG ID ITO
-    //  document.getElementById("PROD").innerHTML = checkedProductIds.join(', ');
 
     // Update the checkout button based on the number of checked items
-
     if (checkedProductIds.length === 0) {
         // Disable the checkout button or show an error message
         const checkoutButton = document.querySelector("#button-size");
@@ -111,12 +116,15 @@ function updateProductIdList(checkbox, checkedProductIds) {
         const noButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-outline-primary"
         );
+
+         const OKButton = document.querySelector(
+             "#ModalProceed .modal-footer .btn-secondary"
+         );
         const yesButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-primary"
         );
-
+        OKButton.style.display = "block";
         noButton.style.display = "none"; // Hide the 'Yes' button
-
         yesButton.style.display = "none"; // Hide the 'Yes' button
 
         // Show the modal
@@ -132,7 +140,10 @@ function updateProductIdList(checkbox, checkedProductIds) {
             "href",
             `/checkOutPage/Checkout-Items/${encodedIds}`
         );
-
+           const OKButton = document.querySelector(
+               "#ModalProceed .modal-footer .btn-secondary"
+           );
+              OKButton.style.display = "none"; // Hide the 'Yes' button
         const noButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-outline-primary"
         );
@@ -148,6 +159,9 @@ function updateProductIdList(checkbox, checkedProductIds) {
         modalBody.textContent = "Proceed to Checkout?"; // Reset to the original message
     }
 }
+
+
+
 
 //TO UPDATE QUANTITY OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -195,6 +209,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 //END OF UPDATE QUANTITY OF ITEM IN CART IN DATABASE
+
+
+
+
+
 
 // //TO DELETE ITEM FROM CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -311,6 +330,49 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error("Error:", error);
                     alert("Error occurred while updating the size.");
                 });
+        }
+    });
+});
+
+
+
+
+//ERROR MESSAGE FOR EMPTY CART THIS IS FOR PAYMENT PAGE
+document.addEventListener("DOMContentLoaded", function () {
+    const confirmPaymentButton = document.querySelector("#confirmPaymentBtn");
+    const modalBody = document.querySelector(
+        "#ModalProceedPayment .modal-body p"
+    );
+    confirmPaymentButton.addEventListener("click", function (event) {
+        // Get form inputs
+        const referenceNumber = document.querySelector("#referenceNumber").value;
+        const proofPayment = document.querySelector("#proofPayment").files.length;
+
+    const modalCancelBtn = document.querySelector(
+        "#ModalProceedPayment .btn-outline-primary"
+    );
+    const modalYesBtn = document.querySelector(
+        "#ModalProceedPayment .btn-primary"
+    );
+    const modalOKBtn = document.querySelector(
+        "#ModalProceedPayment .btn-secondary"
+    );
+
+        // Check if any input is empty
+        if (!referenceNumber || !proofPayment) {
+            // If any field is empty, prevent form submission and update modal content
+            event.preventDefault();
+            modalBody.innerHTML ='Please fill in all fields before proceeding.';
+            modalCancelBtn.style.display = "none";
+            modalYesBtn.style.display = "none";
+            modalOKBtn.style.display = "block";
+        } 
+        else {
+            // If all fields are filled, update modal content
+            modalBody.innerHTML = "Are the given information correct?";
+            modalCancelBtn.style.display = "block";
+            modalYesBtn.style.display = "block";
+            modalOKBtn.style.display = "none";
         }
     });
 });
