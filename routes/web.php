@@ -37,14 +37,9 @@ use App\Http\Controllers\ProductDetailswithSizeController;
 
 Auth::routes();
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
 
 // =================== user side routes ==================================
 // profile page

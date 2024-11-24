@@ -16,21 +16,24 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // New User insert
-        $newUser = [
-            'first_name' => 'Nena',
-            'last_name' => 'Schwarzenegger',
-            'email' => 'nena@example.com',
-            'phone_number' => '5517723888',
-            'course_bloc' => 'B',
-            'year' => '1st Year',
-            'course_id' => 1,
-            'password' => Hash::make('password122'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-            'role_id' => 2,
-            'status_id' => 1,
+        $users = [
+            [
+                'first_name' => 'Arlere',
+                'last_name' => 'Montero',
+                'email' => 'arlenes@example.com',
+                'phone_number' => '1334567890',
+                'course_bloc' => 'A',
+                'year' => '1st Year',
+                'course_id' => 2,
+                'password' => Hash::make('passeeewrd123'),
+                'created_at' => Carbon::now(),
+                'profile_picture' => 'picture1144.png',
+                'updated_at' => Carbon::now(),
+                'role_id' => 1,
+                'status_id' => 1,
+            ],
         ];
-        DB::table('users')->insert($newUser);
-    }    
+
+        DB::table('users')->insert($users);
+    }
 }

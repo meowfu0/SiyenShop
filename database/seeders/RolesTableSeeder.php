@@ -15,6 +15,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('ALTER TABLE roles AUTO_INCREMENT = 1;');
         $roles = [
             [
                 'role_name' => 'Student',

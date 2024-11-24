@@ -16,12 +16,13 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         // Reset the auto-increment value to 1
-        DB::statement('ALTER TABLE shops AUTO_INCREMENT = 1;');
+        DB::statement('ALTER TABLE products AUTO_INCREMENT = 1;');
         $products = [
             [
                 'category_id' => 1,
                 'shop_id' => 1,
                 'status_id' => 9,
+                'visibility_id' => 1,
                 'product_name' => 'Circuits Lanyard',
                 'product_decription' => 'A lanyard made by Circuits',
                 'product_image' => 'lanyard.png',
@@ -35,6 +36,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 2,
                 'shop_id' => 2,
                 'status_id' => 8,
+                'visibility_id' => 2,
                 'product_name' => 'Access Pins',
                 'product_decription' => 'Cute Access Pins',
                 'product_image' => 'pins.png',
@@ -48,6 +50,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 4,
                 'shop_id' => 3,
                 'status_id' => 8,
+                'visibility_id' => 1,
                 'product_name' => 'CSC T-Shirt',
                 'product_decription' => 'Colorful CSC T-Shirt',
                 'product_image' => 'shirt.png',
@@ -61,6 +64,7 @@ class ProductsTableSeeder extends Seeder
                 'category_id' => 3,
                 'shop_id' => 1,
                 'status_id' => 8,
+                'visibility_id' => 2,
                 'product_name' => 'Circuits Stickers',
                 'product_decription' => 'Creative Stickers made by Circuits',
                 'product_image' => 'sticker.png',
