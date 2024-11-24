@@ -29,14 +29,13 @@
     </div>
 
     @if(request()->has('product'))
-
         @php
-            // Assuming you have fetched the products in your controller
-            $products = DB::table('products')->get(); // Example of fetching products
+            // Fetch the specific product based on the ID from the query string
+            $productId = request()->query('product');
+            $product = DB::table('products')->where('id', $productId)->first();
         @endphp
 
-        @if($products->isNotEmpty())
-            @foreach($products as $product)
+        @if($product)
             
     <div class="d-flex px-5 py-4 flex-grow-1">
         <div class="container">
@@ -263,27 +262,18 @@
                 <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
-            @if (session()->has('message'))
-                <div class="mt-4 text-green-500">
-                    {{ session('message') }}
-                </div>
-            @endif
         </div>
     </div>
-        
-    @endforeach
-
+    @else
+            <div class="alert alert-warning">
+                Product not found.
+            </div>
+        @endif
     @else
         <div class="alert alert-warning">
-            No products found.
+            No product ID provided. Please select a product to edit.
         </div>
     @endif
-    @else
-    <div class="alert alert-warning">
-        No product ID provided. Please select a product to edit.
-    </div>
-    @endif
-
 </div>
 
 
