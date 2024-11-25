@@ -109,7 +109,6 @@
                     <th scope="col" class="sortable" data-sort="id">ID <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="thumbnail">Thumbnail</th>
                     <th scope="col" class="sortable" data-sort="name">Name <i class="fas fa-sort"></i></th>
-                    <th scope="col" class="sortable" data-sort="name">Description <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="price">Price <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="supplier-price">Supplier Price <i class="fas fa-sort"></i></th>
                     <th scope="col" class="sortable" data-sort="category">Category <i class="fas fa-sort"></i></th>
@@ -132,7 +131,6 @@
                         <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
                     </td>
                     <td>{{ $product->product_name }}</td>
-                    <td>{{ $product->product_decription }}</td>
                     <td>{{ number_format($product->retail_price, 2) }}</td>
                     <td>{{ number_format($product->supplier_price, 2) }}</td>
                     <td class="product-category" data-category-id="{{ $product->category_id }}">{{ $product->category_name }}</td> <!-- Access category_name directly -->
