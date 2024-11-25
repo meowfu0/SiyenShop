@@ -107,7 +107,7 @@ class Dashboard extends Component
             ->count();
     }
 
-    public function getRecentOrders($limit = 10)
+    public function getRecentOrders($limit = 12)
     {
         $query = DB::table('orders')
             ->join('users', 'orders.user_id', '=', 'users.id')
@@ -137,7 +137,7 @@ class Dashboard extends Component
     }
     
 
-    public function getUnverifiedOrders($limit = 15)
+    public function getUnverifiedOrders($limit = 5)
     {
         $orderStatusId = DB::table('statuses')
         ->where('status_name', 'pending')
@@ -159,7 +159,7 @@ class Dashboard extends Component
             ->get();
     }
 
-    public function getLowStockProducts()
+    public function getLowStockProducts($limit = 5)
     {
     
         // Fetch products with stock 10 or below for the specified shop_id
@@ -167,6 +167,7 @@ class Dashboard extends Component
             ->where('shop_id', $this->shopId)
             ->where('stocks', '<=', 15)
             ->select('product_name', 'stocks')
+            ->limit($limit)
             ->get();
     }
 

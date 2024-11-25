@@ -46,7 +46,12 @@
                 <h4 class="text-secondary fw-bold">Recent Orders</h4>
                 <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
             </div>
-            <div>
+            <div style="height: 1000px;">
+                @if($recentOrders->isEmpty())
+                <table class="table table-borderless">
+                        <th>There are currently no recent orders.</th>
+                </table>
+                @else
                 <table class="table table-hover  table-borderless">
                     <thead>
                         <tr>
@@ -68,11 +73,9 @@
                             <td>{{$order->total_amount}}</td>
                         </tr>
                         @endforeach
-                      
-                        
-
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
 
@@ -82,7 +85,7 @@
                     <h4 class="text-secondary fw-bold">Unverified Payments</h4>
                     <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
                 </div>
-                <div style="height: 300px; overflow-y: auto;">
+                <div>
                 @if($unverifiedOrders->isEmpty())
                 <table class="table table-borderless">
                         <th>There are currently no unverified orders.</th>
@@ -115,7 +118,7 @@
                     <h4 class="text-secondary fw-bold">Stock Alert</h4>
                     <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
                 </div>
-                <div style="height: 300px; overflow-y: auto;">
+                <div style="height: 300px;">
                 @if($lowStockProducts->isEmpty())
                 <table class="table table-borderless">
                         <th>There are no low stock products at the moment.</th>
