@@ -115,6 +115,9 @@ Route::middleware(['role:Admin'])->group(function () {
             Route::prefix('shops')->group(function () {
                 Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
                 Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
+
+                Route::post('/admin/shops', [ShopPageController::class, 'store'])->name('admin.shops.store');
+
             });
             
         });

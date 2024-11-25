@@ -291,5 +291,36 @@ trashButton2.addEventListener('click', function () {
 
 
 
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the uploaded image as the profile picture
+                document.getElementById('profileImage').src = e.target.result;
+
+                // Set the uploaded image in the second section
+                document.getElementById('displayProfileImage').src = e.target.result;
+
+                // Show the remove button
+                document.getElementById('removeBtn').style.display = 'block'; 
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Function to remove the image and reset the profile picture
+    function removeImage() {
+        const defaultImage = 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png';
+        document.getElementById('profileImage').src = defaultImage;
+        document.getElementById('displayProfileImage').src = defaultImage;
+
+        // Hide the remove button
+        document.getElementById('removeBtn').style.display = 'none'; 
+
+        // Clear the file input value so no file is selected
+        document.getElementById('fileInput').value = ''; 
+    }
+
 ///////// END /////////////
 

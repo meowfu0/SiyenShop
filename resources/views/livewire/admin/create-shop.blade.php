@@ -14,24 +14,40 @@
             
            
 <!-- FORM-->   
-            <form action="{{ route('shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
+            <form action="{{ route('admin.shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
             @csrf
 <!--LOGO/PROFILE PIC--> 
-            <div class="d-flex gap-4 ms-3">
-                <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
-                class="profile-picture1" style="margin-right: 20px;"
-                alt="Profile Picture"
-                />
-                <div class="form-group d-flex align-items-center gap-3">
-                    
-                    <button class="btn btn-outline-primary d-flex align-items-center gap-2 hoverinvert p-3 flex-grow-1" style="height: 2rem">Upload Photo
-                        <img src="{{ asset('images/add.svg')}}" alt="">
-                    </button>
-                    <button class="btn btn-secondary h-25">Remove</button>
-                </div>
-            </div>
+<div class="d-flex gap-1 ms-3">
+    <!-- Profile Picture -->
+    <div id="profilePictureContainer">
+        <img
+            id="profileImage"
+            src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+            class="profile-picture1"
+            style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
+            alt="Profile Picture"
+        />
+    </div>
 
+    <!-- Form Group with Buttons -->
+    <div class="form-group d-flex align-items-center gap-3">
+        <!-- Upload Photo Button -->
+        <label for="fileInput" class="btn btn-outline-primary d-flex align-items-center gap-2 hoverinvert p-3 flex-grow-1" style="height: 2rem; cursor: pointer;">
+            Upload Photo
+            <img src="{{ asset('images/add.svg') }}" alt="">
+        </label>
+        <input
+            type="file"
+            id="fileInput"
+            style="display: none;"
+            accept="image/*"
+            onchange="previewImage(event)"
+        />
+        
+        <!-- Remove Button -->
+        <button type="button" class="btn btn-secondary h-25" id="removeBtn" onclick="removeImage()">Remove</button>
+    </div>
+</div>
             <!-- INPUT FIELDS--> 
                         <div class="form-group">
                             <label for="shopName" class="fw-bold mb-1">Shop Name</label>
@@ -101,10 +117,13 @@
         <div class="col d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column  border border-primary p-5" style="border-radius: 1rem">
                 <div class="mb-3 d-flex justify-content-center w-100">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
-                         class="profile-picture1"
-                         alt="Profile Picture"
-                         style="width: 200px; height: 200px;">
+                    <img
+                        id="displayProfileImage"
+                        src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+                        class="profile-picture1"
+                        style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
+                        alt="Profile Picture"
+                    />
                 </div>
                 <div class="d-flex flex-column justify-content-start px-5">
                     <h3 id="displayShopName" class="fw-bold fs-7">Shop Name</h3>
@@ -126,7 +145,18 @@
 
 
 <script src="{{asset('js/admin-shops.js')}}" ></script>
+<script>
+    function cancel(){
+        
+        window.location.href = "{{ route('admin.shops') }}";
+    
+    }
 
+    function shops(){
+        //create function tbf
+        window.location.href = "{{ route('admin.shops') }}";
+    }
+</script>
 <!--
 <script>
 
