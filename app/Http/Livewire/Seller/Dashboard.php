@@ -137,6 +137,28 @@ class Dashboard extends Component
     }
     
 
+    public function getUnverifiedOrders($limit = 15)
+    {
+        $orderStatusId = DB::table('statuses')
+        ->where('status_name', 'pending')
+        ->pluck('id');
+
+        return DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->select(
+                'orders.id', 
+                'orders.reference_number',
+                'users.first_name as user_fname', 
+                'users.last_name as user_lname',
+            )
+            ->where('orders.shop_id', $this->shopId)
+            ->whereIn('orders.order_status_id', $orderStatusId)
+            ->whereBetween('orders.order_date', [$this->startDate, $this->endDate])
+            ->orderBy('orders.order_date', 'asc')
+            ->limit($limit)
+            ->get();
+    }
+
     public function getLowStockProducts()
     {
     
@@ -159,6 +181,7 @@ class Dashboard extends Component
             'allOrdersCount' => $this->allOrdersCount,
             'recentOrders' => $this->getRecentOrders(),
             'lowStockProducts' => $this-> getLowStockProducts(),
+            'unverifiedOrders' => $this->getUnverifiedOrders(),
             'startDate' => $formattedStartDate,
             'endDate' => $formattedEndDate,
             'shopInfo' => $this->getShopInfo()

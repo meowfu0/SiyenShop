@@ -82,7 +82,12 @@
                     <h4 class="text-secondary fw-bold">Unverified Payments</h4>
                     <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
                 </div>
-                <div>
+                <div style="height: 300px; overflow-y: auto;">
+                @if($unverifiedOrders->isEmpty())
+                <table class="table table-borderless">
+                        <th>There are currently no unverified orders.</th>
+                </table>
+                @else
                     <table class="table table-hover  table-borderless">
                         <thead>
                             <tr>
@@ -92,29 +97,15 @@
 
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>John Robert Rodejo</td>
-                                <td>536754683287432</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Ian AGbriel Villame</td>
-                                <td>536754683287432</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Vicente Bercasio</td>
-                                <td>536754683287432</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Archie Onoya</td>
-                                <td>536754683287432</td>
-                            </tr>
-                        </tbody>
+                        @foreach ($unverifiedOrders as $unverifiedorder)
+                        <tr>
+                            <td> {{ $unverifiedorder->id }} </td>
+                            <td>{{ $unverifiedorder->user_fname . " " . $unverifiedorder->user_lname }}</td>
+                            <td>{{ $unverifiedorder->reference_number }}</td>
+                        </tr>
+                        @endforeach
                     </table>
+                @endif
                 </div>
 
             </div>
@@ -124,7 +115,7 @@
                     <h4 class="text-secondary fw-bold">Stock Alert</h4>
                     <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
                 </div>
-                <div style="max-height: 300px; overflow-y: auto;">
+                <div style="height: 300px; overflow-y: auto;">
                 @if($lowStockProducts->isEmpty())
                 <table class="table table-borderless">
                         <th>There are no low stock products at the moment.</th>
