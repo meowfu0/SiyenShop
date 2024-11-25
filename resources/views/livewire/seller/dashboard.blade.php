@@ -70,7 +70,7 @@
                             <td>{{$order->user_fname . " " . $order->user_lname}}</td>
                             <td>{{$order->course}}</td>
                             <td>{{$order->total_items}}</td>
-                            <td>{{$order->total_amount}}</td>
+                            <td>₱ {{$order->total_amount}}</td>
                         </tr>
                         @endforeach
                     </tbody>
