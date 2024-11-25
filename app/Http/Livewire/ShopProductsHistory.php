@@ -40,8 +40,12 @@ class ShopProductsHistory extends Component
 
     public function render()
     {
+        $deletedProducts = Product::with(['category', 'shop', 'status', 'visibility'])
+            ->whereNotNull('deleted_at')
+            ->get();
+
         return view('livewire.shop.shop-products-history', [
-            'products' => $this->products,
+            'products' => $deletedProducts,
         ]);
     }
 }

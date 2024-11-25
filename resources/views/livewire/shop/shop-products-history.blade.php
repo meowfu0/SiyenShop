@@ -67,28 +67,28 @@
 
     <div class="d-flex px-5 py-4 gap-4 flex-grow-1">
         <div class="border border-primary rounded-4 p-4" style="flex: 4;">
-            <table id="example" class="table table-hover table-borderless" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <!-- Select All Checkbox -->
-                        <th>
-                            <input type="checkbox" class="select-all" id="select-all">
-                        </th>
-                        <th scope="col" class="sortable" data-sort="id">ID <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="thumbnail">Thumbnail</th>
-                        <th scope="col" class="sortable" data-sort="name">Name <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="price">Price <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="supplier-price">Supplier Price <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="category">Category <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="stocks">Available Stocks <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="status">Status <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="visibility">Visibility <i class="fas fa-sort"></i></th>
-                        <th scope="col" class="sortable" data-sort="stock-level">Stock Level <i class="fas fa-sort"></i></th>
-                        <th scope="col"></th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($products as $product)
+        <table id="example" class="table table-hover table-borderless" style="width: 100%;">
+            <thead>
+                <tr>
+                    <!-- Select All Checkbox -->
+                    <th>
+                        <input type="checkbox" class="select-all" id="select-all">
+                    </th>
+                    <th scope="col" class="sortable" data-sort="id">ID <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="thumbnail">Thumbnail</th>
+                    <th scope="col" class="sortable" data-sort="name">Name <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="price">Price <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="supplier-price">Supplier Price <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="category">Category <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="stocks">Available Stocks <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="status">Status <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="visibility">Visibility <i class="fas fa-sort"></i></th>
+                    <th scope="col" class="sortable" data-sort="deleted-at">Deleted At <i class="fas fa-sort"></i></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($products as $product)
                     <tr>
                         <!-- Select Individual Item -->
                         <td>
@@ -96,25 +96,32 @@
                         </td>
                         <td>{{ $product->id }}</td>
                         <td>
-                            <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
+                            <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" width="50">
                         </td>
                         <td>{{ $product->product_name }}</td>
                         <td>{{ number_format($product->retail_price, 2) }}</td>
                         <td>{{ number_format($product->supplier_price, 2) }}</td>
-                        <td class="product-category" data-category-id="{{ $product->category->id }}">{{ $product->category->category_name }}</td>
+                        <td class="product-category" data-category-id="{{ $product->category->id ?? '' }}">
+                            {{ $product->category->category_name ?? 'N/A' }}
+                        </td>
                         <td>{{ $product->stocks }}</td>
-                        <td>{{ $product->status->status_name }}</td>
-                        <td>{{ $product->visibility->visibility_name }}</td>
-                        <td>{{ $product->stocks_level }}</td>
+                        <td>{{ $product->status->status_name ?? 'N/A' }}</td>
+                        <td>{{ $product->visibility->visibility_name ?? 'N/A' }}</td>
+                        <td>{{ $product->deleted_at ? \Carbon\Carbon::parse($product->deleted_at)->format('Y-m-d H:i:s') : 'N/A' }}</td>
+
 
                         <!-- Actions Column -->
                         <td>
-                            <img src="{{ asset('images/history.svg') }}" alt="dotmenu" class="me-2" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#restoreModal">
+                            <img src="{{ asset('images/history.svg') }}" alt="restore" class="me-2" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#restoreModal">
                         </td>
                     </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                @empty
+                    <tr>
+                        <td colspan="12" class="text-center">No deleted products found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     
         </div>
     </div>
