@@ -88,7 +88,7 @@
             @foreach($topShops as $shop)
                 <div class="d-flex justify-content-between">
                     <h6 class="text-primary fw-bolder">{{ $shop->shop_name }}</h6>
-                    <h6 class="text-primary fw-bolder">{{ $shop->total_amount }} sales</h6>
+                    <h6 class="text-primary fw-bolder">₱ {{ number_format($shop->total_amount, 2) }} sales</h6>
                 </div>
             @endforeach
         </div>
