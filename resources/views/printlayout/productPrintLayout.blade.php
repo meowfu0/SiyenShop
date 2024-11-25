@@ -70,9 +70,9 @@
     </style>
 </head>
 <body>
-    <div class="header">
+    <!-- <div class="header">
         <div class="bar"> </div>
-    </div>
+    </div> -->
     <div class="center-content">
         <h1>Products</h1>
         <p>Shop: {{ $shop_name }}</p>
