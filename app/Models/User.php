@@ -42,9 +42,29 @@ class User extends Authenticatable
 
     /**
      * Relationship to the Course model.
+     * Each user belongs to one course.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class, 'course_id'); 
     }
+
+     /**
+     * Relationship to the Role model.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function status()
+{
+    return $this->belongsTo(Status::class);
 }
+
+    
+}
+
+

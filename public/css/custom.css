@@ -1,15 +1,12 @@
-
 @media screen and (max-width: 768px) {
     .navbar-nav.al {
         margin: 0;
-       
     }
     .d-flex.ms-auto {
         position: absolute;
         top: 12px; 
         right: 10px; 
     }
-
     .logo-img {
         margin-left: 15px;
     }
@@ -21,8 +18,8 @@
         padding: 0; 
         margin: 0 auto; 
     }
-    
 }
+
 @media (max-width: 768px) {
     .navbar .order-1 {
         order: 1;
@@ -33,7 +30,12 @@
     .navbar .order-3 {
         order: 2;
     }
+    .preview-container{
+        display: none;
+    }
+    
 }
+
 
 .logo-img{
     height: 31px;
@@ -45,11 +47,10 @@
     box-shadow: none;
 }
 
-
 @media only screen and (min-width: 768px) {
     .navbar {
-     height: 80px !important; 
-   } 
+        height: 80px !important; 
+    }
 }
 
 @media (max-width: 768px) {
@@ -58,3 +59,191 @@
         height: 16px;
     }
 }
+
+/* hero section code starts here */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65dvh;
+    background: linear-gradient(to right, rgba(226, 185, 59, 0.2), rgba(9, 44,76, 0.2));
+    padding: 48px 48px 0px 48px;
+}
+
+.btn1-custom {
+    margin-top: 10px; 
+}
+.hero img {
+    max-height: 55dvh;
+}
+.hero .content {
+    max-width: 600px;
+}
+.btn1-custom {
+    background-color: #fbb034;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+}
+.btn1-custom:hover {
+    background-color: #f9a329;
+}
+
+/* ======= ends here ========= */
+
+/* infinite section code starts here */
+.marquee {
+    display: flex;
+    block-size: var(--marquee-item-height);
+    margin-block: var(--marquee-item-height);
+    position: relative;
+    overflow-x: hidden;
+    mask-image: linear-gradient(
+      to right,
+      hsl(0 0% 0% / 0),
+      hsl(0 0% 0% / 1) 20%,
+      hsl(0 0% 0% / 1) 80%,
+      hsl(0 0% 0% / 0)
+    );
+  }
+
+  .marquee::-webkit-scrollbar {
+    display: none; 
+}
+  
+  .marquee--6 {
+    --marquee-item-width: 166px;
+    --marquee-item-height: 100px;
+    --marquee-duration: 32s;
+    --marquee-items: 6;
+    margin: 50px;
+  }
+  
+  .marquee__item {
+    --marquee-item-offset: max(
+      calc(var(--marquee-item-width) * var(--marquee-items)),
+      calc(100% + var(--marquee-item-width))
+    );
+    --marquee-delay: calc(var(--marquee-duration) / var(--marquee-items) * (var(--marquee-items) - var(--marquee-item-index)) * -1);
+    position: absolute;
+    inset-inline-start: var(--marquee-item-offset);
+    transform: translateX(-50%);
+    animation: go linear var(--marquee-duration) var(--marquee-delay, 0s) infinite;
+  }
+  
+  .marquee__item:nth-child(4n) {
+    border-top-right-radius: 1rem;
+  }
+  
+  .marquee__item:nth-child(4n + 1) {
+    border-bottom-right-radius: 1rem;
+  }
+  
+  .marquee__item:nth-child(4n + 2) {
+    border-bottom-left-radius: 1rem;
+  }
+  
+  .marquee__item:nth-child(4n + 3) {
+    border-top-left-radius: 1rem;
+  }
+  
+  .marquee--6 .marquee__item:nth-of-type(1) {
+    --marquee-item-index: 1;
+  }
+  
+  .marquee--6 .marquee__item:nth-of-type(2) {
+    --marquee-item-index: 2;
+  }
+  
+  .marquee--6 .marquee__item:nth-of-type(3) {
+    --marquee-item-index: 3;
+  }
+  
+  .marquee--6 .marquee__item:nth-of-type(4) {
+    --marquee-item-index: 4;
+  }
+  
+  .marquee--6 .marquee__item:nth-of-type(5) {
+    --marquee-item-index: 5;
+  }
+  
+  .marquee--6 .marquee__item:nth-of-type(6) {
+    --marquee-item-index: 6;
+  }
+  
+  @keyframes go {
+    0% {
+        inset-inline-start: calc(var(--marquee-item-width) * -1); /* Start off-screen to the left */
+    }
+    100% {
+        inset-inline-start: calc(var(--marquee-item-offset)); /* Move to the starting position on the right */
+    }
+}
+
+/* ======= ends here ========= */
+
+.nav-link:hover,
+.nav-link.active{
+    color: #E2B93B!important;
+    
+}
+
+/* ends here */
+.sidenav-link {
+    padding: 12px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sidenav-link:hover, 
+.sidenav-link:active,
+.sidenav-link.active {
+    background-color: #E2B93B;
+    color: white;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.sidenav-link:hover img, 
+.sidenav-link:active img, 
+.sidenav-link.active img{
+    filter: brightness(0) invert(1); /* Turns the image to white */
+}
+    /* Styling for Create Account Button */
+.register-btn {
+  background-color: transparent;
+  color: #092C4C; /* Adjust this color as needed */
+  border-color: #092C4C; /* Adjust this color as needed */
+}
+
+.register-btn:hover {
+  background-color: #092C4C !important; /* Adjust this color as needed */
+  color: white !important; /* Adjust this color as needed */
+  border-color: #092C4C !important; /* Ensure border color remains the same */
+}
+
+ /* Hover Effect for Forgot Password */
+.forgot-password {
+  text-decoration: none;
+  color: #6c757d; /* Text-muted color */
+}
+
+ .forgot-password:hover {
+  color: #092C4C;
+  text-decoration: underline;
+}
+
+.invert{
+    filter: brightness(0) invert(1); /* Turns the image to white */
+}
+
+.hoverinvert:hover img{
+    filter: brightness(0) invert(1); /* Turns the image to white */
+}
+
+.btn-link{
+    text-decoration: none!important;
+}
+
