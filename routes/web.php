@@ -82,9 +82,18 @@ Route::get('/shop', function () {
 Route::prefix('shop')->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
+    Route::post('/orders/{id}/change-status', [OrderController::class, 'changeStatus']);
 
+
+
+
+
+
+    //ORDER MANAGEMENT
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::post('/orders', [ShopOrders::class, 'store'])->name('shop.orders');//pang store order
+    
+    
 
     Route::get('shop/orders', [OrderController::class, 'index']);
     // Updated route to fetch the shop details for the authenticated user

@@ -9,10 +9,15 @@
 @extends('layouts.shop')
 
 @section('content')
+<<<<<<< HEAD
 
 <div class="w-100">
     @include('components.profilenav')
    
+=======
+    <div class="flex-grow-1" style="width: 100%!important;">
+        @include('components.profilenav')
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
         <div class="ps-3">
             <img src="{{asset('images/Circuits.svg')}}" alt="">
@@ -53,8 +58,13 @@
                 <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal" onclick="printTable()" disabled style="opacity: 0.5">
                     <img  style="height: 23px; width:23px;" src="{{ asset('images/print.svg') }}" alt="">
                 </button>
+<<<<<<< HEAD
                 <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal" disabled style="opacity: 0.5">
                     <img  style="height: 23px; width:23px" src="{{ asset('images/export.svg') }}" alt="">
+=======
+                <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal" >
+                    <img  style="height: 23px; width:23px;" src="{{ asset('images/export.svg') }}" alt="">
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
                 </button>
             </div>
         </div>
@@ -103,21 +113,26 @@
                 }
             @endphp
 
-            @foreach ($orders as $order)
-                <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ json_encode($order) }})">
-                    <td>{{ $order->id }}</td>
-                    <td class="product-name">{{ $order->product_name ?? 'N/A' }}</td>
-                    <td>{{ $order->total_items }}</td>
-                    <td>{{ number_format($order->supplier_price_total_amount, 1) }}</td>
-                    <td>{{ number_format($order->total_amount, 1) }}</td>
-                    <td class="reference-number">{{ $order->reference_number }}</td>
-                    <td>{{ $order->proof_of_payment }}</td>
-                    <td class="status-label {{ getStatusClass($order->order_status_id) }}">
-                        {{ $statusLabels[$order->order_status_id] ?? 'Unknown Status' }}
-                    </td>
-                    <td>{{ $order->order_date }}</td>
-                </tr>
-            @endforeach
+    @foreach ($orders as $order)
+        <tr class="status-label {{ getStatusClass($order->order_status_id) }}"
+            data-status="{{ $order->order_status_id }}"
+            onclick="openOrderModal({{ json_encode($order) }})">
+            <td>{{ $order->id }}</td>
+            <td class="product-name">{{ $order->product_name ?? 'N/A' }}</td>
+            <td>{{ $order->total_items }}</td>
+            <td>{{ number_format($order->supplier_price_total_amount, 1) }}</td>
+            <td>{{ number_format($order->total_amount, 1) }}</td>
+            <td class="reference-number">{{ $order->reference_number }}</td>
+            <td>{{ $order->proof_of_payment }}</td>
+            <td class="status-label {{ getStatusClass($order->order_status_id) }}">
+                {{ $statusLabels[$order->order_status_id] ?? 'Unknown Status' }}
+            </td>
+            <td>{{ $order->order_date }}</td>
+        </tr>
+    @endforeach
+
+
+
             <div id="no-results" style="display: none; position: absolute; left: 55%; transform: translateX(-50%); text-align: center; margin-top: 48px;">
                 No matching results found.
             </div>
@@ -127,32 +142,34 @@
 
 <!-- TABLE END -->
 
-<div class="footer-btn">
-    <p>Showing 1 to 10 of 100 entries</p>
-    <div class="d-flex" >
-        <a class="page-link rounded-start border border-start border-primary" href="#" aria-label="Previous" style="margin-left: 530px;">
-            <span aria-hidden="true">&laquo;</span></a>
-        <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&lsaquo;</span></a>
-        <a  class="page-link" href="#">1</a>
-        <a  class="page-link" href="#">2</a>
-        <a  class="page-link" href="#">3</a>
-        <a  class="page-link" href="#">4</a>
-        <a  class="page-link" href="#">5</a>
-        <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span></a>
-        <a class="page-link rounded-end" href="#" aria-label="Next">
-                    <span aria-hidden="true">&rsaquo;</span></a>
-    </div>
-</div>
+        <div class="footer-btn">
+            <p>Showing 1 to 10 of 100 entries</p>
+            <div class="d-flex" >
+                <a class="page-link rounded-start border border-start border-primary" href="#" aria-label="Previous" style="margin-left: 530px;">
+                    <span aria-hidden="true">&laquo;</span></a>
+                <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span></a>
+                <a  class="page-link" href="#">1</a>
+                <a  class="page-link" href="#">2</a>
+                <a  class="page-link" href="#">3</a>
+                <a  class="page-link" href="#">4</a>
+                <a  class="page-link" href="#">5</a>
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span></a>
+                <a class="page-link rounded-end" href="#" aria-label="Next">
+                            <span aria-hidden="true">&rsaquo;</span></a>
+            </div>
+
+        </div>
+        <div>
+            <br><br><br>
+        </div>
 
 </div>
  <!-- TABLE END -->
 
-
-    <!-- MODAL START DITESS -->
-
-    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
+<!-- FOR PENDING ORDERS-->
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -160,7 +177,7 @@
             <div class="modal-header">
                 <img src="{{ asset('images/Circuits.svg') }}" alt="Toggle navigation" style="width: 25px; height: 25px;">
                 <h5 class="modal-title" id="orderDetailsLabel">Order Details</h5>
-                <div class="p-10 mb-2 bg-light text-dark" id="modalStatus"></div>
+                <div class="p-10 mb-2 bg-light text-dark" id="modalStatus" style="padding-top:18px;"></div>
             </div>
             <!-- Modal Body -->
             <div class="modal-body"> 
@@ -168,6 +185,21 @@
                 <div class="modal-items">
                     <table class="modal-item-table" id="modalItemsTable">
                         <!-- Items will be populated dynamically by JavaScript -->
+                        <div class="modalinside">
+                            <ul class="modal-list-inline">
+                                <li>Item</li>
+                                <li>Quantity</li>
+                                <li>Variant/Size</li>
+                            </ul>
+                            <!-- Dynamically updated image -->
+                            <img src="" alt="" id="productImg" style="display: none;">
+                            
+                        </div>
+                        <div class="modalinside2">
+                            <p id="modalCategoryName"></p>
+                            <p id="modalQuantity"></p>
+                            <p id="modalVariant"></p>
+                        </div>
                     </table>
                 </div>
                 <hr/>
@@ -179,6 +211,7 @@
                     <p>Reference No.:</p>
                 </div>
                 <div class="transact-col2">
+                    <p id="modalCategoryName"></p>
                     <p id="modalOrderId"></p>
                     <p id="modalTotalAmount"></p>
                     <p id="modalPaymentMethod"></p>
@@ -188,7 +221,6 @@
                 <div class="transact-col3">
                     <p>Date:</p>
                     <p>Time:</p>
-                    <p>Item(s):</p>
                 </div>
                 <div class="transact-col4">
                     <p id="modalDate"></p>
@@ -198,17 +230,31 @@
             </div>
             <!-- Modal Footer -->
             <div class="modal-footer">
+<<<<<<< HEAD
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="closeModal">Cancel</button>
                 <button type="button" class="btn btn-light" data-bs-toggle="modal" onclick="confirmStatus('Denied', document.getElementById('modalOrderId').innerText)" id="denyButton">Deny Payment</button>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="confirmStatus(document.getElementById('modalStatus').innerText, document.getElementById('modalOrderId').innerText)" style="width: 150px !important;" id="updateButton">Update Status</button>
+=======
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="changeStatus()" style="width: 230px;">Change Status</button>
+
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
             </div>
         </div>
     </div>
 </div>
-        
-    
-        <!-- Confirmation Modal -->
+
+
+
+
+
+
+
+
+
+        <!-- FOR PENDING -->
         <div class="modal fade" id="approveConfirmModal" tabindex="-1" aria-labelledby="approveConfirmLabel" aria-hidden="true">
+<<<<<<< HEAD
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0">
                     <div class="modal-body">
@@ -237,6 +283,25 @@
         </div>
         <!-- Received - Pickup Modal -->
         <div class="modal fade" id="PickUpConfirmModal" tabindex="-1" aria-labelledby="PickUpConfirmLabel" aria-hidden="true">
+=======
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+            <div class="modal-body">
+                <h3>Are you sure you want to approve this payment? </h3>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmApproveBtn">Approve Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+        
+        <!-- FOR RECEIVED-PAYMENT -->
+        <div class="modal fade" id="ReceiveConfirmModal" tabindex="-1" aria-labelledby="PickUpConfirmLabel" aria-hidden="true">
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0">
                     <div class="modal-body">
@@ -249,6 +314,21 @@
                 </div>
             </div>
         </div>
+        <!-- FOR PICKUP -->
+        <div class="modal fade" id="PickConfirmModal" tabindex="-1" aria-labelledby="CompletedConfirmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-body">
+                        <h3>Are you sure you want to change "For Pick-up" to "Completed" status?</h3>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Denied - Received Modal -->
         <div class="modal fade" id="ReceivedConfirmModal" tabindex="-1" aria-labelledby="denyConfirmLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -330,6 +410,10 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
 </div>
 
 
@@ -339,6 +423,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
 
 <script>
     let currentPage = 1;
@@ -482,6 +570,7 @@
 }
 
 
+<<<<<<< HEAD
 // MODAL
 function openOrderModal(order) {
     // Populate the modal fields
@@ -565,6 +654,8 @@ function openOrderModal(order) {
     const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
     modal.show();
 }
+=======
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
 
 
 document.getElementById('status-filter').addEventListener('change', function() {
@@ -635,7 +726,6 @@ function printTable() {
         alert("Please select both start and end dates.");
     }
 }
-
 function downloadCSV() {
     // Get the selected dates from the export modal
     var startDate = document.getElementById('export-from').value;
@@ -677,6 +767,7 @@ function downloadXLSX() {
     var endDate = document.getElementById('export-to').value;
 
     if (startDate && endDate) {
+<<<<<<< HEAD
         var rows = document.querySelectorAll('.status-label.completed-order'); // Get only completed orders
         if (rows.length > 0) {
             var workbook = XLSX.utils.book_new();
@@ -701,6 +792,68 @@ function downloadXLSX() {
         } else {
             alert("No completed orders to export.");
         }
+=======
+        var table = document.getElementById('order-table');
+        var rows = table.rows;
+
+        var workbook = XLSX.utils.book_new();
+        var sheetData = [];
+
+        // Add a header row with the date range
+        sheetData.push(['Orders from ' + startDate + ' to ' + endDate]);
+
+        // Loop through the rows and add them to the sheet data
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cols = row.cells;
+            var rowData = [];
+            for (var j = 0; j < cols.length; j++) {
+                rowData.push(cols[j].innerText);
+            }
+            sheetData.push(rowData);
+        }
+
+        var sheet = XLSX.utils.aoa_to_sheet(sheetData);
+        XLSX.utils.book_append_sheet(workbook, sheet, 'Orders');
+        XLSX.writeFile(workbook, 'orders.xlsx');
+    } else {
+        alert("Please select both start and end dates.");
+    }
+}
+
+function downloadPDF() {
+    var startDate = document.getElementById('export-from').value;
+    var endDate = document.getElementById('export-to').value;
+
+    if (startDate && endDate) {
+        var table = document.getElementById('order-table');
+        var rows = table.rows;
+
+        var doc = new jsPDF();
+        var rowData = [];
+
+        // Add a header row with the date range
+        doc.text('Orders from ' + startDate + ' to ' + endDate, 10, 10);
+        rowData.push(['Orders from ' + startDate + ' to ' + endDate]);
+
+        // Loop through the rows and add them to the PDF
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cols = row.cells;
+            var pdfRow = [];
+            for (var j = 0; j < cols.length; j++) {
+                pdfRow.push(cols[j].innerText);
+            }
+            rowData.push(pdfRow);
+        }
+
+        doc.autoTable({
+            head: [Array.from(rows[0].cells).map(cell => cell.innerText)],
+            body: rowData.slice(1),
+        });
+
+        doc.save('orders.pdf');
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
     } else {
         alert("Please select both start and end dates.");
     }
@@ -772,6 +925,67 @@ function downloadPDF() {
     };
 }
 
+
+function downloadExcel() {
+    // Similar to CSV download, but this is where you'd generate an XLSX file
+    alert("Please Wait.");
+}
+
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Get the start and end date from the modal inputs
+    const startDate = document.getElementById('export-from').value;
+    const endDate = document.getElementById('export-to').value;
+
+    // Check if dates are provided
+    if (startDate && endDate) {
+        // Add the start and end date to the left of the PDF
+        doc.setFontSize(11);
+        doc.text("From: " + startDate, 10, 20); // From date on the left
+        doc.text("To: " + endDate, 10, 30);   // To date on the left
+    }
+
+    // Extract table data
+    const table = document.getElementById("order-table");
+    const headers = [...table.rows[0].cells].map(cell => cell.innerText);
+    const rows = [];
+    for (let i = 1; i < table.rows.length; i++) {
+        rows.push([...table.rows[i].cells].map(cell => cell.innerText));
+    }
+
+    doc.autoTable({
+        head: [headers],
+        body: rows,
+        startY: 40,
+        theme: "grid",
+        headStyles: {
+            fillColor: [240, 240, 240], 
+            textColor: [0, 0, 0], 
+            halign: "center", 
+        },
+        bodyStyles: {
+            textColor: [0, 0, 0],
+        },
+    });
+
+    const imgPath = "{{ asset('images/logo.png') }}"; 
+    const imgWidth = 35;
+    const imgHeight = 10; 
+    const pageHeight = doc.internal.pageSize.height;
+    const pageWidth = doc.internal.pageSize.width;
+    const xPos = (pageWidth - imgWidth) / 2; 
+    const yPos = pageHeight - imgHeight - 10; 
+
+ 
+    const image = new Image();
+    image.src = imgPath;
+    image.onload = function () {
+        doc.addImage(image, "PNG", xPos, yPos, imgWidth, imgHeight);
+        doc.save("orders.pdf"); 
+    };
+}
 
 //SORTING 
 document.getElementById('search-box').addEventListener('input', function () {
@@ -1137,5 +1351,162 @@ function refreshTable(orders) {
 
 </script>
 
+
+
+
+
+<script>
+    // CHANGE STATUS 
+    
+</script>
+
+<script>
+function openOrderModal(order) {
+    // Category and image mappings
+    const categoryMap = {
+        1: 'Lanyards',
+        2: 'Pins',
+        3: 'Stickers',
+        4: 'T-Shirt',
+        5: 'Tote-Bag',
+        6: 'Keyholder',
+        7: 'Lanyards',
+        8: 'Pins',
+        9: 'Stickers',
+        10: 'T-Shirt',
+        11: 'Tote-Bag',
+        12: 'Keyholder'
+    };
+
+    const categoryImageMap = {
+        1: 'lanyard.jpg',
+        2: 'pin.jpg',
+        3: 'sticker.jpg',
+        4: 'tshirt.jpg',
+        5: 'totebag.jpg',
+        6: 'keyholder.jpg',
+        7: 'lanyard.jpg',
+        8: 'pin.jpg',
+        9: 'sticker.jpg',
+        10: 'tshirt.jpg',
+        11: 'totebag.jpg',
+        12: 'keyholder.jpg'
+    };
+
+    // Update modal content
+    document.getElementById("modalOrderId").textContent = order.id ?? 'N/A';
+    document.getElementById("modalTotalAmount").textContent = `P${order.total_amount ?? 0}`;
+    document.getElementById("modalPaymentMethod").textContent = order.payment_method ?? 'N/A';
+    document.getElementById("modalProofOfPayment").textContent = order.proof_of_payment ?? 'N/A';
+    document.getElementById("modalReferenceNumber").textContent = order.reference_number ?? 'N/A';
+    document.getElementById("modalDate").textContent = order.order_date ?? 'N/A';
+    document.getElementById("modalTime").textContent = order.order_time ?? 'N/A';
+    document.getElementById("modalCategoryName").textContent = categoryMap[order.category_id] ?? 'Unknown Category';
+    document.getElementById("modalQuantity").textContent = order.total_items ?? 'N/A';
+    document.getElementById("modalVariant").textContent = order.variant ?? 'N/A';
+
+    // Set product image
+    const productImgElement = document.getElementById("productImg");
+    const productImagePath = categoryImageMap[order.category_id] ? `../images/orders/${categoryImageMap[order.category_id]}` : '';
+    if (productImagePath) {
+        productImgElement.src = productImagePath;
+        productImgElement.style.display = 'block';
+    } else {
+        productImgElement.style.display = 'none';
+    }
+
+    // Populate items table
+    const itemsHtml = (order.items || []).map(item => `
+        <tr>
+            <td>${item.name ?? 'Item'}</td>
+            <td>${item.quantity ?? 0}</td>
+            <td>${item.variant ?? 'N/A'}</td>
+        </tr>
+    `).join('');
+    document.getElementById("modalItemsTable").innerHTML = itemsHtml;
+
+    // Update modal status
+    const statusLabels = {
+        6: 'Payment Denied',
+        7: 'Pending',
+        10: 'Payment Received',
+        11: 'Ready for Pickup',
+        12: 'Order Complete',
+    };
+    const statusClasses = {
+        6: 'denied-payment',
+        7: 'pending',
+        10: 'received-payment',
+        11: 'for-pickup',
+        12: 'completed-order',
+    };
+    const statusLabel = statusLabels[order.order_status_id] ?? 'Unknown Status';
+    const statusClass = statusClasses[order.order_status_id] ?? 'unknown-status';
+
+    const modalStatusElement = document.getElementById("modalStatus");
+    modalStatusElement.textContent = statusLabel;
+    modalStatusElement.className = `badge ${statusClass}`;
+
+    const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+    modal.show();
+}
+
+function approveConfirmModal(order) {
+    const statusLabels = {
+        6: 'Payment Denied',
+        7: 'Pending',
+        10: 'Payment Received',
+        11: 'Ready for Pickup',
+        12: 'Order Complete',
+    };
+    const statusClasses = {
+        6: 'denied-payment',
+        7: 'pending',
+        10: 'received-payment',
+        11: 'for-pickup',
+        12: 'completed-order',
+    };
+    const statusLabel = statusLabels[order.order_status_id] ?? 'Unknown Status';
+    const statusClass = statusClasses[order.order_status_id] ?? 'unknown-status';
+
+    const modalStatusElement = document.getElementById("approveConfirmStatus");
+    modalStatusElement.textContent = statusLabel;
+    modalStatusElement.className = `badge ${statusClass}`;
+}
+</script>
+
+<script>
+     function changeStatus() {
+        const orderId = document.getElementById('modalOrderId').textContent; 
+        if (!confirm("Are you sure you want to change the order status to 'Payment Received'?")) {
+            return;
+        }
+        fetch(`/orders/${orderId}/change-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify({
+                status: 10 
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update order status');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
+            document.getElementById('modalStatus').textContent = "Payment Received";
+            document.getElementById('modalOrderId').setAttribute('data-status', 10);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the status.');
+        });
+    }
+</script>
 
 @endsection

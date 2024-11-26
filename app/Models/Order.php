@@ -18,5 +18,12 @@ class Order extends Model
     {
         return $this->belongsTo(Shop::class);
     }
+<<<<<<< HEAD
+=======
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+>>>>>>> 640fb24d4c235f6b8627a0ba651738db811bc91b
 
 }
