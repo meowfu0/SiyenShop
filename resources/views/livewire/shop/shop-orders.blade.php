@@ -1,13 +1,23 @@
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Shop Orders</title>
+
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
 @extends('layouts.shop')
 
 @section('content')
+
 <div class="w-100">
     @include('components.profilenav')
+   
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
         <div class="ps-3">
             <img src="{{asset('images/Circuits.svg')}}" alt="">
         </div>
-        <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
+        <h2 class="fw-bold m-0 text-primary">{{$shop->shop_name}}</h2>  
      </div>
 
     <div class="scrollable-content container-fluid">
@@ -40,11 +50,11 @@
             </div>
 
             <div class="icon">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal" onclick="printTable()">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal" onclick="printTable()" disabled style="opacity: 0.5">
                     <img  style="height: 23px; width:23px;" src="{{ asset('images/print.svg') }}" alt="">
                 </button>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal" onclick="downloadCSV()">
-                    <img  style="height: 23px; width:23px;" src="{{ asset('images/export.svg') }}" alt="">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal" disabled style="opacity: 0.5">
+                    <img  style="height: 23px; width:23px" src="{{ asset('images/export.svg') }}" alt="">
                 </button>
             </div>
         </div>
@@ -188,9 +198,9 @@
             </div>
             <!-- Modal Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#denyConfirmModal">Deny Payment</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approveConfirmModal" style="width: 150px !important;">Approve Payment</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="closeModal">Cancel</button>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" onclick="confirmStatus('Denied', document.getElementById('modalOrderId').innerText)" id="denyButton">Deny Payment</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="confirmStatus(document.getElementById('modalStatus').innerText, document.getElementById('modalOrderId').innerText)" style="width: 150px !important;" id="updateButton">Update Status</button>
             </div>
         </div>
     </div>
@@ -206,7 +216,7 @@
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(10)">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -220,7 +230,7 @@
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(6)">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -234,7 +244,7 @@
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(11)">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -248,7 +258,7 @@
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(10)">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -262,7 +272,7 @@
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(12)">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -286,18 +296,18 @@
                                 <input type="date" id="export-to" class="form-control" placeholder="Select a date">
                             </div>
                         </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadCSV()" style="width: 76px; height: 28px;">CSV</button>
-                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadExcel()" style="width: 76px; height: 28px;">XLXS</button>
-                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF()" style="width: 76px; height: 28px;">PDF</button>
-            
-                    </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadCSV()" style="width: 76px; height: 28px;">CSV</button>
+                            <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadXLSX()" style="width: 76px; height: 28px;">XLSX</button>
+                            <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF()" style="width: 76px; height: 28px;">PDF</button>
+                        </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- Print Modal -->
-        <div class="modal fade" id="PrintConfirmModal" tabindex="-1" aria-labelledby="PrintConfirmLabel" aria-hidden="true">
+         <!-- Print Modal -->
+         <div class="modal fade" id="PrintConfirmModal" tabindex="-1" aria-labelledby="PrintConfirmLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0">
                     <div class="modal-header border-0">
@@ -320,13 +330,15 @@
                 </div>
             </div>
         </div>
-
-
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
 <script>
     let currentPage = 1;
@@ -515,13 +527,40 @@ function openOrderModal(order) {
         12: 'completed-order',
     };
 
+   
+    //Hide Deny Button if status is not pending
+
+
     // Set the status label and class
     const statusLabel = statusLabels[order.order_status_id] ?? 'Unknown Status';
     const statusClass = statusClasses[order.order_status_id] ?? 'unknown-status';
 
     modalStatusElement.textContent = statusLabel;
     modalStatusElement.className = `p-3 mb-2 ${statusClass} text-dark`; // Add the correct class to style the status
+    
+    if (order.order_status_id === 6) {
+    modalStatusElement.setAttribute('style', 'color: #eb5757 !important; border-color:  #eb5757 !important');
+    } else if (order.order_status_id === 12) {
+        modalStatusElement.setAttribute('style', 'color: green !important;  border-color:  #green !important');
+    } else {
+        modalStatusElement.setAttribute('style', 'color: #ffc107 !important;  border-color:  #ffc107 !important');
+    }
 
+     //Deny Button For Pending Only
+     if(order.order_status_id === 7){
+        document.getElementById('denyButton').style.display = 'block';
+        document.getElementById('updateButton').style.display = 'block';
+        document.getElementById('closeModal').textContent = 'Cancel';
+        
+    }else if(order.order_status_id === 12){
+        document.getElementById('denyButton').style.display = 'none';
+        document.getElementById('updateButton').style.display = 'none';
+        document.getElementById('closeModal').textContent = 'Close';
+    }else{
+        document.getElementById('denyButton').style.display = 'none';
+        document.getElementById('updateButton').style.display = 'block';
+        document.getElementById('closeModal').textContent = 'Cancel';
+    }
     // Show the modal
     const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
     modal.show();
@@ -571,8 +610,6 @@ document.getElementById('search-box').addEventListener('input', function () {
 });
 
 
-
-
 // EXPORT AND PRINT
 function printTable() {
     // Get the selected dates from the print modal
@@ -581,14 +618,19 @@ function printTable() {
 
     // Check if the user has selected both dates
     if (startDate && endDate) {
-        var printContent = document.getElementById('order-table').outerHTML;
-        var printWindow = window.open('', '', 'height=800,width=800');
-        printWindow.document.write('<html><head><title>Print Order Table</title></head><body>');
-        printWindow.document.write('<h3>Orders from ' + startDate + ' to ' + endDate + '</h3>');
-        printWindow.document.write(printContent);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
+        var rows = document.querySelectorAll('.status-label.completed-order'); // Get only completed orders
+        if (rows.length > 0) {
+            var printContent = "<table>" + Array.from(rows).map(row => row.outerHTML).join('') + "</table>";
+            var printWindow = window.open('', '', 'height=800,width=800');
+            printWindow.document.write('<html><head><title>Print Completed Orders</title></head><body>');
+            printWindow.document.write('<h3>Completed Orders from ' + startDate + ' to ' + endDate + '</h3>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        } else {
+            alert("No completed orders to print.");
+        }
     } else {
         alert("Please select both start and end dates.");
     }
@@ -599,112 +641,136 @@ function downloadCSV() {
     var startDate = document.getElementById('export-from').value;
     var endDate = document.getElementById('export-to').value;
 
-    // Check if the user has selected both dates
     if (startDate && endDate) {
-        var table = document.getElementById('order-table');
-        var rows = table.rows;
-        var csv = [];
+        var rows = document.querySelectorAll('.status-label.completed-order'); // Get only completed orders
+        if (rows.length > 0) {
+            var csv = [];
 
-        // Add a header row with the date range
-        csv.push(['Orders from ' + startDate + ' to ' + endDate].join(','));
+            // Add a header row with the date range
+            csv.push(['Orders from ' + startDate + ' to ' + endDate].join(','));
 
-        // Loop through the rows and add them to the CSV
-        for (var i = 0; i < rows.length; i++) {
-            var row = rows[i];
-            var cols = row.cells;
-            var rowData = [];
-            for (var j = 0; j < cols.length; j++) {
-                rowData.push(cols[j].innerText);
-            }
-            csv.push(rowData.join(','));
+            // Loop through the rows and add them to the CSV
+            rows.forEach(row => {
+                var cols = row.cells;
+                var rowData = [];
+                for (var j = 0; j < cols.length; j++) {
+                    rowData.push(cols[j].innerText);
+                }
+                csv.push(rowData.join(','));
+            });
+
+            var csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(csvFile);
+            link.download = 'completed_orders.csv';
+            link.click();
+        } else {
+            alert("No completed orders to export.");
         }
-
-        var csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
-        var link = document.createElement('a');
-        link.href = URL.createObjectURL(csvFile);
-        link.download = 'orders.csv';
-        link.click();
     } else {
         alert("Please select both start and end dates.");
     }
 }
 
-function downloadExcel() {
-    // Similar to CSV download, but this is where you'd generate an XLSX file
-    alert("Please Wait.");
-}
-
-function downloadPDF() {
-    // Get the selected dates from the export modal
+function downloadXLSX() {
     var startDate = document.getElementById('export-from').value;
     var endDate = document.getElementById('export-to').value;
 
-    // Check if the user has selected both dates
     if (startDate && endDate) {
-        // Get the table content to export
-        var table = document.getElementById('order-table');
-        var rows = table.rows;
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('l', 'mm', 'legal'); // 'l' for landscape, 'mm' for millimeters, 'legal' for page size
+        var rows = document.querySelectorAll('.status-label.completed-order'); // Get only completed orders
+        if (rows.length > 0) {
+            var workbook = XLSX.utils.book_new();
+            var sheetData = [];
 
-        doc.setFontSize(10);
-        doc.text('Orders from ' + startDate + ' to ' + endDate, 10, 10);
+            // Add a header row with the date range
+            sheetData.push(['Orders from ' + startDate + ' to ' + endDate]);
 
-        var yPosition = 20;
-s
-        var headers = ['Order ID', 'Product', 'Quantity', 'Unit Price', 'Amount', 'Ref no.', 'Proof of Payment', 'Status', 'Date'];
+            // Loop through the rows and add them to the sheet data
+            rows.forEach(row => {
+                var cols = row.cells;
+                var rowData = [];
+                for (var j = 0; j < cols.length; j++) {
+                    rowData.push(cols[j].innerText);
+                }
+                sheetData.push(rowData);
+            });
 
- 
-        var tableData = [];
-        for (var i = 0; i < rows.length; i++) {
-            var row = rows[i];
-            var rowData = [];
-            var cols = row.cells;
-            for (var j = 0; j < cols.length; j++) {
-                rowData.push(cols[j].innerText); 
-            }
-            tableData.push(rowData);
+            var sheet = XLSX.utils.aoa_to_sheet(sheetData);
+            XLSX.utils.book_append_sheet(workbook, sheet, 'Completed Orders');
+            XLSX.writeFile(workbook, 'completed_orders.xlsx');
+        } else {
+            alert("No completed orders to export.");
         }
-
-  
-        doc.autoTable({
-            head: [headers],
-            body: tableData,
-            startY: yPosition,
-            margin: { top: 20, left: 5, right: 5, bottom: 5 },
-            tableWidth: 'wrap', 
-            styles: {
-                fontSize: 9,
-                cellPadding: 3,
-                halign: 'center',
-                valign: 'middle',
-                overflow: 'linebreak',
-                lineWidth: 0.1,
-                lineColor: [0, 0, 0],
-            },
-            headStyles: {
-                fillColor: [0, 0, 0], 
-                textColor: [255, 255, 255],
-                fontSize: 10,
-            },
-            alternateRowStyles: {
-                fillColor: [240, 240, 240],
-            },
-            didDrawPage: function (data) {
-                // Add page number to footer
-                var pageCount = doc.internal.getNumberOfPages();
-                doc.setFontSize(8);
-                doc.text('Page ' + data.pageCount + ' of ' + pageCount, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10);
-            }
-        });
-
-        // Save the generated PDF
-        doc.save('orders.pdf');
     } else {
         alert("Please select both start and end dates.");
     }
 }
 
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Get the start and end date from the modal inputs
+    const startDate = document.getElementById('export-from').value;
+    const endDate = document.getElementById('export-to').value;
+
+    // Check if dates are provided
+    if (startDate && endDate) {
+        // Add the start and end date to the left of the PDF
+        doc.setFontSize(11);
+        doc.text("From: " + startDate, 10, 20); // From date on the left
+        doc.text("To: " + endDate, 10, 30);   // To date on the left
+    }
+
+    // Extract table data
+    const table = document.getElementById("order-table");
+    const headers = [...table.rows[0].cells].map(cell => cell.innerText);
+    const rows = [];
+
+    for (let i = 1; i < table.rows.length; i++) {
+        const row = table.rows[i];
+
+        // Only process rows with "Completed" status
+        if (row.querySelector('.status-label.completed-order')) {
+            const rowData = [];
+            for (let j = 0; j < row.cells.length; j++) {
+                rowData.push(row.cells[j].innerText);
+            }
+            rows.push(rowData);
+        }
+    }
+
+    // Generate the PDF table with the filtered rows
+    doc.autoTable({
+        head: [headers],
+        body: rows,
+        startY: 40,
+        theme: "grid",
+        headStyles: {
+            fillColor: [240, 240, 240],
+            textColor: [0, 0, 0],
+            halign: "center",
+        },
+        bodyStyles: {
+            textColor: [0, 0, 0],
+        },
+    });
+
+    const imgPath = "{{ asset('images/logo.png') }}"; 
+    const imgWidth = 35;
+    const imgHeight = 10; 
+    const pageHeight = doc.internal.pageSize.height;
+    const pageWidth = doc.internal.pageSize.width;
+    const xPos = (pageWidth - imgWidth) / 2; 
+    const yPos = pageHeight - imgHeight - 10; 
+
+    const image = new Image();
+    image.src = imgPath;
+    image.onload = function () {
+        doc.addImage(image, "PNG", xPos, yPos, imgWidth, imgHeight);
+        doc.save("orders.pdf"); 
+    };
+}
 
 
 //SORTING 
@@ -736,21 +802,72 @@ document.getElementById('search-box').addEventListener('input', function () {
     }
 });
 
+document.getElementById('search-box').addEventListener('input', function () {
+    let searchTerm = this.value.toLowerCase();
+    let rows = document.querySelectorAll('.order_table tbody tr');
+    let hasVisibleRows = false;
+
+    rows.forEach(row => {
+        let productName = row.querySelector('.product-name').textContent.toLowerCase();
+        let referenceNumber = row.querySelector('.reference-number').textContent.toLowerCase();
+
+        // Show rows that match the search term in product name or reference number
+        if (productName.includes(searchTerm) || referenceNumber.includes(searchTerm)) {
+            row.style.display = '';
+            hasVisibleRows = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Show "No matching results" message if no rows are visible
+    document.getElementById('no-results').style.display = hasVisibleRows ? 'none' : 'block';
+
+    // Hide pagination if no rows are visible
+    const pagination = document.querySelector('.footer-btn');
+    if (pagination) {
+        pagination.style.display = hasVisibleRows ? 'flex' : 'none';
+    }
+});
+
 document.getElementById('status-filter').addEventListener('change', function() {
     let selectedStatus = this.value;
     let rows = document.querySelectorAll('.order_table tbody tr');
-    
+    const iconDiv = document.querySelector('.icon');
+    const buttons = iconDiv.querySelectorAll('button');  // Select the buttons in the .icon div
+    console.log(selectedStatus);
     rows.forEach(row => {
         // Show all rows if "all" is selected
         if (selectedStatus === 'all') {
             row.style.display = '';
+            // Disable buttons if "all" is selected
+            buttons.forEach(button => {
+                button.disabled = true;  // Disable each button
+            });
         } else {
             // Show only rows with the matching status class
-            row.style.display = row.classList.contains(selectedStatus) ? '' : 'none';
+            if (row.classList.contains(selectedStatus)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+            
+            // Disable buttons for all statuses except 'Completed Order'
+            if (selectedStatus !== 'completed-order') {
+                buttons.forEach(button => {
+                    button.disabled = true;  // Disable each button
+                    button.style.opacity = 0.5;
+                });
+            } else {
+                // Enable buttons when 'Completed Order' is selected
+                buttons.forEach(button => {
+                    button.disabled = false;  // Enable each button
+                    button.style.opacity = '';  // Reset opacity to original value
+                });
+            }
         }
     });
 });
-
 
 </script>
 
@@ -851,13 +968,174 @@ function updatePagination(totalRows) {
     }
 }
 
-// Initialize table on DOM load
-document.addEventListener('DOMContentLoaded', function () {
-    updateTable();
+    //Update Status
+    function updateStatus(status, orderId){
+        console.log(status);
+        console.log(orderId);
+        const modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
+        modal.show();
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+    updateTable(); 
 });
 
 </script>
 
+<script>
+    var currentStat, currentId;
+    // Function to fetch data and refresh the table
+function fetchAndUpdateTable() {
+    fetch('shop/orders') // URL to your Laravel route
+        .then(response => response.json())
+        .then(orders => {
+            refreshTable(orders); // Call function to update the table with new data
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+// Function to update the table with new data
+function refreshTable(orders) {
+    const tableBody = document.querySelector('#order-table tbody');
+    tableBody.innerHTML = ''; // Clear the current table data
+
+    // Loop through the orders and add rows
+    orders.forEach(order => {
+            const row = document.createElement('tr');
+            row.classList.add('status-label', getStatusClass(order.order_status_id));
+
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td class="product-name">${order.product_name ?? 'N/A'}</td>
+                <td>${order.total_items}</td>
+                <td>${order.supplier_price_total_amount.toFixed(1)}</td>
+                <td>${order.total_amount.toFixed(1)}</td>
+                <td class="reference-number">${order.reference_number}</td>
+                <td>${order.proof_of_payment}</td>
+                <td class="status-label ${getStatusClass(order.order_status_id)}">
+                    ${getStatusLabel(order.order_status_id)}
+                </td>
+                <td>${order.order_date}</td>
+            `;
+            
+            row.setAttribute('onclick', `openOrderModal(${JSON.stringify(order)})`);
+            tableBody.appendChild(row);
+        });
+
+        // Optionally, update footer and pagination
+        updateFooter(orders.length); // Update footer with the number of entries
+        updatePagination(orders.length); // Update pagination if needed
+    }
+
+    // Function to get the status label
+    function getStatusLabel(statusId) {
+        const statusLabels = {
+            6: 'Denied',
+            7: 'Pending',
+            10: 'Payment Received',
+            11: 'Ready for Pickup',
+            12: 'Completed',
+        };
+        return statusLabels[statusId] ?? 'Unknown Status';
+    }
+
+    // Function to get status CSS class
+    function getStatusClass(statusId) {
+        switch (statusId) {
+            case 6:
+                return 'denied-payment';
+            case 7:
+                return 'pending';
+            case 10:
+                return 'received-payment';
+            case 11:
+                return 'for-pickup';
+            case 12:
+                return 'completed-order';
+            default:
+                return 'unknown-status';
+        }
+    }
+
+    // Call fetchAndUpdateTable to initially load the table or refresh it
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchAndUpdateTable(); // Initial data fetch and table update
+    });
+
+    function confirmStatus(status, orderId){
+        switch(status){
+            case 'Pending':
+                modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
+                console.log(status);
+                console.log(orderId);
+                currentStat = status;
+                currentId = orderId;
+                break;
+            case 'Payment Received':
+                modal = new bootstrap.Modal(document.getElementById('PickUpConfirmModal'));
+                console.log(status);
+                console.log(orderId);
+                currentStat = status;
+                currentId = orderId;
+                break;
+            case 'Payment Denied':
+                modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
+                console.log(status);
+                console.log(orderId);
+                currentStat = status;
+                currentId = orderId;
+                break;
+            case 'Ready for Pickup':
+                modal = new bootstrap.Modal(document.getElementById('CompletedConfirmModal'));
+                console.log(status);
+                console.log(orderId);
+                currentStat = status;
+                currentId = orderId;
+                break;
+            case 'Denied':
+                modal = new bootstrap.Modal(document.getElementById('denyConfirmModal'));
+                console.log(status);
+                console.log(orderId);
+                currentStat = status;
+                currentId = orderId;
+                break;
+        }
+        modal.show();
+    }
+
+    function updateStatus(newStatus) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const targetId = parseInt(currentId, 10);
+       
+        const data = {
+            order_id: targetId,
+            status_id: newStatus
+        };
+        fetch('/shop/orders/update-status', {
+            method: 'POST',  // Using POST method
+            headers: {
+                'Content-Type': 'application/json',  // Sending JSON data
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')  // CSRF token for security
+            },
+            body: JSON.stringify(data)  // Convert the data object to JSON
+        })
+        .then(response => response.json())  // Parse JSON response from the server
+        .then(data => {
+            console.log('Success:', data);
+            fetchAndUpdateTable()
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Optionally, handle error (e.g., display an error message)
+        });
+
+    }
+
+
+
+</script>
 
 
 @endsection

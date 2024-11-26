@@ -32,7 +32,7 @@ use App\Http\Controllers\shopPageController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use App\Http\Controllers\Auth\RegisterController;
-
+use App\Http\Controllers\OrderController;
 
 Auth::routes();
 
@@ -41,9 +41,6 @@ Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
 
 
 
@@ -77,7 +74,6 @@ Route::get('/faqs', function () {
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
 
-
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
 Route::get('/shop', function () {
@@ -90,6 +86,18 @@ Route::prefix('shop')->group(function () {
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::post('/orders', [ShopOrders::class, 'store'])->name('shop.orders');//pang store order
 
+    Route::get('shop/orders', [OrderController::class, 'index']);
+    // Updated route to fetch the shop details for the authenticated user
+    Route::get('/shop', [OrderController::class, 'getShop'])->name('shop.index');
+
+
+
+    
+    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])
+    ->middleware('auth')
+    ->name('orders.update-status');
+
+
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
     Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
@@ -97,6 +105,7 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 
 });
+
 
 
 // admin routes
@@ -117,4 +126,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 });
+
+//Updating Order Status
+
 

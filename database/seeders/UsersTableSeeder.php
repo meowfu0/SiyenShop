@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
-     */
+     */ 
     public function run()
     {
         DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
