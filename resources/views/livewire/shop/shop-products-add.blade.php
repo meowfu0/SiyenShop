@@ -28,7 +28,8 @@
         <h2 class="fw-bold m-0 text-primary">Add Product</h2>
     </div>
 
-   <form wire:click.prevent="create">
+    <form action="{{ route('shop.products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
     <div class="d-flex px-5 py-4 flex-grow-1">
         <div class="container">
@@ -37,14 +38,14 @@
                 <div class="col-md-6 d-flex flex-column gap-3">
                     <div class="form-group mb-1">
                         <label for="product_name" class="fw-bold text-primary">Product Name</label>
-                        <input type="text" id="product_name" class="form-control" placeholder="Input product name" wire:model="product_name">
-                        @error('product_name') <span class="text-red-500">{{ $message }}</span> @enderror
+                        <input type="text" name="product_name" id="product_name" class="form-control" value="{{ old('product_name') }}" required>
+                         @error('product_name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group mb-1">
                         <label for="product_decription" class="fw-bold text-primary">Product Description</label>
-                        <textarea id="product_decription" class="form-control" rows="4" placeholder="Input product description" wire:model="product_decription"></textarea>
-                        @error('product_decription') <span class="text-red-500">{{ $message }}</span> @enderror
+                        <textarea name="product_description" id="product_description" class="form-control" required>{{ old('product_description') }}</textarea>
+                        @error('product_description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group mb-3">
@@ -53,7 +54,7 @@
                         <!-- Drag and Drop Zone -->
                         <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
                             <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                            <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*" wire:model="product_image">
+                            <input type="file" id="image_upload" name="product_image"class="form-control-file d-none" accept="image/*" wire:model="product_image">
                             <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
                         </div>
                     </div>
@@ -73,7 +74,19 @@
                     <!-- Category Selection -->
                     <div class="form-group mb-1">
                         <label for="category" class="fw-bold text-primary">Category</label>
-                        <div class="dropdown">
+                        <select name="category_id" id="category_id" class="form-select" required>
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->category_name }}
+
+        
+                                
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        {{-- <div class="dropdown">
                             <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Category
                             </button>
@@ -93,7 +106,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror --}}
                     </div>
 
                     <!-- Category Modal -->
@@ -163,24 +176,26 @@
                     
                         <div class="row g-2"> 
                             <div class="col-md-6 mb-1"> 
-                                <label for="status_id" class="fw-bold text-primary">Status</label>
-                                <select id="status_id" class="form-select form-control" onchange="toggleQuantity()"  wire:model="status_id">
-                                    <option value="">Select Status</option>
-                                        <option value="preorder" {{ old('status_id') == 'preorder' ? 'selected' : '' }}>Preorder</option>
-                                        <option value="onhand" {{ old('status_id') == 'onhand' ? 'selected' : '' }}>Onhand</option>
-                                    </select>
-                                @error('status_id') <span class="text-red-500">{{ $message }}</span> @enderror
+                                <label for="status_id" class="form-label">Status</label>
+                                <select name="status_id" id="status_id" class="form-select" required>
+                                    <option value="" disabled selected>Select a status</option>
+                                    <!-- Example statuses -->
+                                    <option value="1" {{ old('status_id') == 1 ? 'selected' : '' }}>Pre-Order</option>
+                                    <option value="2" {{ old('status_id') == 2 ? 'selected' : '' }}>On-Hand</option>
+                                </select>
+                                @error('status_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="col-md-6 mb-1"> 
                                 <div class="form-group">
-                                    <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                    <select id="visibility" class="form-select form-control" wire:model="visibility_id">
-                                        <option value="">Select Visibility</option>
-                                        <option value="visible" {{ old('visibility_id') == 'visible' ? 'selected' : '' }}>Visible</option>
-                                        <option value="hidden" {{ old('visibility_id') == 'hidden' ? 'selected' : '' }}>Hidden</option>
+                                    <label for="visibility_id" class="form-label">Visibility</label>
+                                    <select name="visibility_id" id="visibility_id" class="form-select" required>
+                                        <option value="" disabled selected>Select visibility</option>
+                                        <!-- Example visibility options -->
+                                        <option value="1" {{ old('visibility_id') == 1 ? 'selected' : '' }}>Public</option>
+                                        <option value="2" {{ old('visibility_id') == 2 ? 'selected' : '' }}>Private</option>
                                     </select>
-                                    @error('visibility_id') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    @error('visibility_id') <span class="text-danger">{{ $message }}</span> @enderror
 
                                 </div>
                             </div>
@@ -243,26 +258,25 @@
                         <div class="row g-2"> 
                             <div class="col-md-6 mt-3 mb-1"> 
                                 <div class="form-group">
-                                    <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price"  type="text" id="form2" class="form-control" wire:model="supplier_price">
-                                    @error('supplier_price') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    <label for="supplier_price" class="form-label">Supplier Price</label>
+                                    <input type="number" name="supplier_price" id="supplier_price" class="form-control" step="0.01" value="{{ old('supplier_price') }}" required>
+                                    @error('supplier_price') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
-                                    <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price"  type="text" id="form2" class="form-control" wire:model="retail_price">
-                                    @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    <label for="retail_price" class="form-label">Retail Price</label>
+                                    <input type="number" name="retail_price" id="retail_price" class="form-control" step="0.01" value="{{ old('retail_price') }}" required>
+                                    @error('retail_price') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label for="quantity_id" id="quantity" class="fw-bold text-primary">Quantity</label>
-                                    <div class="input-group quantity-selector quantity-selector-sm">
-                                        <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                                    </div>
+                                    <label for="stocks" class="form-label">Stocks</label>
+                                    <input type="number" name="stocks" id="stocks" class="form-control" value="{{ old('stocks') }}" required>
+                                    @error('stocks') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>

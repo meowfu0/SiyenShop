@@ -33,6 +33,7 @@ use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ShopProductsAddController;
 
 Auth::routes();
 
@@ -80,7 +81,11 @@ Route::prefix('shop')->group(function () {
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
-    Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
+    // Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
+    Route::get('products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
+Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
+
+
     Route::get('/products/edit', ShopProductsEdit::class)->name('shop.products.edit');
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 });
