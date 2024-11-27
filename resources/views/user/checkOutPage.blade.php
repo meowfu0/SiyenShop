@@ -27,45 +27,51 @@
                     <tbody class="noBorder">
 
                         @php
-                        $totalRetailPrice = 0;
-                        $total_items = 0;
+                            $totalRetailPrice = 0;
+                            $total_items = 0;
+                        @endphp
 
-                        // Combine ShirtItems and OtherItems and sort by descending ID
-                        $AllItems = $ShirtItems->merge($OtherItems)->sortByDesc('id');
+                        <!-- sort the data -->
+                        @php
+                            $AllProducts = $combinedItems->sortByDesc('id');
                         @endphp
 
                         <!-- LOOP FOR All Items -->
-                        @foreach($AllItems as $item)
+                        @foreach($AllProducts as $item)
 
+                            @php
+                                $totalRetailPrice += $item->retail_price * $item->quantity;
+                                $total_items += $item->quantity;
+                            @endphp
 
-                        @php
-                        $totalRetailPrice += $item->retail_price * $item->quantity;
-                        $total_items += $item->quantity;
-                        @endphp
-
-                        
                         <tr>
                             <td>{{ $item->product_name }}</td>
-                            <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
+                            <td class="remove">₱ {{ number_format($item->retail_price, 2) }}</td>
                             <td>
-                                @if(isset($item->size)) <!-- Check if size exists -->
-                                @if($item->size == 'L' || $item->size == 'l')
-                                Large
-                                @elseif($item->size == 'S' || $item->size == 's')
-                                Small
-                                @elseif($item->size == 'M' || $item->size == 'm')
-                                Medium
-                                @elseif($item->size == 'XL' || $item->size == 'xl')
-                                X-Large
-                                @else
-                                {{ $item->size }}
-                                @endif
+                                @if(isset($item->size))
+                                    @switch(strtoupper($item->size))
+                                        @case('L')
+                                            Large
+                                                @break
+                                        @case('S')
+                                            Small
+                                                @break
+                                        @case('M')
+                                            Medium
+                                                @break
+                                        @case('XL')
+                                            X-Large
+                                                @break
+                                        @default
+                                            {{ $item->size }}
+                                                @endswitch
                                 @else
                                     None
                                 @endif
                             </td>
                             <td>x{{ $item->quantity }}</td>
-                            <td>₱ {{ number_format($item->retail_price, 2) }}</td>
+                            <td> ₱ {{ number_format($item->retail_price * $item->quantity, 2)}}
+                            </td>
                         </tr>
                         @endforeach
 
@@ -105,9 +111,9 @@
 
 
                         @foreach($productIds as $id)
-                        @php
-                        $productIdsString = implode(',', $productIds);
-                        @endphp
+                            @php
+                                $productIdsString = implode(',', $productIds);
+                            @endphp
                         @endforeach
 
                         <!-- Proceed to Checkout button -->

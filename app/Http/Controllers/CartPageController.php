@@ -5,63 +5,59 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\Item;
+
 
 
 class CartPageController extends Controller
 {
-    public function index()
+
+    public function index($encodedId = null)
     {
+
+        $id = base64_decode($encodedId);
         $userId = Auth::user()->id;
 
 
-        // --- QUERY TO GET THE SHIRTS --- 
-        $ShirtItems = DB::table('carts as c')
+
+        // Get the category id for a case-insensitive match
+        $categoryId = DB::table('categories')
+            ->whereRaw('LOWER(category_name) LIKE ?', ['%shirt%'])
+            ->value('id');
+
+
+        $AllItems = DB::table('carts as c')
             ->join('users as u', 'c.user_id', '=', 'u.id')
             ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
             ->join('products as p', 'i.product_id', '=', 'p.id')
             ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'i.size', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'p.shop_id')
+            ->select(
+                'c.user_id',
+                'u.first_name',
+                'i.product_id',
+                'i.id',
+                'i.quantity',
+                'i.size',
+                'p.product_name',
+                'p.product_image',
+                'p.supplier_price',
+                'p.retail_price',
+                'p.shop_id',
+                'p.id as productId'
+            )
             ->where('i.cart_id', '=', $userId)
-            ->where('cat.id', '=', 4) // For shirts category
             ->where('p.shop_id', '=', function ($query) use ($userId) {
                 // Subquery to get the shop_id of the first product
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
                     ->where('ci.cart_id', '=', $userId)
-                  ->limit(1); // Limit to just the first match
-            })
-           // ->distinct() // To ensure no duplicate rows
-            ->get();
-
-        // --- OTHER ITEMS ---
-        $OtherItems = DB::table('carts as c')
-            ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
-            ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->select('c.user_id', 'u.first_name', 'i.product_id', 'i.id', 'i.quantity', 'p.product_name', 'p.product_image', 'p.supplier_price', 'p.retail_price', 'p.shop_id')
-            ->where('i.cart_id', '=', $userId)
-            ->where('cat.id', '!=', 4) // For other categories
-            ->where('p.shop_id', '=', function ($query) use ($userId) {
-                // Subquery to get the shop_id of the first product
-                $query->select('shop_id')
-                    ->from('products')
-                    ->join(
-                        'cart_items as ci',
-                        'products.id',
-                        '=',
-                        'ci.product_id'
-                    )
-                    ->where(
-                        'ci.cart_id',
-                        '=',
-                        $userId
-                    )
                     ->limit(1); // Limit to just the first match
             })
-            //->distinct() // To ensure no duplicate rows
+            ->where(function ($query) use ($categoryId) {
+                $query->where('cat.id', '=', $categoryId)  // For ShirtItems
+                    ->orWhere('cat.id', '!=', $categoryId);  // For OtherItems
+            })
+            // ->distinct() // To ensure no duplicate rows
             ->get();
 
 
@@ -69,13 +65,13 @@ class CartPageController extends Controller
         $sizes = DB::table('product_variants as v')
             ->join('products as p', 'v.product_id', '=', 'p.id')
             ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->select('v.size', 'v.id', 'v.stock')
-            ->where('cat.id', '=', 4)
+            ->select('v.size', 'v.id', 'v.product_id', 'v.stock')
+            ->where('cat.id', '=',$categoryId)
             ->get();
 
 
-        // Return view with all the queries 
-        return view('user.cartPage', compact('ShirtItems', 'OtherItems', 'sizes'));
+        // Return view with all the queries                     optional id
+        return view('user.cartPage', compact('AllItems', 'sizes', 'id'));
     }
 
 

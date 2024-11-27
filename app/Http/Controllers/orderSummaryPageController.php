@@ -25,49 +25,19 @@ class orderSummaryPageController extends Controller
 
         $gcash = base64_decode($gcashNumber);
 
+        $categoryId = DB::table('categories')
+        ->whereRaw('LOWER(category_name) LIKE ?', ['%shirt%'])
+        ->value('id');
 
-
-        $OrderDetailsShirts = DB::table('orders as o')
+        $OrderDetails = DB::table('orders as o')
             ->join('order_items as oi', 'o.id', '=', 'oi.order_id')
             ->join('products as p', 'oi.product_id', '=', 'p.id')
             ->join('shops as s', 'o.shop_id', '=', 's.id')
             ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->join('product_variants as v', 'oi.size', '=', 'v.id')
-            ->select(
-                's.shop_name',
-                'o.total_amount',
-                'o.total_items',
-                'o.order_date',
-                'o.reference_number',
-                'o.proof_of_payment',
-                'o.order_date',
-                'oi.quantity',
-                'oi.price',
-                'oi.size',
-                'p.product_name',
-                'p.supplier_price',
-                'v.size',
-                'p.supplier_price',
-                'p.retail_price',
-
-            )
-            ->where('o.user_id', '=', $userId)
-            ->where('cat.id', '=', 4)
-          //  ->whereIn('ci.id', $productIds)
-            ->where('o.order_date', '=', function ($query) use ($userId) {
-                $query->selectRaw('MAX(order_date)')
-                    ->from('orders')
-                    ->where('user_id', $userId);
+            ->leftJoin('product_variants as v', function ($join) use ($categoryId) {
+                $join->on('oi.size', '=', 'v.id')
+                ->where('cat.id', '=', $categoryId); // Only join product_variants for the specific category
             })
-            //->distinct()
-            ->get();
-
-
-        $OrderDetailsOtherItems = DB::table('orders as o')
-            ->join('order_items as oi', 'o.id', '=', 'oi.order_id')
-            ->join('products as p', 'oi.product_id', '=', 'p.id')
-            ->join('shops as s', 'o.shop_id', '=', 's.id')
-            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
             ->select(
                 's.shop_name',
                 'o.total_amount',
@@ -82,17 +52,21 @@ class orderSummaryPageController extends Controller
                 'p.product_name',
                 'p.supplier_price',
                 'p.retail_price',
+                DB::raw('CASE WHEN cat.id = 4 THEN v.size ELSE NULL END AS variant_size') // Only show product variant size for shirts
             )
             ->where('o.user_id', '=', $userId)
-            ->where('cat.id', '!=', 4)
             ->where('o.order_date', '=', function ($query) use ($userId) {
                 $query->selectRaw('MAX(order_date)')
-                    ->from('orders')
-                    ->where('user_id', $userId);
+                ->from('orders')
+                ->where('user_id', $userId);
             })
-          //  ->distinct()
-            ->get();
+            ->where(function ($query) use ($categoryId) {
+                $query->where('cat.id', '=', $categoryId) 
+                    ->orWhere('cat.id', '!=', $categoryId); 
+            })
+            ->orderByDesc('oi.id')  // Order by id in descending order
 
+            ->get();
 
         // --- QUERY TO GET GCASH INFO ---
         $gcashInfo = DB::table('g_cash_infos as g')
@@ -106,6 +80,6 @@ class orderSummaryPageController extends Controller
             ->whereIn('id', $productIds)
             ->delete();
 
-        return view('user.orderSummaryPage', compact('productIds', 'OrderDetailsShirts', 'OrderDetailsOtherItems', 'gcashInfo'));
+        return view('user.orderSummaryPage', compact('productIds', 'OrderDetails', 'gcashInfo'));
     }
 }

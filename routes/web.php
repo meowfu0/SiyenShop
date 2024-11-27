@@ -67,7 +67,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 //=================== cart and checkout routes================================
-Route::get('/cartPage', [CartPageController::class, 'index'])->name('cartPage');
+//THE ID MUST BE FROM THE BUY NOW BUTTON
+Route::get('/cartPage/{id?}', [CartPageController::class, 'index'])->name('cartPage');
+
 Route::delete('/cart/remove/{id}', [CartPageController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{id}', [CartPageController::class, 'updateQuantity'])->name('cart.updateQuantity');
 // Route to update the size of a cart item
@@ -133,7 +135,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/shops', [AdminShops::class, 'render'])->name('admin.shops');
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
-    Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
+    // Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
     Route::prefix('shops')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');

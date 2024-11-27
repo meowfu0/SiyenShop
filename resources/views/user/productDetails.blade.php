@@ -179,14 +179,16 @@
         <div class="modal-content p-2">
             <div class="modal-header text-center d-flex justify-content-between" style="color: #092C4C">
                 <div class="d-flex">
-                    <img src="{{asset('images/warning.svg')}}" class="me-2"><h5 class="modal-title fs-5 fw-semibold ml-3">ADD ITEM?</h5>
+                    <img src="{{asset('images/warning.svg')}}" class="me-2">
+                    <h5 class="modal-title fs-5 fw-semibold ml-3">ADD ITEM?</h5>
                 </div>
-                
+
                 <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" style="font-size:25px">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
                 This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
             </div>
             <div class="modal-footer">

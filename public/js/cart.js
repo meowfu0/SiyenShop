@@ -1,7 +1,6 @@
 // FOR CHECKBOXES IN CART
 var TotalAmount = "total-amount";
 var totalItem = "item-count";
-//var checked_Item = "selectAll-count";
 
 // Function to add checked products
 function AddCheckedProducts() {
@@ -44,6 +43,13 @@ function AddCheckedProducts() {
     // document.getElementById(checked_Item).innerHTML = totalQuantity;
 }
 
+// Trigger calculation when the page loads to account for pre-checked boxes
+document.addEventListener("DOMContentLoaded", function () {
+    AddCheckedProducts();
+
+    
+});
+
 // SELECT ALL CHECKBOXES
 function toggleSelectAll(selectAllCheckbox) {
     const checkboxes = document.querySelectorAll(".checkboxs");
@@ -65,7 +71,6 @@ function autoSelectAll() {
 }
 
 window.onload = function () {
-    // autoSelectAll(); // Automatically check all items and call toggleSelectAll
     updateCheckedProductIds(); // Set up event listeners and initial display
 };
 
@@ -104,10 +109,10 @@ function updateProductIdList(checkbox, checkedProductIds) {
         }
     }
 
-
     // Update the checkout button based on the number of checked items
     if (checkedProductIds.length === 0) {
         // Disable the checkout button or show an error message
+
         const checkoutButton = document.querySelector("#button-size");
 
         const modalBody = document.querySelector("#ModalProceed .modal-body p");
@@ -117,9 +122,9 @@ function updateProductIdList(checkbox, checkedProductIds) {
             "#ModalProceed .modal-footer .btn-outline-primary"
         );
 
-         const OKButton = document.querySelector(
-             "#ModalProceed .modal-footer .btn-secondary"
-         );
+        const OKButton = document.querySelector(
+            "#ModalProceed .modal-footer .btn-secondary"
+        );
         const yesButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-primary"
         );
@@ -140,10 +145,10 @@ function updateProductIdList(checkbox, checkedProductIds) {
             "href",
             `/checkOutPage/Checkout-Items/${encodedIds}`
         );
-           const OKButton = document.querySelector(
-               "#ModalProceed .modal-footer .btn-secondary"
-           );
-              OKButton.style.display = "none"; // Hide the 'Yes' button
+        const OKButton = document.querySelector(
+            "#ModalProceed .modal-footer .btn-secondary"
+        );
+        OKButton.style.display = "none"; // Hide the 'Yes' button
         const noButton = document.querySelector(
             "#ModalProceed .modal-footer .btn-outline-primary"
         );
@@ -159,9 +164,6 @@ function updateProductIdList(checkbox, checkedProductIds) {
         modalBody.textContent = "Proceed to Checkout?"; // Reset to the original message
     }
 }
-
-
-
 
 //TO UPDATE QUANTITY OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -184,6 +186,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
             quantityInput.value = quantity;
             AddCheckedProducts();
+
+
+            // Get the retail price of the product to sum
+            const retailPrice = parseFloat(
+                document.getElementById(`retail-price_${productId}`).innerText.replace(/,/g, ""));
+            // Calculate the total price dynamically
+            const totalValue = retailPrice * quantity;
+            // Update the total price for this specific product
+            document.querySelector(`#total-product-price_${productId}`).innerHTML = `₱ ${totalValue.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })}`;
+            //end of total retail price
+
 
             // Send an AJAX request to update the quantity
             fetch("/cart/update/" + productId, {
@@ -209,8 +225,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 //END OF UPDATE QUANTITY OF ITEM IN CART IN DATABASE
-
-
 
 
 
@@ -299,6 +313,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //end of delete item//
 
+
+
+
 //TO UPDATE SIZE OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
     // Event delegation for dynamically loaded elements
@@ -337,6 +354,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
 //ERROR MESSAGE FOR EMPTY CART THIS IS FOR PAYMENT PAGE
 document.addEventListener("DOMContentLoaded", function () {
     const confirmPaymentButton = document.querySelector("#confirmPaymentBtn");
@@ -345,29 +364,31 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     confirmPaymentButton.addEventListener("click", function (event) {
         // Get form inputs
-        const referenceNumber = document.querySelector("#referenceNumber").value;
-        const proofPayment = document.querySelector("#proofPayment").files.length;
+        const referenceNumber =
+            document.querySelector("#referenceNumber").value;
+        const proofPayment =
+            document.querySelector("#proofPayment").files.length;
 
-    const modalCancelBtn = document.querySelector(
-        "#ModalProceedPayment .btn-outline-primary"
-    );
-    const modalYesBtn = document.querySelector(
-        "#ModalProceedPayment .btn-primary"
-    );
-    const modalOKBtn = document.querySelector(
-        "#ModalProceedPayment .btn-secondary"
-    );
+        const modalCancelBtn = document.querySelector(
+            "#ModalProceedPayment .btn-outline-primary"
+        );
+        const modalYesBtn = document.querySelector(
+            "#ModalProceedPayment .btn-primary"
+        );
+        const modalOKBtn = document.querySelector(
+            "#ModalProceedPayment .btn-secondary"
+        );
 
         // Check if any input is empty
         if (!referenceNumber || !proofPayment) {
             // If any field is empty, prevent form submission and update modal content
             event.preventDefault();
-            modalBody.innerHTML ='Please fill in all fields before proceeding.';
+            modalBody.innerHTML =
+                "Please fill in all fields before proceeding.";
             modalCancelBtn.style.display = "none";
             modalYesBtn.style.display = "none";
             modalOKBtn.style.display = "block";
-        } 
-        else {
+        } else {
             // If all fields are filled, update modal content
             modalBody.innerHTML = "Are the given information correct?";
             modalCancelBtn.style.display = "block";
