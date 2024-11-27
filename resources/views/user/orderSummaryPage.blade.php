@@ -33,41 +33,33 @@
                         </tr>
                     </thead>
                     <tbody class="noBorder">
-                        @foreach($OrderDetailsShirts as $item)
 
+                        @foreach($OrderDetails as $item)
                         <tr>
                             <td>{{ $item->product_name }}</td>
-                            <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
+                            <td class="remove">₱ {{ number_format($item->retail_price, 2) }}</td>
 
                             <td>
-                                @if($item->size == 'L' || $item->size == 'l')
+                                @if(is_null($item->variant_size))
+                                None <!-- Display 'None' if size is NULL -->
+                                @elseif($item->variant_size == 'L' || $item->variant_size == 'l')
                                 Large
-                                @elseif($item->size == 'S' || $item->size == 's')
+                                @elseif($item->variant_size == 'S' || $item->variant_size == 's')
                                 Small
-                                @elseif($item->size == 'M' || $item->size == 'm')
+                                @elseif($item->variant_size == 'M' || $item->variant_size == 'm')
                                 Medium
-                                @elseif($item->size == 'XL' || $item->size == 'xl')
+                                @elseif($item->variant_size == 'XL' || $item->variant_size == 'xl')
                                 X-Large
                                 @else
-                                {{ $item->size }}
+                                {{ $item->variant_size }}
                                 @endif
                             </td>
 
                             <td>x{{ $item->quantity }}</td>
-                            <td>₱ {{ number_format($item->retail_price, 2) }}</td>
+                            <td> ₱ {{ number_format($item->retail_price * $item->quantity, 2) }}</td>
                         </tr>
                         @endforeach
 
-                        @foreach($OrderDetailsOtherItems as $item)
-
-                        <tr>
-                            <td>{{ $item->product_name }}</td>
-                            <td class="remove">₱ {{ number_format($item->supplier_price, 2) }}</td>
-                            <td>None</td>
-                            <td>x{{ $item->quantity }}</td>
-                            <td>₱ {{ number_format($item->retail_price, 2) }}</td>
-                        </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>

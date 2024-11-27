@@ -71,6 +71,7 @@ class PaymentPageController extends Controller
     }
 
 
+    
 
     public function payment(Request $request, $id)
     {
@@ -96,35 +97,43 @@ class PaymentPageController extends Controller
         }
 
 
-        // ---  QUERY TO GET THE SHIRTS --- 
-        $ShirtItems = DB::table('carts as c')
-            ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
-            ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->join('product_variants as v', 'i.size', '=', 'v.id')
-            ->select(
-                'c.user_id',
-                'u.first_name',
-                'i.product_id',
-                'i.id',
-                'i.quantity',
-                'i.size',
-                'p.product_name',
-                'p.product_image',
-                'p.supplier_price',
-                'p.retail_price',
-                'p.stocks',
-                'c.total_amount'
-            )
-            ->where('i.cart_id', '=', $userId)
-            ->where('cat.id', '=', 4)
-            ->whereIn(
-                'i.id',
-                $productIds
-            )  // Use whereIn to filter by multiple product IDs
-            ->get();
 
+        $categoryId = DB::table('categories')
+            ->whereRaw('LOWER(category_name) LIKE ?', ['%shirt%'])
+            ->value('id');
+
+
+        $CartItems = DB::table('carts as c')
+        ->join('users as u', 'c.user_id', '=', 'u.id')
+        ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
+        ->join('products as p', 'i.product_id', '=', 'p.id')
+        ->join('categories as cat', 'p.category_id', '=', 'cat.id')
+        ->leftJoin('product_variants as v', 'i.size', '=', 'v.id') // left join in case there are no variants
+        ->select(
+            'c.user_id',
+            'u.first_name',
+            'i.product_id',
+            'i.id',
+            'i.quantity',
+            'i.size',
+            'p.product_name',
+            'p.product_image',
+            'p.supplier_price',
+            'p.retail_price',
+            'p.category_id',
+            'p.stocks',
+            'c.total_amount',
+            DB::raw("IF(cat.id = {$categoryId}, 'Shirt', 'Other') as item_type") // Conditional column to differentiate between Shirt and Other items
+        )
+        ->where('i.cart_id', '=', $userId)
+        ->whereIn('i.id',
+            $productIds
+        )
+        ->where(function ($query) use ($categoryId) {
+            $query->where('cat.id', '=', $categoryId)
+                ->orWhere('cat.id', '!=', $categoryId);
+        })
+            ->get();
 
 
         $shopName = DB::table('cart_items as i')
@@ -135,35 +144,7 @@ class PaymentPageController extends Controller
             ->limit(1)
             ->get();
 
-        // --- OTHER ITEMS --- 
-        $OtherItems = DB::table('carts as c')
-            ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.id', '=', 'i.cart_id')
-            ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->select(
-                'c.user_id',
-                'u.first_name',
-                'i.product_id',
-                'i.id',
-                'i.quantity',
-                'i.size',
-                'p.product_name',
-                'p.product_image',
-                'p.supplier_price',
-                'p.stocks',
-                'p.retail_price',
-                'c.total_amount'
-            )
-            ->where('i.cart_id', '=', $userId)
-            ->where('cat.id', '!=', 4)
-            ->whereIn(
-                'i.id',
-                $productIds
-            )  // Use whereIn to filter by multiple product IDs
-            ->get();
-
-
+       
 
         // --- QUERY TO GET THE TOTAL AMOUNT TO PAY ---
         $total_amount_toPay = DB::table('carts')
@@ -171,6 +152,7 @@ class PaymentPageController extends Controller
             ->get(); // Assuming there is a `total_amount` field in the `carts` table
 
 
+        // Initialize totals
         $total_supplier_amount1 = 0.0;
         $total_supplier_amount2 = 0.0;
         $overall_total_supplier_amount = 0.0;
@@ -178,64 +160,42 @@ class PaymentPageController extends Controller
         $total_items2 = 0;
         $overall_total_items = 0;
 
-
-
         foreach ($shopName as $s) {
             $shop_id = $s->id;
         }
-        foreach ($ShirtItems as $item) {
 
-            $total_supplier_amount1 += $item->supplier_price * $item->quantity;
-            $total_items1 += $item->quantity;
+        foreach ($CartItems as $item) {
+            if ($item->category_id == 4) {  // Shirts category
+                $total_supplier_amount1 += $item->supplier_price * $item->quantity;
+                $total_items1 += $item->quantity;
+            } else {  
+                $total_supplier_amount2 += $item->supplier_price * $item->quantity;
+                $total_items2 += $item->quantity;
+            }
         }
+
         foreach ($total_amount_toPay as $total) {
             $total_amount = $total->total_amount;
         }
 
-        foreach ($OtherItems as $item) {
-            // Insert data directly into the orders table
-            $total_supplier_amount2 += $item->supplier_price * $item->quantity;
-            $total_items2 += $item->quantity;
-        }
         $overall_total_supplier_amount = $total_supplier_amount1 + $total_supplier_amount2;
         $overall_total_items = $total_items1 + $total_items2;
 
         $orderId = DB::table('orders')->insertGetId([
-
             'user_id' => $userId,
-            'shop_id' => $shop_id, 
+            'shop_id' => $shop_id,
             'total_amount' => $total_amount,
             'order_status_id' => 7,
             'supplier_price_total_amount' => $overall_total_supplier_amount,
-            'total_items' => $overall_total_items, 
+            'total_items' => $overall_total_items,
             'reference_number' => $referenceNumber,
             'proof_of_payment' => $proofOfPaymentPath,
-            'order_date' => \Carbon\Carbon::now('Asia/Manila'), 
-
-
+            'order_date' => \Carbon\Carbon::now('Asia/Manila'),
         ]);
 
-
-
-        // Update stocks for all products
+        // Process CartItems and insert into order_items
         $processedProducts = [];
-        // Process ShirtItems
-        foreach ($ShirtItems as $item) {
-            if (!isset($processedProducts[$item->product_id])) {
-                $processedProducts[$item->product_id] = 0;
-            }
-            $processedProducts[$item->product_id] += $item->quantity;
-
-            DB::table('order_items')->insert([
-                'order_id' => $orderId,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->retail_price,
-                'size' => $item->size,
-            ]);
-        }
-        // Process OtherItems
-        foreach ($OtherItems as $item) {
+        foreach ($CartItems as $item) {
             if (!isset($processedProducts[$item->product_id])) {
                 $processedProducts[$item->product_id] = 0;
             }
@@ -252,17 +212,14 @@ class PaymentPageController extends Controller
 
         // Update stocks for all products
         foreach ($processedProducts as $productId => $totalQuantity) {
-            // Get the current stock of the product
             $currentStock = DB::table('products')->where('id', '=', $productId)->value('stocks');
-
-            // Calculate the new stock, ensuring it doesn't go below 0
             $newStock = max(0, $currentStock - $totalQuantity);
 
-            // Update the stock value in the database
             DB::table('products')
-                ->where('id', '=', $productId)
-                ->update(['stocks' => $newStock]);
+            ->where('id', '=', $productId)
+            ->update(['stocks' => $newStock]);
         }
+
 
 
         // Get the shirts and their details

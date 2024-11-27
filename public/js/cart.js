@@ -1,7 +1,6 @@
 // FOR CHECKBOXES IN CART
 var TotalAmount = "total-amount";
 var totalItem = "item-count";
-//var checked_Item = "selectAll-count";
 
 // Function to add checked products
 function AddCheckedProducts() {
@@ -188,6 +187,20 @@ document.addEventListener("DOMContentLoaded", function () {
             quantityInput.value = quantity;
             AddCheckedProducts();
 
+
+            // Get the retail price of the product to sum
+            const retailPrice = parseFloat(
+                document.getElementById(`retail-price_${productId}`).innerText.replace(/,/g, ""));
+            // Calculate the total price dynamically
+            const totalValue = retailPrice * quantity;
+            // Update the total price for this specific product
+            document.querySelector(`#total-product-price_${productId}`).innerHTML = `₱ ${totalValue.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })}`;
+            //end of total retail price
+
+
             // Send an AJAX request to update the quantity
             fetch("/cart/update/" + productId, {
                 method: "PATCH", // Use PATCH request for updates
@@ -212,6 +225,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 //END OF UPDATE QUANTITY OF ITEM IN CART IN DATABASE
+
+
+
 
 // //TO DELETE ITEM FROM CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
@@ -297,6 +313,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //end of delete item//
 
+
+
+
 //TO UPDATE SIZE OF ITEM IN CART IN DATABASE
 document.addEventListener("DOMContentLoaded", function () {
     // Event delegation for dynamically loaded elements
@@ -331,6 +350,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+
+
+
 
 //ERROR MESSAGE FOR EMPTY CART THIS IS FOR PAYMENT PAGE
 document.addEventListener("DOMContentLoaded", function () {
