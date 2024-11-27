@@ -57,7 +57,7 @@ Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
 Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
 
 Route::post('/productDetails/addToCart', [ProductDetailsController::class, 'addToCart'])->name('productDetails.addToCart');
-Route::post('/productDetails/clearandadd', [ProductDetailsController::class, 'addToCart'])->name('productDetails.clearandadd');
+Route::post('/productDetails/clearandadd', [ProductDetailsController::class, 'clearAndAdd'])->name('productDetails.clearandadd');
 
 
 Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');

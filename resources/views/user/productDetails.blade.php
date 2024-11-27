@@ -33,27 +33,24 @@
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
                             <div class="quantity mb-4" style="margin-top: 150px;">
                                 @if($product->status->status_name === 'onhand')
-                                        <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
+                                    <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
                                 @endif
-                    
+                            
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
-                                    <button id="decrement" style="color: #092C4C">-</button>
-                                    <input type="text" id="quantity" value="1" readonly style="color: #092C4C">
-                                    <button id="increment" style="color: #092C4C">+</button>
+                                    <button type="button" id="decrement" style="color: #092C4C">-</button>
+                                    <input type="text" id="selectorQuantity" value="1" readonly style="color: #092C4C">
+                                    <button type="button" id="increment" style="color: #092C4C">+</button>
                                 </div>
                             </div>
+                            
                             <div class="d-flex justify-content-between align-items-center w-100" style="margin-top: 5rem;">
-                                <img src="{{ asset('images/chat.svg') }}" class="chat-icon"
-                                    style="width:22px; height:22px">
+                                <img src="{{ asset('images/chat.svg') }}" class="chat-icon" style="width:22px; height:22px">
                                 <!-- Add to Cart Button -->
-                                <form action="{{ route('productDetails.addToCart') }}" method="POST">
+                                <form action="{{ route('productDetails.addToCart') }}" method="POST" id="addToCartForm">
                                     @csrf
-                                    <input type="number" name="quantity" id="quantity" class="form-control d-none" value="1" required>
-
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
-
-
+                                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
                                     <button type="submit" 
                                         class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
                                         style="width:130px; height:48px">
@@ -61,7 +58,6 @@
                                         Add to Cart
                                     </button>
                                 </form>
-                                
                                 
                                 
                                 <!-- Buy Now Button -->
@@ -195,36 +191,65 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{ route('productDetails.clearandadd') }}" method="POST">
-                    @csrf                
-                    <button type="button" class="btn btn-primary">Add Anyway</button>
+                <form action="{{ route('productDetails.clearandadd') }}" method="POST" id="addToCartForm">
+                    @csrf
+                    <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
+                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                    <button type="button" class="btn btn-primary" id="continueAddToCartButton">Add Anyway</button>
                 </form>
+             
             </div>
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> // ang aga niyo HAHAHAHA  kumakain pa si dave
+
+<div id="loadingIndicator" class="d-none position-fixed top-0 start-50 translate-middle-x w-100 vh-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50"  >
+    <div class="spinner-border text-primary mt-5" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> 
 <script>
     // Increment and decrement button functionality
-    document.getElementById('decrement').addEventListener('click', function() {
-        let quantity = document.getElementById('quantity');
-        if (parseInt(quantity.value) > 1) {
-            quantity.value = parseInt(quantity.value) - 1;
+    const selectorQuantity = document.getElementById('selectorQuantity');
+    const formQuantity = document.getElementById('quantity');
+    const incrementButton = document.getElementById('increment');
+    const decrementButton = document.getElementById('decrement');
+
+    // Update the form quantity input whenever the selector changes
+    function updateQuantity(value) {
+        selectorQuantity.value = value;
+        formQuantity.value = value;
+    }
+
+    // Increment button logic
+    incrementButton.addEventListener('click', function () {
+        let currentQuantity = parseInt(selectorQuantity.value, 10);
+        currentQuantity++;
+        updateQuantity(currentQuantity);
+    });
+
+    // Decrement button logic
+    decrementButton.addEventListener('click', function () {
+        let currentQuantity = parseInt(selectorQuantity.value, 10);
+        if (currentQuantity > 1) {
+            currentQuantity--;
+            updateQuantity(currentQuantity);
         }
     });
 
-    document.getElementById('increment').addEventListener('click', function() {
-        let quantity = document.getElementById('quantity');
-        quantity.value = parseInt(quantity.value) + 1;
-    });
+    // AJAX form submission
+
 
     $(document).on('submit', '#addToCartForm', function (e) {
+    e.preventDefault();
 
     const form = $(this);
     const formData = form.serialize();
-    // const quantity = $('#quantity').val(); // Get the quantity value
-
+    $('#loadingIndicator').removeClass('d-none');
 
     $.ajax({
         url: "{{ route('productDetails.addToCart') }}", // Laravel route
@@ -234,12 +259,29 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // CSRF token
         },
         success: function (response) {
-            // Show success modal
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            $('#successModal .modal-body').text(response.message);
-            successModal.show();
+            $('#loadingIndicator').addClass('d-none');
+
+            // Only show the success modal if the response indicates success
+            if (response.success) {
+                console.log(response);
+
+                // Show success modal
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                $('#successModal .modal-body').text(response.message);
+                successModal.show();
+
+                updateQuantity(1);
+            } else {
+                // Handle server-side failure by showing error modal
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                $('#errorModal .modal-body').text(response.message || 'An error occurred. Please try again.');
+                errorModal.show();
+            }
         },
         error: function (xhr) {
+            // Log error response
+            console.error('Error Response:', xhr);
+
             // Show error modal
             const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
             let errorMessage = "An error occurred. Please try again.";
@@ -252,12 +294,44 @@
             errorModal.show();
         },
     });
-    
 });
 
 
-    
+$(document).ready(function() {
+    // Trigger the AJAX request when the button is clicked
+    $('#continueAddToCartButton').click(function(event) {
+        event.preventDefault();  // Prevent the form from submitting normally
 
-        
+        var product_id = $('#product_id').val();  // Product ID from hidden field
+        var quantity = $('#quantity').val();  // Quantity from input field
+
+        $('#loadingIndicator').removeClass('d-none');
+
+        $('#errorModal .close').click();
+
+
+        $.ajax({
+            url: '{{ route("productDetails.clearandadd") }}',  // Controller route
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',  // CSRF token
+                product_id: product_id,
+                quantity: quantity
+            },
+            success: function(response) {
+                $('#loadingIndicator').addClass('d-none');
+
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors
+                alert('Error adding product to cart.');
+            }
+        });
+    });
+});
+
 </script>
+
 @endsection

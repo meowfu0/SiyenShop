@@ -20,14 +20,11 @@ class ProductDetailsController extends Controller
         // Retrieve product ID from request
         $product_id = $request->query('id');
         session(['product_id' => $product_id]); // Store product ID in session
-        Log::info('Product ID retrieved', ['product_id' => $product_id]);
   
         // Fetch the product
         try {
             $product = Product::findOrFail($product_id);
-            Log::info('Product retrieved successfully', ['product' => $product]);
         } catch (\Exception $e) {
-            Log::error('Error fetching product', ['error' => $e->getMessage()]);
             abort(404, 'Product not found');
         }
   
@@ -36,16 +33,13 @@ class ProductDetailsController extends Controller
                          ->with('user')
                          ->take(2) // Limit to 2 reviews
                          ->get();
-        Log::info('Reviews fetched', ['reviews' => $reviews]);
   
         // Calculate the average rating
         $averageRating = $reviews->avg('ratings'); 
         $roundedAverageRating = number_format($averageRating, 1);
-        Log::info('Average rating calculated', ['averageRating' => $roundedAverageRating]);
   
         // Check if the product is a T-shirt and redirect if necessary
         if ($product->category->name === 'T-Shirt') {
-            Log::info('Product is a T-Shirt, redirecting');
             return redirect()->route('productDetailswithSize', ['id' => $product_id]);
         }
   
@@ -53,12 +47,9 @@ class ProductDetailsController extends Controller
         $relatedProducts = Product::where('shop_id', $product->shop_id) 
                                   ->where('id', '!=', $product_id) 
                                   ->take(5)
-                                  ->get();
-        Log::info('Related products fetched', ['relatedProducts' => $relatedProducts]);
-  
+                                  ->get();  
         $showModal = false;
 
-        Log::info('ProductDetailsController@index: End');
         return view('user.productDetails', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'showModal'));
     }  
 
@@ -144,14 +135,14 @@ class ProductDetailsController extends Controller
     }
 }
 
-public function clearAndDelete(Request $request)
+public function clearAndAdd(Request $request)
 {
     $user_id = Auth::id();
     $product_id = session('product_id');
     $quantity = $request->input('quantity');
 
     // Get the cart of the authenticated user
-    $cart = Cart::first(['user_id' => $user_id]);
+    $cart = Cart::where('user_id', $user_id)->first();
 
     if ($cart) {
         // Delete items associated with the cart
