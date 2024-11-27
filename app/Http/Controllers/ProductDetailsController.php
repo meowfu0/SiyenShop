@@ -66,8 +66,12 @@ class ProductDetailsController extends Controller
     {
         Log::info('ProductDetailsController@addToCart: Start');
         
-        $product_id = session('product_id');
+ 
+
+        // Retrieve data from the request
+        $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
+
         Log::info('Add to cart request received', ['product_id' => $product_id, 'quantity' => $quantity]);
   
         // Ensure user is authenticated
@@ -101,7 +105,7 @@ class ProductDetailsController extends Controller
                     'cartShopId' => $cartShopId,
                     'currentShopId' => $currentShopId
                 ]);
-                return back()->with('Failed', 'Shop Mismatch')->with('showModal', true);
+                return back()->with('Failed', 'Shop mismatch!')->with('showModal', true);
 
             }
         }
@@ -111,7 +115,7 @@ class ProductDetailsController extends Controller
         Log::info('Product added to cart successfully', ['product_id' => $product_id, 'quantity' => $quantity]);
 
         Log::info('ProductDetailsController@addToCart: End');
-        return back()->with('success', 'Product added to cart');
+        return back()->with('success', 'Product added to cart successfully!');
 
     }
   
@@ -139,5 +143,24 @@ class ProductDetailsController extends Controller
         Log::info('CartItem created successfully');
     }
 }
+
+public function clearAndDelete(Request $request)
+{
+    $user_id = Auth::id();
+    $product_id = session('product_id');
+    $quantity = $request->input('quantity');
+
+    // Get the cart of the authenticated user
+    $cart = Cart::first(['user_id' => $user_id]);
+
+    if ($cart) {
+        // Delete items associated with the cart
+        CartItem::where('cart_id', $cart->id)->delete();
+    }
+
+    // Add the new item to the cart
+    $this->addToCartDB($cart, $product_id, $quantity);
+}
+
 
 }

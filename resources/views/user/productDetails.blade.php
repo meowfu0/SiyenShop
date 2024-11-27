@@ -35,6 +35,7 @@
                                 @if($product->status->status_name === 'onhand')
                                         <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
                                 @endif
+                    
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button id="decrement" style="color: #092C4C">-</button>
@@ -48,7 +49,11 @@
                                 <!-- Add to Cart Button -->
                                 <form action="{{ route('productDetails.addToCart') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="number" name="quantity" id="quantity" class="form-control d-none" value="1" required>
+
+                                    <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
+
+
                                     <button type="submit" 
                                         class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
                                         style="width:130px; height:48px">
@@ -136,32 +141,44 @@
     </div>               
 </div>
 
+
 @if(session('success'))
-<div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content p-2">
-            <div class="modal-body">
-               Added to cart
+    <script>
+        window.onload = function() {
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        };
+    </script>
+@endif
+
+@if(session('Failed') && session('showModal'))
+    <script>
+        window.onload = function() {
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        };
+    </script>
+@endif
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="font-size:25px">&times;</span>
+                </button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add Anyway</button>
+            <div class="modal-body">
+                <p>Product added to cart successfully!</p>
             </div>
         </div>
     </div>
 </div>
-@endif
 
 
-@if($showModal)
-<script>
-    $(document).ready(function() {
-        $('#exampleModalCenter').modal('show');
-    });
-</script>
-@endif
 
-<div class="modal fade md-6" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade md-6" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content p-2">
             <div class="modal-header text-center d-flex justify-content-between" style="color: #092C4C">
@@ -178,13 +195,16 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add Anyway</button>
+                <form action="{{ route('productDetails.clearandadd') }}" method="POST">
+                    @csrf                
+                    <button type="button" class="btn btn-primary">Add Anyway</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script> // ang aga niyo HAHAHAHA  kumakain pa si dave
 <script>
     // Increment and decrement button functionality
     document.getElementById('decrement').addEventListener('click', function() {
@@ -198,6 +218,43 @@
         let quantity = document.getElementById('quantity');
         quantity.value = parseInt(quantity.value) + 1;
     });
+
+    $(document).on('submit', '#addToCartForm', function (e) {
+
+    const form = $(this);
+    const formData = form.serialize();
+    // const quantity = $('#quantity').val(); // Get the quantity value
+
+
+    $.ajax({
+        url: "{{ route('productDetails.addToCart') }}", // Laravel route
+        type: "POST",
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), // CSRF token
+        },
+        success: function (response) {
+            // Show success modal
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            $('#successModal .modal-body').text(response.message);
+            successModal.show();
+        },
+        error: function (xhr) {
+            // Show error modal
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            let errorMessage = "An error occurred. Please try again.";
+
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+
+            $('#errorModal .modal-body').text(errorMessage);
+            errorModal.show();
+        },
+    });
+    
+});
+
 
     
 
