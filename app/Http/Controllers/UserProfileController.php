@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\GCashInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; 
 
@@ -27,14 +28,17 @@ class UserProfileController extends Controller
     {
         // Retrieve the authenticated user
         $user = Auth::user();
-    
-        // If there's no authenticated user, redirect them to the login page
+
+        $user_id = $user->id;
+
         if (!$user) {
-            return redirect()->route('login');
+            return redirect()->route('login'); // Redirect to login if user is not authenticated
         }
+
+        $gcashInfos = GCashInfo::where('user_id', $user_id)->get();
     
         // Pass the $user variable to the view
-        return view('components.edit', compact('user'));
+        return view('components.edit', compact('user', 'gcashInfos'));
     }
  // Add this if not already included
 
@@ -76,7 +80,8 @@ public function update(Request $request, User $user)
     $user->course_bloc = $validated['course_bloc'];
     $user->year = $validated['year'];
     $user->course_id = $validated['course_id'];
- 
+    $user->gcash_name = $validated['gcash_name'] ?? $user->gcash_name;
+    $user->gcash_number = $validated['gcash_number'] ?? $user->gcash_number;
 
     
 

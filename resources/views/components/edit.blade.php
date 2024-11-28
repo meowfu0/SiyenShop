@@ -141,7 +141,7 @@
             </div>
 
             <div class="row mb-3">
-    @if($user->role_id == 2)
+    @if($user->role_id == 1)
     <div class="col-md-10 mt-3">
             <!-- Gcash Button -->
             <button class="btn btn-primary" id="openModalBtn" type="button" data-bs-toggle="modal" data-bs-target="#gcashModal"> Gcash</button>
@@ -189,24 +189,28 @@
                 <!-- Display Gcash Info -->
                 <div id="gcashInfo" style="display: block;">
                     <div class="row mb-3">
+                        
                         <div class="col-md-4 text-center"><strong>Gcash Name</strong></div>
                         <div class="col-md-4 text-center"><strong>Gcash Number</strong></div>
                         <div class="col-md-4 text-center"><strong>Gcash Limit</strong></div>
                     </div>
                     <div class="row mb-3" id="gcashInfoContainer">
                         <!-- Initial row with a delete button -->
+                        @foreach ($gcashInfos as $info)
+               
                         <div class="col-md-4 text-center">
-                            <p id="gcashNameInfo">No data</p>
+                            <p id="gcashNameInfo">{{$info->gcash_name}} </p>
                         </div>
                         <div class="col-md-4 text-center">
-                            <p id="gcashNumberInfo">No data</p>
+                            <p id="gcashNumberInfo"> {{$info->gcash_number}}
                         </div>
                         <div class="col-md-4 text-center">
-                            <p id="gcashLimitInfo">No data</p>
+                            <p id="gcashLimitInfo">{{$info->gcash_limit}} </p>
                         </div>
                         <div class="col-12 text-end">
                             <button type="button" class="btn btn-outline-danger btn-sm" id="deleteInitialRow">−</button>
                         </div>
+                        @endforeach
                     </div>
                 </div>
 
