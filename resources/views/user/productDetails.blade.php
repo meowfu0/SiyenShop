@@ -31,6 +31,24 @@
                                 <p class="fs-4 mb-1 ml-2 mt-1">{{$product->sales_count}} sold</p>
                             </div>
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
+
+                        @if ($variants->isNotEmpty())
+                            <div class="size-variation">
+                                <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
+                                @foreach ($variants as $variant)
+                                <input type="hidden" id="selectedSize" name="selected_size" value="{{$variant->id}}">
+
+                                        <button type="button"
+                                            class="btn btn-outline-primary fw-semibold size-button 
+                                                {{ $variant->stock <= 0 ? 'disabled' : '' }}"
+                                            data-size="{{ $variant->size }}" data-bs-toggle="button"
+                                            aria-pressed="false" autocomplete="off">
+                                            {{ $variant->size }}
+                                        </button>
+                                @endforeach
+                            </div>
+                            @endif
+                            
                             <div class="quantity mb-4" style="margin-top: 150px;">
                                 @if($product->status->status_name === 'onhand')
                                     <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
@@ -119,14 +137,14 @@
                                 <span class="excerpt d-block">{{$relatedProduct->product_name}}</span>
                                 <span class="price"><span class="number">₱{{number_format($relatedProduct->retail_price, 2)}}</span></span>
                                 <div class="ratings d-flex align-items-center mt-0">
-                                                <i class="fa fa-star rating-color mr-1"></i>
+ <i class="fa fa-star rating-color mr-1"></i>
                                                 <i class="fa fa-star rating-color mr-1"></i>
                                                 <i class="fa fa-star rating-color mr-1"></i>
                                                 <i class="fa fa-star rating-color mr-1"></i>
                                                 <i class="fa fa-star mr-1"></i>
                                                 <span class="solds">{{$relatedProduct->sales_count}} solds</span>          
                                 </div>
-                                <a href="{{route('productDetails', ['id' => $product->id])}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+                                <a href="{{route('productDetails', ['id' => $relatedProduct->id])}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
                             </div>
                         </div>
                         @endforeach

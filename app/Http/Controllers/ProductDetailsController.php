@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\ProductVariant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -38,19 +39,16 @@ class ProductDetailsController extends Controller
         $averageRating = $reviews->avg('ratings'); 
         $roundedAverageRating = number_format($averageRating, 1);
   
-        // Check if the product is a T-shirt and redirect if necessary
-        if ($product->category->name === 'T-Shirt') {
-            return redirect()->route('productDetailswithSize', ['id' => $product_id]);
-        }
+        $variants = ProductVariant::where('product_id', $product_id)->get();
   
         // Fetch related products
         $relatedProducts = Product::where('shop_id', $product->shop_id) 
                                   ->where('id', '!=', $product_id) 
                                   ->take(5)
                                   ->get();  
-        $showModal = false;
+      
 
-        return view('user.productDetails', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'showModal'));
+        return view('user.productDetails', compact('product', 'relatedProducts', 'reviews', 'averageRating','variants'));
     }  
 
     public function addToCart(Request $request)

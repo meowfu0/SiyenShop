@@ -44,9 +44,7 @@
                 </div>
                 <hr>
                 
-                <a href="{{ $product->category->category_name === 'T-Shirt' 
-            ? route('productDetailswithSize', ['id' => $product->id]) 
-            : route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span>
+                <a href="{{ route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span>
                 </a>
             </div>
         </div>
