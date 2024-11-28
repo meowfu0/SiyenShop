@@ -80,9 +80,8 @@
                 </a>
 
                 <!-- Delete Icon -->
-                <a class="text-decoration-none">
-                    <img src="{{ asset('images/Delete.svg') }}" alt="Delete" class="img-thumbnail" 
-                        style="width: 35px; height: 35px;" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <a class="text-decoration-none" id="deleteSelectedButton" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                    <img src="{{ asset('images/Delete.svg') }}" alt="Delete" class="img-thumbnail" style="width: 35px; height: 35px;">
                 </a>
             </div>
 
@@ -96,73 +95,89 @@
         </div>
     </div>
 
-    <div class="d-flex px-5 py-4 gap-4 flex-grow-1">
-        <div class="border border-primary rounded-4 p-4" style="flex: 4;">
-            <table id="example" class="table table-hover table-borderless" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <!-- Select All Checkbox -->
-                        <th>
-                            <input type="checkbox" class="select-all" id="select-all">
-                        </th>
-                        <th>ID </th>
-                        <th>Thumbnail</th>
-                        <th>Name </th>
-                        <th>Price </th>
-                        <th>Supplier Price</th>
-                        <th>Category </th>
-                        <th>Available Stocks </th>
-                        <th>Status </th>
-                        <th>Visibility </th>
-                        <th>Stock Level</th>
-                        <th></th> 
-                    </tr>
-                </thead>
-                <tbody>
-                 @foreach($products as $product)
-                    <tr class="product" data-stocks-level="{{ $product->stocks_level }}">
-                        <!-- Select Individual Item -->
-                        <td>
-                            <input type="checkbox" class="select-item" data-id="{{ $product->id }}">
-                        </td>
-                        <td>{{ $product->id }}</td>
-                        <td>
-                            <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
-                        </td>
-                        <td>{{ $product->product_name }}</td>
-                        <td>{{ number_format($product->retail_price, 2) }}</td>
-                        <td>{{ number_format($product->supplier_price, 2) }}</td>
-                        <td class="product-category" data-category-id="{{ $product->category_id }}">{{ $product->category_name }}</td> <!-- Access category_name directly -->
-                        <td>{{ $product->stocks }}</td>
-                        <td>{{ $product->status_name }}</td>
-                        <td>{{ $product->visibility_name }}</td>
-                        <td class="stocks-level" data-category-id="{{$product->stocks_level}}">{{ $product->stocks_level }}</td>
+   <div class="d-flex px-5 py-4 gap-4 flex-grow-1">
+    <div class="border border-primary rounded-4 p-4" style="flex: 4;">
+        <table id="example" class="table table-hover table-borderless" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="select-all" id="select-all">
+                    </th>
+                    <th>ID</th>
+                    <th>Thumbnail</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Supplier Price</th>
+                    <th>Category</th>
+                    <th>Available Stocks</th>
+                    <th>Status</th>
+                    <th>Visibility</th>
+                    <th>Stock Level</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($products as $product)
+                <tr class="product" data-stocks-level="{{ $product->stocks_level }}">
+                    <td>
+                        <input type="checkbox" class="select-item" data-id="{{ $product->id }}">
+                    </td>
+                    <td>{{ $product->id }}</td>
+                    <td>
+                        <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_image }}" width="50">
+                    </td>
+                    <td>{{ $product->product_name }}</td>
+                    <td>{{ number_format($product->retail_price, 2) }}</td>
+                    <td>{{ number_format($product->supplier_price, 2) }}</td>
+                    <td class="product-category" data-category-id="{{ $product->category_id }}">{{ $product->category_name }}</td>
+                    <td>{{ $product->stocks }}</td>
+                    <td>{{ $product->status_name }}</td>
+                    <td>{{ $product->visibility_name }}</td>
+                    <td class="stocks-level" data-category-id="{{$product->stocks_level}}">{{ $product->stocks_level }}</td>
 
-                        <!-- Actions Column -->
-                        <td>
-                            <div class="dropdown">
-                                <!-- Dropdown Button -->
-                                <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu" class="me-2 dropdown-toggle" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $product->id }}">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('shop.products.edit', $product->id) }}">Edit</a>
-                                    </li>
-                                    <li>
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</a>
-                                    </li>
-                                </ul>
+                    <!-- Actions Column -->
+                    <td>
+                        <div class="dropdown">
+                            <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu" class="me-2 dropdown-toggle" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $product->id }}">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('shop.products.edit', $product->id) }}">Edit</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ $product->id }}">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteConfirmationModal{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel{{ $product->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteConfirmationModalLabel{{ $product->id }}">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                        </td>
-                    </tr>
+                            <div class="modal-body">
+                                Are you sure you want to delete this product?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                                <form action="{{ route('shop.products.delete', $product->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endforeach
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
-
 </div>
-
-
 
 <script>
     const selectAllCheckbox = document.getElementById('select-all');

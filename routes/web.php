@@ -31,9 +31,10 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ShopProductsAddController;
+use App\Http\Controllers\ShopProductDeleteController;
 
 Auth::routes();
 
@@ -81,11 +82,10 @@ Route::prefix('shop')->group(function () {
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
-    // Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
-    Route::get('products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
-Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
-
-
+    Route::get('/products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
+    Route::post('/products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
+    Route::post('/products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
+    Route::delete('/shop/products/delete/{id}', [ShopProductDeleteController::class, 'delete'])->name('shop.products.delete');
     Route::get('/products/edit', ShopProductsEdit::class)->name('shop.products.edit');
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 });
@@ -108,18 +108,3 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 });
-
-// Products Routes
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-Route::get('/products/history', [ProductController::class, 'history'])->name('products.history');
-
-// Product Variant Routes
-Route::get('/product-variants', [ProductVariantController::class, 'index'])->name('product-variants.index');
-Route::get('/product-variants/create', [ProductVariantController::class, 'create'])->name('product-variants.create');
-Route::post('/product-variants', [ProductVariantController::class, 'store'])->name('product-variants.store');
-Route::get('/product-variants/{productVariant}', [ProductVariantController::class, 'show'])->name('product-variants.show');
-Route::get('/product-variants/{productVariant}/edit', [ProductVariantController::class, 'edit'])->name('product-variants.edit');
-Route::put('/product-variants/{productVariant}', [ProductVariantController::class, 'update'])->name('product-variants.update');
-Route::delete('/product-variants/{productVariant}', [ProductVariantController::class, 'destroy'])->name('product-variants.destroy');

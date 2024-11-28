@@ -1,25 +1,20 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Controllers;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\DB; // Import the DB facade
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 
-class ShopProducts extends Component
+class ShopProductController extends Controller
 {
-    public $products = [];
-    public $categories = [];
-    public $category;
-    public $search = '';
+    public $perPage = 30;
 
-    protected $rules = [
-        'product_name' => 'required',
-        'description' => 'required'
-    ];
-
-    public function render()
+    public function index(Request $request)
     {
+        // Initialize search parameter from the request
+        $search = $request->input('search', '');
+
         // Build the query using the Query Builder
         $query = DB::table('products')
             ->select('products.*', 'categories.category_name', 'visibilities.visibility_name', 'statuses.status_name')
@@ -30,18 +25,18 @@ class ShopProducts extends Component
             ->whereNull('products.deleted_at');
 
         // Apply search filter if provided
-        if ($this->search) {
-            $query->where('products.product_name', 'like', '%' . $this->search . '%');
+        if ($search) {
+            $query->where('products.product_name', 'like', '%' . $search . '%');
         }
 
-        // Fetch all products without pagination
-        $this->products = $query->get();
+        // Paginate the results
+        $products = $query->paginate($this->perPage);
 
         // Fetch unique categories
-        $this->categories = DB::table('categories')->select('id', 'category_name')->get();
+        $categories = DB::table('categories')->select('id', 'category_name')->get();
 
         // Loop through the products and determine their stock levels
-        foreach ($this->products as $product) {
+        foreach ($products as $product) {
             if ($product->stocks > 10) {
                 $product->stocks_level = 'In Stock';
             } elseif ($product->stocks <= 10 && $product->stocks > 0) {
@@ -51,9 +46,11 @@ class ShopProducts extends Component
             }
         }
 
-        return view('livewire.shop.shop-products', [
-            'products' => $this->products,
-            'categories' => $this->categories, // Pass categories to the view
+        // Return the view with products and categories
+        return view('shop.shop-products', [
+            'products' => $products,
+            'categories' => $categories,
+            'search' => $search
         ]);
     }
 }
