@@ -36,234 +36,247 @@
     <div class="d-flex justify-content-between px-5 py-3">
         <h2 class="fw-bold m-0 text-primary">Edit Product</h2>
     </div>
-            
-    <div class="d-flex px-5 py-4 flex-grow-1">
-        <div class="container">
-            <div class="row">
-                <!-- First Column -->
-                <div class="col-md-6 d-flex flex-column gap-3">
-                    <div class="form-group mb-1">
-                        <label for="product_name_{{ $product->id }}" class="fw-bold text-primary">Product Name</label>
-                        <input type="text" id="product_name_{{ $product->id }}" class="form-control" placeholder="Input product name" value="{{ $product->product_name }}">
-                    </div>
 
-                    <div class="form-group mb-1">
-                        <label for="product_decription_{{ $product->id }}" class="fw-bold text-primary">Product Description</label>
-                        <textarea id="product_decription_{{ $product->id }}" class="form-control" rows="4" placeholder="Input product description" value="{{ $product->product_decription }}">{{ $product->product_decription }}</textarea>
-                    </div>
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
 
-                    <div class="form-group mb-3">
-                        <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
-                        
-                        <!-- Drag and Drop Zone -->
-                        <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
-                            <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                            <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*" wire:model="product_image">
-                            <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    
+    <form action="{{ route('shop.products.update', $product->id) }}" method="POST">
+        @csrf
+        <div class="d-flex px-5 py-4 flex-grow-1">
+            <div class="container">
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6 d-flex flex-column gap-3">
+                        <div class="form-group mb-1">
+                            <label for="product_name_{{ $product->id }}" class="fw-bold text-primary">Product Name</label>
+                            <input type="text" class="form-control" id="product_name" name="product_name" value="" required>                        
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label for="product_decription_{{ $product->id }}" class="fw-bold text-primary">Product Description</label>
+                            <textarea class="form-control" id="product_description" name="product_description" required></textarea>                        
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
+                            
+                            <!-- Drag and Drop Zone -->
+                            <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
+                                <p class="text-muted">Drag and drop an image here, or click to select one</p>
+                                <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*" wire:model="product_image">
+                                <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Second Column -->
-                <div class="col-md-6 d-flex flex-column gap-3"> 
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
-                            Add Category
-                            <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
-                        </button>
-                    </div>
-        
-                    <!-- Category Selection -->
-                    <div class="form-group mb-1">
-                        <label for="category" class="fw-bold text-primary">Category</label>
-                        <div class="dropdown">
-                            <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Category
+                    <!-- Second Column -->
+                    <div class="col-md-6 d-flex flex-column gap-3"> 
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="fw-bold m-0 text-primary">Organize</p>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
+                                Add Category
+                                <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
                             </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('T-Shirt')">
-                                    <span>T-Shirt</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn p-0" onclick="openEditModal('T-Shirt'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button class="btn p-0" onclick="deleteCategory('T-Shirt'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('Lanyard')">
-                                    <span>Lanyard</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn p-0" onclick="openEditModal('Lanyard'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button class="btn p-0" onclick="deleteCategory('Lanyard'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
-                    </div>
-                    
-
-                    <!-- Category Modal -->
-                    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="editCategoryForm">
-                                        <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
-                                        <div class="form-group mb-2 d-flex align-items-center">
-                                            <input type="text" id="category_name" class="form-control me-2" value="">
+            
+                        <!-- Category Selection -->
+                        <div class="form-group mb-1">
+                            <label for="category" class="fw-bold text-primary">Category</label>
+                            <div class="dropdown">
+                                <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Category
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
+                                    <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('T-Shirt')">
+                                        <span>T-Shirt</span>
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn p-0" onclick="openEditModal('T-Shirt'); event.stopPropagation();">
+                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                            </button>
+                                            <button class="btn p-0" onclick="deleteCategory('T-Shirt'); event.stopPropagation();">
+                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                            </button>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-                                    <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
-                                </div>
+                                    </li>
+                                    <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('Lanyard')">
+                                        <span>Lanyard</span>
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn p-0" onclick="openEditModal('Lanyard'); event.stopPropagation();">
+                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                            </button>
+                                            <button class="btn p-0" onclick="deleteCategory('Lanyard'); event.stopPropagation();">
+                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </div>
+                        
 
-                    <div class="form-group mb-1">
-                        <label for="shop_id" class="fw-bold text-primary">Organization</label>
-                       <!-- <input type="text" id="organization" class="form-control" 
-                            value="{{ Auth::user()->organization ?? 'No organization assigned' }}" readonly disabled> for backend part-->
-                            <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
-                    </div>
-
-                    <div class="col-md-6 gap-3"> 
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <p class="fw-bold m-0 text-primary">Inventory</p>
-                        </div>
-                    </div>
-
-                    <form>
-                        <div class="row g-2"> 
-                            <div class="col-md-6 mb-1"> 
-                                <label for="status_id" class="fw-bold text-primary">Status</label>
-                                <select id="status_id" class="form-select form-control" onchange="toggleQuantity()"  wire:model="status_id">
-                                    <option value="">Select Status</option>
-                                        <option value="preorder" {{ old('status_id') == 'preorder' ? 'selected' : '' }}>Preorder</option>
-                                        <option value="onhand" {{ old('status_id') == 'onhand' ? 'selected' : '' }}>Onhand</option>
-                                    </select>
-                                @error('status_id') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div class="col-md-6 mb-1"> 
-                                <div class="form-group">
-                                    <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                    <select id="visibility" class="form-select form-control" wire:model="visibility_id">
-                                        <option value="">Select Visibility</option>
-                                        <option value="visible" {{ old('visibility_id') == 'visible' ? 'selected' : '' }}>Visible</option>
-                                        <option value="hidden" {{ old('visibility_id') == 'hidden' ? 'selected' : '' }}>Hidden</option>
-                                    </select>
-                                    @error('visibility_id') <span class="text-red-500">{{ $message }}</span> @enderror
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
-                                <p class="fw-bold m-0 text-primary">Size Variation</p>
-                                <label class="switch">
-                                    <input type="checkbox" id="variationToggle">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-
-                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
-                        </div>
-
-                        <!-- Hidden Fields -->
-                        <div class="row g-3">
-                            <div id="inputContainer" class="col-md-12">
-                                <div id="hiddenFields" style="display: none;">
-                                    <table id="myTable" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="fw-bold text-primary">Size</th>
-                                                <th class="fw-bold text-primary" id="quantity_1">Quantity</th>
-                                                <th class="text-end"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr id="inputRow_1">
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
-                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                                                </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
-                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row g-2"> 
-                            <div class="col-md-6 mt-3 mb-1"> 
-                                <div class="form-group">
-                                    <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price"  type="text" id="form2" class="form-control" wire:model="supplier_price">
-                                    @error('supplier_price') <span class="text-red-500">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mt-3"> 
-                                <div class="form-group">
-                                    <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price"  type="text" id="form2" class="form-control">
-                                    @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label for="quantity_id" id="quantity" class="fw-bold text-primary">Quantity</label>
-                                    <div class="input-group quantity-selector quantity-selector-sm">
-                                        <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
+                        <!-- Category Modal -->
+                        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="editCategoryForm">
+                                            <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                            <div class="form-group mb-2 d-flex align-items-center">
+                                                <input type="text" id="category_name" class="form-control me-2" value="">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
 
+                        <div class="form-group mb-1">
+                            <label for="shop_id" class="fw-bold text-primary">Organization</label>
+                        <!-- <input type="text" id="organization" class="form-control" 
+                                value="{{ Auth::user()->organization ?? 'No organization assigned' }}" readonly disabled> for backend part-->
+                                <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
+                        </div>
+
+                        <div class="col-md-6 gap-3"> 
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <p class="fw-bold m-0 text-primary">Inventory</p>
+                            </div>
+                        </div>
+
+                        <form>
+                            <div class="row g-2"> 
+                                <div class="col-md-6 mb-1"> 
+                                    <label for="status_id" class="fw-bold text-primary">Status</label>
+                                    <select id="status_id" class="form-select form-control" onchange="toggleQuantity()"  wire:model="status_id">
+                                        <option value="">Select Status</option>
+                                            <option value="preorder" {{ old('status_id') == 'preorder' ? 'selected' : '' }}>Preorder</option>
+                                            <option value="onhand" {{ old('status_id') == 'onhand' ? 'selected' : '' }}>Onhand</option>
+                                        </select>
+                                    @error('status_id') <span class="text-red-500">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div class="col-md-6 mb-1"> 
+                                    <div class="form-group">
+                                        <label for="visibility" class="fw-bold text-primary">Visibility</label>
+                                        <select id="visibility" class="form-select form-control" wire:model="visibility_id">
+                                            <option value="">Select Visibility</option>
+                                            <option value="visible" {{ old('visibility_id') == 'visible' ? 'selected' : '' }}>Visible</option>
+                                            <option value="hidden" {{ old('visibility_id') == 'hidden' ? 'selected' : '' }}>Hidden</option>
+                                        </select>
+                                        @error('visibility_id') <span class="text-red-500">{{ $message }}</span> @enderror
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                    <p class="fw-bold m-0 text-primary">Size Variation</p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="variationToggle">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+
+                                <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
+                            </div>
+
+                            <!-- Hidden Fields -->
+                            <div class="row g-3">
+                                <div id="inputContainer" class="col-md-12">
+                                    <div id="hiddenFields" style="display: none;">
+                                        <table id="myTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="fw-bold text-primary">Size</th>
+                                                    <th class="fw-bold text-primary" id="quantity_1">Quantity</th>
+                                                    <th class="text-end"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="inputRow_1">
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                        <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                                                    </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
+                                            <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row g-2"> 
+                                <div class="col-md-6 mt-3 mb-1"> 
+                                    <div class="form-group">
+                                        <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
+                                        <input type="number" class="form-control" id="supplier_price" name="supplier_price" value="" required>                                        
+                                        @error('supplier_price') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mt-3"> 
+                                    <div class="form-group">
+                                        <label for="price" class="fw-bold text-primary">Price</label>
+                                        <input type="number" class="form-control" id="retail_price" name="retail_price" value="" required>                                        
+                                        @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6"> 
+                                    <div class="form-group">
+                                        <label for="quantity_id" id="quantity" class="fw-bold text-primary">Quantity</label>
+                                        <div class="input-group quantity-selector quantity-selector-sm">
+                                            <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
-            </div>
 
-            <!-- Submit Button -->
-            <div class="d-flex justify-content-end mt-4">
-                <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</a>
+                </div>
+
             </div>
         </div>
-    </div>
+   
+
     @else
             <div class="alert alert-warning">
                 Product not found.

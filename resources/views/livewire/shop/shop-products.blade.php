@@ -146,7 +146,7 @@
                             <img src="{{ asset('images/dotmenu.svg') }}" alt="dotmenu" class="me-2 dropdown-toggle" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $product->id }}">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('shop.products.edit', ['product' => $product->id]) }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ route('shop.products.edit', ['productId' => $product->id]) }}">Edit</a>
                                 </li>
                                 <li>
                                 <a class="dropdown-item" href="#" wire:click.prevent="confirmDelete({{ $product->id }})" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</a>

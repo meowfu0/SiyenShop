@@ -34,6 +34,7 @@ use App\Http\Controllers\ProductDetailswithSizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ShopProductsAddController;
+use App\Http\Controllers\ShopProductEditController;
 
 Auth::routes();
 
@@ -83,10 +84,13 @@ Route::prefix('shop')->group(function () {
 
     // Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
     Route::get('products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
-Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
+    Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
 
 
-    Route::get('/products/edit', ShopProductsEdit::class)->name('shop.products.edit');
+
+    // Show the edit form
+    Route::get('/products/edit/{productId}', [ShopProductEditController::class, 'edit'])->name('shop.products.edit');
+    
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 });
 
