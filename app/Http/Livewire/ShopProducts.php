@@ -13,11 +13,6 @@ class ShopProducts extends Component
     public $category;
     public $search = '';
 
-    protected $rules = [
-        'product_name' => 'required',
-        'description' => 'required'
-    ];
-
     public function render()
     {
         // Build the query using the Query Builder
