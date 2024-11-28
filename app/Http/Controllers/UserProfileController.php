@@ -50,8 +50,7 @@ public function update(Request $request, User $user)
         'course_id' => 'required|integer|exists:courses,id',
         'password' => 'nullable|string|min:6|confirmed',
         'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the image
-        'gcash_name' => 'nullable|string|max:255',
-        'gcash_number' => 'nullable|string|max:20',
+        
         
     ]);
 
@@ -77,8 +76,7 @@ public function update(Request $request, User $user)
     $user->course_bloc = $validated['course_bloc'];
     $user->year = $validated['year'];
     $user->course_id = $validated['course_id'];
-    $user->gcash_name = $validated['gcash_name'] ?? $user->gcash_name;
-    $user->gcash_number = $validated['gcash_number'] ?? $user->gcash_number;
+ 
 
     
 

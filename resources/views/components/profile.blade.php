@@ -23,25 +23,23 @@
             </div>
             <div class="profile-container d-flex flex-column align-items-center p-5 w-100">
             <div class="d-flex">
-                <!-- Profile Picture and Edit Button Section (Left Side) -->
-                <div class="d-flex flex-column align-items-center me-5" style="flex-shrink: 0; width: 250px;">
-                    <div class="d-flex flex-column align-items-center mb-3" style="flex-shrink: 0;">
-                        @if($user->profile_picture)
-                            <!-- Profile Picture -->
-                            <div class="profile-avatar" style="cursor: default;">
-                                <img class="rounded-circle mt-0" src="{{ asset('storage/' . $user->profile_picture) }}" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
-                            </div>
-                        @else
-                            <!-- Default Avatar -->
-                            <div class="profile-avatar" style="cursor: default;">
-                                <svg width="200" height="200" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.5 1C6.14855 1 1 6.14855 1 12.5C1 18.8514 6.14855 24 12.5 24C18.8514 24 24 18.8514 24 12.5C24 6.14855 18.8514 1 12.5 1Z"/>
-                                </svg>
-                            </div>
-                        @endif
-                    </div>
-
-
+                
+    <!-- Left Section: Profile Picture -->
+    <div class="d-flex flex-column align-items-center me-5" style="flex-shrink: 0; width: 250px;">
+        @if($user->profile_picture)
+        <!-- Profile Picture -->
+        <div class="profile-avatar" style="cursor: default;">
+            <img class="rounded-circle mt-0" src="{{ asset('storage/' . $user->profile_picture) }}" 
+                 style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+        </div>
+        @else
+        <!-- Default Avatar -->
+        <div class="profile-avatar" style="cursor: default;">
+            <img src="{{ asset('images/profile.svg') }}" id="picture_preview_container" 
+                 style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" 
+                 alt="Default Profile Picture">
+        </div>
+        @endif
     <!-- Hidden File Input -->
     <input type="file" id="profilePictureInput" name="profile_picture" style="display: none;" onchange="uploadProfilePicture(event)">
         <!-- Edit Profile Button -->
@@ -85,16 +83,7 @@
                             <input type="text" class="form-control" id="phone" value="{{ $user->phone_number}}" readonly>
                         </div>
                     </div>
-                    @if($user->role_id == 2)
-    <div class="col-md-12">
-        <label for="gcashName" class="form-label fw-bold">Gcash Name</label>
-        <input type="text" class="form-control" id="gcashName" name="gcash_name" value="{{ old('gcash_name', $user->gcash_name) }}" readonly>
-    </div>
-    <div class="col-md-12 mt-3">
-        <label for="gcashNumber" class="form-label fw-bold">Gcash Number</label>
-        <input type="text" class="form-control" id="gcashNumber" name="gcash_number" value="{{ old('gcash_number', $user->gcash_number) }}" readonly>
-    </div>
-@endif
+
 
 
                     <div class="row mb-3">

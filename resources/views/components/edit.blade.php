@@ -36,15 +36,12 @@
             <div class="d-flex flex-column align-items-center mb-3" style="flex-shrink: 0; position: relative;">
                 @if($user->profile_picture)
                     <label for="profilePictureInput" class="profile-avatar" style="cursor: pointer; position: relative; width: 200px; height: 200px;">
-                        <img src="{{ asset('storage/' . $user->profile_picture) }}" id="picture_preview_container" 
-                            style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+                        <img src="{{ asset('storage/' . $user->profile_picture) }}" id="picture_preview_container" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
                         <div class="hover-label" style=" position: absolute; top: 0; left: 0; width: 200px; height: 200px; border-radius: 50%; background-color: rgba(0, 0, 0, 0.6); color: white;display: none;justify-content: center;align-items: center; font-size: 0.9rem;">Click to upload</div>
                     </label>
                 @else
                     <label for="profilePictureInput" class="profile-avatar" style="cursor: pointer; position: relative; width: 200px; height: 200px;">
-                        <svg width="200" height="200" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.5 1C6.14855 1 1 6.14855 1 12.5C1 18.8514 6.14855 24 12.5 24C18.8514 24 24 18.8514 24 12.5C24 6.14855 18.8514 1 12.5 1Z"  />
-                        </svg>
+                        <img src="{{ asset('images/profile.svg') }}" id="picture_preview_container" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" alt="Default Profile Picture">
                         <div class="hover-label" style=" position: absolute; top: 0; left: 0; width: 200px; height: 200px; border-radius: 50%; background-color: rgba(0, 0, 0, 0.6); color: white;display: none;justify-content: center;align-items: center;font-size: 0.9rem;">Click to upload</div>
                     </label>
                 @endif
@@ -95,16 +92,7 @@
                             </div>
 
                             <div class="row mb-3">
-    @if($user->role_id == 2)
-        <div class="col-md-10">
-            <label for="gcashName" class="form-label fw-bold">Gcash Name</label>
-            <input type="text" class="form-control" id="gcashName" name="gcash_name" value="{{ old('gcash_name', $user->gcash_name) }}">
-        </div>
-        <div class="col-md-10 mt-3">
-            <label for="gcashNumber" class="form-label fw-bold">Gcash Number</label>
-            <input type="text" class="form-control" id="gcashNumber" name="gcash_number" value="{{ old('gcash_number', $user->gcash_number) }}">
-        </div>
-    @endif
+   
 </div>
 
 
@@ -152,6 +140,17 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+    @if($user->role_id == 2)
+    <div class="col-md-10 mt-3">
+            <!-- Gcash Button -->
+            <button class="btn btn-primary" id="openModalBtn" type="button" data-bs-toggle="modal" data-bs-target="#gcashModal"> Gcash</button>
+            
+        </div>
+    @endif
+</div>
+
+
             <!-- Save and Cancel Buttons Outside the Card -->
             <div class="d-flex justify-content-end mt-3">
                 <div class="me-2">
@@ -167,6 +166,202 @@
     </div>
 </div>
 </form>
+
+ <!-- Modal -->
+
+ <!-- Gcash Modal -->
+<div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title fw-bold" id="gcashModalLabel" style="font-size: 20px; color: #092C4C;">Gcash Management</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Add Button -->
+                <div class="text-end mb-3">
+                    <button id="addBtn" class="btn btn-outline-primary">+ Add</button>
+                </div>
+
+                <!-- Display Gcash Info -->
+                <div id="gcashInfo" style="display: block;">
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-center"><strong>Gcash Name</strong></div>
+                        <div class="col-md-4 text-center"><strong>Gcash Number</strong></div>
+                        <div class="col-md-4 text-center"><strong>Gcash Limit</strong></div>
+                    </div>
+                    <div class="row mb-3" id="gcashInfoContainer">
+                        <!-- Initial row with a delete button -->
+                        <div class="col-md-4 text-center">
+                            <p id="gcashNameInfo">No data</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p id="gcashNumberInfo">No data</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p id="gcashLimitInfo">No data</p>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="deleteInitialRow">−</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gcash Edit Section -->
+                <div id="gcashEdit" style="display: none;">
+                    <form id="gcashForm">
+                        <!-- The first row will be dynamically added when entering edit mode -->
+                    </form>
+
+                    <!-- Buttons Row -->
+                    <div class="text-end mb-3 d-flex justify-content-end">
+                        <button id="addFieldBtn" class="btn btn-outline-success btn-sm me-2">+</button>
+                        <button id="removeFieldBtn" class="btn btn-outline-danger btn-sm">−</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-center" style="border-top: none;">
+                <button type="button" class="btn btn-outline-secondary" id="cancelBtn" style="width: 100px; height: 40px; border-radius: 5px; display: none;">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveBtn" style="width: 100px; height: 40px; border-radius: 5px;">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentFieldCount = 0; // Start from 0 since we will manually add the first row
+
+    // Show the Gcash Edit section and Add the first field
+    document.getElementById('addBtn').addEventListener('click', function() {
+        // Hide Gcash Info and show the Edit section
+        document.getElementById('gcashInfo').style.display = 'none';
+        document.getElementById('gcashEdit').style.display = 'block';
+        document.getElementById('cancelBtn').style.display = 'inline-block'; // Show Cancel button
+
+        // Remove the initial row in gcashInfoContainer when switching to edit mode
+        const gcashInfoContainer = document.getElementById('gcashInfoContainer');
+        gcashInfoContainer.innerHTML = ''; // Clear the initial "No data" row
+
+        addField(); // Add the first empty row for editing
+    });
+
+    // Cancel button to switch back to view mode
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+        document.getElementById('gcashEdit').style.display = 'none';
+        document.getElementById('gcashInfo').style.display = 'block';
+        document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
+    });
+
+    // Add new input fields
+    document.getElementById('addFieldBtn').addEventListener('click', function() {
+        addField(); // Add a new field set when clicking the Add button
+    });
+
+    // Remove last input field
+    document.getElementById('removeFieldBtn').addEventListener('click', function() {
+        removeField(); // Remove the last added field set
+    });
+
+    // Function to add a new field set dynamically
+    function addField() {
+        const container = document.getElementById('gcashForm');
+        
+        // Create new field set
+        const newFieldSet = document.createElement('div');
+        newFieldSet.classList.add('row', 'mb-3');
+        newFieldSet.setAttribute('id', `fieldSet-${currentFieldCount}`);
+
+        // Create input fields for Gcash Name, Number, Limit
+        newFieldSet.innerHTML = `
+            <div class="col-md-4 text-center">
+                <input type="text" class="form-control text-center" name="gcashName[]" placeholder="Gcash Name">
+            </div>
+            <div class="col-md-4 text-center">
+                <input type="text" class="form-control text-center" name="gcashNumber[]" placeholder="Gcash Number">
+            </div>
+            <div class="col-md-4 text-center">
+                <input type="text" class="form-control text-center" name="gcashLimit[]" placeholder="Gcash Limit">
+            </div>
+            <div class="col-12 text-end">
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteField(${currentFieldCount})">−</button>
+            </div>
+        `;
+
+        // Append the new row to the form container
+        container.appendChild(newFieldSet);
+        currentFieldCount++; // Increment the field count
+    }
+
+    // Function to remove the last added field set
+    function removeField() {
+        if (currentFieldCount > 0) { // Ensure we don't remove the last field
+            const lastFieldSet = document.getElementById(`fieldSet-${currentFieldCount - 1}`);
+            if (lastFieldSet) {
+                lastFieldSet.remove(); // Remove the last added field set
+                currentFieldCount--; // Decrease the field count
+            }
+        }
+    }
+
+    // Function to delete a specific field set (including the first row)
+    function deleteField(fieldId) {
+        if (confirm("Are you sure you want to delete this entry?")) {
+            const fieldSet = document.getElementById(`fieldSet-${fieldId}`);
+            if (fieldSet) {
+                fieldSet.remove(); // Remove the specific field set
+                currentFieldCount--; // Decrease the field count
+            }
+        }
+    }
+
+    // Function to delete the initial row (added dynamically when in edit mode)
+    document.getElementById('deleteInitialRow').addEventListener('click', function() {
+        if (confirm("Are you sure you want to delete the initial row?")) {
+            const initialRow = document.getElementById('gcashInfoContainer');
+            initialRow.innerHTML = ''; // Remove the initial "No data" row
+        }
+    });
+
+    // Save button to store the data and display it in the modal
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const gcashNames = document.querySelectorAll('[name="gcashName[]"]');
+        const gcashNumbers = document.querySelectorAll('[name="gcashNumber[]"]');
+        const gcashLimits = document.querySelectorAll('[name="gcashLimit[]"]');
+
+        const infoContainer = document.getElementById('gcashInfoContainer');
+        infoContainer.innerHTML = ''; // Clear the container before adding new data
+
+        // Loop through input fields and display their values
+        for (let i = 0; i < gcashNames.length; i++) {
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3');
+
+            newRow.innerHTML = `
+                <div class="col-md-4 text-center">
+                    <p>${gcashNames[i].value || 'No data'}</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <p>${gcashNumbers[i].value || 'No data'}</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <p>${gcashLimits[i].value || 'No data'}</p>
+                </div>
+            `;
+            infoContainer.appendChild(newRow); // Append the new row to the info container
+        }
+
+        // Switch back to display mode
+        document.getElementById('gcashEdit').style.display = 'none';
+        document.getElementById('gcashInfo').style.display = 'block';
+        document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
+    });
+</script>
+
 
 <style>
     .list-group-item {
@@ -224,18 +419,11 @@
         padding: 0.75rem;
         width: 100%;
     }
-    .border-container {
-    border: 2px solid #e0e0e0; /* Light gray border */
-    padding: 30px; /* Space inside the border */
-    background-color: #ffffff; /* White background */
-    border-radius: 5px; /* Optional for slightly rounded corners */
-/* Subtle shadow for better appearance */
-}
 
 </style>
 
 <script>
-    // Hover effect for profile picture
+
     document.querySelectorAll('.profile-avatar').forEach((avatar) => {
         avatar.addEventListener('mouseenter', () => {
             avatar.querySelector('.hover-label').style.display = 'flex';
@@ -246,27 +434,25 @@
         });
     });
 
-    // Function to preview the selected profile picture
+
     function uploadProfilePicture(event) {
         const fileInput = event.target;
         const picturePreview = document.getElementById('picture_preview_container');
 
-        // Ensure a file is selected
+       
         if (fileInput.files && fileInput.files[0]) {
             const reader = new FileReader();
 
-            // Load the image and set it as the preview
             reader.onload = function(e) {
                 picturePreview.src = e.target.result;
             };
 
-            // Read the selected file as a Data URL
             reader.readAsDataURL(fileInput.files[0]);
+
+            
             }
         }
     
 </script>
- 
-
 
 @endsection

@@ -71,4 +71,10 @@ class User extends Authenticatable
             $user->save();
         });
     }
+
+    public function gcashInfo()
+    {
+        return $this->hasOne(GCashInfo::class);
+    }
+
 }
