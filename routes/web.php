@@ -48,10 +48,18 @@ Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.e
 
 // shopping module
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
-Route::get('/productDetails/{id}', [ProductDetailsController::class, 'productDetails'])->name('productDetails');
-//Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
+Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name('productDetails');
+Route::post('/productDetails/addToCart', [ProductDetailsController::class, 'addToCart'])->name('productDetails.addToCart');
+Route::post('/productDetails/clearandadd', [ProductDetailsController::class, 'clearAndAdd'])->name('productDetails.clearandadd');
+Route::get('/cartPage/{id}', [ProductDetailsController::class, 'cartPage'])->name('cartPage');
+// Route for Buy Now functionality
+Route::post('/buyNow', [ProductDetailsController::class, 'buyNow'])->name('buyNow');
+// Route to view the cart page
+Route::get('/cartPage/{id}', [ProductDetailsController::class, 'cartPage'])->name('cartPage');
 Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 // cart and checkout routes
 Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
 Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
@@ -108,10 +116,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 
-// Add product to cart
 
-Route::post('/cart/add', [AddtoCartController::class, 'add'])->name('cart.add');
-Route::get('/cart', [AddtoCartController::class, 'view'])->name('cart.view');
+
+
 
 
 
