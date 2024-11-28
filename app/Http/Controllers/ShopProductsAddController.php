@@ -52,7 +52,7 @@ class ShopProductsAddController extends Controller
         // Insert the product into the database
         DB::table('products')->insert([
             'product_name' => $validated['product_name'],
-            'shop_id'=> $shop_id, //dapat hindi hard coded kayo n bahala nito HAHAHAH
+            'shop_id'=> $shop_id ?? 1, //dapat hindi hard coded kayo n bahala nito HAHAHAH
             'product_decription' => $validated['product_description'],
             'product_image' => $validated['product_image'] ?? null,
             'category_id' => $validated['category_id'],

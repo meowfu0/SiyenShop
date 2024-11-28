@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    
     protected $fillable = [
         'category_id', 'shop_id', 'status_id', 'visibility_id',
         'product_name', 'product_description', 'product_image',
