@@ -11,12 +11,16 @@ class checkOutPageController extends Controller
 {
 
 
-
     public function index($encodedIds)
     {
 
         // Get the user ID
         $userId = Auth::user()->id;
+
+        $user = DB::table('carts')
+        ->where('user_id', $userId)
+            ->value('id');
+            
         $ids = base64_decode($encodedIds);  // Decode the string
         // Convert the comma-separated product IDs into an array
         $productIds = explode(',', $ids);
@@ -50,7 +54,7 @@ class checkOutPageController extends Controller
             'v.size', // Only for shirts
             DB::raw("IF(cat.id = {$categoryId}, 'Shirt', 'Other') as item_type") // Conditional column to differentiate between Shirt and Other items
         )
-        ->where('i.cart_id', '=', $userId)
+        ->where('i.cart_id', '=', $user)
             ->whereIn('i.id', $productIds) // Use whereIn to filter by multiple product IDs
             ->where(function ($query) use ($categoryId) {
                 $query->where('cat.id', '=', $categoryId)  // For shirts
@@ -69,11 +73,18 @@ class checkOutPageController extends Controller
     public function updateTotalAmount(Request $request)
     {
         $userId = Auth::user()->id;
+        $user = DB::table('carts')
+        ->where('user_id', $userId)
+            ->value('id');
+
+        $user = DB::table('carts')
+            ->where('id', '=', $user)
+            ->value('id');
         $totalRetailPrice = $request->input('totalRetailPrice');
 
         // Update the total_amount in the carts table for the user's cart
         $updated = DB::table('carts')
-            ->where('user_id', '=', $userId)
+            ->where('id', '=', $user)
             ->update(['total_amount' => $totalRetailPrice]);
 
         if ($updated) {
