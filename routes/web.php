@@ -58,6 +58,8 @@ Route::get('/productDetails', [ProductDetailsController::class, 'index'])->name(
 
 Route::post('/productDetails/addToCart', [ProductDetailsController::class, 'addToCart'])->name('productDetails.addToCart');
 Route::post('/productDetails/clearandadd', [ProductDetailsController::class, 'clearAndAdd'])->name('productDetails.clearandadd');
+Route::post('/productDetails/buy', [ProductDetailsController::class, 'buyNow'])->name('productDetails.buy');
+
 
 
 Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');

@@ -79,14 +79,22 @@
                                     </button>
                                 </form>
                                 
-                                
-                                <!-- Buy Now Button -->
-                                <button class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
+                                <form action="{{ route('productDetails.buy') }}" method="POST" id="buyNow">
+                                    @csrf
+                                    <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
+                                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                                    @if ($variants->isNotEmpty())
+                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
+                                    @endif
+                                    <button class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
                                     style="width:130px; height:48px; color:white" data-toggle="modal"
                                     data-target="#exampleModalCenter">
                                     <img src="{{ asset('images/cart.svg') }}" class="invert"
                                         style="width: 15px; height:15px"> Buy Now
                                 </button>
+                                </form>
+                                <!-- Buy Now Button -->
+                                
                             </div>
                         </div>
                     </div>
