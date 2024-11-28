@@ -31,7 +31,7 @@
     <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 p-4">
         @foreach ($products as $product)
         <div class="block-7">
-            <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
+            <img src="{{ Storage::exists('public/' . $product->product_image) ? Storage::url('public/' . $product->product_image) :  asset('images/sample.jpg') }}"  class="img-fluid" style="width: 190px !important; height: 200px !important">
             <div class="text-center p-4">
                 <div class="badge">{{$product->organization->shop_name}}</div>
                 <span class="excerpt d-block">{{$product->product_name}}</span>

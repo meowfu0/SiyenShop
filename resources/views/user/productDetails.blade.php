@@ -14,10 +14,11 @@
                     <div class="col-md-5 d-flex align-items-start justify-content-center">
                        
                         <img 
-                            src="{{ Storage::exists('public/' . $product->product_image) ? Storage::url($imagePath) : asset('images/sample.jpg') }}" 
-                            class="img-fluid" 
-                            style="width: 400px !important; height: 100% !important; border-radius:5px"
-                        >
+                        src="{{ Storage::exists('public/' . $product->product_image) ? Storage::url('public/' . $product->product_image) :  asset('images/sample.jpg') }}" 
+                        class="img-fluid" 
+                        style="width: 400px !important; height: 100% !important; border-radius:5px"
+                    />
+                    
                     </div>
                     
                     <!-- Right Column for Details -->
