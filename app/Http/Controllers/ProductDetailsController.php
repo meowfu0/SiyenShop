@@ -56,21 +56,19 @@ class ProductDetailsController extends Controller
     public function addToCart(Request $request)
     {
         Log::info('ProductDetailsController@addToCart: Start');
-        
- 
-
+    
         // Retrieve data from the request
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
-
+    
         Log::info('Add to cart request received', ['product_id' => $product_id, 'quantity' => $quantity]);
-  
+    
         // Ensure user is authenticated
         if (!Auth::check()) {
             Log::warning('Unauthenticated user tried to add to cart');
-            return redirect()->route('login');
+            return response()->json(['success' => false, 'message' => 'Please login to add items to cart.'], 401);
         }
-  
+    
         // Fetch product and shop details
         try {
             $currentProduct = Product::findOrFail($product_id);
@@ -78,37 +76,36 @@ class ProductDetailsController extends Controller
             Log::info('Product details retrieved', ['currentShopId' => $currentShopId]);
         } catch (\Exception $e) {
             Log::error('Error fetching product for add to cart', ['error' => $e->getMessage()]);
-            abort(404, 'Product not found');
+            return response()->json(['success' => false, 'message' => 'Product not found'], 404);
         }
-  
+    
         // Get or create a cart for the user
         $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
         Log::info('Cart retrieved or created', ['cart_id' => $cart->id]);
-  
+    
         // Check if the cart already has items
         $cartItem = CartItem::where('cart_id', $cart->id)->first();
         if ($cartItem) {
             $cartProduct = Product::findOrFail($cartItem->product_id);
             $cartShopId = $cartProduct->shop_id;
-
+    
             if ($cartShopId != $currentShopId) {
                 Log::info('Shop mismatch detected', [
                     'cartShopId' => $cartShopId,
                     'currentShopId' => $currentShopId
                 ]);
-                return back()->with('Failed', 'Shop mismatch!')->with('showModal', true);
-
+                return response()->json(['success' => false, 'message' => ' This product belongs to another store. Adding it will empty your cart. Would you like to proceed?'], 400);
             }
         }
-  
+    
         // Add the product to the cart
         $this->addToCartDB($cart, $product_id, $quantity);
         Log::info('Product added to cart successfully', ['product_id' => $product_id, 'quantity' => $quantity]);
-
+    
         Log::info('ProductDetailsController@addToCart: End');
-        return back()->with('success', 'Product added to cart successfully!');
-
+        return response()->json(['success' => true, 'message' => 'Product added to cart successfully!']);
     }
+    
   
     public function addToCartDB($cart, $product_id, $quantity)
 {

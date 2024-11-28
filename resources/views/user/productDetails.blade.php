@@ -188,8 +188,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
-                This product belongs to another store. Adding it will empty your cart. Would you like to proceed?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -276,24 +274,25 @@
             } else {
                 // Handle server-side failure by showing error modal
                 const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-                $('#errorModal .modal-body').text(response.message || 'An error occurred. Please try again.');
                 errorModal.show();
             }
         },
         error: function (xhr) {
-            // Log error response
-            console.error('Error Response:', xhr);
+            if (xhr.status === 401) {
+            // Redirect to login if unauthenticated
+            window.location.href = "{{ route('login') }}";
+            } else {
+                // Show error modal for other errors
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                let errorMessage = "An error occurred. Please try again.";
 
-            // Show error modal
-            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-            let errorMessage = "An error occurred. Please try again.";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
 
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                errorMessage = xhr.responseJSON.message;
+                $('#errorModal .modal-body').text(errorMessage);
+                errorModal.show();
             }
-
-            $('#errorModal .modal-body').text(errorMessage);
-            errorModal.show();
         },
     });
 });
@@ -325,6 +324,7 @@ $(document).ready(function() {
 
                 const successModal = new bootstrap.Modal(document.getElementById('successModal'));
                 successModal.show();
+                updateQuantity(1);
             },
             error: function(xhr, status, error) {
                 // Handle any errors
