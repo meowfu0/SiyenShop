@@ -33,6 +33,18 @@ class PaymentPageController extends Controller
             ->join('shops as s', 'p.shop_id', '=', 's.id')
             ->select('s.shop_name', 's.id')
             ->where('i.cart_id', '=', $user) // Assuming $userId refers to cart_id
+            ->where('p.shop_id', '=', function ($query) use ($user) {
+                // Subquery to get the shop_id of the first product
+                $query->select('shop_id')
+                    ->from('products')
+                    ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
+                    ->where(
+                        'ci.cart_id',
+                        '=',
+                        $user
+                    )
+                    ->limit(1); // Limit to just the first match
+            })
             ->limit(1)
             ->get();
 
@@ -151,6 +163,18 @@ class PaymentPageController extends Controller
             ->join('shops as s', 'p.shop_id', '=', 's.id')
             ->select('s.shop_name', 's.id')
             ->where('i.cart_id', '=', $user) // Assuming $userId refers to cart_id
+            ->where('p.shop_id', '=', function ($query) use ($user) {
+                // Subquery to get the shop_id of the first product
+                $query->select('shop_id')
+                    ->from('products')
+                    ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
+                    ->where(
+                        'ci.cart_id',
+                        '=',
+                        $user
+                    )
+                    ->limit(1); // Limit to just the first match
+            })
             ->limit(1)
             ->get();
 

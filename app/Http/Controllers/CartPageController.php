@@ -19,6 +19,7 @@ class CartPageController extends Controller
 
         $user = DB::table('carts')
             ->where('user_id', $userId)
+            //get the value in the id column
             ->value('id');
 
 
@@ -54,6 +55,7 @@ class CartPageController extends Controller
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
                     ->where('ci.cart_id', '=', $user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
                     ->limit(1); // Limit to just the first match
             })
             ->where(function ($query) use ($categoryId) {
