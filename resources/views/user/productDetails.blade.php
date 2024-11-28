@@ -33,18 +33,18 @@
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
 
                         @if ($variants->isNotEmpty())
-                            <div class="size-variation">
-                                <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
-                                @foreach ($variants as $variant)
-                                        <button type="button"
-                                            class="btn btn-outline-primary fw-semibold size-button 
-                                                {{ $variant->stock <= 0 ? 'disabled' : '' }}"
-                                            data-size="{{ $variant->size }}" data-bs-toggle="button"
-                                            aria-pressed="false" autocomplete="off">
-                                            {{ $variant->size }}
-                                        </button>
-                                @endforeach
-                            </div>
+                        <div class="size-variation">
+                            <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
+                        
+                            @foreach ($variants as $index => $variant)
+                                <!-- Radio button to select a size -->
+                                <input type="radio" class="btn-check ms-1" name="btnradio" id="btnradio{{$index}}" autocomplete="off"
+                                       {{ $loop->first ? 'checked' : '' }} value="{{$variant->id}}" 
+                                       onclick="document.getElementById('size').value = {{$variant->id}}">
+                                <label class="btn btn-outline-primary" for="btnradio{{$index}}">{{$variant->size}}</label>
+                            @endforeach
+                        </div>
+                        
                             @endif
                             
                             <div class="quantity mb-4" style="margin-top: 150px;">
@@ -67,6 +67,10 @@
                                     @csrf
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                                     <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                                    @if ($variants->isNotEmpty())
+                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
+                                    @endif
+
                                     <button type="submit" 
                                         class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
                                         style="width:130px; height:48px">
@@ -211,6 +215,9 @@
                     @csrf
                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                     <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                    @if ($variants->isNotEmpty())
+                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
+                    @endif
                     <button type="button" class="btn btn-primary" id="continueAddToCartButton">Add Anyway</button>
                 </form>
              

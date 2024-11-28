@@ -20,7 +20,8 @@ class ProductDetailsController extends Controller
         
         // Retrieve product ID from request
         $product_id = $request->query('id');
-        session(['product_id' => $product_id]); // Store product ID in session
+        session(['product_id' => $product_id]);
+
   
         // Fetch the product
         try {
@@ -58,8 +59,11 @@ class ProductDetailsController extends Controller
         // Retrieve data from the request
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
+        $size = $request->input('size');
+        Log::info('Size received', ['size' => $size]);
+
     
-        Log::info('Add to cart request received', ['product_id' => $product_id, 'quantity' => $quantity]);
+        Log::info('Add to cart request received', ['product_id' => $product_id, 'quantity' => $quantity, 'size' => $size]);
     
         // Ensure user is authenticated
         if (!Auth::check()) {
@@ -97,56 +101,103 @@ class ProductDetailsController extends Controller
         }
     
         // Add the product to the cart
-        $this->addToCartDB($cart, $product_id, $quantity);
-        Log::info('Product added to cart successfully', ['product_id' => $product_id, 'quantity' => $quantity]);
+        $this->addToCartDB($cart, $product_id, $quantity,$size);
+        Log::info('Product added to cart successfully', ['product_id' => $product_id, 'quantity' => $quantity, 'size' => $size]);
     
         Log::info('ProductDetailsController@addToCart: End');
         return response()->json(['success' => true, 'message' => 'Product added to cart successfully!']);
     }
     
   
-    public function addToCartDB($cart, $product_id, $quantity)
-{
-    Log::info('Adding product to the cart database', ['cart_id' => $cart->id, 'product_id' => $product_id, 'quantity' => $quantity]);
+    public function addToCartDB($cart, $product_id, $quantity, $size)
+    {
+        // If size is empty or not provided, set it to null
+        if (empty($size)) {
+            $size = null;
+        }
+    
+        // Log the received size to ensure it's passed correctly
+        Log::info('AddToCartDB: Received size', ['size' => $size]);
+    
+        // Ensure the cart exists
+        if (!$cart) {
+            Log::error('Cart not found for user', ['user_id' => Auth::id()]);
+            return; // Optionally, handle this scenario with a response
+        }
+    
+        // Find the CartItem, considering null size if provided
+        $cartItem = CartItem::where('cart_id', $cart->id)
+                            ->where('product_id', $product_id)
+                            ->where(function ($query) use ($size) {
+                                // This ensures we compare the size correctly, even if it's null
+                                if ($size === null) {
+                                    $query->whereNull('size');
+                                } else {
+                                    $query->where('size', $size);
+                                }
+                            })
+                            ->first();
+    
+        // If the CartItem exists, update the quantity
+        if ($cartItem) {
+            $cartItem->quantity += $quantity;
+            $cartItem->save(); // Save the updated quantity
+            Log::info('CartItem updated successfully', ['cartItem' => $cartItem]);
+        } else {
+            // If CartItem does not exist with the same size, create a new one
+            CartItem::create([
+                'cart_id' => $cart->id,
+                'product_id' => $product_id,
+                'quantity' => $quantity,
+                'size' => $size, // Save null if no size
+            ]);
+            Log::info('CartItem created successfully');
+        }
+    }
+    
 
-    // Try to find the CartItem by cart_id and product_id
-    $cartItem = CartItem::where('cart_id', $cart->id)
-                        ->where('product_id', $product_id)
-                        ->first();
-
-    if ($cartItem) {
-        // If it exists, update the quantity by adding the new quantity
-        $cartItem->quantity += $quantity;
-        $cartItem->save(); // Save the updated quantity
-        Log::info('CartItem updated successfully', ['cartItem' => $cartItem]);
-    } else {
-        // If the CartItem does not exist, create a new one
-        CartItem::create([
-            'cart_id' => $cart->id,
+    public function clearAndAdd(Request $request)
+    {
+        $user_id = Auth::id();
+        $product_id = session('product_id');
+        $quantity = $request->input('quantity');
+        $size = $request->input('size');
+    
+        // Log the inputs for debugging
+        Log::info('clearAndAdd method called', [
+            'user_id' => $user_id,
             'product_id' => $product_id,
             'quantity' => $quantity,
+            'size' => $size,
         ]);
-        Log::info('CartItem created successfully');
+    
+        // Validate product_id
+        if (empty($product_id)) {
+            Log::error('Product ID is null or empty', ['user_id' => $user_id]);
+            return response()->json(['success' => false, 'message' => 'Invalid product. Please try again.'], 400);
+        }
+    
+        // Get the cart of the authenticated user
+        $cart = Cart::where('user_id', $user_id)->first();
+    
+        // Ensure a cart exists; if not, create a new one
+        if (!$cart) {
+            $cart = Cart::create(['user_id' => $user_id]);
+            Log::info('New cart created for user', ['user_id' => $user_id, 'cart_id' => $cart->id]);
+        } else {
+            // Delete items associated with the cart if it already exists
+            CartItem::where('cart_id', $cart->id)->delete();
+            Log::info('Existing cart items cleared', ['cart_id' => $cart->id]);
+        }
+    
+        // Add the new item to the cart
+        $this->addToCartDB($cart, $product_id, $quantity, $size);
+        Log::info('Product added to cart after clearing old items', ['product_id' => $product_id, 'quantity' => $quantity, 'size' => $size]);
+    
+        return response()->json(['success' => true, 'message' => 'Cart updated successfully']);
     }
-}
-
-public function clearAndAdd(Request $request)
-{
-    $user_id = Auth::id();
-    $product_id = session('product_id');
-    $quantity = $request->input('quantity');
-
-    // Get the cart of the authenticated user
-    $cart = Cart::where('user_id', $user_id)->first();
-
-    if ($cart) {
-        // Delete items associated with the cart
-        CartItem::where('cart_id', $cart->id)->delete();
-    }
-
-    // Add the new item to the cart
-    $this->addToCartDB($cart, $product_id, $quantity);
-}
+    
+    
 
 
 }
