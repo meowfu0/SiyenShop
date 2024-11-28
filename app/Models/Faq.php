@@ -17,7 +17,7 @@ class Faq extends Model
 
     // Specify that the model should use 'modified_at' instead of 'updated_at'
     const UPDATED_AT = 'modified_at';
-
+    protected $dates = ['deleted_at']; 
 
     public $timestamps = false; 
 }

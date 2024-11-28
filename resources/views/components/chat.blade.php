@@ -1,7 +1,7 @@
 
   <div class="main-content d-flex flex-column">
             <header class="p-3 border-bottom d-flex align-items-center mt-3">
-                <img src="{{asset('images/chat.svg')}}" alt="" class="me-2 chat-icon" style="height: 23px; width: 23px;">
+                <img src="{{asset('images/chat.svg')}}" alt="" class="me-2 chat-icon" style="height: 23px; width: 23px;" onclick="toggleChat()">
                 <h1 class="mt-0 text-primary fw-bold chat-title" style="font-size: 24px">Chat</h1>
             </header>
 
@@ -9,7 +9,9 @@
             <div class="content-chatbox-chat" style="max-height: 100%; overflow-y: auto;">
                 <!-- Tabs (buttons) -->
                 <div class="container-chatbox" id="contacts_list">
-                <input type="text" id="search-user" placeholder="Search..." class="form-control mt-3">
+                <div class="container d-flex justify-content-center mt-3">
+                    <input type="text" id="search-user" placeholder="Search..." class="form-control" style="width: 100%;">
+                </div>
                     <div id="user-results" class="container d-flex flex-column align-items-center justify-content-center px-0">
                     <!-- Dynamic buttons for users -->
                         @if(isset($contacts) && count($contacts) > 0)                            
@@ -32,7 +34,7 @@
                                             {{ $contact->name }}
                                         </span>
                                         @if(isset($contact->last_message) && !empty($contact->last_message))
-                                            <p class="mb-0 text-muted small text-truncate" style="max-width: 10ch; overflow: hidden; white-space: nowrap; font-size: 5px; font-size: calc(2px + 0.5vw);">{{ $contact->last_message }}</p>
+                                            <p class="mb-0 text-muted small text-truncate" style="max-width: 10ch; overflow: hidden; white-space: nowrap; font-size: 5px; font-size: calc(1px + 0.5vw);">{{ $contact->last_message }}</p>
                                         @else
                                             <p class="mb-0 text-muted small">No messages yet</p>  
                                         @endif
@@ -277,56 +279,55 @@
 
     //user search
     document.getElementById("search-user").addEventListener("input", function () {
-        const query = this.value.trim();
+    const query = this.value.trim();
 
-        if (query === "") {
-            displayContactsList();
-            return;
-        }
-        clearTimeout(window.searchTimeout);
-        window.searchTimeout = setTimeout(() => {
-            fetch(`/search-users?query=${encodeURIComponent(query)}`)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    const userResults = document.getElementById("user-results");
-                    userResults.innerHTML = "";
+    if (query === "") {
+        displayContactsList();
+        return;
+    }
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => {
+        fetch(`/search-users?query=${encodeURIComponent(query)}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                const userResults = document.getElementById("user-results");
+                userResults.innerHTML = "";
 
-                    if (data.length === 0) {
-                        userResults.innerHTML = `<p class="small text-muted">No contacts found.</p>`;
-                    } else {
-                        data.forEach((contact) => {
-                            const contactDiv = document.createElement("div");
-                            contactDiv.className =
-                                "container-btn border d-flex align-items-center justify-content-between";
-                            contactDiv.style.cursor = "pointer";
-                            contactDiv.style.borderRadius = "8px";
-                            contactDiv.style.padding = "10px";
-                            contactDiv.onclick = function () {
-                                showChat(contact.id, contact.first_name);
-                            };
+                if (data.length === 0) {
+                    userResults.innerHTML = `<p class="small text-muted">No contacts found.</p>`;
+                } else {
+                    data.forEach((contact) => {
+                        const contactDiv = document.createElement("div");
+                        contactDiv.className =
+                            "container-btn border d-flex align-items-center justify-content-between";
+                        contactDiv.style.cursor = "pointer";
+                        contactDiv.style.borderRadius = "8px";
+                        contactDiv.style.padding = "10px";
+                        contactDiv.onclick = function () {
+                            showChat(contact.id, contact.first_name);
+                        };
 
-                            contactDiv.innerHTML = `
-                        <div class="d-flex align-items-center">
-                            <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
-                            <div class="ms-2">
-                                <span class="text-primary d-block d-md-inline" style="font-size: calc(4px + 0.5vw);">${contact.first_name} ${contact.last_name}</span>
+                        contactDiv.innerHTML = `
+                            <div class="d-flex align-items-center">
+                                <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
+                                <div class="ms-2">
+                                    <span class="text-primary d-block d-md-inline" style="font-size: 12px;">${contact.first_name} ${contact.last_name}</span>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                            userResults.appendChild(contactDiv);
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching users:", error);
-                    document.getElementById("user-results").innerHTML =
-                        '<p class="small text-muted">Error loading users</p>';
-                });
-        }, 500);
-    });
-
+                        `;
+                        userResults.appendChild(contactDiv);
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching users:", error);
+                document.getElementById("user-results").innerHTML =
+                    '<p class="small text-muted">Error loading users</p>';
+            });
+    }, 500);
+});
     function updateContactList(contacts) {
         const userResults = document.getElementById("user-results");
         userResults.innerHTML = "";
@@ -370,8 +371,64 @@
         }
     }
 
-    function reloadContactsList() {
+function reloadContactsList() {
         $("#contacts_list").load(location.href + " #contacts_list > *");
     }
+
+    function showChat(contactId, contactName) {
+    document.getElementById('chat-area').style.display = 'block';
+
+    if (window.innerWidth <= 768) {
+        document.getElementById('contacts_list').style.display = 'none'; 
+    }
+
+    document.getElementById('contact-name').textContent = contactName;
+    console.log('Opening chat with ID:', contactId);
+    loadChatHistory(contactId);
+}
+
+function toggleChat() {
+    // Check if the device is mobile
+    if (window.innerWidth <= 768) {
+        // Get the chat area and contacts list elements
+        const chatArea = document.getElementById('chat-area');
+        const contactsList = document.getElementById('contacts_list');
+
+        // Toggle visibility
+        if (chatArea.style.display === 'block') {
+            chatArea.style.display = 'none'; // Hide chat area
+            contactsList.style.display = 'block'; // Show contacts list
+        } else {
+            chatArea.style.display = 'block'; // Show chat area
+            contactsList.style.display = 'none'; // Hide contacts list
+        }
+    } else {
+        console.log('This feature is only available on mobile devices.');
+    }
+}
+
+function adjustContactStyles() {
+    const isMobile = window.innerWidth <= 768; // Define mobile breakpoint
+    const contactNames = document.querySelectorAll('.container-btn .text-primary');
+    const lastMessages = document.querySelectorAll('.container-btn .text-muted');
+    const lastMessageTimes = document.querySelectorAll('.container-btn .smaller');
+
+    contactNames.forEach(name => {
+        name.style.fontSize = isMobile ? '12px' : 'calc(4px + 0.5vw)'; // Adjust font size for contact names
+    });
+
+    lastMessages.forEach(message => {
+        message.style.fontSize = isMobile ? '10px' : 'calc(1px + 0.5vw)'; 
+    });
+
+    lastMessageTimes.forEach(time => {
+        time.style.fontSize = isMobile ? '8px' : 'calc(1px + 0.5vw)';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', adjustContactStyles);
+
+window.addEventListener('resize', adjustContactStyles);
+
 </script>
 

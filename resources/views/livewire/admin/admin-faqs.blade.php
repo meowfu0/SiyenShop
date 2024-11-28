@@ -5,10 +5,12 @@
     <!-- Top Navbar -->
     @include('components.profilenav')
 
+
+
     <!-- Welcome Message Below Navbar -->
     <div class="container">
         <div class="row align-items-center justify-content-center my-4 ms-4 me-4" id="faqs">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center sticky-top bg-white" style="z-index: 1050; top: 80px; height: 100px;">
                 <div>
                     <h1 class="me-auto">FAQs Section</h1>
                 </div>
@@ -24,11 +26,6 @@
                         <img src="{{ asset('images/delete1.svg') }}" alt="">
                         Deleted
                     </a>
-                    <!--<button class="btn btn-primary p-1 me-2 d-flex align-items-center justify-content-center"
-                        onclick="showDeleted()"
-                        style="width: 130px; border-radius: 6px;">
-                    <img src="{{ asset('images/delete1.svg') }}" alt="Deleted" class="me-2" style="margin: 0; height: 13px; width: 13px;">
-                    Delete -->
                 </div>
             </div>
 
@@ -76,7 +73,7 @@
                             <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse" 
                                 aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    {{ $faq->answers }}
+                                    {!! $faq->answers !!}
                                 </div>
                             </div>
                         </div>
@@ -126,7 +123,7 @@
                                 <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse" 
                                     aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        {{ $faq->answers }}
+                                        {!! $faq->answers !!}
                                     </div>
                                 </div>
                             </div>
@@ -148,15 +145,15 @@
                                 <div style="text-align: left; width: 99%;">
                                     <label for="question" class="pt-3 pb-3" style="padding-left: 0;">Question</label>
                                 </div>
-                                <input type="text" name="question" class="form-control p-4" placeholder="">
+                                <input type="text" name="question" class="form-control p-4" placeholder="" required>
 
                                 <div style="text-align: left; width: 99%;">
                                     <label for="answer" class="pt-3 pb-3" style="padding-left: 0;">Answer</label>
                                 </div>
-                                <textarea name="answer" class="form-control d-flex h-50" rows="4"></textarea>
+                                <textarea name="answer" id="answer" rows="4" required></textarea>
                             </div>
                             <div class="modal-footer mx-4" style="border: none;">
-                                <button type="button" id="closeButton" class="btn border" data-dismiss="modal" style="width: 111px;">Close</button>
+                                <button type="button" id="closeButton" class="btn border" data-dismiss="modal" style="width: 111px;" onclick="hideModal('newModalCenter')">Close</button>
                                 <button type="button" id="saveButton" class="btn btn-primary" style="width: 111px;">Save</button>
                             </div>
                     </div>
@@ -174,16 +171,16 @@
                             <div style="text-align: left; width: 99%;">
                                 <label for="editQuestion" class="pt-3 pb-3" style="padding-left: 0;">Question</label>
                             </div>
-                            <input type="text" name="question" id="editQuestion" class="form-control p-4" placeholder="">
+                            <input type="text" name="question" id="editQuestion" class="form-control p-4" placeholder="" required>
 
                             <div style="text-align: left; width: 99%;">
                                 <label for="editAnswer" class="pt-3 pb-3" style="padding-left: 0;">Answer</label>
                             </div>
-                            <textarea name="answer" id="editAnswer" class="form-control d-flex h-50" rows="4"></textarea>
+                            <textarea name="answer" id="editAnswer"  rows="4" required></textarea>
                         </div>
 
                         <div class="modal-footer mx-4" style="border: none;">
-                            <button type="button" id="closeEdit" class="btn border" data-dismiss="modal" style="width: 111px;">Close</button>
+                            <button type="button" id="closeEdit" class="btn border" data-dismiss="modal" style="width: 111px;" onclick="hideModal('editModalCenter')">Close</button>
                             <button type="button" id="saveEdit" class="btn btn-primary" style="width: 111px;">Save</button>
                         </div>
                     </div>
@@ -252,4 +249,4 @@
 </div>
 @endsection
 
-
+<script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>

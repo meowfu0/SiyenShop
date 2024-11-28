@@ -41,7 +41,7 @@
                         </h2>
                         <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                {{ $faq->answers }}
+                                {!! $faq->answers !!}
                             </div>
                         </div>
                     </div>
@@ -58,9 +58,15 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const supportChatButton = document.getElementById('support-chat');
+    const isLoggedIn = !!document.querySelector('meta[name="user-authenticated"]');
     if (supportChatButton) {
         supportChatButton.addEventListener('click', function(e) {
             e.preventDefault(); 
+
+            if (!isLoggedIn) {
+                window.location.href = "/login";
+                return;
+            }
 
             fetch("{{ route('start.chat') }}", {
                 method: 'POST',

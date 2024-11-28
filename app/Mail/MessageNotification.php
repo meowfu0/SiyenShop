@@ -32,13 +32,14 @@ class MessageNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('components.emailers.message_notification') // Ensure this path is correct
+        return $this->from('siyenshopcs@gmail.com', null)
+                    ->view('components.emailers.message_notification')
                     ->subject('New Message Notification')
                     ->with([
                         'senderName' => $this->senderName,
                         'message' => $this->message,
                     ]);
     }
-
+    
     
 }

@@ -149,11 +149,13 @@ class FaqController extends Controller
     
         // Set the status_id to 4
         $faq->status_id = 4;
+        $faq->deleted_at = now();
         $faq->save();
     
         return response()->json([
             'message' => 'FAQ status updated to 4 successfully',
-            'new_status' => $faq->status_id
+            'new_status' => $faq->status_id,
+            'deleted_at'=> now()
         ], 200);
     }
     

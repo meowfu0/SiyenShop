@@ -124,9 +124,6 @@ Route::prefix('admin')->group(function () {
 });
 
 
-
-
-
 use App\Http\Controllers\MessageController;
 
 Route::middleware(['auth'])->group(function () {
@@ -145,5 +142,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/faqs', [FaqController::class, 'index'])->name('faqs.index');
-
 Route::get('/message_notification', [MessageController::class, 'email'])->name('components.message_notification');

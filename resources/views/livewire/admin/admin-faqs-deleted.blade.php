@@ -28,9 +28,9 @@
                     <form id="deleteForm">
                         @csrf
                         <input type="hidden" name="faq_ids" id="deleteFaqIds">
-                        <button type="button" class="btn btn-danger p-1 me-2 d-flex align-items-center justify-content-center" id="deleteBtn" style="width: 130px; border-radius: 6px;">
+                        <button type="button" class="btn btn-danger p-1 me-2 d-flex align-items-center justify-content-center" id="deleteBtn" style="width: 190px; border-radius: 6px;">
                             <img src="{{ asset('images/delete1.svg') }}" alt="Delete" class="me-2" style="margin: 0; height: 13px; width: 13px;">
-                            Delete
+                            Permanently Delete
                         </button>
                     </form>
                 </div>
@@ -67,7 +67,7 @@
                                 <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse" 
                                      aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        {{ $faq->answers }}
+                                         {!! $faq->answers !!}
                                     </div>
                                 </div>
                             </div>

@@ -105,7 +105,7 @@ class MessageController extends Controller
             ->addSelect(DB::raw('MAX(m.created_at) as last_message_time'))
             ->addSelect(DB::raw('SUBSTRING_INDEX(GROUP_CONCAT(m.message ORDER BY m.created_at DESC), ",", 1) as last_message')) //last message
             ->addSelect(DB::raw('SUM(CASE WHEN m.is_read = 0 AND m.recipient_id = '.$userId.' THEN 1 ELSE 0 END) as unread_count')) //unread
-            ->addSelect('u.profile_picture') // Add this line to get the profile picture
+            ->addSelect('u.profile_picture') 
             ->join('users as u', function($join) use ($userId) {
                 $join->on('u.id', '=', DB::raw('CASE WHEN m.sender_id = '.$userId.' THEN m.recipient_id ELSE m.sender_id END'));
             })
@@ -113,7 +113,7 @@ class MessageController extends Controller
                 $query->where('m.sender_id', $userId)
                     ->orWhere('m.recipient_id', $userId);
             })
-            ->groupBy('contact_id', 'name', 'u.profile_picture') // Add profile picture to group by
+            ->groupBy('contact_id', 'name', 'u.profile_picture')
             ->orderBy('last_message_time', 'desc')
             ->get();
 
