@@ -20,13 +20,19 @@ class ShopProductsAddController extends Controller
         $user_id = Auth::user()->id; 
     
         // Fetch the shop_id from the database
-        $shop_id = DB::table('g_cash_infos')
+        $shop_id = DB::table('shops')
             ->where('user_id', $user_id)
-            ->value('shop_id'); // Directly get the `shop_id` column value
+            ->value('id'); // Directly get the `shop_id` column value
 
-        return $shop_id;
-    
-    }
+       // Check if shop_id is found
+        if (is_null($shop_id)) {
+            // Handle the case where the shop_id is not found
+            throw new \Exception('Shop ID not found for the authenticated user.');
+        }
+
+        return $shop_id; // Return the found shop_id
+
+}
 
     public function store(Request $request)
     {
@@ -52,7 +58,7 @@ class ShopProductsAddController extends Controller
         // Insert the product into the database
         DB::table('products')->insert([
             'product_name' => $validated['product_name'],
-            'shop_id'=> $shop_id ?? 1, //dapat hindi hard coded kayo n bahala nito HAHAHAH
+            'shop_id'=> $shop_id, //dapat hindi hard coded kayo n bahala nito HAHAHAH
             'product_decription' => $validated['product_description'],
             'product_image' => $validated['product_image'] ?? null,
             'category_id' => $validated['category_id'],
