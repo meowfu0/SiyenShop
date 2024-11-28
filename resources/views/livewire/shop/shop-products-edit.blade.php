@@ -24,14 +24,14 @@
         <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students</h2>
      </div>
     
-     @if(request()->has('product'))
+     {{-- @if(request()->has('product'))
         @php
             // Fetch the specific product based on the ID from the query string
             $productId = request()->query('product');
             $product = DB::table('products')->where('id', $productId)->first();
         @endphp
 
-        @if($product)
+        @if($product) --}}
 
     <div class="d-flex justify-content-between px-5 py-3">
         <h2 class="fw-bold m-0 text-primary">Edit Product</h2>
@@ -45,7 +45,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     
-    <form action="{{ route('shop.products.update', $product->id) }}" method="POST">
+    <form  method="POST">
         @csrf
         <div class="d-flex px-5 py-4 flex-grow-1">
             <div class="container">
@@ -54,12 +54,12 @@
                     <div class="col-md-6 d-flex flex-column gap-3">
                         <div class="form-group mb-1">
                             <label for="product_name_{{ $product->id }}" class="fw-bold text-primary">Product Name</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" value="" required>                        
+                            <input type="text" class="form-control" id="product_name" name="product_name" value="{{ $product->product_name }}" required>                        
                         </div>
 
                         <div class="form-group mb-1">
                             <label for="product_decription_{{ $product->id }}" class="fw-bold text-primary">Product Description</label>
-                            <textarea class="form-control" id="product_description" name="product_description" required></textarea>                        
+                            <textarea class="form-control" id="product_description" name="product_description" value="{{ $product->product_decription }}" required></textarea>                        
                         </div>
 
                         <div class="form-group mb-3">
@@ -276,7 +276,7 @@
             </div>
         </div>
    
-
+{{-- 
     @else
             <div class="alert alert-warning">
                 Product not found.
@@ -286,7 +286,7 @@
         <div class="alert alert-warning">
             No product ID provided. Please select a product to edit.
         </div>
-    @endif
+    @endif --}}
 </div>
 
 

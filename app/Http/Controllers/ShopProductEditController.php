@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class ShopProductEditController extends Controller
 {
     public function edit($productId)
     {
-        $product = DB::table('products')->where('id', $productId)->first();
-
+        // Fetch the product using Eloquent
+        $product = Product::find($productId);
+    
         if (!$product) {
             return redirect()->route('shop.products.index')->with('error', 'Product not found.');
         }
-
+    
         return view('livewire.shop.shop-products-edit', compact('product'));
     }
+    
 
     public function update(Request $request, $productId)
     {
