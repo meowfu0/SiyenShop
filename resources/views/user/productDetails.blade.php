@@ -36,8 +36,6 @@
                             <div class="size-variation">
                                 <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
                                 @foreach ($variants as $variant)
-                                <input type="hidden" id="selectedSize" name="selected_size" value="{{$variant->id}}">
-
                                         <button type="button"
                                             class="btn btn-outline-primary fw-semibold size-button 
                                                 {{ $variant->stock <= 0 ? 'disabled' : '' }}"
