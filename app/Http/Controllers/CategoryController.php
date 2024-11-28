@@ -3,20 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category; // Make sure to import your Category model
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        // Validate the category name (ensure it's not empty and is a string)
+        $validated = $request->validate([
+            'category_name' => 'required|string|max:255'
         ]);
 
-        $category = Category::findOrFail($id);
-        $category->category_name = $request->name;
-        $category->save();
+        // Normalize the input category name to lowercase
+        $normalizedCategoryName = strtolower($validated['category_name']);
 
-        return response()->json(['success' => true]);
+        // Check if the category already exists (case-insensitive)
+        $existingCategory = Category::whereRaw('LOWER(name) = ?', [$normalizedCategoryName])->first();
+
+        if ($existingCategory) {
+            return back()->withErrors(['category_name' => 'Category already exists with a similar name.']);
+        }
+
+        // If the category doesn't exist, save it to the database
+        Category::create([
+            'name' => $validated['category_name']
+        ]);
+
+        return redirect()->route('categories.index')->with('message', 'Category added successfully.');
     }
 }
