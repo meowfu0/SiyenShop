@@ -95,6 +95,10 @@ body{
 .img-holder, .img-holder img{
     border-radius: 7px;
 }
+.img-holder img{
+    height: 100px;
+    width: 100px;
+}
 #innerLine{
     display: none;
 }
@@ -132,7 +136,16 @@ body{
 .dets tr td:first-child, .dets tr th:first-child{
     width: 2800px ;
 }
-
+#modal-cover{
+    background-color: rgba(0, 0, 0, 0.662);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    display: none;
+}
 .dets tr td:nth-child(2), .dets tr th:nth-child(2){
     width: 2200px ;
 }
@@ -279,18 +292,19 @@ body{
     border: 1px solid #eb5757 !important;
 }
 #orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
-#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog{
+#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog, #orderDetailsModal .modal-dialog, #orderDetailsModal .modal-dialog{
     max-width: 800px !important; 
+    height: 400px !important;
 }
 .modal-content{
     padding-top: 20px !important;
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
-/* .modal-header{
+.modal-header{
     margin-top: 20px;
     height: 100px !important;
-} */
+}
 .modal-footer button{
     width: 140px;
     border-radius: 7px !important;
@@ -327,13 +341,15 @@ body{
     border-radius: 7px;
     text-align: center;
 }
-/* .modal-content .close-btn{
+.modal-content .btn-close{
     position: absolute;
     left: 740px;
-} */
+} 
 .modal-items{
+    display: block;
     height: 200px;
     overflow-y: auto;
+    margin-left: -40px !important;
 }
 .modal-items::-webkit-scrollbar {
     width: 10px; /* Width of the scrollbar */
@@ -386,34 +402,44 @@ body{
     table-layout: fixed;
 }
 .transact-col1{
+    margin-top: 10px;
+    margin-bottom: 30px;
     margin-left: 40px;
     display: inline-block;
     font-weight: 500;
 }
+
 .transact-col2{
     margin-left: 40px;
     display: inline-block;
 }
+.transact-col1 p, .transact-col2 p{
+    all: unset;
+    display: block;
+    margin-top: 15px;
+}
 .transact-col3{
     position: absolute;
     font-weight: 500;
-    top: 250px;
+    top: 255px;
     left: 450px;
 }
+
 .transact-col4{
     position: absolute;
-    top: 250px;
+    top: 255px;
     left: 530px;
+}
+.transact-col3 p, .transact-col4 p{
+    all: unset;
+    display: block;
+    margin-top: 15px;
 }
 #rateModal .btn-close{
     position: absolute !important;
-    left: 460px !important;
+    left: 500px !important;
+    top: 20px !important;
 }
-#rateModal .modal-header{
-    height: 40px !important;
-    border: none !important;
-}
-
 #star-button1, #star-button2, #star-button3, #star-button4, #star-button5{
     width: 40px;
     height: 40px;
@@ -435,42 +461,74 @@ body{
     line-height: 120px;
     transition: background-color 0.3s ease;
 }
-
-#rateModal .modal-body{
-    height: 330px;
-}
-#rateModal .modal-footer{
-    border: none;
-}
 .rate-stars{
     position: absolute;
-    top:30px;
-    left: 120px;
+    top: 120px;
+    left: 170px;
 }
-.rate-comment{
+
+#rateModal textarea{
     position: absolute;
-    top: 130px;
-}
-.rate-comment textarea{
     width: 430px;
     resize: none;
     height: 150px;
     margin-top: 10px;
     border-radius: 7px;
     padding: 10px;
+    top: 240px;
+    left: 60px;
+}
+#rateModal{
+    position: fixed;
+    background-color: white;
+    border-radius: 10px;
+    height: 500px;
+    width: 560px;
+    top: 120px;
+    left: 480px;
+    border: 1px solid rgb(219, 219, 219);
+    z-index: 10000;
+    display: none;
+}
+#rateModal h3{
+    position: absolute;
+    top: 60px;
+    left: 220px;
+}
+#rateModal h5{
+    position: absolute;
+    top: 210px;
+    left: 70px;
+}
+#rateModal .btn-light{
+    width: 140px;
+    color: #092C4C !important;
+    border: 1px solid #092C4C !important;
+    position: absolute;
+    top: 430px;
+    left: 195px;
+    font-weight: 600 !important;
+}
+#rateModal .btn-primary{
+    width: 140px;
+    position: absolute;
+    top: 430px;
+    left: 350px;
+    font-weight: 600 !important;
 }
 .rate-comment textarea::-webkit-scrollbar {
     width: 0; /* Set width to 0 to hide it */
     background: transparent; /* Optional: make the background transparent */
 }
+
 #clear-stars{
     border: none;
     background-color: white;
     color: rgb(148, 148, 148);
     font-weight: 400;
     position: absolute;
-    top: 90px;
-    left: 180px;
+    top: 170px;
+    left: 220px;
     display: none;
 }
 #clear-stars:hover{
@@ -482,29 +540,38 @@ body{
     margin-top: 40px;
     margin-left: 150px;
 }
-#msg-modal .modal-body{
-    height: 200px;
+#msg-modal{
+    position: fixed;
+    top: 230px;
+    left: 500px;
+    height: 300px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid rgb(219, 219, 219);
+    z-index: 10000;
 }
 #msg-modal button{
-    margin-right: 150px;
-    margin-bottom: 15px;
+    width: 150px;
+    margin-left: 170px;
+    margin-top: 40px;
+    font-weight: 600;
 }
 
 #msg-modal img{
     width: 70px;
     height: 70px;
     margin-top: 40px;
-    margin-left: 180px;
+    margin-left: 210px;
 }
 #msg-modal h3{
-    margin-left: 80px;
+    margin-left: 110px;
     font-weight: 600;
     margin-top: 20px;
 }
-#msg-modal .modal-footer{
-    border: none;
-}
+
 .multiple-indicator{
+    display: block;
     margin-top: 50px;
     margin-left:620px;
     font-size: 13px;
@@ -1053,10 +1120,6 @@ body{
 .dets tr:hover {
     background-color: #f9f9f9;
 }
-
-
-
-
 #ordersTable{
     margin-top: 120px;
     margin-left:140px;
@@ -1064,19 +1127,11 @@ body{
 .multiple-indicator{
     margin-top:-22.5%;
 }
-.modal-body {
-    padding: 20px;
-    font-size: 16px;
-    line-height: 1.5;
-}
-
-.transact-col1, .transact-col2 {
-    margin-bottom: 15px;
-}
 
 .modal-footer button {
-    margin-right: 10px;
+    margin-right: 15px;
 }
+/*
 #orderDetailsModal{
     height: 500px;
 }
@@ -1084,16 +1139,126 @@ body{
 .hidden-content {
     display: none;
 }
-.modal-body{
-    position: absolute;
-    margin-top: -50px;
-}
-.transact-col1 ul {
-    height: 500px;
-    list-style-type: none; /* Removes bullet points */
-    padding: 0;
+    */
+
+
+
+/*
+.transact-col1 li {
+    margin-bottom: 10px; 
 }
 
-.transact-col1 li {
-    margin-bottom: 10px; /* Adds space between list items */
+.modal-item-table {
+    width: 100%;
+    c
+    border-collapse: collapse;
+}
+
+.modal-item-table th,
+.modal-item-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.modal-item-table th {
+    background-color: #f8f8f8;
+}
+
+.modal-item-table td img.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.modal-item-table td {
+    vertical-align: middle;
+}
+    */
+.modal-header {
+    margin: 0px 30px; /* Example: top-bottom 10px, left-right 20px */
+}
+
+/* Adjust margin for the modal body */
+.modal-body {
+    margin: 0px 30px; /* Example: top-bottom 15px, left-right 20px */
+}
+
+/* Adjust margin for the modal footer */
+.modal-footer {
+    margin: 0px 10px; /* Example: top-bottom 10px, left-right 20px */
+
+}
+  .modal-items-table{
+    left: 0px !important;
+    
+}
+#modalStatus {
+    padding-bottom: 25x;
+    
+    width:180px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #092C4C; /* Default border color */
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+#modalStatus.denied-payment {
+    border-color: #eb5757; 
+    color: #eb5757;
+}
+#modalStatus.completed-order {
+    border-color: #28a745;
+    color: #28a745;
+}
+#modalStatus.pending {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+#modalStatus.received-payment {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+#modalStatus.for-pickup {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+/* Initial state when modal is hidden */
+/* Hidden state */
+.custom-modal {
+    opacity: 0;
+    display: none; /* Initially hidden */
+    transform: translateY(-20px); /* Start slightly above */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transform transition */
+}
+
+/* Visible state */
+.custom-modal.custom-show {
+    opacity: 1;
+    display: block; /* Become visible */
+    transform: translateY(0); /* Slide to original position */
+}
+
+/* Optional: Add a backdrop fade */
+.custom-backdrop {
+    opacity: 0;
+    display: none; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.custom-backdrop.custom-show {
+    opacity: 0.5;
+    display: block; /* Become visible */
+}
+
+/* Sliding out effect */
+.custom-modal.custom-hide {
+    opacity: 0;
+    transform: translateY(-20px); /* Slide back up */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Matches the slide-in duration */
+    display: none; /* Will be handled via JavaScript to ensure visibility during the animation */
 }

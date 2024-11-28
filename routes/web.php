@@ -72,6 +72,8 @@ Route::get('/faqs', function () {
 
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+Route::get('/count-orders/{orderId}', [MyPurchasesController::class, 'countOrders'])->name('count_orders');
+
 
 
 // Shop Routes Group
@@ -86,22 +88,17 @@ Route::prefix('shop')->group(function () {
 
 
 
-
-
-
     //ORDER MANAGEMENT
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::post('/orders', [ShopOrders::class, 'store'])->name('shop.orders');//pang store order
     
     
-
     Route::get('shop/orders', [OrderController::class, 'index']);
     // Updated route to fetch the shop details for the authenticated user
     Route::get('/shop', [OrderController::class, 'getShop'])->name('shop.index');
 
 
 
-    
     Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])
     ->middleware('auth')
     ->name('orders.update-status');
@@ -114,6 +111,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 
 });
+
+
+
 
 
 
