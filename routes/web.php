@@ -60,7 +60,6 @@ Route::post('/productDetails/addToCart', [ProductDetailsController::class, 'addT
 Route::post('/productDetails/clearandadd', [ProductDetailsController::class, 'clearAndAdd'])->name('productDetails.clearandadd');
 
 
-Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
 Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
