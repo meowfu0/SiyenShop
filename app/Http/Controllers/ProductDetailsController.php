@@ -198,55 +198,54 @@ class ProductDetailsController extends Controller
     }
 
     public function buyNow(Request $request)
-{
-    $user_id = Auth::id();
-    $product_id = session('product_id');
-    $quantity = $request->input('quantity');
-    $size = $request->input('size');
-
-    // Log the inputs for debugging
-    Log::info('clearAndAdd method called', [
-        'user_id' => $user_id,
-        'product_id' => $product_id,
-        'quantity' => $quantity,
-        'size' => $size,
-    ]);
-
-    // Validate product_id
-    if (empty($product_id)) {
-        Log::error('Product ID is null or empty', ['user_id' => $user_id]);
-        return response()->json(['success' => false, 'message' => 'Invalid product. Please try again.'], 400);
-    }
-
-    // Get the cart of the authenticated user
-    $cart = Cart::where('user_id', $user_id)->first();
-
-    // Ensure a cart exists; if not, create a new one
-    if (!$cart) {
-        $cart = Cart::create(['user_id' => $user_id]);
-        Log::info('New cart created for user', ['user_id' => $user_id, 'cart_id' => $cart->id]);
-    } else {
-        // Delete items associated with the cart if it already exists
-        CartItem::where('cart_id', $cart->id)->delete();
-        Log::info('Existing cart items cleared', ['cart_id' => $cart->id]);
-    }
-
-    // Add the new item to the cart
-    $cartItem = CartItem::create([
-        'cart_id' => $cart->id,
-        'product_id' => $product_id,
-        'quantity' => $quantity,
-        'size' => $size,
-    ]);
-
-    // Encode the cart item ID
-    $id = base64_encode($cartItem->id);
-
-    // Redirect to the cartPage route with the encoded ID
-    return redirect()->route('cartPage', ['id' => $id]);
-}
-
+    {
+        $user_id = Auth::id();
+        $product_id = $request->input('product_id'); // Retrieve directly from the request
+        $quantity = $request->input('quantity');
+        $size = $request->input('size');
+            // Ensure user is authenticated
+            if (!Auth::check()) {
+                Log::warning('Unauthenticated user tried to add to cart');
+                return redirect()->route('login');
+            }
+        // Log the inputs for debugging
+        Log::info('buyNow method called', [
+            'user_id' => $user_id,
+            'product_id' => $product_id,
+            'quantity' => $quantity,
+            'size' => $size,
+        ]);
     
+        // Validate product_id
+        if (empty($product_id)) {
+            Log::error('Product ID is null or empty', ['user_id' => $user_id]);
+            return response()->json(['success' => false, 'message' => 'Invalid product. Please try again.'], 400);
+        }
+    
+        // Get the cart of the authenticated user
+        $cart = Cart::where('user_id', $user_id)->first();
+    
+        // Ensure a cart exists; if not, create a new one
+        if (!$cart) {
+            $cart = Cart::create(['user_id' => $user_id]);
+            Log::info('New cart created for user', ['user_id' => $user_id, 'cart_id' => $cart->id]);
+        }
+    
+        // Add the new item to the cart
+        $cartItem = CartItem::create([
+            'cart_id' => $cart->id,
+            'product_id' => $product_id,
+            'quantity' => $quantity,
+            'size' => $size,
+        ]);
+    
+        // Encode the cart item ID
+        $id = base64_encode($cartItem->id);
+        Log::info('Cart item created', ['cart_item_id' => $cartItem->id]);
+    
+        // Redirect to the cartPage route with the encoded ID
+        return redirect()->route('cartPage', ['id' => $id]);
+    }
     
 
 

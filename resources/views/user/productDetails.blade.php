@@ -58,7 +58,7 @@
                                 @if($product->status->status_name === 'onhand')
                                     <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
                                 @endif
-                            
+
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button type="button" id="decrement" style="color: #092C4C">-</button>
@@ -73,7 +73,7 @@
                                 <form action="{{ route('productDetails.addToCart') }}" method="POST" id="addToCartForm">
                                     @csrf
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
-                                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                                    <input type="number" class="quantity d-none" name="quantity" value="1">
                                     @if ($variants->isNotEmpty())
                                     <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                                     @endif
@@ -89,16 +89,14 @@
                                 <form action="{{ route('productDetails.buy') }}" method="POST" id="buyNow">
                                     @csrf
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
-                                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                                    <input type="number" class="quantity d-none" name="quantity" value="1">
                                     @if ($variants->isNotEmpty())
-                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
+                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none=">
                                     @endif
-                                    <button class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
-                                    style="width:130px; height:48px; color:white" data-toggle="modal"
-                                    data-target="#exampleModalCenter">
-                                    <img src="{{ asset('images/cart.svg') }}" class="invert"
-                                        style="width: 15px; height:15px"> Buy Now
-                                </button>
+                                    <button type="submit" id="buyNowButton" class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
+                                        style="width:130px; height:48px; color:white">
+                                        <img src="{{ asset('images/cart.svg') }}" class="invert" style="width: 15px; height:15px"> Buy Now
+                                    </button>
                                 </form>
                                 <!-- Buy Now Button -->
                                 
@@ -229,7 +227,7 @@
                 <form action="{{ route('productDetails.clearandadd') }}" method="POST" id="addToCartForm">
                     @csrf
                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
-                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
+                    <input type="number" class="quantity d-none" name="quantity" value="1">
                     @if ($variants->isNotEmpty())
                     <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                     @endif
@@ -253,21 +251,24 @@
 <script>
     // Increment and decrement button functionality
     const selectorQuantity = document.getElementById('selectorQuantity');
-    const formQuantity = document.getElementById('quantity');
+    const formQuantities = document.querySelectorAll('.quantity'); // NodeList of all inputs with class "quantity"
     const incrementButton = document.getElementById('increment');
     const decrementButton = document.getElementById('decrement');
 
-    // Update the form quantity input whenever the selector changes
+    // Update the form quantity inputs whenever the selector changes
     function updateQuantity(value) {
-        selectorQuantity.value = value;
-        formQuantity.value = value;
+        selectorQuantity.value = value; // Update the selector quantity
+        // Loop through all elements with class "quantity" and update their value
+        formQuantities.forEach(input => {
+            input.value = value;
+        });
     }
 
     // Increment button logic
     incrementButton.addEventListener('click', function () {
         let currentQuantity = parseInt(selectorQuantity.value, 10);
         currentQuantity++;
-        updateQuantity(currentQuantity);
+        updateQuantity(currentQuantity); // Update all quantities
     });
 
     // Decrement button logic
@@ -275,9 +276,10 @@
         let currentQuantity = parseInt(selectorQuantity.value, 10);
         if (currentQuantity > 1) {
             currentQuantity--;
-            updateQuantity(currentQuantity);
+            updateQuantity(currentQuantity); // Update all quantities
         }
     });
+
 
     // AJAX form submission
 
@@ -334,7 +336,31 @@
         },
     });
 });
+// $(document).ready(function () {
+//         $('#buyNowButton').click(function (e) {
 
+//             let formData = $('#buyNowForm').serialize(); // Serialize the form data
+
+//             $.ajax({
+//                 url: "{{ route('productDetails.buy') }}", // Use the same route as in your form
+//                 method: "POST",
+//                 data: formData,
+//                 headers: {
+//                     'X-CSRF-TOKEN': $('input[name="_token"]').val() // Include the CSRF token
+//                 },
+//                 success: function (response) {
+//                     // Handle success (e.g., show a success message or redirect)
+//                     alert("Purchase successful!");
+//                     console.log(response);
+//                 },
+//                 error: function (xhr) {
+//                     // Handle errors (e.g., show an error message)
+//                     alert("Something went wrong. Please try again.");
+//                     console.error(xhr.responseText);
+//                 }
+//             });
+//         });
+//     });
 
 $(document).ready(function() {
     // Trigger the AJAX request when the button is clicked
