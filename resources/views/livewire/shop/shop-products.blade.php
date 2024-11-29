@@ -18,12 +18,14 @@
     <div class="container d-flex justify-content-center py-3">
         <div class="d-flex align-items-center gap-3">
             <!-- Entries per page Dropdown -->
-            <select id="entries-per-page" class="form-select form-select-sm" style="width: auto;">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-            </select>
-            <span class="text-primary">Entries per page</span>
+            <form method="GET" action="{{ route('shop.products') }}" class="d-flex align-items-center">
+                <select name="entries_per_page" id="entries-per-page" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
+                    <option value="10" {{ request('entries_per_page') == 10 ? 'selected' : '' }}>10</option>
+                    <option value="20" {{ request('entries_per_page') == 20 ? 'selected' : '' }}>20</option>
+                    <option value="30" {{ request('entries_per_page') == 30 ? 'selected' : '' }}>30</option>
+                </select>
+                <span class="text-primary">Entries per page</span>
+            </form>
         
             <!-- Search Input -->
             <div class="input-group input-group-sm" style="width: 200px;">

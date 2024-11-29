@@ -3,11 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Shop;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShopProductController extends Controller
 {
-    // Other methods (index, create, etc.)
+    public function index(Request $request)
+{
+    // Get the number of entries per page from the request, default to 10
+    $entriesPerPage = $request->input('entries_per_page', 10);
+
+    // Retrieve products with pagination
+    $products = Product::with('category') // Assuming you have a relationship with categories
+        ->paginate($entriesPerPage);
+
+    // Retrieve categories for the category dropdown
+    $categories = Category::all();
+
+    return view('shop.products.index', compact('products', 'categories'));
+}
+
+    public function edit($id)
+    {
+        // Find the product by ID
+        $product = Product::findOrFail($id);
+
+        // Fetch the shop associated with the authenticated user
+        $shop = Shop::where('user_id', Auth::id())->first(); // Assuming 'user_id' is the foreign key in the shops table
+
+        // Pass the product and shop data to the view
+        return view('your_view_name', compact('product', 'shop'));
+    }
 
     public function update(Request $request, $id)
     {

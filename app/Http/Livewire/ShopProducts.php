@@ -41,6 +41,8 @@ class ShopProducts extends Component
                 $product->stocks_level = 'In Stock';
             } elseif ($product->stocks <= 10 && $product->stocks > 0) {
                 $product->stocks_level = 'Low Stock';
+            } elseif (is_null($product->stocks)) { // Check if stocks is null
+                $product->stocks_level = '';
             } else {
                 $product->stocks_level = 'Out of Stock';
             }
