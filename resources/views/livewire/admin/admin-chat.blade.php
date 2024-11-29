@@ -5,6 +5,6 @@
     <!-- Top Navbar -->
     @include('components.profilenav')
 
-    @include('components.chat')
+    @include('components.chat', ['contacts' => $contacts, 'messages' => $messages])
 </div>
 @endsection

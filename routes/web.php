@@ -24,7 +24,6 @@ use App\Http\Controllers\checkOutPageController;
 use App\Http\Controllers\paymentPageController;
 use App\Http\Controllers\orderSummaryPageController;
 use League\CommonMark\Node\Query\OrExpr;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Admin\CreateShop;
 use App\Http\Livewire\Admin\Updateshop;
 use App\Http\Controllers\ProfileController;
@@ -33,8 +32,9 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\FaqController;
+use App\Mail\MessageNotification;
 
 Auth::routes();
 
@@ -103,9 +103,7 @@ Route::get('/faqs', function () {
 })->name('faqs');
 
 // user purchases route
-Route::get('/mypurchases', [MyPurchasesController::class, 'index'])->name('mypurchases');
-
-
+Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases'); 
 
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
@@ -130,6 +128,16 @@ Route::get('/admin', function () {
 })->name('Admin');
 
 Route::prefix('admin')->group(function () {
+    //faqs
+    Route::post('/faqs', [FaqController::class, 'store'])->name('admin.faqs.store');
+    Route::put('/faqs/{faq}', [FaqController::class, 'edit']);
+    Route::put('/faqs/{id}/hide', [FaqController::class, 'hide'])->name('admin.faqs.hide');
+    Route::put('/faqs/{id}/show', [FaqController::class, 'show'])->name('admin.faqs.show'); 
+    Route::delete('/faqs/{id}/delete', [FaqController::class, 'delete'])->name('admin.faqs.delete');
+
+    Route::post('/faqs-deleted/retrieve', [AdminFaqsDeleted::class, 'retrieve'])->name('faqs.retrieve');
+    Route::delete('/faqs-deleted/destroy/{id}', [AdminFaqsDeleted::class, 'destroy'])->name('faqs.delete');
+    //other
     Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
     Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
     Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
@@ -137,8 +145,29 @@ Route::prefix('admin')->group(function () {
     Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
     Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
     // Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
+    Route::get('/faqs-deleted', [AdminFaqsDeleted::class, 'render'])->name('admin.faqs-deleted'); 
     Route::prefix('shops')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 });
+
+use App\Http\Controllers\MessageController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/fetch-messages/{recipient}', [MessageController::class, 'fetchMessages']);
+    Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
+    
+    // Chat Routes
+    Route::get('/admin/chat', [MessageController::class, 'getChatContacts'])->name('admin.chat');
+    Route::get('/shop/chat', [MessageController::class, 'getChatContacts'])->name('shop.chat');
+    Route::get('/chat', [MessageController::class, 'getChatContacts'])->name('chat'); 
+    Route::post('chat', [MessageController::class, 'startChat'])->name('start.chat');
+    Route::get('/search-users', [MessageController::class, 'searchUsers']);
+    Route::post('/mark-messages-read/{recipientId}', [MessageController::class, 'markMessagesRead']);
+    Route::post('/admin/faqs/retrieve', [FaqController::class, 'retrieve'])->name('faqs.retrieve');
+    Route::get('/chat/view/{recipientId}', [MessageController::class, 'viewChat'])->name('chat.view');
+});
+
+Route::get('/faqs', [FaqController::class, 'index'])->name('faqs.index');
+Route::get('/message_notification', [MessageController::class, 'email'])->name('components.message_notification');

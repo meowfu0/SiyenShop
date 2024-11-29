@@ -37,7 +37,7 @@ class AddColumnsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['course_id']); // Drop foreign key
             $table->dropColumn(['first_name', 'last_name', 'phone_number', 'course_bloc', 'year', 'course_id']); // Drop the columns
-            $table->timestamp('updated_at')->nullable(false)->change(); // Revert updated_at to NOT NULL if necessary
+            //$table->timestamp('updated_at')->nullable(false)->change(); // Revert updated_at to NOT NULL if necessary
         });
     }
 }

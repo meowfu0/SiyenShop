@@ -1,101 +1,104 @@
 /*FAQs Section*/
 
 .accordion-button:not(.collapsed) {
-    background-color: #ffffff; 
-    border: solid 1px #092C4C; 
+    background-color: #ffffff;
+    border: solid 1px #092c4c;
 }
-
 
 .custom-width-p {
     width: 60%;
-    display: flex; 
+    display: flex;
     margin: 0;
     font-size: 14px;
 }
 
 .container-btn:hover,
 .container-btn:active {
-    background-color: rgba(190, 190, 190, 0.5); 
-    color: #FFFFFF;
+    background-color: rgba(190, 190, 190, 0.5);
+    color: #ffffff;
 }
 
 .container-btn.active {
-    background-color: rgba(190, 190, 190, 0.5); 
-    color: white; 
+    background-color: rgba(190, 190, 190, 0.5);
+    color: white;
 }
 
 /*FAQs Section Admin*/
 
 .accordion-button:not(.collapsed) {
-    background-color: #ffffff; 
-    
+    background-color: #ffffff;
 }
 
 .custom-width-p {
     width: 60%;
-    display: flex; 
+    display: flex;
     margin: 0;
     font-size: 14px;
 }
 
 .container-btn:hover,
 .container-btn:active {
-    background-color: rgba(190, 190, 190, 0.5); 
-    color: #FFFFFF;
+    background-color: rgba(190, 190, 190, 0.5);
+    color: #ffffff;
 }
 
 .container-btn.active {
-    background-color: rgba(190, 190, 190, 0.5); 
-    color: white; 
+    background-color: rgba(190, 190, 190, 0.5);
+    color: white;
 }
 
 .icon-container {
-    width: 10%; 
-    margin-left: 20px; 
+    width: 10%;
+    margin-left: 20px;
     border: none;
 }
 .new {
-    width: 130px; 
+    width: 130px;
     border-radius: 6px;
-    border: solid 1px #092C4C; 
+    border: solid 1px #092c4c;
 }
 
 .delete {
     width: 130px;
 }
 
-
 /*Chat Section*/
+.smaller {
+    font-size: 0.5rem; 
+}
+#message {
+    overflow: hidden; 
+    resize: none; 
+}
 
-.main-content {  
+.main-content {
     height: calc(100vh - 80px);
 }
 
 .content-chatbox-chat {
     flex-grow: 1;
     display: flex;
-    
 }
 .content header h1 {
     font-size: 24px;
     font-weight: bold;
 }
 .container-chatbox {
-    width: 23%;     
-    display: flex;          
-    align-items: center;  
+    width: 23%;
+    display: flex;
+    align-items: center;
     border-right: 1px solid #ccc;
     flex-direction: column;
 }
 .container-chatbox input {
-    width: 90%;    
-    margin-bottom: 20px;          
+    width: 90%;
+    margin-bottom: 20px;
 }
-.container-btn{
+.container-btn {
     display: flex;
-    width: 90%;  
-    height: 48px; 
-    margin-bottom: 0.5rem;   
+    width: 90%;
+    height: 48px;
+    margin-bottom: 0.5rem;
     font-weight: bold;
     font-size: 12px;
 }
@@ -105,13 +108,14 @@
 
 @media screen and (max-width: 768px) and (min-width: 426px) {
     .hide-on-mobile {
-        display: none !important;    
+        display: none !important;
     }
 }
 
+  
 @media screen and (max-width: 425px) {
     .hide-on-mobile {
-        display: flex; 
+        display: flex;
     }
     .sidenav {
         display: none;
@@ -121,12 +125,12 @@
         width: 100%;
     }
     .container-chatbox {
-        width: 100% !important; 
-        padding: 0; 
+        width: 100% !important;
+        padding: 0;
     }
 
     .chat-input {
-        width: 100%; 
+        width: 100%;
     }
 
     .container-chatbox.hidden {
@@ -145,10 +149,49 @@
         justify-content: center;
         align-items: center;
         flex-direction: row;
-        margin: 0px 25px 0px 25px; 
+        margin: 0px 25px 0px 25px;
     }
     .faq-header {
-        margin: 0px 25px 0px 25px; 
+        margin: 0px 25px 0px 25px;
         width: 100%;
     }
 }
+/* Smooth transition for height changes */
+.accordion-collapse {
+    transition: height 0.3s ease;
+    overflow: hidden;
+    height: 0;
+}
+
+.accordion-collapse.show {
+    height: auto;
+}
+
+#messages-container {
+    overflow-y: auto; 
+    height: 63vh; 
+}
+
+#messages-container::-webkit-scrollbar {
+    width: 0px;  
+    height: 0px; 
+}
+
+#messages-container {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+
+.email-bg {
+    background-image: url('https://i.ibb.co/Jnfdf1q/emailer-bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center 300px;
+    padding: 0;
+}
+
+
+
+
+

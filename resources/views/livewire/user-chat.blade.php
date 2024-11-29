@@ -7,7 +7,9 @@
         @livewire('user-sidenav')
     </div>
     <div class="w-100">
-        @include('components.chat')
+
+    @include('components.chat', ['contacts' => $contacts, 'messages' => $messages])
+
     </div>
 </div>
 

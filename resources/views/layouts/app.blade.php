@@ -32,12 +32,14 @@
     <link href="{{ asset('css/purchase-mobile.css') }}" rel="stylesheet">
     <link href="{{ asset('css/purchase.css') }}" rel="stylesheet">
     <script src="{{ asset('js/customer_support.js') }}" defer></script>
+    <script src="{{ asset('js/message.js') }}" defer></script>
 
     <link href="{{ asset('css/customer_support.css') }}" rel="stylesheet"> {{-- this one  --}}
 
     <script src="{{ asset('js/switchStat.js') }}"></script>
-
-
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/customer_support.js') }}" defer></script>
 
 </head>
 <body>
@@ -49,7 +51,7 @@
         </main>
         
     </div>
-    
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js'></script>
 </body>
 </html>
