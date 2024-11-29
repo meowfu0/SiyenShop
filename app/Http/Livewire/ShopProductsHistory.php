@@ -22,8 +22,9 @@ class ShopProductsHistory extends Component
         // Fetch products with their historical data
         // You can modify this query to fit your historical data logic
         $this->products = Product::with(['category', 'visibility', 'status'])
-            ->where('updated_at', '<', now()->subMonths(1)) // Example: products updated more than a month ago
-            ->get();
+        ->where('modified_at', '<', now()->subMonths(1)) // Corrected to use `modified_at`
+        ->get();
+
 
         // Loop through the products and determine their stock levels
         foreach ($this->products as $product) {

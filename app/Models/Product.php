@@ -20,6 +20,11 @@ class Product extends Model
         'created_at', 'modified_at', 'deleted_at'
     ];
 
+    // Disable automatic timestamp handling for 'updated_at'
+    public $timestamps = true;
+
+    const UPDATED_AT = 'modified_at';
+
     // Relationships
     public function category()
     {

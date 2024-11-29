@@ -36,6 +36,7 @@ use App\Http\Controllers\ShopProductsAddController;
 use App\Http\Controllers\ShopProductEditController;
 use App\Http\Controllers\ShopProductDeleteController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopProductHistoryRestoreController;
 
 Auth::routes();
 
@@ -101,7 +102,7 @@ Route::prefix('shop')->group(function () {
     Route::delete('/shop/products/delete/{id}', [ShopProductDeleteController::class, 'delete'])->name('shop.products.delete');
 
     //Product History
-    Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
+    Route::post('/restore-products', [ShopProductHistoryRestoreController::class, 'restoreProducts'])->name('restore.products');
 });
 
 Route::get('/api/categories', function () {
