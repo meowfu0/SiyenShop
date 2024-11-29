@@ -102,7 +102,8 @@ Route::prefix('shop')->group(function () {
     Route::delete('/shop/products/delete/{id}', [ShopProductDeleteController::class, 'delete'])->name('shop.products.delete');
 
     //Product History
-    Route::post('/restore-products', [ShopProductHistoryRestoreController::class, 'restoreProducts'])->name('restore.products');
+    Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
+    
 });
 
 Route::get('/api/categories', function () {
@@ -129,3 +130,4 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 });
+Route::post('/restore-products', [ShopProductHistoryRestoreController::class, 'restoreProducts'])->name('restore.products');

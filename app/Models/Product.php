@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use HasFactory;
-
-
-    public $timestamps = false;
     
     protected $fillable = [
         'category_id', 'shop_id', 'status_id', 'visibility_id',
