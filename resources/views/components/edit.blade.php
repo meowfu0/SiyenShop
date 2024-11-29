@@ -141,10 +141,10 @@
             </div>
 
             <div class="row mb-3">
-    @if($user->role_id == 1)
+    @if($user->role_id == 2)
     <div class="col-md-10 mt-3">
             <!-- Gcash Button -->
-            <button class="btn btn-primary" id="openModalBtn" type="button" data-bs-toggle="modal" data-bs-target="#gcashModal"> Gcash</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gcashModal">Gcash</button>
             
         </div>
     @endif
@@ -169,8 +169,7 @@
 
  <!-- Modal -->
 
- <!-- Gcash Modal -->
-<div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
+ <div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -189,7 +188,6 @@
                 <!-- Display Gcash Info -->
                 <div id="gcashInfo" style="display: block;">
                     <div class="row mb-3">
-                        
                         <div class="col-md-4 text-center"><strong>Gcash Name</strong></div>
                         <div class="col-md-4 text-center"><strong>Gcash Number</strong></div>
                         <div class="col-md-4 text-center"><strong>Gcash Limit</strong></div>
@@ -197,19 +195,18 @@
                     <div class="row mb-3" id="gcashInfoContainer">
                         <!-- Initial row with a delete button -->
                         @foreach ($gcashInfos as $info)
-               
-                        <div class="col-md-4 text-center">
-                            <p id="gcashNameInfo">{{$info->gcash_name}} </p>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <p id="gcashNumberInfo"> {{$info->gcash_number}}
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <p id="gcashLimitInfo">{{$info->gcash_limit}} </p>
-                        </div>
-                        <div class="col-12 text-end">
-                            <button type="button" class="btn btn-outline-danger btn-sm" id="deleteInitialRow">−</button>
-                        </div>
+                            <div class="col-md-4 text-center">
+                                <p id="gcashNameInfo">{{$info->gcash_name}} </p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <p id="gcashNumberInfo"> {{$info->gcash_number}}</p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <p id="gcashLimitInfo">{{$info->gcash_limit}} </p>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="button" class="btn btn-outline-danger btn-sm" id="deleteInitialRow">−</button>
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -221,17 +218,14 @@
                     </form>
 
                     <!-- Buttons Row -->
-                    <div class="text-end mb-3 d-flex justify-content-end">
-                        <button id="addFieldBtn" class="btn btn-outline-success btn-sm me-2">+</button>
-                        <button id="removeFieldBtn" class="btn btn-outline-danger btn-sm">−</button>
-                    </div>
+                    <div class="text-end mb-3 d-flex justify-content-end"></div>
                 </div>
             </div>
 
             <!-- Modal Footer -->
             <div class="modal-footer d-flex justify-content-center" style="border-top: none;">
                 <button type="button" class="btn btn-outline-secondary" id="cancelBtn" style="width: 100px; height: 40px; border-radius: 5px; display: none;">Cancel</button>
-                <button type="button" class="btn btn-primary" id="saveBtn" style="width: 100px; height: 40px; border-radius: 5px;">Save</button>
+                <button type="button" class="btn btn-primary" id="saveBtn" style="width: 100px; height: 40px; border-radius: 5px; display: none;">Save</button> <!-- Hidden by default -->
             </div>
         </div>
     </div>
@@ -246,6 +240,7 @@
         document.getElementById('gcashInfo').style.display = 'none';
         document.getElementById('gcashEdit').style.display = 'block';
         document.getElementById('cancelBtn').style.display = 'inline-block'; // Show Cancel button
+        document.getElementById('saveBtn').style.display = 'inline-block'; // Show Save button when in edit mode
 
         // Remove the initial row in gcashInfoContainer when switching to edit mode
         const gcashInfoContainer = document.getElementById('gcashInfoContainer');
@@ -259,6 +254,42 @@
         document.getElementById('gcashEdit').style.display = 'none';
         document.getElementById('gcashInfo').style.display = 'block';
         document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
+        document.getElementById('saveBtn').style.display = 'none'; // Hide Save button when switching back to view mode
+    });
+
+    // Save button to store the data and display it in the modal
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        const gcashNames = document.querySelectorAll('[name="gcashName[]"]');
+        const gcashNumbers = document.querySelectorAll('[name="gcashNumber[]"]');
+        const gcashLimits = document.querySelectorAll('[name="gcashLimit[]"]');
+
+        const infoContainer = document.getElementById('gcashInfoContainer');
+        infoContainer.innerHTML = ''; // Clear the container before adding new data
+
+        // Loop through input fields and display their values
+        for (let i = 0; i < gcashNames.length; i++) {
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3');
+
+            newRow.innerHTML = `
+                <div class="col-md-4 text-center">
+                    <p>${gcashNames[i].value || 'No data'}</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <p>${gcashNumbers[i].value || 'No data'}</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <p>${gcashLimits[i].value || 'No data'}</p>
+                </div>
+            `;
+            infoContainer.appendChild(newRow); // Append the new row to the info container
+        }
+
+        // Switch back to display mode
+        document.getElementById('gcashEdit').style.display = 'none';
+        document.getElementById('gcashInfo').style.display = 'block';
+        document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
+        document.getElementById('saveBtn').style.display = 'none'; // Hide Save button after saving
     });
 
     // Add new input fields
@@ -322,49 +353,8 @@
             }
         }
     }
-
-    // Function to delete the initial row (added dynamically when in edit mode)
-    document.getElementById('deleteInitialRow').addEventListener('click', function() {
-        if (confirm("Are you sure you want to delete the initial row?")) {
-            const initialRow = document.getElementById('gcashInfoContainer');
-            initialRow.innerHTML = ''; // Remove the initial "No data" row
-        }
-    });
-
-    // Save button to store the data and display it in the modal
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        const gcashNames = document.querySelectorAll('[name="gcashName[]"]');
-        const gcashNumbers = document.querySelectorAll('[name="gcashNumber[]"]');
-        const gcashLimits = document.querySelectorAll('[name="gcashLimit[]"]');
-
-        const infoContainer = document.getElementById('gcashInfoContainer');
-        infoContainer.innerHTML = ''; // Clear the container before adding new data
-
-        // Loop through input fields and display their values
-        for (let i = 0; i < gcashNames.length; i++) {
-            const newRow = document.createElement('div');
-            newRow.classList.add('row', 'mb-3');
-
-            newRow.innerHTML = `
-                <div class="col-md-4 text-center">
-                    <p>${gcashNames[i].value || 'No data'}</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <p>${gcashNumbers[i].value || 'No data'}</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <p>${gcashLimits[i].value || 'No data'}</p>
-                </div>
-            `;
-            infoContainer.appendChild(newRow); // Append the new row to the info container
-        }
-
-        // Switch back to display mode
-        document.getElementById('gcashEdit').style.display = 'none';
-        document.getElementById('gcashInfo').style.display = 'block';
-        document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
-    });
 </script>
+
 
 
 <style>

@@ -82,6 +82,8 @@ public function update(Request $request, User $user)
     $user->course_id = $validated['course_id'];
     $user->gcash_name = $validated['gcash_name'] ?? $user->gcash_name;
     $user->gcash_number = $validated['gcash_number'] ?? $user->gcash_number;
+    $user->gcash_limit = $validated['gcash_limit'] ?? $user->gcash_limit;
+
 
     
 
