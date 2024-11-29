@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
+use App\Models\Faq;
 
 class AdminFaqs extends Component
 {
     public function render()
     {
-        return view('livewire.admin.admin-faqs');
+        $faqs = Faq::all();
+        return view('livewire.admin.admin-faqs', compact('faqs'));
     }
 }
