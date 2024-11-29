@@ -18,4 +18,15 @@ class ShopProductDeleteController extends Controller
         // Redirect to the product history page with a success message
         return redirect()->route('shop.products')->with('status', 'Product deleted successfully!');
     }
+    
+    public function deleteMultiple(Request $request)
+    {
+        $productIds = $request->input('product_ids');
+
+        // Find the products by IDs and mark them as deleted
+        Product::whereIn('id', $productIds)->update(['deleted_at' => now()]);
+
+        // Redirect to the product history page with a success message
+        return redirect()->route('shop.products')->with('status', 'Selected products deleted successfully!');
+    }
 }

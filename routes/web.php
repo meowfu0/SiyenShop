@@ -94,12 +94,14 @@ Route::prefix('shop')->group(function () {
 
     // Category
     Route::post('categories/add', [CategoryController::class, 'add'])->name('categories.add');
+    
     Route::get('/products/edit', [CategoryController::class, 'showCategorySelection']);
     Route::put('/products/edit/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/products/edit/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
 
     //Delete
     Route::delete('/shop/products/delete/{id}', [ShopProductDeleteController::class, 'delete'])->name('shop.products.delete');
+    Route::post('/shop/products/delete/multiple', [ShopProductDeleteController::class, 'deleteMultiple'])->name('shop.products.delete.multiple');
 
     //Product History
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');

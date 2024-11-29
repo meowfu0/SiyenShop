@@ -83,11 +83,33 @@
                 </a>
 
                 <!-- Delete Icon -->
-                <a class="text-decoration-none" id="deleteSelectedButton" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                <a class="text-decoration-none" id="deleteSelectedButton" data-bs-toggle="modal" data-bs-target="#deleteMMultipleConfirmationModal">
                     <img src="{{ asset('images/Delete.svg') }}" alt="Delete" class="img-thumbnail" style="width: 35px; height: 35px;">
                 </a>
             </div>
 
+           <!-- Delete Confirmation Modal for Multiple Products -->
+            <div class="modal fade" id="deleteMultipleConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteMultipleConfirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteMultipleConfirmationModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete the selected products?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                            <form id="deleteMultipleForm" method="POST" action="{{ route('shop.products.delete.multiple') }}" style="display: inline;">
+                                @csrf
+                                <div id="productIdsToDeleteContainer"></div> <!-- Container for hidden inputs -->
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Add Category Button -->
             <a href="{{ route('shop.products.add') }}" class="text-decoration-none">
                 <button type="button" class="btn btn-outline-primary btn-sm">
@@ -396,6 +418,62 @@
         updateTable();
     });
 
+    document.addEventListener('DOMContentLoaded', function () {
+    const deleteSelectedButton = document.getElementById('deleteSelectedButton');
+    const selectedCheckboxes = document.querySelectorAll('.select-item');
+    const selectAllCheckbox = document.getElementById('select-all');
+    const productIdsInputContainer = document.getElementById('productIdsToDeleteContainer'); // Create a container for hidden inputs
+    
+    // Show the modal when the delete button is clicked
+    deleteSelectedButton.addEventListener('click', function () {
+        // Clear previous hidden inputs
+        productIdsInputContainer.innerHTML = '';
+
+        const selectedProductIds = Array.from(selectedCheckboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.getAttribute('data-id'));
+
+        // If no products are selected, prevent modal from opening
+        if (selectedProductIds.length === 0) {
+            alert('Please select at least one product to delete.');
+            return;
+        }
+
+        // Create hidden inputs for each selected product ID
+        selectedProductIds.forEach(id => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'product_ids[]'; // Use the array notation
+            input.value = id;
+            productIdsInputContainer.appendChild(input);
+        });
+
+        // Show the confirmation modal
+        const deleteMultipleConfirmationModal = new bootstrap.Modal(document.getElementById('deleteMultipleConfirmationModal'));
+        deleteMultipleConfirmationModal.show();
+    });
+
+    // Handle select all functionality
+    selectAllCheckbox.addEventListener('change', function () {
+        selectedCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked; // Check or uncheck all checkboxes based on the "Select All" checkbox
+        });
+    });
+
+    // Update the "Select All" checkbox state based on individual selections
+    selectedCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            // If any checkbox is unchecked, uncheck the "Select All" checkbox
+            if (!this.checked) {
+                selectAllCheckbox.checked = false;
+            } else {
+                // If all checkboxes are checked, check the "Select All" checkbox
+                const allChecked = Array.from(selectedCheckboxes).every(checkbox => checkbox.checked);
+                selectAllCheckbox.checked = allChecked;
+            }
+        });
+    });
+});
 </script>
 
 
