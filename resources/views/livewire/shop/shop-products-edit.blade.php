@@ -6,7 +6,7 @@
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
-     <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
+    <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
         <div class="d-flex gap-2 pe-5">
             <img src="{{ asset('images/user.svg') }}" alt="">
             @auth
@@ -15,171 +15,146 @@
             </div>
             @endauth
         </div>
-     </div>
-     
-     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height: 70px">
+    </div>
+    
+    <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height: 70px">
         <div class="ps-3">
             <img src="{{ asset('images/Circuits.svg') }}" alt="">
         </div>
         <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students</h2>
-     </div>
-    
-     @if(request()->has('product'))
-        @php
-            // Fetch the specific product based on the ID from the query string
-            $productId = request()->query('product');
-            $product = DB::table('products')->where('id', $productId)->first();
-        @endphp
-
-        @if($product)
+    </div>
 
     <div class="d-flex justify-content-between px-5 py-3">
         <h2 class="fw-bold m-0 text-primary">Edit Product</h2>
     </div>
-            
-    <div class="d-flex px-5 py-4 flex-grow-1">
-        <div class="container">
-            <div class="row">
-                <!-- First Column -->
-                <div class="col-md-6 d-flex flex-column gap-3">
-                    <div class="form-group mb-1">
-                        <label for="product_name_{{ $product->id }}" class="fw-bold text-primary">Product Name</label>
-                        <input type="text" id="product_name_{{ $product->id }}" class="form-control" placeholder="Input product name" value="{{ $product->product_name }}">
-                    </div>
 
-                    <div class="form-group mb-1">
-                        <label for="product_decription_{{ $product->id }}" class="fw-bold text-primary">Product Description</label>
-                        <textarea id="product_decription_{{ $product->id }}" class="form-control" rows="4" placeholder="Input product description" value="{{ $product->product_decription }}">{{ $product->product_decription }}</textarea>
-                    </div>
+    <form action="{{ route('shop.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-                    <div class="form-group mb-3">
-                        <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
-                        
-                        <!-- Drag and Drop Zone -->
-                        <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
-                            <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                            <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*" wire:model="product_image">
-                            <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+        <div class="d-flex px-5 py-4 flex-grow-1">
+            <div class="container">
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6 d-flex flex-column gap-3">
+                        <div class="form-group mb-1">
+                            <label for="product_name" class="fw-bold text-primary">Product Name</label>
+                            <input type="text" name="product_name" id="product_name" class="form-control" value="{{ old('product_name', $product->product_name) }}" required>
+                            @error('product_name') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
-                    </div>
-                </div>
 
-                <!-- Second Column -->
-                <div class="col-md-6 d-flex flex-column gap-3"> 
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
-                            Add Category
-                            <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
-                        </button>
-                    </div>
-        
-                    <!-- Category Selection -->
-                    <div class="form-group mb-1">
-                        <label for="category" class="fw-bold text-primary">Category</label>
-                        <div class="dropdown">
-                            <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Category
-                            </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('T-Shirt')">
-                                    <span>T-Shirt</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn p-0" onclick="openEditModal('T-Shirt'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button class="btn p-0" onclick="deleteCategory('T-Shirt'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('Lanyard')">
-                                    <span>Lanyard</span>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn p-0" onclick="openEditModal('Lanyard'); event.stopPropagation();">
-                                            <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                        </button>
-                                        <button class="btn p-0" onclick="deleteCategory('Lanyard'); event.stopPropagation();">
-                                            <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                        </button>
-                                    </div>
-                                </li>
-                            </ul>
+                        <div class="form-group mb-1">
+                            <label for="product_decription" class="fw-bold text-primary">Product Description</label>
+                            <textarea name="product_decription" id="product_decription" class="form-control" required>{{ old('product_decription', $product->product_decription) }}</textarea>
+                            @error('product_decription') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
+                            
+                            <!-- Drag and Drop Zone -->
+                            <div id="drop_zone" class="border p-4 text-center position-relative" style="cursor: pointer;">
+                                <p class="text-muted">Drag and drop an image here, or click to select one</p>
+                                <input type="file" id="image_upload" name="product_image" class="form-control-file d-none" accept="image/*">
+                                <img id="uploaded_image_preview" class="mt-3 d-none" src="{{ asset('storage/' . $product->product_image) }}" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+                                <button id="remove_image" class="btn btn-outline-primary d-none position-absolute" style="top: 5px; right: 5px;">X</button>
+                            </div>
                         </div>
                     </div>
                     
+                    <!-- Second Column -->
+                    <div class="col-md-6 d-flex flex-column gap-3"> 
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="fw-bold m-0 text-primary">Organize</p>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal" onclick="resetModal()">
+                                Add Category
+                                <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
+                            </button>
+                        </div>
+        
+                        <div>
+                            <!-- Category Selection -->
+                            <div class=" form-group mb-1">
+                                <label for="category" class="fw-bold text-primary">Category</label>
+                                <select name="category_id" id="category_id" class="form-select" required>
+                                    <option value="" disabled>Select a category</option>
+                                    @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->category_name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
 
-                    <!-- Category Modal -->
-                    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="editCategoryForm">
-                                        <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
-                                        <div class="form-group mb-2 d-flex align-items-center">
-                                            <input type="text" id="category_name" class="form-control me-2" value="">
+                            <!-- Category Modal -->
+                            <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-                                    <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
+                                        <div class="modal-body">
+                                            <form wire:submit.prevent="save">
+                                                <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                                <div class="form-group mb-2 d-flex align-items-center">
+                                                    <input type="text" id="category_name" class="form-control me-2" wire:model="categoryName">
+                                                </div>
+                                                @error('categoryName') <span class="text-danger">{{ $message }}</span> @enderror
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                            <button type="submit" class="btn btn-primary" wire:click="save">Save</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group mb-1">
-                        <label for="shop_id" class="fw-bold text-primary">Organization</label>
-                       <!-- <input type="text" id="organization" class="form-control" 
-                            value="{{ Auth::user()->organization ?? 'No organization assigned' }}" readonly disabled> for backend part-->
-                            <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
-                    </div>
+                            <div class="form-group mb-1">
+                                <label for="shop_id" class="fw-bold text-primary">Organization</label>
+                                <input type="text" id="shop_id" class="form-control" 
+                                    value="{{ $shop->shop_name ?? 'No organization assigned' }}" readonly disabled>
+                            </div>
+                            <div class="col-md-6 gap-3"> 
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <p class="fw-bold m-0 text-primary">Inventory</p>
+                                </div>
+                            </div>
 
-                    <div class="col-md-6 gap-3"> 
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <p class="fw-bold m-0 text-primary">Inventory</p>
-                        </div>
-                    </div>
-
-                    <form>
-                        <div class="row g-2"> 
-                            <div class="col-md-6 mb-1"> 
-                                <label for="status_id" class="fw-bold text-primary">Status</label>
-                                <select id="status_id" class="form-select form-control" onchange="toggleQuantity()"  wire:model="status_id">
-                                    <option value="">Select Status</option>
-                                        <option value="preorder" {{ old('status_id') == 'preorder' ? 'selected' : '' }}>Preorder</option>
-                                        <option value="onhand" {{ old('status_id') == 'onhand' ? 'selected' : '' }}>Onhand</option>
+                            <div class="row g-2"> 
+                                <div class="col-md-6 mb-1"> 
+                                    <label for="status_id" class="form-label">Status</label>
+                                    <select name="status_id" id="status_id" class="form-select" required>
+                                        <option value="" disabled>Select a status</option>
+                                        <option value="9" {{ old('status_id', $product->status_id) == 9 ? 'selected' : '' }}>Pre-Order</option>
+                                        <option value="8" {{ old('status_id', $product->status_id) == 8 ? 'selected' : '' }}>On-Hand</option>
                                     </select>
-                                @error('status_id') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
+                                    @error('status_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
 
-                            <div class="col-md-6 mb-1"> 
-                                <div class="form-group">
-                                    <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                    <select id="visibility" class="form-select form-control" wire:model="visibility_id">
-                                        <option value="">Select Visibility</option>
-                                        <option value="visible" {{ old('visibility_id') == 'visible' ? 'selected' : '' }}>Visible</option>
-                                        <option value="hidden" {{ old('visibility_id') == 'hidden' ? 'selected' : '' }}>Hidden</option>
-                                    </select>
-                                    @error('visibility_id') <span class="text-red-500">{{ $message }}</span> @enderror
-
+                                <div class="col-md-6 mb-1"> 
+                                    <div class="form-group">
+                                        <label for="visibility_id" class="form-label">Visibility</label>
+                                        <select name="visibility_id" id="visibility_id" class="form-select" required>
+                                            <option value="" disabled>Select visibility</option>
+                                            <option value="1" {{ old('visibility_id', $product->visibility_id) == 1 ? 'selected' : '' }}>Visible</option>
+                                            <option value="2" {{ old('visibility_id', $product->visibility_id) == 2 ? 'selected' : '' }}>Hidden</option>
+                                        </select>
+                                        @error('visibility_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
-                                <p class="fw-bold m-0 text-primary">Size Variation</p>
-                                <label class="switch">
-                                    <input type="checkbox" id="variationToggle">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                                    <p class="fw-bold m-0 text-primary">Size Variation</p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="variationToggle">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
 
                             <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
                         </div>
@@ -209,9 +184,9 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
-                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                                                </button>
+                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                        <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -219,156 +194,108 @@
                                     <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
                                         <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
                                     </button>
-
                                 </div>
                             </div>
                         </div>
 
-
-
                         <div class="row g-2"> 
                             <div class="col-md-6 mt-3 mb-1"> 
                                 <div class="form-group">
-                                    <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price"  type="text" id="form2" class="form-control" wire:model="supplier_price">
-                                    @error('supplier_price') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    <label for="supplier_price" class="form-label">Supplier Price</label>
+                                    <input type="number" name="supplier_price" id="supplier_price" class="form-control" step="0.01" value="{{ old('supplier_price', $product->supplier_price) }}" required>
+                                    @error('supplier_price') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
-                                    <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price"  type="text" id="form2" class="form-control">
-                                    @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
+                                    <label for="retail_price" class="form-label">Retail Price</label>
+                                    <input type="number" name="retail_price" id="retail_price" class="form-control" step="0.01" value="{{ old('retail_price', $product->retail_price) }}" required>
+                                    @error('retail_price') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label for="quantity_id" id="quantity" class="fw-bold text-primary">Quantity</label>
-                                    <div class="input-group quantity-selector quantity-selector-sm">
-                                        <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
+                            <div class="row g-2"> 
+                                <div class="col-md-6"> 
+                                    <div class="form-group">
+                                        <label for="stocks" id="stock" class="form-label">Stocks</label>
+                                        <input type="number" name="stocks" id="stocks" class="form-control" value="{{ old('stocks', $product->stocks) }}">
+                                        @error('stocks') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </div>
 
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </div>
-
-            <!-- Submit Button -->
-            <div class="d-flex justify-content-end mt-4">
-                <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
         </div>
-    </div>
-    @else
-            <div class="alert alert-warning">
-                Product not found.
-            </div>
-        @endif
-    @else
-        <div class="alert alert-warning">
-            No product ID provided. Please select a product to edit.
-        </div>
-    @endif
+    </form>
 </div>
 
-
 <script>
-
+    // JavaScript code remains unchanged
     function toggleQuantity() {
         const statusSelect = document.getElementById('status_id');
-        const quantityInput = document.getElementById('quantity_id');
-        const quantityTitle = document.getElementById('quantity');
-        const quantityTitle2 = document.getElementById('quantity_1');
+        const stocksTitle = document.getElementById('stock'); 
+        const quantityTitle = document.getElementById('quantity_1');
         const variationToggle = document.getElementById('variationToggle');
+        const stocksInput = document.getElementById('stocks');
 
-        if (statusSelect.value === 'preorder' || variationToggle.checked) { //Hides the quantity field
-            quantityInput.style.display = 'none';
+        // Handle stocks input visibility
+        if (statusSelect.value === '9' || variationToggle.checked) { 
+            stocksInput.style.display = 'none';
+            stocksTitle.style.display = 'none';
             quantityTitle.style.display = 'none';
-            
-            //Hide the quantity in the hidden fields
-            if (statusSelect.value === 'preorder') {
-                quantityTitle2.style.visibility = 'hidden'; 
-            } else {
-                quantityTitle2.style.visibility = 'visible'; 
-            }
-        } else if (statusSelect.value === 'onhand' && !variationToggle.checked){ //Shows the quantity field
-            quantityInput.style.display = 'block';
+        } else if (statusSelect.value === '8') { 
+            stocksInput.style.display = 'block';
+            stocksTitle.style.display = 'block';
             quantityTitle.style.display = 'block';
         }
     }
 
-    function openEditModal(category) {
-        // Set the value of the input to the category name
-        document.getElementById('category_name').value = category;
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('status_id');
+        const variationToggle = document.getElementById('variationToggle');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const sizeInput = document.getElementById('size_1'); 
+        const quantityInput = document.getElementById('quantity_1'); 
+        const disabledInput = document.getElementById('disabledInput');
+        const stocksInput = document.getElementById('stocks');
+        const stocksTitle = document.getElementById('stock'); 
 
-        // Show the modal
-        const modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
-        modal.show();
+        // Initial call to set visibility based on default selection
+        toggleQuantity();
 
-        // Handle the Save button click
-        document.getElementById('saveCategoryBtn').onclick = function() {
-            saveCategory(category);
-            modal.hide();
-        };
-    }
+        variationToggle.addEventListener('change', function() {
+            if (variationToggle.checked) {
+                hiddenFields.style.display = 'block'; // Show hidden fields
+                disabledInput.style.display = 'none';  // Hide the disabled input
+                quantityInput.style.display = 'block'; // Show quantity input if toggle is on
+                stocksInput.style.display = 'none'; // Hide stocks input if toggle is on
+                stocksTitle.style.display = 'none'; // Hide stocks title if toggle is on
+            } else {
+                hiddenFields.style.display = 'none'; // Hide hidden fields
+                disabledInput.style.display = 'block';  // Show the disabled input
+                toggleQuantity(); // Call toggleQuantity to handle visibility
+            }
+        });
 
-    function selectCategory(category) {
-        // Update the button text
-        document.getElementById('dropdownMenuButton').innerText = category;
+        // Attach event listener to status select
+        statusSelect.addEventListener('change', toggleQuantity);
+    });
 
-        // Close the dropdown
-        const dropdown = new bootstrap.Dropdown(document.getElementById('dropdownMenuButton'));
-        dropdown.hide(); // This will close the dropdown
-    }
-
-    function resetModal() {
-        const categoryInput = document.getElementById('category_name');
-        categoryInput.value = ''; // Clear the input field
-        categoryInput.placeholder = 'Input Text'; // Reset the placeholder if needed
-        document.getElementById('editCategoryModalLabel').textContent = 'Add Category';
-    }
-
-    function saveCategory(oldCategory) {
-        const newCategory = document.getElementById('category_name').value.trim();
-        if (newCategory && newCategory !== oldCategory) {
-            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
-            items.forEach(item => {
-                const span = item.querySelector('span');
-                if (span.textContent === oldCategory) {
-                    span.textContent = newCategory;
-
-                    // Update the onclick function for the buttons
-                    item.querySelector('button[onclick^="openEditModal"]').setAttribute('onclick', `openEditModal('${newCategory}')`);
-                    item.querySelector('button[onclick^="deleteCategory"]').setAttribute('onclick', `deleteCategory('${newCategory}')`);
-                }
-            });
-        }
-    }
-
-    function deleteCategory(category) {
-        if (confirm(`Are you sure you want to delete the category "${category}"?`)) {
-            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
-            items.forEach(item => {
-                const span = item.querySelector('span');
-                if (span.textContent === category) {
-                    item.remove();
-                }
-            });
-        }
-    }
-
-    //Updated Add Size fields
+    // Updated Add Size fields
     let rowCount = 1; // Keeps track of the number of rows
     function myCreateFunction() {
         var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
 
         var row = table.insertRow();
-
         row.id = `inputRow_${++rowCount}`; // Set a unique ID for the row
 
         var sizeCell = row.insertCell(0);
@@ -393,7 +320,7 @@
 
     // Function to update the quantity cell based on status
     function updateQuantityCell(cell, rowCount) {
-        if (document.getElementById('status_id').value === 'preorder') {
+        if (document.getElementById('status_id').value === '9') {
             cell.innerHTML = ''; // Clear the cell for quantity if pre-order
         } else {
             cell.innerHTML = `
@@ -416,18 +343,18 @@
     // Delete the specified row from the table
     function myDeleteFunction(rowId) {
         var row = document.getElementById(rowId);
-            if (row) {
-                row.remove();
-            } else {
-                console.error('Row not found:', rowId);
+        if (row) {
+            row.remove();
+        } else {
+            console.error('Row not found:', rowId);
         }
     }
 
-    //Uploading Image
     document.addEventListener('DOMContentLoaded', function() {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('image_upload');
-        const imagePreview = document.getElementById('uploaded_image_preview');
+ const imagePreview = document.getElementById('uploaded_image_preview');
+        const removeButton = document.getElementById('remove_image');
 
         // Click on drop zone triggers the file input click
         dropZone.addEventListener('click', () => {
@@ -464,40 +391,19 @@
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.classList.remove('d-none');
+                    removeButton.classList.remove('d-none'); // Show the "X" button
                 }
                 reader.readAsDataURL(file);
             }
         }
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const statusSelect = document.getElementById('status_id');
-        const categorySelect = document.getElementById('category');
-        const variationToggle = document.getElementById('variationToggle');
-        const hiddenFields = document.getElementById('hiddenFields');
-        const sizeInput = document.getElementById('size_1');
-        const quantityInput = document.getElementById('quantity_1');
-        const disabledInput = document.getElementById('disabledInput');
-
-        // Initial call to set visibility based on default selection
-        toggleQuantity();
-
-        variationToggle.addEventListener('change', function() {
-            if (variationToggle.checked) {
-                hiddenFields.style.display = 'block'; // Show hidden fields
-                disabledInput.style.display = 'none';  // Hide the disabled input
-            } else {
-                hiddenFields.style.display = 'none'; // Hide hidden fields
-                disabledInput.style.display = 'block';  // Show the disabled input
-            }
-
-            toggleQuantity(); // Call toggleQuantity to handle visibility
+        // Remove image and hide button
+        removeButton.addEventListener('click', function() {
+            imagePreview.classList.add('d-none'); // Hide the image
+            removeButton.classList.add('d-none'); // Hide the button
+            fileInput.value = ''; // Clear the file input
         });
-
-        // Attach event listener to status select
-        statusSelect.addEventListener('change', toggleQuantity);
     });
-
 </script>
 
 @endsection
