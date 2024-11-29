@@ -2,7 +2,10 @@
 
 @section('content')
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/toggleswitch.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
@@ -45,8 +48,10 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     
-    <form  method="POST">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
+
         <div class="d-flex px-5 py-4 flex-grow-1">
             <div class="container">
                 <div class="row">
@@ -59,7 +64,7 @@
 
                         <div class="form-group mb-1">
                             <label for="product_decription_{{ $product->id }}" class="fw-bold text-primary">Product Description</label>
-                            <textarea class="form-control" id="product_description" name="product_description" value="{{ $product->product_decription }}" required></textarea>                        
+                            <textarea class="form-control" id="product_description" name="product_description" required>{{ $product->product_decription }}</textarea>                        
                         </div>
 
                         <div class="form-group mb-3">
@@ -68,8 +73,12 @@
                             <!-- Drag and Drop Zone -->
                             <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
                                 <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                                <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*" wire:model="product_image">
-                                <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+                                <input type="file" id="image_upload" class="form-control-file d-none" name="product_image" accept="image/*" wire:model="product_image">
+                                @if ($product->product_image)
+                                    <img src="{{ asset('storage/' . $product->product_image) }}" alt="Product Image" class="img-fluid">
+                                @else
+                                    <p>No image available</p>
+                                @endif                            
                             </div>
                         </div>
                     </div>
@@ -78,7 +87,7 @@
                     <div class="col-md-6 d-flex flex-column gap-3"> 
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <p class="fw-bold m-0 text-primary">Organize</p>
-                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
                                 Add Category
                                 <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
                             </button>
@@ -88,60 +97,103 @@
                         <div class="form-group mb-1">
                             <label for="category" class="fw-bold text-primary">Category</label>
                             <div class="dropdown">
-                                <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Category
-                                </button>
+                            <button class="form-select w-100 text-start" 
+                                    type="button" 
+                                    id="dropdownMenuButton" 
+                                    data-bs-toggle="dropdown" 
+                                    aria-expanded="false">
+                                    {{ $product->category->category_name ?? 'Select Category' }}
+                            </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
-                                    <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('T-Shirt')">
-                                        <span>T-Shirt</span>
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn p-0" onclick="openEditModal('T-Shirt'); event.stopPropagation();">
-                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                            </button>
-                                            <button class="btn p-0" onclick="deleteCategory('T-Shirt'); event.stopPropagation();">
-                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                            </button>
-                                        </div>
-                                    </li>
-                                    <li class="dropdown-item d-flex justify-content-between align-items-center" onclick="selectCategory('Lanyard')">
-                                        <span>Lanyard</span>
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn p-0" onclick="openEditModal('Lanyard'); event.stopPropagation();">
-                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
-                                            </button>
-                                            <button class="btn p-0" onclick="deleteCategory('Lanyard'); event.stopPropagation();">
-                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
-                                            </button>
-                                        </div>
-                                    </li>
+                                    <!-- Categories will be populated by AJAX -->
                                 </ul>
                             </div>
                         </div>
-                        
 
-                        <!-- Category Modal -->
-                        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="editCategoryForm">
-                                            <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
-                                            <div class="form-group mb-2 d-flex align-items-center">
-                                                <input type="text" id="category_name" class="form-control me-2" value="">
+                        <!-- Add Category Modal -->
+                        <form id="addCategoryForm">
+                            @csrf
+                            <div id="alert-placeholder">
+                                <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add Category</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
+                                            <div class="modal-body">
+                                                <!-- Form field for Category Name -->
+                                                <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                                <div class="form-group mb-2 d-flex align-items-center">
+                                                    <input type="text" name="category_name" id="category_name" class="form-control me-2" placeholder="Enter Category Name" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                                <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
+
+                        <!-- Delete Category Modal -->
+                        <form id="deleteCategoryForm" action="{{ route('categories.delete', ['id' => $category->id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE') <!-- Simulates DELETE method -->
+                            <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6>Are you sure you want to delete the category?</h6>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <!-- Edit Category Modal -->
+                        <form id="editCategoryForm" action="{{ route('categories.update', ['id' => $category->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div id="alert-placeholder">
+                                <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Hidden field for Category ID -->
+                                                <input type="hidden" name="category_id" id="edit_category_id">
+                                                
+                                                <!-- Form field for Editing Category Name -->
+                                                <label for="edit_category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                                <div class="form-group mb-2 d-flex align-items-center">
+                                                    <input type="text" name="category_name" id="edit_category_name" class="form-control me-2" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
 
                         <div class="form-group mb-1">
                             <label for="shop_id" class="fw-bold text-primary">Organization</label>
@@ -160,22 +212,21 @@
                             <div class="row g-2"> 
                                 <div class="col-md-6 mb-1"> 
                                     <label for="status_id" class="fw-bold text-primary">Status</label>
-                                    <select id="status_id" class="form-select form-control" onchange="toggleQuantity()"  wire:model="status_id">
-                                        <option value="">Select Status</option>
-                                            <option value="preorder" {{ old('status_id') == 'preorder' ? 'selected' : '' }}>Preorder</option>
-                                            <option value="onhand" {{ old('status_id') == 'onhand' ? 'selected' : '' }}>Onhand</option>
-                                        </select>
+                                    <select id="status_id" class="form-select form-control" onchange="toggleQuantity()">
+                                        <option value="9" {{ old('status_id', $product->status->id) == 9 ? 'selected' : '' }}>Preorder</option>
+                                        <option value="8" {{ old('status_id', $product->status->id) == 8 ? 'selected' : '' }}>Onhand</option>
+                                    </select>
                                     @error('status_id') <span class="text-red-500">{{ $message }}</span> @enderror
                                 </div>
 
                                 <div class="col-md-6 mb-1"> 
                                     <div class="form-group">
                                         <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                        <select id="visibility" class="form-select form-control" wire:model="visibility_id">
-                                            <option value="">Select Visibility</option>
-                                            <option value="visible" {{ old('visibility_id') == 'visible' ? 'selected' : '' }}>Visible</option>
-                                            <option value="hidden" {{ old('visibility_id') == 'hidden' ? 'selected' : '' }}>Hidden</option>
+                                        <select id="visibility" class="form-select form-control">
+                                            <option value="visible" {{ $product->visibility->visibility_name == 'Visible' ? 'selected' : '' }}>Visible</option>
+                                            <option value="hidden" {{ $product->visibility->visibility_name == 'Hidden' ? 'selected' : '' }}>Hidden</option>
                                         </select>
+
                                         @error('visibility_id') <span class="text-red-500">{{ $message }}</span> @enderror
 
                                     </div>
@@ -240,7 +291,7 @@
                                 <div class="col-md-6 mt-3 mb-1"> 
                                     <div class="form-group">
                                         <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                        <input type="number" class="form-control" id="supplier_price" name="supplier_price" value="" required>                                        
+                                        <input type="number" class="form-control" id="supplier_price" name="supplier_price" value="{{ $product->supplier_price }}" required>                                        
                                         @error('supplier_price') <span class="text-red-500">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
@@ -248,7 +299,7 @@
                                 <div class="col-md-6 mt-3"> 
                                     <div class="form-group">
                                         <label for="price" class="fw-bold text-primary">Price</label>
-                                        <input type="number" class="form-control" id="retail_price" name="retail_price" value="" required>                                        
+                                        <input type="number" class="form-control" id="retail_price" name="retail_price" value="{{ $product->retail_price }}" required>                                        
                                         @error('retail_price') <span class="text-red-500">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
@@ -257,7 +308,7 @@
                                     <div class="form-group">
                                         <label for="quantity_id" id="quantity" class="fw-bold text-primary">Quantity</label>
                                         <div class="input-group quantity-selector quantity-selector-sm">
-                                            <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
+                                            <input type="number" id="quantity_id" class="form-control" value="{{ $product->stocks }} placeholder="e.g. 10" min="0" step="1"  required>
                                         </div>
                                     </div>
                                 </div>
@@ -270,11 +321,11 @@
                 <!-- Submit Button -->
                 <div class="d-flex justify-content-end mt-4">
                     <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
-                    <button type="submit" class="btn btn-primary">Save Changes</a>
+                    <button type="submit" class="btn btn-primary" id="saveEditBtn">Save Changes</button>
                 </div>
-
             </div>
         </div>
+    </form>
    
 {{-- 
     @else
@@ -292,89 +343,39 @@
 
 <script>
 
-    function toggleQuantity() {
-        const statusSelect = document.getElementById('status_id');
-        const quantityInput = document.getElementById('quantity_id');
-        const quantityTitle = document.getElementById('quantity');
-        const quantityTitle2 = document.getElementById('quantity_1');
-        const variationToggle = document.getElementById('variationToggle');
+    $(document).ready(function () {
+        $('#saveCategoryBtn').on('click', function (e) {
+            e.preventDefault();
 
-        if (statusSelect.value === 'preorder' || variationToggle.checked) { //Hides the quantity field
-            quantityInput.style.display = 'none';
-            quantityTitle.style.display = 'none';
-            
-            //Hide the quantity in the hidden fields
-            if (statusSelect.value === 'preorder') {
-                quantityTitle2.style.visibility = 'hidden'; 
-            } else {
-                quantityTitle2.style.visibility = 'visible'; 
-            }
-        } else if (statusSelect.value === 'onhand' && !variationToggle.checked){ //Shows the quantity field
-            quantityInput.style.display = 'block';
-            quantityTitle.style.display = 'block';
-        }
-    }
+            // Gather form data
+            const categoryName = $('#category_name').val();
+            const csrfToken = $('input[name="_token"]').val();
 
-    function openEditModal(category) {
-        // Set the value of the input to the category name
-        document.getElementById('category_name').value = category;
-
-        // Show the modal
-        const modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
-        modal.show();
-
-        // Handle the Save button click
-        document.getElementById('saveCategoryBtn').onclick = function() {
-            saveCategory(category);
-            modal.hide();
-        };
-    }
-
-    function selectCategory(category) {
-        // Update the button text
-        document.getElementById('dropdownMenuButton').innerText = category;
-
-        // Close the dropdown
-        const dropdown = new bootstrap.Dropdown(document.getElementById('dropdownMenuButton'));
-        dropdown.hide(); // This will close the dropdown
-    }
-
-    function resetModal() {
-        const categoryInput = document.getElementById('category_name');
-        categoryInput.value = ''; // Clear the input field
-        categoryInput.placeholder = 'Input Text'; // Reset the placeholder if needed
-        document.getElementById('editCategoryModalLabel').textContent = 'Add Category';
-    }
-
-    function saveCategory(oldCategory) {
-        const newCategory = document.getElementById('category_name').value.trim();
-        if (newCategory && newCategory !== oldCategory) {
-            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
-            items.forEach(item => {
-                const span = item.querySelector('span');
-                if (span.textContent === oldCategory) {
-                    span.textContent = newCategory;
-
-                    // Update the onclick function for the buttons
-                    item.querySelector('button[onclick^="openEditModal"]').setAttribute('onclick', `openEditModal('${newCategory}')`);
-                    item.querySelector('button[onclick^="deleteCategory"]').setAttribute('onclick', `deleteCategory('${newCategory}')`);
-                }
+            // Send AJAX request
+            $.ajax({
+                url: "{{ route('categories.add') }}", // Ensure this matches your route
+                method: "POST",
+                data: {
+                    _token: csrfToken,
+                    category_name: categoryName,
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#addCategoryModal').modal('hide'); // Close modal
+                        $('#category_name').val(''); // Clear input field
+                        location.reload();
+                    } else {
+                        alert(response.message); // Show error message
+                    }
+                },
+                error: function (xhr) {
+                    alert('An error occurred. Please try again.');
+                    console.log(xhr.responseText); // Debugging
+                },
             });
-        }
-    }
-
-    function deleteCategory(category) {
-        if (confirm(`Are you sure you want to delete the category "${category}"?`)) {
-            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
-            items.forEach(item => {
-                const span = item.querySelector('span');
-                if (span.textContent === category) {
-                    item.remove();
-                }
-            });
-        }
-    }
-
+        });
+    });
+   
     //Updated Add Size fields
     let rowCount = 1; // Keeps track of the number of rows
     function myCreateFunction() {
@@ -442,6 +443,10 @@
         const fileInput = document.getElementById('image_upload');
         const imagePreview = document.getElementById('uploaded_image_preview');
 
+        // Fetch categories using AJAX
+        const selectedCategoryId = document.getElementById('dropdownMenuButton').getAttribute('data-selected-category-id'); 
+        fetchCategories(selectedCategoryId);
+
         // Click on drop zone triggers the file input click
         dropZone.addEventListener('click', () => {
             fileInput.click();
@@ -481,8 +486,89 @@
                 reader.readAsDataURL(file);
             }
         }
+        
+       
+        // Fetch categories via AJAX and highlight the selected one
+        function fetchCategories(selectedCategoryId = null) {
+            fetch('/api/categories') // Update with your correct API route
+                .then(response => response.json())
+                .then(data => {
+                    populateCategoryDropdown(data.categories, selectedCategoryId);
+                })
+                .catch(error => {
+                    console.error('Error fetching categories:', error);
+                });
+        }
+
+        // Populate the dropdown with categories and highlight the selected one
+        function populateCategoryDropdown(categories, selectedCategoryId) {
+            const dropdown = document.getElementById('category-dropdown');
+            const dropdownButton = document.getElementById('dropdownMenuButton');
+            dropdown.innerHTML = ''; // Clear existing options
+
+            categories.forEach(category => {
+                const listItem = document.createElement('li');
+                listItem.className = 'dropdown-item d-flex justify-content-between align-items-center';
+                listItem.setAttribute('onclick', `selectCategory('${category.id}', '${category.category_name}')`);
+
+                // Highlight the selected category
+                if (category.id == selectedCategoryId) {
+                    selectedCategoryName = category.category_name; // Update label to selected category
+                }
+
+                listItem.innerHTML = `
+                    <span>${category.category_name}</span>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn p-0" onclick="openEditModalHandler('${category.id}', '${category.category_name}');">
+                            <img src="/images/edit.svg" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                        </button>
+                        <button class="btn p-0" onclick="deleteCategoryHandler(event, '${category.id}');">
+                            <img src="/images/delete.svg" alt="delete" style="width: 15px; height: 15px;">
+                        </button>
+                    </div>
+                `;
+                dropdown.appendChild(listItem);
+            });
+
+            // Update dropdown button text
+            dropdownButton.textContent = selectedCategoryName;
+        }
+
+        // Function to handle category selection
+        function selectCategory(id, name) {
+            const dropdownButton = document.getElementById('dropdownMenuButton');
+            dropdownButton.textContent = name;
+            console.log(`Selected Category ID: ${id}, Name: ${name}`);
+        }
+
     });
 
+    // Function to handle the edit button click
+    function openEditModalHandler(categoryId, categoryName) {
+        const form = document.getElementById('editCategoryForm');
+        form.action = `/shop/products/edit/categories/${categoryId}`; // Ensure categoryId is passed correctly
+
+        // Set the values in the form fields
+        document.getElementById('edit_category_id').value = categoryId;  // Set category ID in hidden input
+        document.getElementById('edit_category_name').value = categoryName;  // Set category name in input field
+
+        // Show the modal
+        var myModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+        myModal.show();
+    }
+
+    function deleteCategoryHandler(event, categoryId) {
+        event.preventDefault();
+
+        // Set the form action dynamically based on the category ID
+        const deleteForm = document.getElementById('deleteCategoryForm');
+        deleteForm.action = `/shop/products/edit/categories/${categoryId}`;
+
+        // Show the modal
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteCategoryModal'));
+        deleteModal.show();
+    }
+   
     document.addEventListener('DOMContentLoaded', function() {
         const statusSelect = document.getElementById('status_id');
         const categorySelect = document.getElementById('category');
@@ -510,6 +596,32 @@
         // Attach event listener to status select
         statusSelect.addEventListener('change', toggleQuantity);
     });
+
+    function toggleQuantity() {
+        const statusSelect = document.getElementById('status_id');
+        const quantityInput = document.getElementById('quantity_id');
+        const quantityInput1 = document.getElementById('quantity_1');
+        const quantityTitle = document.getElementById('quantity');
+        const quantityTitle2 = document.getElementById('quantity_1');
+        const variationToggle = document.getElementById('variationToggle');
+
+        if (statusSelect.value === '9' || variationToggle.checked) { //Hides the quantity field
+            quantityInput.style.display = 'none';
+            quantityTitle.style.display = 'none';
+            
+            //Hide the quantity in the hidden fields
+            if (statusSelect.value === '9') {
+                quantityTitle2.style.visibility = 'hidden'; 
+                quantityInput1.style.display = 'none';
+            } else {
+                quantityTitle2.style.visibility = 'visible'; 
+                quantityInput1.style.display = 'block';
+            }
+        } else if (statusSelect.value === '8' && !variationToggle.checked){ //Shows the quantity field
+            quantityInput.style.display = 'block';
+            quantityTitle.style.display = 'block';
+        }
+    }
 
 </script>
 

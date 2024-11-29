@@ -16,32 +16,46 @@ class ShopProductEditController extends Controller
         if (!$product) {
             return redirect()->route('shop.products.index')->with('error', 'Product not found.');
         }
-    
-        return view('livewire.shop.shop-products-edit', compact('product'));
+
+        // Fetch the category associated with the product
+        $category = DB::table('categories')->where('id', $product->category_id)->first();
+
+        // Pass both the product and the category to the view
+        return view('livewire.shop.shop-products-edit', compact('product', 'category'));
     }
     
 
-    public function update(Request $request, $productId)
+    public function update(Request $request, $id)
     {
-        // Validation logic
-        $validatedData = $request->validate([
+        $request->validate([
             'product_name' => 'required|string|max:255',
             'product_description' => 'required|string',
-            // Add other validation rules as needed
+            'product_image' => 'nullable|image|max:2048',
+            'category_id' => 'required|exists:categories,id',
+            'supplier_price' => 'required|numeric',
+            'retail_price' => 'required|numeric',
+            'stocks' => 'required|numeric',
         ]);
 
-        // Save the product
-        DB::table('products')->updateOrInsert(
-            ['id' => $productId],
-            [
-                'name' => $validatedData['product_name'],
-                'description' => $validatedData['product_description'],
-                // Add other fields as needed
-                'updated_at' => now(),
-            ]
-        );
+        $product = Product::findOrFail($id);
 
-        return redirect()->route('shop.products.index')->with('success', 'Product saved successfully.');
+        $product->product_name = $request->product_name;
+        $product->product_description = $request->product_description;
+
+        if ($request->hasFile('product_image')) {
+            // Handle image upload
+            $imagePath = $request->file('product_image')->store('products', 'public');
+            $product->product_image = $imagePath;
+        }
+
+        $product->category_id = $request->category_id;
+        $product->supplier_price = $request->supplier_price;
+        $product->retail_price = $request->retail_price;
+        $product->stocks = $request->stocks;
+
+        $product->save();
+
+        return response()->json(['success' => true, 'message' => 'Product updated successfully']);
     }
 
     public function index()
