@@ -31,10 +31,11 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-use App\Http\Controllers\ShopProductEditController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ShopProductsAddController;
+use App\Http\Controllers\ShopProductEditController;
 use App\Http\Controllers\ShopProductDeleteController;
+use App\Http\Controllers\CategoryController;
 
 Auth::routes();
 
@@ -82,13 +83,24 @@ Route::prefix('shop')->group(function () {
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
-    Route::get('/products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
-    Route::post('/products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
+    // Add Product
+    Route::get('products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
+    Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
 
+    // Edit Product
     Route::get('/products/edit/{id}', [ShopProductEditController::class, 'edit'])->name('shop.products.edit');
     Route::put('/products/{id}', [ShopProductEditController::class, 'update'])->name('shop.products.update');
 
+    // Category
+    Route::post('categories/add', [CategoryController::class, 'add'])->name('categories.add');
+    Route::get('/products/edit', [CategoryController::class, 'showCategorySelection']);
+    Route::put('/products/edit/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/products/edit/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
+
+    //Delete
     Route::delete('/shop/products/delete/{id}', [ShopProductDeleteController::class, 'delete'])->name('shop.products.delete');
+
+    //Product History
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 });
 

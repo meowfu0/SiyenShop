@@ -2,10 +2,7 @@
 
 @section('content')
 <head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/toggleswitch.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
@@ -158,17 +155,9 @@
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
-                            <div class="form-group">
-                                <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
-                                    <p class="fw-bold m-0 text-primary">Size Variation</p>
-                                    <label class="switch">
-                                        <input type="checkbox" id="variationToggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
 
-                                <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
-                            </div>
+                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
+                        </div>
 
                         <!-- Hidden Fields -->
                         <div class="row g-3">
@@ -364,7 +353,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('image_upload');
- const imagePreview = document.getElementById('uploaded_image_preview');
+        const imagePreview = document.getElementById('uploaded_image_preview');
         const removeButton = document.getElementById('remove_image');
 
         // Click on drop zone triggers the file input click
