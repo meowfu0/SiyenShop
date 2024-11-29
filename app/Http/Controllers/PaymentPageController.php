@@ -38,11 +38,8 @@ class PaymentPageController extends Controller
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
-                    ->where(
-                        'ci.cart_id',
-                        '=',
-                        $user
-                    )
+                    ->where( 'ci.cart_id','=',$user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
                     ->limit(1); // Limit to just the first match
             })
             ->limit(1)
@@ -69,11 +66,9 @@ class PaymentPageController extends Controller
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
-                    ->where(
-                        'ci.cart_id',
-                        '=',
-                        $user
-                    )
+                    ->where( 'ci.cart_id','=',$user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
+
                     ->limit(1); // Limit to just the first match
             })
 
@@ -168,11 +163,8 @@ class PaymentPageController extends Controller
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
-                    ->where(
-                        'ci.cart_id',
-                        '=',
-                        $user
-                    )
+                    ->where('ci.cart_id', '=', $user )
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
                     ->limit(1); // Limit to just the first match
             })
             ->limit(1)
@@ -313,6 +305,7 @@ class PaymentPageController extends Controller
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
                     ->where('ci.cart_id', '=', $user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
                     ->limit(1);
             })
             ->get(); // Removed distinct as it's unnecessary here

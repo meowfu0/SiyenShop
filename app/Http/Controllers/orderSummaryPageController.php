@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -80,6 +82,12 @@ class orderSummaryPageController extends Controller
             ->whereIn('id', $productIds)
             ->delete();
 
+        // Send an email to the user
+        Mail::to(Auth::user()->email)->send(new OrderApproved($OrderDetails, $gcashInfo));
+
         return view('user.orderSummaryPage', compact('productIds', 'OrderDetails', 'gcashInfo'));
+
+
+
     }
 }
