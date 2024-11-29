@@ -35,6 +35,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ShopProductsAddController;
 use App\Http\Controllers\ShopProductEditController;
+use App\Http\Controllers\CategoryController;
 
 Auth::routes();
 
@@ -82,17 +83,29 @@ Route::prefix('shop')->group(function () {
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
-    // Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
+    // Add Product
     Route::get('products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
     Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
 
-
-
-    // Show the edit form
+    // Edit Product
     Route::get('/products/edit/{productId}', [ShopProductEditController::class, 'edit'])->name('shop.products.edit');
-    
+    Route::post('/products/{id}', [ShopProductEditController::class, 'update'])->name('products.update');
+
+    // Category
+    Route::post('categories/add', [CategoryController::class, 'add'])->name('categories.add');
+    Route::get('/products/edit', [CategoryController::class, 'showCategorySelection']);
+    Route::put('/products/edit/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/products/edit/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
+
+    //Product History
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 });
+
+Route::get('/api/categories', function () {
+    $categories = App\Models\Category::all(['id', 'category_name']); // Adjust fields as needed
+    return response()->json(['categories' => $categories]);
+});
+
 
 // admin routes
 Route::get('/admin', function () {
