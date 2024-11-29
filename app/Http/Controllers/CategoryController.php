@@ -2,33 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
-    public function store(Request $request)
+
+    public function add(Request $request)
     {
-        // Validate the category name (ensure it's not empty and is a string)
+        // Validate the form data
         $validated = $request->validate([
-            'category_name' => 'required|string|max:255'
+            'category_name' => 'required|string|max:20',
         ]);
 
-        // Normalize the input category name to lowercase
-        $normalizedCategoryName = strtolower($validated['category_name']);
+        try {
+            // Insert the category into the database
+            DB::table('categories')->insert([
+                'category_name' => $validated['category_name'],
+            ]);
 
-        // Check if the category already exists (case-insensitive)
-        $existingCategory = Category::whereRaw('LOWER(name) = ?', [$normalizedCategoryName])->first();
-
-        if ($existingCategory) {
-            return back()->withErrors(['category_name' => 'Category already exists with a similar name.']);
+            // Return a JSON response for AJAX
+            return response()->json(['success' => true, 'message' => 'New category added successfully.']);
+        } catch (\Exception $e) {
+            // Log the error and return with an error message
+            Log::error('Category insertion failed: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to add category.']);
         }
+    }
 
-        // If the category doesn't exist, save it to the database
-        Category::create([
-            'name' => $validated['category_name']
+    public function update(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        // Validate input data
+        $validated = $request->validate([
+            'category_name' => 'required|string|max:255',
         ]);
 
-        return redirect()->route('categories.index')->with('message', 'Category added successfully.');
+        // Update the category
+        $category->category_name = $validated['category_name'];
+        $category->save();
+
+        return redirect()->back();
+    }
+
+
+    // Delete category
+    public function destroy($id)
+    {
+        // Find the category by ID
+        $category = Category::find($id);
+    
+        if (!$category) {
+            return response()->json(['success' => false, 'message' => 'Category not found.'], 404);
+        }
+    
+        // Delete the category
+        $category->delete();
+    
+        return redirect()->back();
     }
 }

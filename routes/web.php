@@ -92,6 +92,12 @@ Route::prefix('shop')->group(function () {
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
 });
 
+Route::get('/api/categories', function () {
+    $categories = App\Models\Category::all(['id', 'category_name']); // Adjust fields as needed
+    return response()->json(['categories' => $categories]);
+});
+
+
 // admin routes
 Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
