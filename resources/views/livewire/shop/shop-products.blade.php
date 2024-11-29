@@ -196,205 +196,205 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const entriesPerPageSelect = document.getElementById('entries-per-page');
-    const paginationInfo = document.getElementById('pagination-info');
-    const paginationContainer = document.getElementById('pagination');
-    const productRows = Array.from(document.querySelectorAll('#example tbody tr'));
-    const stockLevelSelect = document.getElementById('stocksLevel');
-    const categorySelect = document.getElementById('category-select');
-    const searchInput = document.getElementById('search-input');
-    
-    let currentPage = 1;
-    let entriesPerPage = parseInt(entriesPerPageSelect.value);
-    let filteredRows = [...productRows]; // Start with all rows as filtered rows
-    let totalPages = Math.ceil(filteredRows.length / entriesPerPage);
-    const visiblePageCount = 3; // Number of page buttons to show at once
-    const halfVisible = Math.floor(visiblePageCount / 2);
+        const entriesPerPageSelect = document.getElementById('entries-per-page');
+        const paginationInfo = document.getElementById('pagination-info');
+        const paginationContainer = document.getElementById('pagination');
+        const productRows = Array.from(document.querySelectorAll('#example tbody tr'));
+        const stockLevelSelect = document.getElementById('stocksLevel');
+        const categorySelect = document.getElementById('category-select');
+        const searchInput = document.getElementById('search-input');
+        
+        let currentPage = 1;
+        let entriesPerPage = parseInt(entriesPerPageSelect.value);
+        let filteredRows = [...productRows]; // Start with all rows as filtered rows
+        let totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+        const visiblePageCount = 3; // Number of page buttons to show at once
+        const halfVisible = Math.floor(visiblePageCount / 2);
 
-    // Function to update the table and pagination
-    function updateTable() {
-        filteredRows = filterRows(); // Apply filters to the rows
-        totalPages = Math.ceil(filteredRows.length / entriesPerPage); // Recalculate total pages
-        const startIndex = (currentPage - 1) * entriesPerPage;
-        const endIndex = startIndex + entriesPerPage;
+        // Function to update the table and pagination
+        function updateTable() {
+            filteredRows = filterRows(); // Apply filters to the rows
+            totalPages = Math.ceil(filteredRows.length / entriesPerPage); // Recalculate total pages
+            const startIndex = (currentPage - 1) * entriesPerPage;
+            const endIndex = startIndex + entriesPerPage;
 
-        // Update the "Showing" info text
-        if (entriesPerPage === -1) {
-            paginationInfo.textContent = `Showing all ${filteredRows.length} entries`;
-        } else {
-            paginationInfo.textContent = `Showing ${startIndex + 1} to ${Math.min(endIndex, filteredRows.length)} of ${filteredRows.length} entries`;
+            // Update the "Showing" info text
+            if (entriesPerPage === -1) {
+                paginationInfo.textContent = `Showing all ${filteredRows.length} entries`;
+            } else {
+                paginationInfo.textContent = `Showing ${startIndex + 1} to ${Math.min(endIndex, filteredRows.length)} of ${filteredRows.length} entries`;
+            }
+
+            // Clear existing table rows
+            const tableBody = document.querySelector('#example tbody');
+            tableBody.innerHTML = '';
+
+            // If "All" is selected, display all rows
+            if (entriesPerPage === -1) {
+                filteredRows.forEach((row) => {
+                    tableBody.appendChild(row); // Add all rows
+                });
+                paginationContainer.style.display = 'none'; // Hide pagination
+            } else {
+                // Otherwise, paginate the rows
+                const rowsToDisplay = filteredRows.slice(startIndex, endIndex);
+                rowsToDisplay.forEach((row) => {
+                    tableBody.appendChild(row); // Add the sliced rows
+                });
+                paginationContainer.style.display = ''; // Show pagination
+                updatePagination();
+            }
         }
 
-        // Clear existing table rows
-        const tableBody = document.querySelector('#example tbody');
-        tableBody.innerHTML = '';
+        // Function to filter rows based on the selected stock level, category, and search term
+        function filterRows() {
+            const selectedStockLevel = stockLevelSelect.value;
+            const selectedCategory = categorySelect.value;
+            const searchTerm = searchInput.value.toLowerCase(); // Get the search term in lowercase
 
-        // If "All" is selected, display all rows
-        if (entriesPerPage === -1) {
-            filteredRows.forEach((row) => {
-                tableBody.appendChild(row); // Add all rows
+            return productRows.filter(row => {
+                const rowStockLevel = row.getAttribute('data-stocks-level');
+                const rowCategory = row.querySelector('.product-category')?.getAttribute('data-category-id');
+                const rowText = row.textContent.toLowerCase(); // Get all text in the row for searching
+
+                // Check stock level
+                if (selectedStockLevel !== 'All' && rowStockLevel !== selectedStockLevel) {
+                    return false;
+                }
+
+                // Check category
+                if (selectedCategory !== 'All' && rowCategory !== selectedCategory) {
+                    return false;
+                }
+
+                // Check if the search term exists in the row text
+                if (searchTerm && !rowText.includes(searchTerm)) {
+                    return false;
+                }
+
+                return true;
             });
-            paginationContainer.style.display = 'none'; // Hide pagination
-        } else {
-            // Otherwise, paginate the rows
-            const rowsToDisplay = filteredRows.slice(startIndex, endIndex);
-            rowsToDisplay.forEach((row) => {
-                tableBody.appendChild(row); // Add the sliced rows
-            });
-            paginationContainer.style.display = ''; // Show pagination
-            updatePagination();
         }
-    }
 
-    // Function to filter rows based on the selected stock level, category, and search term
-    function filterRows() {
-        const selectedStockLevel = stockLevelSelect.value;
-        const selectedCategory = categorySelect.value;
-        const searchTerm = searchInput.value.toLowerCase(); // Get the search term in lowercase
+        // Function to update pagination buttons
+        function updatePagination() {
+            paginationContainer.innerHTML = ''; // Clear current pagination
 
-        return productRows.filter(row => {
-            const rowStockLevel = row.getAttribute('data-stocks-level');
-            const rowCategory = row.querySelector('.product-category')?.getAttribute('data-category-id');
-            const rowText = row.textContent.toLowerCase(); // Get all text in the row for searching
+            // Add "Previous" button
+            const prevLi = document.createElement('li');
+            prevLi.classList.add('page-item');
+            prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous">&lsaquo;</a>`;
+            prevLi.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateTable();
+                }
+            });
+            prevLi.classList.toggle('disabled', currentPage === 1);
+            paginationContainer.appendChild(prevLi);
 
-            // Check stock level
-            if (selectedStockLevel !== 'All' && rowStockLevel !== selectedStockLevel) {
-                return false;
+            // Calculate start and end page for the visible page range
+            let startPage = Math.max(1, currentPage - halfVisible);
+            let endPage = Math.min(totalPages, currentPage + halfVisible);
+
+            if (currentPage - halfVisible <= 1) {
+                endPage = Math.min(totalPages, visiblePageCount);
             }
 
-            // Check category
-            if (selectedCategory !== 'All' && rowCategory !== selectedCategory) {
-                return false;
+            if (currentPage + halfVisible >= totalPages) {
+                startPage = Math.max(1, totalPages - visiblePageCount + 1);
             }
 
-            // Check if the search term exists in the row text
-            if (searchTerm && !rowText.includes(searchTerm)) {
-                return false;
+            // Add first page if necessary
+            if (startPage > 1) {
+                const firstLi = document.createElement('li');
+                firstLi.classList.add('page-item');
+                firstLi.innerHTML = `<a class="page-link" href="#">1</a>`;
+                firstLi.addEventListener('click', () => {
+                    currentPage = 1;
+                    updateTable();
+                });
+                paginationContainer.appendChild(firstLi);
+                if (startPage > 2) {
+                    const ellipsisLi = document.createElement('li');
+                    ellipsisLi.classList.add('page-item');
+                    ellipsisLi.innerHTML = `<a class="page-link" href="#">...</a>`;
+                    paginationContainer.appendChild(ellipsisLi);
+                }
             }
 
-            return true;
+            // Add page buttons for the range
+            for (let i = startPage; i <= endPage; i++) {
+                const li = document.createElement('li');
+                li.classList.add('page-item');
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', () => {
+                    currentPage = i;
+                    updateTable();
+                });
+                if (i === currentPage) li.classList.add('active');
+                paginationContainer.appendChild(li);
+            }
+
+            // Add last page if necessary
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsisLi = document.createElement('li');
+                    ellipsisLi.classList.add('page-item');
+                    ellipsisLi.innerHTML = `<a class="page-link" href="#">...</a>`;
+                    paginationContainer.appendChild(ellipsisLi);
+                }
+                const lastLi = document.createElement('li');
+                lastLi.classList.add('page-item');
+                lastLi.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
+                lastLi.addEventListener('click', () => {
+                    currentPage = totalPages;
+                    updateTable();
+                });
+                paginationContainer.appendChild(lastLi);
+            }
+
+            // Add "Next" button
+            const nextLi = document.createElement('li');
+            nextLi.classList.add('page-item');
+            nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next">&rsaquo;</a>`;
+            nextLi.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateTable();
+                }
+            });
+            nextLi.classList.toggle('disabled', currentPage === totalPages);
+            paginationContainer.appendChild(nextLi);
+        }
+
+        // Event listener for changing entries per page
+        entriesPerPageSelect.addEventListener('change', function () {
+            entriesPerPage = this.value === 'All' ? -1 : parseInt(this.value);
+            currentPage = 1; // Reset to the first page
+            updateTable();
         });
-    }
 
-    // Function to update pagination buttons
-    function updatePagination() {
-        paginationContainer.innerHTML = ''; // Clear current pagination
-
-        // Add "Previous" button
-        const prevLi = document.createElement('li');
-        prevLi.classList.add('page-item');
-        prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous">&lsaquo;</a>`;
-        prevLi.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                updateTable();
-            }
+        // Event listeners for dropdowns to filter by category and stock level
+        stockLevelSelect.addEventListener('change', function () {
+            currentPage = 1; // Reset to the first page on filter change
+            updateTable();
         });
-        prevLi.classList.toggle('disabled', currentPage === 1);
-        paginationContainer.appendChild(prevLi);
 
-        // Calculate start and end page for the visible page range
-        let startPage = Math.max(1, currentPage - halfVisible);
-        let endPage = Math.min(totalPages, currentPage + halfVisible);
-
-        if (currentPage - halfVisible <= 1) {
-            endPage = Math.min(totalPages, visiblePageCount);
-        }
-
-        if (currentPage + halfVisible >= totalPages) {
-            startPage = Math.max(1, totalPages - visiblePageCount + 1);
-        }
-
-        // Add first page if necessary
-        if (startPage > 1) {
-            const firstLi = document.createElement('li');
-            firstLi.classList.add('page-item');
-            firstLi.innerHTML = `<a class="page-link" href="#">1</a>`;
-            firstLi.addEventListener('click', () => {
-                currentPage = 1;
-                updateTable();
-            });
-            paginationContainer.appendChild(firstLi);
-            if (startPage > 2) {
-                const ellipsisLi = document.createElement('li');
-                ellipsisLi.classList.add('page-item');
-                ellipsisLi.innerHTML = `<a class="page-link" href="#">...</a>`;
-                paginationContainer.appendChild(ellipsisLi);
-            }
-        }
-
-        // Add page buttons for the range
-        for (let i = startPage; i <= endPage; i++) {
-            const li = document.createElement('li');
-            li.classList.add('page-item');
-            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-            li.addEventListener('click', () => {
-                currentPage = i;
-                updateTable();
-            });
-            if (i === currentPage) li.classList.add('active');
-            paginationContainer.appendChild(li);
-        }
-
-        // Add last page if necessary
-        if (endPage < totalPages) {
-            if (endPage < totalPages - 1) {
-                const ellipsisLi = document.createElement('li');
-                ellipsisLi.classList.add('page-item');
-                ellipsisLi.innerHTML = `<a class="page-link" href="#">...</a>`;
-                paginationContainer.appendChild(ellipsisLi);
-            }
-            const lastLi = document.createElement('li');
-            lastLi.classList.add('page-item');
-            lastLi.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
-            lastLi.addEventListener('click', () => {
-                currentPage = totalPages;
-                updateTable();
-            });
-            paginationContainer.appendChild(lastLi);
-        }
-
-        // Add "Next" button
-        const nextLi = document.createElement('li');
-        nextLi.classList.add('page-item');
-        nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next">&rsaquo;</a>`;
-        nextLi.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                updateTable();
-            }
+        categorySelect.addEventListener('change', function () {
+            currentPage = 1; // Reset to the first page on filter change
+            updateTable();
         });
-        nextLi.classList.toggle('disabled', currentPage === totalPages);
-        paginationContainer.appendChild(nextLi);
-    }
 
-    // Event listener for changing entries per page
-    entriesPerPageSelect.addEventListener('change', function () {
-        entriesPerPage = this.value === 'All' ? -1 : parseInt(this.value);
-        currentPage = 1; // Reset to the first page
+        // Event listener for search input to filter by search term
+        searchInput.addEventListener('input', function () {
+            currentPage = 1; // Reset to the first page on search change
+            updateTable();
+        });
+
+        // Initial table setup
         updateTable();
     });
-
-    // Event listeners for dropdowns to filter by category and stock level
-    stockLevelSelect.addEventListener('change', function () {
-        currentPage = 1; // Reset to the first page on filter change
-        updateTable();
-    });
-
-    categorySelect.addEventListener('change', function () {
-        currentPage = 1; // Reset to the first page on filter change
-        updateTable();
-    });
-
-    // Event listener for search input to filter by search term
-    searchInput.addEventListener('input', function () {
-        currentPage = 1; // Reset to the first page on search change
-        updateTable();
-    });
-
-    // Initial table setup
-    updateTable();
-});
 
 </script>
 
