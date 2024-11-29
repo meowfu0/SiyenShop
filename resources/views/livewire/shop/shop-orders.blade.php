@@ -20,7 +20,7 @@
        <h2 class="fw-bold m-0 text-primary" id="shopName">{{$shop->shop_name}}</h2>
        
      </div>
-
+    
     <div class="scrollable-content container-fluid">
         <div class="identifiers">
             <div class="d-flex gap-5 align-items-center">
@@ -66,12 +66,9 @@
         <thead>
             <tr>
                 <th scope="col">Order ID</th>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Unit Price</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Ref no.</th>
-                <th scope="col">Proof of Payment</th>
+                <th scope="col">Total Items</th>
+                <th scope="col">Total Cost</th>
+                <th scope="col">Reference Number</th>
                 <th scope="col">Status</th>
                 <th scope="col">Date</th>
             </tr>
@@ -103,16 +100,13 @@
                     }
                 }
             @endphp
-
+            
             @foreach ($orders as $order)
-                <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ json_encode($order) }})">
-                    <td>{{ $order->id }}</td>
-                    <td class="product-name">{{ $order->product_name ?? 'N/A' }}</td>
-                    <td>{{ $order->total_items }}</td>
-                    <td>{{ number_format($order->supplier_price_total_amount, 1) }}</td>
+                <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ $order }}, {{ $orderItems }}, {{ $categories }})">
+                    <td class="id">{{ $order->id }}</td>
+                    <td >{{ $order->total_items }}</td>
                     <td>{{ number_format($order->total_amount, 1) }}</td>
                     <td class="reference-number">{{ $order->reference_number }}</td>
-                    <td>{{ $order->proof_of_payment }}</td>
                     <td class="status-label {{ getStatusClass($order->order_status_id) }}">
                         {{ $statusLabels[$order->order_status_id] ?? 'Unknown Status' }}
                     </td>
@@ -149,8 +143,6 @@
 
 </div>
  <!-- TABLE END -->
-
-
     <!-- MODAL START DITESS -->
 
     <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
@@ -168,23 +160,26 @@
                 <!-- Product Info -->
                 <div class="modal-items">
                     <table class="modal-item-table" id="modalItemsTable">
-                        <!-- Items will be populated dynamically by JavaScript -->
-                    </table>
+                        
+                        </table>
                 </div>
                 <hr/>
                 <div class="transact-col1">
                     <p>Order ID:</p>
                     <p>Total Amount:</p>
                     <p>Payment Method:</p>
-                    <p>Proof of Payment:</p>
                     <p>Reference No.:</p>
+                    <p>Proof of Payment: </p>
                 </div>
                 <div class="transact-col2">
                     <p id="modalOrderId"></p>
                     <p id="modalTotalAmount"></p>
                     <p id="modalPaymentMethod"></p>
-                    <p id="modalProofOfPayment"></p>
                     <p id="modalReferenceNumber"></p>
+                    <p id="modalProof" data-bs-toggle="modal" data-bs-target="#viewProof" style="cursor: pointer;"
+                    onmouseover="this.style.color='darkblue';" 
+                    onmouseout="this.style.color='black';"
+                    onclick="viewProof(document.getElementById('modalOrderId').innerText)"><u>Click to View</u></p>
                 </div>
                 <div class="transact-col3">
                     <p>Date:</p>
@@ -206,8 +201,6 @@
         </div>
     </div>
 </div>
-        
-    
         <!-- Confirmation Modal -->
         <div class="modal fade" id="approveConfirmModal" tabindex="-1" aria-labelledby="approveConfirmLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -218,6 +211,33 @@
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(10)">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="denial-options" tabindex="-1" aria-labelledby="approveConfirmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-body">
+                        <h3>Deny Options</h3>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="denyConfirm()">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--modal to view proof-->
+        <div class="modal fade" id="viewProof" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-body">
+                        <h3 style="margin-left: 110px !important; font-weight: 600;">Proof Image</h3>
+                        <img id="proofImg" src="" style="height: 400px; width: auto; margin-left: 30px; border-radius: 10px;">
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="orderDetailsModal" style="margin-right: 100px !important; margin-bottom: 20px !important;">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -437,14 +457,6 @@
             pagination.appendChild(next);
         }
     }
-
-    // Initialize table on DOM load
-    document.addEventListener('DOMContentLoaded', function () {
-        updateTable();
-    });
-</script>
-
-<script>
 // STATUS
     function setStatus(status) {
     var modalStatus = document.getElementById("modalStatus");
@@ -481,35 +493,28 @@
             modalStatus.textContent = "Unknown Status";
     }
 }
-
-
 // MODAL
-function openOrderModal(order) {
-    // Populate the modal fields
+function openOrderModal(order, orderItem, category) {
+    const currentItems = orderItem.filter(item => item.order_id === order.id);
+    createModalTable(currentItems, category);
     document.getElementById("modalOrderId").textContent = order.id;
     document.getElementById("modalTotalAmount").textContent = `P${order.total_amount}`;
     document.getElementById("modalPaymentMethod").textContent = order.payment_method ?? 'N/A';
-    document.getElementById("modalProofOfPayment").textContent = order.proof_of_payment ?? 'N/A';
     document.getElementById("modalReferenceNumber").textContent = order.reference_number;
-    document.getElementById("modalDate").textContent = order.order_date;
-    document.getElementById("modalTime").textContent = order.order_time ?? 'N/A'; // Assuming order_time is available
+    const orderDate = new Date(order.order_date);
+
+    // Format the date as MM-DD-YYYY
+    const formattedDate = `${String(orderDate.getMonth() + 1).padStart(2, '0')}-${String(orderDate.getDate()).padStart(2, '0')}-${orderDate.getFullYear()}`;
+
+    // Format the time as HH:MM AM/PM
+    const formattedTime = orderDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
+
+    // Update the modal content
+    document.getElementById("modalDate").textContent = formattedDate;
+    document.getElementById("modalTime").textContent = formattedTime || 'N/A'; // Assuming order_time is available
+    document.getElementById('modalItemCount').textContent = order.total_items;
 
     // Set the order items (if available)
-    let itemsHtml = '';
-    if (order.items) {
-        order.items.forEach(item => {
-            itemsHtml += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.category}</td>
-                    <td>${item.variant ?? 'N/A'}</td>
-                    <td>${item.quantity}</td>
-                    <td>P${item.price}</td>
-                </tr>
-            `;
-        });
-    }
-    document.getElementById("modalItemsTable").innerHTML = itemsHtml;
 
     // Update the modal status based on the order status
     const modalStatusElement = document.getElementById("modalStatus");
@@ -530,8 +535,6 @@ function openOrderModal(order) {
 
    
     //Hide Deny Button if status is not pending
-
-
     // Set the status label and class
     const statusLabel = statusLabels[order.order_status_id] ?? 'Unknown Status';
     const statusClass = statusClasses[order.order_status_id] ?? 'unknown-status';
@@ -581,33 +584,6 @@ document.getElementById('status-filter').addEventListener('change', function() {
             row.style.display = row.classList.contains(selectedStatus) ? '' : 'none';
         }
     });
-});
-document.getElementById('search-box').addEventListener('input', function () {
-    let searchTerm = this.value.toLowerCase();
-    let rows = document.querySelectorAll('.order_table tbody tr');
-    let hasVisibleRows = false;
-
-    rows.forEach(row => {
-        let productName = row.querySelector('.product-name').textContent.toLowerCase();
-        let referenceNumber = row.querySelector('.reference-number').textContent.toLowerCase();
-
-        // Show rows that match the search term in product name or reference number
-        if (productName.includes(searchTerm) || referenceNumber.includes(searchTerm)) {
-            row.style.display = '';
-            hasVisibleRows = true;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-
-    // Show "No matching results" message if no rows are visible
-    document.getElementById('no-results').style.display = hasVisibleRows ? 'none' : 'block';
-
-    // Hide pagination if no rows are visible
-    const pagination = document.querySelector('.footer-btn');
-    if (pagination) {
-        pagination.style.display = hasVisibleRows ? 'flex' : 'none';
-    }
 });
 
 
@@ -868,7 +844,6 @@ function downloadPDF() {
 }
 
 
-
 //SORTING 
 document.getElementById('search-box').addEventListener('input', function () {
     let searchTerm = this.value.toLowerCase();
@@ -876,35 +851,7 @@ document.getElementById('search-box').addEventListener('input', function () {
     let hasVisibleRows = false;
 
     rows.forEach(row => {
-        let productName = row.querySelector('.product-name').textContent.toLowerCase();
-        let referenceNumber = row.querySelector('.reference-number').textContent.toLowerCase();
-
-        // Show rows that match the search term in product name or reference number
-        if (productName.includes(searchTerm) || referenceNumber.includes(searchTerm)) {
-            row.style.display = '';
-            hasVisibleRows = true;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-
-    // Show "No matching results" message if no rows are visible
-    document.getElementById('no-results').style.display = hasVisibleRows ? 'none' : 'block';
-
-    // Hide pagination if no rows are visible
-    const pagination = document.querySelector('.footer-btn');
-    if (pagination) {
-        pagination.style.display = hasVisibleRows ? 'flex' : 'none';
-    }
-});
-
-document.getElementById('search-box').addEventListener('input', function () {
-    let searchTerm = this.value.toLowerCase();
-    let rows = document.querySelectorAll('.order_table tbody tr');
-    let hasVisibleRows = false;
-
-    rows.forEach(row => {
-        let productName = row.querySelector('.product-name').textContent.toLowerCase();
+        let productName = row.querySelector('.id').textContent.toLowerCase();
         let referenceNumber = row.querySelector('.reference-number').textContent.toLowerCase();
 
         // Show rows that match the search term in product name or reference number
@@ -965,11 +912,6 @@ document.getElementById('status-filter').addEventListener('change', function() {
     });
 });
 
-</script>
-
-<script>
-
-
 // Handle dropdown for entries per page
 document.querySelector('.dropdown').addEventListener('change', function () {
     entriesPerPage = parseInt(this.value, 10); // Get the selected value
@@ -1007,7 +949,14 @@ function updateTable() {
     updatePagination(totalRows);
 }
 
-// Update footer
+document.addEventListener("DOMContentLoaded", function() {
+    const order = @json($orders);
+    const orderItemsLength = Object.keys(order).length;
+    console.log(orderItemsLength);
+    updatePagination(orderItemsLength);
+    updateFooter(orderItemsLength);
+});
+
 function updateFooter(totalRows) {
     const footerText = document.querySelector('.footer-btn p');
     const startEntry = totalRows === 0 ? 0 : (currentPage - 1) * entriesPerPage + 1;
@@ -1070,44 +1019,30 @@ function updatePagination(totalRows) {
         const modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
         modal.show();
     }
-    document.addEventListener('DOMContentLoaded', function () {
-    updateTable(); 
-});
 
-</script>
 
-<script>
     var currentStat, currentId;
     // Function to fetch data and refresh the table
 function fetchAndUpdateTable() {
-    fetch('shop/orders') // URL to your Laravel route
-        .then(response => response.json())
-        .then(orders => {
-            refreshTable(orders); // Call function to update the table with new data
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    const order = @json($orders);
+
+    refreshTable(order);
 }
 
 // Function to update the table with new data
 function refreshTable(orders) {
     const tableBody = document.querySelector('#order-table tbody');
     tableBody.innerHTML = ''; // Clear the current table data
-
-    // Loop through the orders and add rows
+    
+    console.log(orders);
     orders.forEach(order => {
             const row = document.createElement('tr');
             row.classList.add('status-label', getStatusClass(order.order_status_id));
-
             row.innerHTML = `
                 <td>${order.id}</td>
-                <td class="product-name">${order.product_name ?? 'N/A'}</td>
                 <td>${order.total_items}</td>
-                <td>${order.supplier_price_total_amount.toFixed(1)}</td>
                 <td>${order.total_amount.toFixed(1)}</td>
                 <td class="reference-number">${order.reference_number}</td>
-                <td>${order.proof_of_payment}</td>
                 <td class="status-label ${getStatusClass(order.order_status_id)}">
                     ${getStatusLabel(order.order_status_id)}
                 </td>
@@ -1154,10 +1089,6 @@ function refreshTable(orders) {
     }
 
     // Call fetchAndUpdateTable to initially load the table or refresh it
-    document.addEventListener('DOMContentLoaded', function () {
-        fetchAndUpdateTable(); // Initial data fetch and table update
-    });
-
     function confirmStatus(status, orderId){
         switch(status){
             case 'Pending':
@@ -1174,8 +1105,8 @@ function refreshTable(orders) {
                 currentStat = status;
                 currentId = orderId;
                 break;
-            case 'Payment Denied':
-                modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
+            case 'Denied':
+                modal = new bootstrap.Modal(document.getElementById('denial-options'));
                 console.log(status);
                 console.log(orderId);
                 currentStat = status;
@@ -1183,13 +1114,6 @@ function refreshTable(orders) {
                 break;
             case 'Ready for Pickup':
                 modal = new bootstrap.Modal(document.getElementById('CompletedConfirmModal'));
-                console.log(status);
-                console.log(orderId);
-                currentStat = status;
-                currentId = orderId;
-                break;
-            case 'Denied':
-                modal = new bootstrap.Modal(document.getElementById('denyConfirmModal'));
                 console.log(status);
                 console.log(orderId);
                 currentStat = status;
@@ -1227,9 +1151,94 @@ function refreshTable(orders) {
         });
 
     }
+    function viewProof(itemId){
+        const orderYes = @json($orders);
+        let targetId = parseInt(itemId);
+        let matchedOrder = orderYes.find(order => order.id === targetId);
 
+        console.log(matchedOrder.proof_of_payment);
 
+        document.getElementById('proofImg').src = matchedOrder.proof_of_payment;
+    }
 
+    function createModalTable(orderItems, category) {
+    // Get the modal table container
+    const modalTable = document.getElementById('modalItemsTable');
+    console.log('putanginamo');
+    // Clear any existing content
+    modalTable.innerHTML = '';
+
+    // Loop through the order items
+    orderItems.forEach(item => {
+        // Create a wrapper row for the image holder and table
+        console.log(item);
+        const modalRow = document.createElement('tr');
+        modalRow.classList.add('modal-rows');
+
+        // Create the image holder
+        const imgHolder = document.createElement('div');
+        imgHolder.classList.add('img-holder');
+
+        // Add the product image to the image holder
+        const img = document.createElement('img');
+        
+        img.src = item.product.product_image;
+        imgHolder.appendChild(img);
+
+        // Create the product details table
+        const itemDetailsTable = document.createElement('table');
+        itemDetailsTable.classList.add('modal-item-details');
+
+        // Add table headers if needed
+        itemDetailsTable.innerHTML = `
+            <tr>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Variant/Size</th>
+                <th>Quantity</th>
+                <th>Retail Price</th>
+                <th>Total Price</th>
+            </tr>
+        `;
+
+        let categ; // Variable to store the category name
+        // Find the matching category object
+        const matchedCategory = category.find(category => category.id === item.product.category_id);
+        // If found, set categ to the category_name
+        if (matchedCategory) {
+            categ = matchedCategory.category_name;
+        } else {
+            categ = 'No category'; // Default value if no match is found
+        }
+
+        const itemRow = document.createElement('tr');
+        itemRow.innerHTML = `
+            <td>${item.product.product_name}</td>
+            <td>${categ}</td>
+            <td>${item.product_variant.size || "N/A"}</td>
+            <td>${item.quantity}</td>
+            <td>P${parseFloat(item.price).toFixed(2)}</td>
+            <td>P${parseFloat(item.price*item.quantity).toFixed(2)}</td>
+        `;
+
+        // Append the item row to the item details table
+        itemDetailsTable.appendChild(itemRow);
+
+        // Combine the image holder and the table into the modal row
+        const modalTd = document.createElement('td');
+        modalTd.classList.add('modal-td');
+        modalTd.appendChild(imgHolder);
+        modalTd.appendChild(itemDetailsTable);
+        modalRow.appendChild(modalTd);
+        
+        // Append the modal row to the modal table
+        modalTable.appendChild(modalRow);
+    });
+}
+function denyConfirm(){
+    var myModal = new bootstrap.Modal(document.getElementById('denyConfirmModal'));
+    myModal.show();
+}
 </script>
 
 

@@ -163,9 +163,8 @@ th, td {
     color: #eb5757 !important;
     border: 1px solid #eb5757 !important;
 }
-#orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
-#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog{
-    max-width: 800px !important; 
+#orderDetailsModal .modal-dialog{
+    max-width: 900px !important; 
 }
 .modal-content{
     padding-top: 20px !important;
@@ -215,7 +214,7 @@ th, td {
 }
 .modal-content .btn-close{
     position: absolute;
-    left: 740px;
+    left: 840px;
 }
 .modal-items{
     height: 200px;
@@ -246,12 +245,17 @@ th, td {
 .modal-items::-webkit-scrollbar-button {
     display: none; /* Hides the arrows */
 }
-
 .img-holder{
     background-color:#ebe8dc;
     height: 100px;
     width: 100px;
-    margin-left: 40px;
+    margin-left: 20px;
+    border-radius: 5px;
+}
+.img-holder img{
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
 }
 .modal-rows{
     width: 100%;
@@ -263,31 +267,41 @@ th, td {
 }
 .modal-item-details{
     font-size: 12px;
-    width: 520px;
+    width: 570px;
     position: absolute;
-    top:60px;
+    top:40px;
     left: 160px;
     height: 40px;
+    table-layout: fixed;
+}
+.modal-item-details {
+    border: none;
+    border-collapse: collapse; /* Ensure borders between cells are also removed */
+}
+
+.modal-item-details th,
+.modal-item-details td {
+    border: none; /* Remove borders from table cells */
 }
 .transact-col1{
-    margin-left: 40px;
+    margin-left: 90px;
     display: inline-block;
     font-weight: 500;
 }
 .transact-col2{
-    margin-left: 40px;
+    margin-left: 90px;
     display: inline-block;
 }
 .transact-col3{
     position: absolute;
     font-weight: 500;
     top: 250px;
-    left: 450px;
+    left: 510px;
 }
 .transact-col4{
     position: absolute;
     top: 250px;
-    left: 530px;
+    left: 590px;
 }
 .modal fade{
     width: 515px;
@@ -304,11 +318,6 @@ th, td {
 #to{
     margin-bottom: 10px;
 }
-
-
-
-
-
 td.status-label {
     padding: 2px;
     text-align: center;
@@ -317,6 +326,7 @@ td.status-label {
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
+    width: 180px;
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
 }
 
@@ -393,9 +403,6 @@ td.status-label:hover {
 #modalStatus:hover {
     background-color: #f5f5f5; 
 }
-
-
-
 
 .table-hover tbody tr {
     border-bottom: 1px solid #dee2e6; /* Light gray color */
@@ -489,7 +496,6 @@ td.status-label:hover {
     background-color: #fff;
     border-radius: 0;
     transition: background-color 0.3s, color 0.3s;
-    
 }
 
 .page-link.active {
@@ -514,7 +520,6 @@ td.status-label:hover {
 }
 
 /*  MODAL */
-
 .modal-header {
     margin: 0px 40px; /* Example: top-bottom 10px, left-right 20px */
 }
@@ -529,35 +534,12 @@ td.status-label:hover {
     margin: 0px 40px; /* Example: top-bottom 10px, left-right 20px */
 
 }
-
-.modal-item-table {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-}
-
-.modal-item-table th,
-.modal-item-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
 .modal-item-table th {
-    background-color: #f8f8f8;
+    text-align: left;
 }
-
-.modal-item-table td img.item-image {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
 .modal-item-table td {
-    vertical-align: middle;
+    text-align: left;
 }
-
 
 .modal-list-inline {
     list-style-type: none; 
@@ -569,7 +551,18 @@ td.status-label:hover {
     margin-top: 10px;  
 
 }
+/* Set the same width for all columns except the first one */
+.modal-item-details th:not(:first-child),
+.modal-item-details td:not(:first-child) {
+    width: 70px; 
+    padding-right: 10px;
+}
 
+.modal-item-details th:first-child,
+.modal-item-details td:first-child {
+    padding-right: 10px;
+    width: 140px; /* Adjust this value to your desired width */
+}
 .modal-list-inline li {
     font-weight: bold;
     font-size: 15px;

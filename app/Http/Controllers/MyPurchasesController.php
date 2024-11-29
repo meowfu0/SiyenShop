@@ -18,11 +18,11 @@ class MyPurchasesController extends Controller
         $orders = Order::where('user_id', auth()->id())->get();
         
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
-                               
+        $variant_item = ProductVariant::all();            
         LOG::debug($orderItems->pluck('product.product_name'));
 
         $categories = Category::all();
-        return view('user.mypurchases', compact('orders', 'orderItems', 'categories'));
+        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item'));
 
         }
 

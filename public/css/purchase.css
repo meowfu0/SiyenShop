@@ -125,6 +125,7 @@ body{
     height: 40px !important;
     font-size: 0.9rem !important;
     width: 720px;
+    table-layout: fixed;
 }
 .dets td{
     height: 40px !important;
@@ -134,7 +135,7 @@ body{
 }
 
 .dets tr td:first-child, .dets tr th:first-child{
-    width: 2800px ;
+    width: 200px ;
 }
 #modal-cover{
     background-color: rgba(0, 0, 0, 0.662);
@@ -147,18 +148,18 @@ body{
     display: none;
 }
 .dets tr td:nth-child(2), .dets tr th:nth-child(2){
-    width: 2200px ;
+    width: 180px ;
 }
 
 .dets tr td:nth-child(3), .dets tr th:nth-child(3){
-    width: 1600px ;
+    width: 140px ;
 }
 
 .dets tr td:nth-child(4), .dets tr th:nth-child(4){
-    width: 1400px ;
+    width: 140px ;
 }
 .dets tr td:nth-child(5), .dets tr th:nth-child(5){
-    width: 1100px ;
+    width: 110px ;
 }
 .other-content-high, .other-content-low{
     height: 40px;
@@ -209,6 +210,11 @@ body{
     position: relative;
     left: 60px;
     top: 30px;
+    border-radius: 5px;
+}
+.item-img img{
+    height: 140px;
+    width: 140px;
     border-radius: 5px;
 }
 .other-content-low h5{
@@ -291,9 +297,8 @@ body{
     color: #eb5757 !important;
     border: 1px solid #eb5757 !important;
 }
-#orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
-#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog, #orderDetailsModal .modal-dialog, #orderDetailsModal .modal-dialog{
-    max-width: 800px !important; 
+#orderDetailsModal .modal-dialog{
+    max-width: 900px !important; 
     height: 400px !important;
 }
 .modal-content{
@@ -343,7 +348,7 @@ body{
 }
 .modal-content .btn-close{
     position: absolute;
-    left: 740px;
+    left: 840px;
 } 
 .modal-items{
     display: block;
@@ -394,9 +399,9 @@ body{
 }
 .modal-item-details{
     font-size: 12px;
-    width: 520px;
+    width: 570px;
     position: absolute;
-    top:60px;
+    top:40px;
     left: 160px;
     height: 40px;
     table-layout: fixed;
@@ -578,29 +583,16 @@ body{
     color: #092C4C;
 }
 /* Customize column widths in pixels */
-.modal-item-details th:nth-child(1),
-.modal-item-details td:nth-child(1) {
-    width: 150px; /* Width for the 'Item' column */
+.modal-item-details th:not(:first-child),
+.modal-item-details td:not(:first-child) {
+    width: 70px; 
+    padding-right: 10px;
 }
 
-.modal-item-details th:nth-child(2),
-.modal-item-details td:nth-child(2) {
-    width: 120px; /* Width for the 'Category' column */
-}
-
-.modal-item-details th:nth-child(3),
-.modal-item-details td:nth-child(3) {
-    width: 100px; /* Width for the 'Variant/Size' column */
-}
-
-.modal-item-details th:nth-child(4),
-.modal-item-details td:nth-child(4) {
-    width: 100px; /* Width for the 'Quantity' column */
-}
-
-.modal-item-details th:nth-child(5),
-.modal-item-details td:nth-child(5) {
-    width: 80px; /* Width for the 'Price' column */
+.modal-item-details th:first-child,
+.modal-item-details td:first-child {
+    padding-right: 10px;
+    width: 140px; /* Adjust this value to your desired width */
 }
 
 @media (max-width: 768px) {
@@ -1261,4 +1253,7 @@ body{
     transform: translateY(-20px); /* Slide back up */
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Matches the slide-in duration */
     display: none; /* Will be handled via JavaScript to ensure visibility during the animation */
+}
+#viewProof button{
+    margin-right: 140px !important;
 }

@@ -93,7 +93,7 @@ Route::prefix('shop')->group(function () {
     Route::post('/orders', [ShopOrders::class, 'store'])->name('shop.orders');//pang store order
     
     
-    Route::get('shop/orders', [OrderController::class, 'index']);
+    Route::get('/orders', [OrderController::class, 'index']);
     // Updated route to fetch the shop details for the authenticated user
     Route::get('/shop', [OrderController::class, 'getShop'])->name('shop.index');
 

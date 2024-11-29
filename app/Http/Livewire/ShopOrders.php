@@ -27,25 +27,8 @@ class ShopOrders extends Component
 
     public function render()
     {
-        // Check if the user is authenticated
-        if (!auth()->check()) {
-            // Redirect or return an error view if the user is not logged in
-            return redirect()->route('login')->with('message', 'You must be logged in to view your shop.');
-        }
 
-        // Fetch the shop for the authenticated user
-        $shop = Shop::where('user_id', auth()->id())->first();
-
-        // If no shop is found, redirect with an error message
-        if (!$shop) {
-            return redirect()->route('home')->with('message', 'Shop not found.');
-        }
-
-        // Fetch orders for the shop
-        $orders = Order::where('shop_id', $shop->id)->get();
-
-        // Return the view with the shop and orders data
-        return view('livewire.shop.shop-orders', compact('shop', 'orders'));
+        return view('livewire.shop.shop-orders');
     }
 }
 ?>

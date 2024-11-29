@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Log;
 use App\Models\Order;
+use App\Models\ProductVariant;
+use App\Models\Category;
+use App\Models\OrderItem;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -86,13 +89,17 @@ class OrderController extends Controller
     {
         $shop = Shop::where('user_id', auth()->id())->first();
         $orders = Order::where('shop_id', $shop->id)->get();
+        $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
+        $variant_item = ProductVariant::all();
+        $categories = Category::all();
 
-        return response()->json($orders);
+        Log::debug($orders);
+
+        return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop'));
  
     }
     public function updateStatus(Request $request)
     {
-    
         $validated = $request->validate([
             'order_id' => 'required|integer',  // Validate order ID
             'status_id' => 'required|integer', // Validate status ID
@@ -101,11 +108,13 @@ class OrderController extends Controller
         // Find the order by ID from the request
         $order = Order::find($validated['order_id']);  // Use the order ID passed in the request
     
-    
         // Update the order's status
         $order->order_status_id = $validated['status_id'];  // Update with the new status ID
-        $order->save();
     
+        // Make sure order_date is not updated when saving the order
+        $order->timestamps = false;  // Disable automatic timestamp updates
+        $order->save();
+        
         return response()->json(['message' => 'Order status updated successfully']);
     }
 }

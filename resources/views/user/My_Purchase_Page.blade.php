@@ -63,10 +63,24 @@
                                     }}
                                 </button>
                             </div>
-
+                            @php
+                                $currentItem = $orderItems->first(function($item) use ($order) {
+                                    return $item->order_id == $order->id;
+                                });
+                                $currentCategory = $categories->first(function($categ) use ($currentItem){
+                                    return  $categ->id == $currentItem->product->category_id;
+                                });
+                                $currentVariant = $variant_item->first(function($var) use ($currentItem){
+                                    return  $var->id == $currentItem->variant_id;
+                                });
+                            @endphp
+                            <script>
+                                console.log(@json($currentVariant));
+                            </script>
                             <!-- Item Image -->
-                            <div class="item-img"></div>
-
+                            <div class="item-img">
+                                <img src="{{ $currentItem->product->product_image }}">
+                            </div>
                             <!-- Order Details Table -->
                             <table class="dets">
                                 <tr>
@@ -77,11 +91,11 @@
                                     <th>Price</th>
                                 </tr>
                                 <tr>
-                                    <td data-label="Item">N / A</td>
-                                    <td data-label="Category">Category</td>
-                                    <td data-label="Variant/Size">Size</td>
-                                    <td data-label="Quantity">{{ $order->total_items }}</td>
-                                    <td data-label="Price">P {{ $order->supplier_price_total_amount }}</td>
+                                    <td data-label="Item">{{ $currentItem->product->product_name }}</td>
+                                    <td data-label="Category">{{ $currentCategory->category_name }}</td>
+                                    <td data-label="Variant/Size">{{ $currentVariant->size }}</td>
+                                    <td data-label="Quantity">{{ $currentItem->quantity }}</td>
+                                    <td data-label="Price">P {{ $currentItem->price }}</td>
                                 </tr>
                             </table>
 
@@ -162,16 +176,17 @@
                                     <div class="transact-col1">
                                         <p>Order ID:</p>
                                         <p>Total Amount:</p>
-                                        <p>Payment Method:</p>
-                                        <p>Proof of Payment:</p>
                                         <p>Reference No.:</p>
+                                        <p>Proof of Payment:</p>
                                     </div>
                                     <div class="transact-col2">
                                         <p id="modalOrderId"></p>
                                         <p id="modalTotalAmount"></p>
-                                        <p id="modalPaymentMethod"></p>
-                                        <p id="modalProofOfPayment"></p>
                                         <p id="modalReferenceNumber"></p>
+                                        <p id="modalProof" data-bs-toggle="modal" data-bs-dismiss="modal" style="cursor: pointer;"
+                                            onmouseover="this.style.color='darkblue';" 
+                                            onmouseout="this.style.color='black';"
+                                            onclick="viewProof(document.getElementById('modalOrderId').innerText)" ><u>Click to View</u></p>
                                     </div>
                                     <div class="transact-col3">
                                         <p>Date:</p>
@@ -220,7 +235,19 @@
             <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="closeRate()">Close</button>
             <button type="button" class="btn btn-primary" id="submit-ratings" onclick="submitRate()">Submit</button>
     </div>
-</div>
+    <div class="modal fade" id="viewProof" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="width: 540px !important; height: 400px !important;">
+                <div class="modal-content border-0">
+                    <div class="modal-body">
+                        <h3 style="margin-left: 110px !important; font-weight: 600;">Proof Image</h3>
+                        <img id="proofImg" src="" style="height: 400px; width: auto; margin-left: 20px; border-radius: 10px; margin-top: 20px;">
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="closeImage()" style="margin-right: 130px !important; margin-bottom: 20px !important;">Confirm</button>
+                    </div>
+                </div>
+            </div>
+    </div>
     <script>
         
 function filterOrders(statusId) {
@@ -242,6 +269,9 @@ function filterOrders(statusId) {
 
     function openModalYes(yesId, orderItem, category) {
     // Modal field references
+    const backdrop = document.querySelector('.modal-backdrop.show');
+    backdrop.style.display = "block";
+
     if(yesId.order_status_id == 12){
         document.getElementById('rateButton').style.setProperty('display', 'block', 'important');
     }else{
@@ -259,7 +289,6 @@ function filterOrders(statusId) {
 
     var modalOrderId = document.getElementById('modalOrderId');
     var modalTotalAmount = document.getElementById('modalTotalAmount');
-    var modalPaymentMethod = document.getElementById('modalPaymentMethod');
     var modalProofOfPayment = document.getElementById('modalProofOfPayment');
     var modalReferenceNumber = document.getElementById('modalReferenceNumber');
     var modalDate = document.getElementById('modalDate');
@@ -270,8 +299,6 @@ function filterOrders(statusId) {
  
     modalOrderId.textContent = yesId.id;
     modalTotalAmount.textContent = `P${parseFloat(yesId.total_amount).toFixed(2)}`;
-    modalPaymentMethod.textContent = yesId.payment_method || "N/A"; // Default to "N/A" if null
-    modalProofOfPayment.textContent = yesId.proof_of_payment || "No proof uploaded";
     modalReferenceNumber.textContent = yesId.reference_number || "No reference available";
             
     // Format date and time
@@ -318,7 +345,8 @@ function createModalTable(orderItems, category) {
                 <th>Category</th>
                 <th>Variant/Size</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
             </tr>
         `;
 
@@ -341,6 +369,7 @@ function createModalTable(orderItems, category) {
             <td>${item.product_variant.size || "N/A"}</td>
             <td>${item.quantity}</td>
             <td>P${parseFloat(item.price).toFixed(2)}</td>
+            <td>P${parseFloat(item.price*item.quantity).toFixed(2)}</td>
         `;
 
         // Append the item row to the item details table
@@ -523,4 +552,28 @@ var star1 = document.getElementById('star-button1');
         clearButton.style.display = 'none';
         selectedIndex = -1; // Reset selected index
     }
+    document.getElementById('modal-cover').addEventListener('click', function(event) {
+    // Check if the click is outside the modal content
+    closeRate();
+    closeMsg()
+});
+function viewProof(id) {
+    const theId = parseInt(id);
+    console.log(theId);
+    const orderYes = @json($orders); // Get the order data from the backend
+
+    let targetId = parseInt(id);
+    let matchedOrder = orderYes.find(order => order.id === targetId);
+
+    console.log(matchedOrder.proof_of_payment);
+
+    // Set the source of the proof image (you can use this to update the modal content)
+    document.getElementById('proofImg').src = matchedOrder.proof_of_payment;
+
+    // Open the modal using Bootstrap's modal functionality
+    var myModal = new bootstrap.Modal(document.getElementById('viewProof'));
+    myModal.show();
+}
+
+
 </script>
