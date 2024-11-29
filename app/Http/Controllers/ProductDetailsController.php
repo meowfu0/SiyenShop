@@ -159,9 +159,19 @@ class ProductDetailsController extends Controller
     public function clearAndAdd(Request $request)
     {
         $user_id = Auth::id();
-        $product_id = session('product_id');
+        $product_id =  $request->input('product_id');
         $quantity = $request->input('quantity');
         $size = $request->input('size');
+
+        $validated = $request->validate([
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer|min:1',
+            'size' => 'nullable|integer',
+        ]);
+    
+        // Debug incoming data
+        Log::info($validated);
+    
     
         // Log the inputs for debugging
         Log::info('clearAndAdd method called', [

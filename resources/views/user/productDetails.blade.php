@@ -91,7 +91,7 @@
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                                     <input type="number" class="quantity d-none" name="quantity" value="1">
                                     @if ($variants->isNotEmpty())
-                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none=">
+                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                                     @endif
                                     <button type="submit" id="buyNowButton" class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
                                         style="width:130px; height:48px; color:white">
@@ -224,7 +224,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{ route('productDetails.clearandadd') }}" method="POST" id="addToCartForm">
+                <form action="{{ route('productDetails.clearandadd') }}" method="POST" id="ContinueaddToCartForm" >
                     @csrf
                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                     <input type="number" class="quantity d-none" name="quantity" value="1">
@@ -336,67 +336,39 @@
         },
     });
 });
-// $(document).ready(function () {
-//         $('#buyNowButton').click(function (e) {
 
-//             let formData = $('#buyNowForm').serialize(); // Serialize the form data
+document.getElementById('continueAddToCartButton').addEventListener('click', function () {
+    const form = document.getElementById('ContinueaddToCartForm');
+    const formData = new FormData(form); // Gather all form data
 
-//             $.ajax({
-//                 url: "{{ route('productDetails.buy') }}", // Use the same route as in your form
-//                 method: "POST",
-//                 data: formData,
-//                 headers: {
-//                     'X-CSRF-TOKEN': $('input[name="_token"]').val() // Include the CSRF token
-//                 },
-//                 success: function (response) {
-//                     // Handle success (e.g., show a success message or redirect)
-//                     alert("Purchase successful!");
-//                     console.log(response);
-//                 },
-//                 error: function (xhr) {
-//                     // Handle errors (e.g., show an error message)
-//                     alert("Something went wrong. Please try again.");
-//                     console.error(xhr.responseText);
-//                 }
-//             });
-//         });
-//     });
+    // Log all form data entries for debugging
+    console.log('Form Data:', [...formData.entries()]);
 
-$(document).ready(function() {
-    // Trigger the AJAX request when the button is clicked
-    $('#continueAddToCartButton').click(function(event) {
-        event.preventDefault();  // Prevent the form from submitting normally
-
-        var product_id = $('#product_id').val();  // Product ID from hidden field
-        var quantity = $('#quantity').val();  // Quantity from input field
-
-        $('#loadingIndicator').removeClass('d-none');
-
-        $('#errorModal .close').click();
-
-
-        $.ajax({
-            url: '{{ route("productDetails.clearandadd") }}',  // Controller route
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',  // CSRF token
-                product_id: product_id,
-                quantity: quantity
-            },
-            success: function(response) {
-                $('#loadingIndicator').addClass('d-none');
-
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-                updateQuantity(1);
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors
-                alert('Error adding product to cart.');
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content // CSRF token
+        },
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
+        })
+        .then(data => {
+            // Handle success response
+            $('#successModal .modal-body').text(response.message);
+                successModal.show();
+        })
+        .catch(error => {
+            // Handle error response
+            console.error('Fetch error:', error);
+            alert('Failed to add product to cart.');
         });
-    });
 });
+
 
 </script>
 
