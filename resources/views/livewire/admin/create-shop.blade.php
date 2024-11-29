@@ -12,7 +12,7 @@
                 <h1 class="mb-2 fw-bold text-primary">Create Shop</h1>
             </div>
             
-           
+            
 <!-- FORM-->   
             <form action="{{ route('admin.shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
             @csrf
@@ -41,6 +41,7 @@
             id="fileInput"
             style="display: none;"
             accept="image/*"
+            name="shop_logo"
             onchange="previewImage(event)"
         />
         
@@ -51,7 +52,7 @@
             <!-- INPUT FIELDS--> 
                         <div class="form-group">
                             <label for="shopName" class="fw-bold mb-1">Shop Name</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopName" placeholder="Enter Shop Name" >
+                            <input type="text" class="form-control px-3 py-2" id="shopName" name="shop_name" placeholder="Enter Shop Name" >
                         </div>
                         
                         
@@ -59,11 +60,9 @@
                             <label for="course"  class="fw-bold mb-1">Course</label>
                             <select class="form-control px-3 py-2" id="course" name="course_id">
                                 <option value="" selected>Choose...</option>
-                                <option value="1">BS Information Technology</option>
-                                <option value="2">BS Computer Science</option>
-                                <option value="3">BS Biology</option>
-                                <option value="4">BS Chemistry</option>
-                                <option value="5">BS Meteorology</option>
+                                @foreach($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -73,31 +72,31 @@
                         <div class="form-group">
                             <label for="businessManager"  class="fw-bold mb-1 ">Assign Business Manager(s)</label>
                                 <div class="align-items-center gap-3" id="managerRow1" style="display:flex;">
-                                    <select class="form-control px-3 py-2" id="managerName1"  name="managers[]">
-                                        <option value="" selected>Choose Business Manager</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Name</option>
-                                        <option value="3">Name</option>
-                                    </select>
+                                <select class="form-control px-3 py-2" name="managers[]" class="form-control" id="managerName1">
+                                <option value="" selected>Choose Business Manager</option>
+                                    @foreach($managers as $manager)
+                                        <option value="{{ $manager->id }}">{{ $manager->first_name }} {{ $manager->last_name }}</option>
+                                    @endforeach
+                                </select>
                                     <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn1">
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
                                         </button>  
                                         
                                 </div>
 
-                                <!--Hidden by default-->
+                                <!--Hidden by default
                                 <div class="mt-2 align-items-center gap-3" id="managerRow2" style="display: none;">
                                     <select class="form-control px-3 py-2" id="managerName2" name="managers[]">
                                     <option value="" selected>Choose Business Manager</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Name</option>
-                                        <option value="3">Name</option>
+                                        @foreach($managers as $manager)
+                                            <option value="{{ $manager->id }}">{{ $manager->first_name }} {{ $manager->last_name }}</option>
+                                        @endforeach
                                     </select>
                                         <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn2">
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
                                         </button >
                                         
-                                </div>
+                                </div> -->
 
                                
                         </div>
@@ -107,12 +106,13 @@
                             <img src="{{ asset('images/add.svg')}}" alt="">
                         </button>
                                 
-                            
-                    </form>
-            <div class="d-flex gap-2 justify-content-end ">
+                    
+                        <div class="d-flex gap-2 justify-content-end ">
                 <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
-                <button class="btn btn-primary p-2 px-4 fs-4" type="submit" onclick="shops()">Create</button>
+                <button class="btn btn-primary p-2 px-4 fs-4" type="submit">Create</button>
             </div>
+                    </form>
+            
         </div>
         <div class="col d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column  border border-primary p-5" style="border-radius: 1rem">
@@ -141,7 +141,6 @@
     </div>
     
 </div>
-
 
 
 <script src="{{asset('js/admin-shops.js')}}" ></script>

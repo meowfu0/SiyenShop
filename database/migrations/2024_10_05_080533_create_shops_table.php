@@ -23,7 +23,7 @@ class CreateShopsTable extends Migration
             
             // Other fields
             $table->string('shop_name', 255); 
-            $table->text('shop_description'); 
+            $table->string('shop_email', 255)->unique(); // Replacing shop_description with shop_email
             $table->string('shop_logo', 255)->nullable(); 
 
             // Foreign keys with not null and cascade on delete
@@ -35,6 +35,10 @@ class CreateShopsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+        
+            //di pa sure tto
+           $table->unsignedBigInteger('manager_1_id')->nullable(); // First manager
+    $table->unsignedBigInteger('manager_2_id')->nullable(); // Second manager
         });
     }
 
