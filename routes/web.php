@@ -35,6 +35,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ShopProductsAddController;
 use App\Http\Controllers\ShopProductEditController;
+use App\Http\Controllers\ShopProductHistoryRestoreController;
 
 Auth::routes();
 
@@ -127,3 +128,4 @@ Route::get('/product-variants/{productVariant}', [ProductVariantController::clas
 Route::get('/product-variants/{productVariant}/edit', [ProductVariantController::class, 'edit'])->name('product-variants.edit');
 Route::put('/product-variants/{productVariant}', [ProductVariantController::class, 'update'])->name('product-variants.update');
 Route::delete('/product-variants/{productVariant}', [ProductVariantController::class, 'destroy'])->name('product-variants.destroy');
+Route::post('/restore-products', [ShopProductHistoryRestoreController::class, 'restoreProducts'])->name('restore.products');

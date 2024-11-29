@@ -54,12 +54,13 @@
                 </div>
                 </div>
 
-                <!-- Restore Button -->
+                <!-- Restore Button based of checked checkboxes / Multiple delete -->
                 <a  class="text-decoration-none">
-                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#restoreModal">
-                    Restore Products
-                    <img src="{{ asset('images/history.svg') }}" alt="Restore" style="width: 20px; height: 20px; margin-left: 3px;">
-                </button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#restoreModal">
+                        Restore Products
+                        <img src="{{ asset('images/history.svg') }}" alt="Restore" style="width: 20px; height: 20px; margin-left: 3px;">
+                    </button>
+
                 </a>
             </div>
         </div>
@@ -110,9 +111,14 @@
                         <td>{{ $product->deleted_at ? \Carbon\Carbon::parse($product->deleted_at)->format('Y-m-d H:i:s') : 'N/A' }}</td>
 
 
-                        <!-- Actions Column -->
+                        <!-- Product  Restore based on column -->
                         <td>
-                            <img src="{{ asset('images/history.svg') }}" alt="restore" class="me-2" id="dropdownMenuButton{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#restoreModal">
+                            <img src="{{ asset('images/history.svg') }}" alt="restore" 
+                                class="me-2" 
+                                data-id="{{ $product->id }}" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#restoreModal">
+
                         </td>
                     </tr>
                 @empty
@@ -127,6 +133,9 @@
     </div>
 </div>
 
+
+
+<!-- Modal for confirming product restoration -->
 <div class="modal fade" id="restoreModal" tabindex="-1" aria-labelledby="restoreModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -135,15 +144,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to restore this product?
+                Are you sure you want to restore the selected product(s)?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmDelete">Restore</button>
+                <button type="button" class="btn btn-primary" id="confirmRestore">Restore</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -243,4 +253,107 @@
     });
 
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const restoreModal = document.getElementById('restoreModal');
+        const confirmRestoreButton = document.getElementById('confirmRestore');
+        let restoreData = {};
+
+        // Handle specific restore
+        document.querySelectorAll('[data-bs-target="#restoreModal"]').forEach(button => {
+            button.addEventListener('click', function () {
+                const productId = this.getAttribute('data-id'); // Get product ID from data-id attribute
+                restoreData = { product_id: productId }; // Store specific product ID for restoration
+            });
+        });
+
+        // Handle bulk restore
+        const bulkRestoreButton = document.querySelector('.btn-outline-primary');
+        bulkRestoreButton.addEventListener('click', function () {
+            const selectedIds = Array.from(document.querySelectorAll('.select-item:checked'))
+                .map(checkbox => checkbox.dataset.id);
+            restoreData = { product_ids: selectedIds }; // Store selected IDs for bulk restoration
+        });
+
+        // Handle confirm restore
+        confirmRestoreButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            fetch('/shop/products/history/restore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(restoreData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload(); // Reload page to reflect changes
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+
+
+</script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmRestoreButton = document.getElementById('confirmRestore');
+        let selectedIds = [];
+
+        // Handle restore button clicks for specific product
+        document.querySelectorAll('img[data-bs-target="#restoreModal"]').forEach(restoreIcon => {
+            restoreIcon.addEventListener('click', function () {
+                const productId = this.getAttribute('data-id');
+                selectedIds = [productId]; // Single selection
+            });
+        });
+
+        // Handle bulk restore
+        document.querySelector('.btn-outline-primary').addEventListener('click', function () {
+            selectedIds = Array.from(document.querySelectorAll('.select-item:checked')).map(cb =>
+                cb.getAttribute('data-id')
+            );
+        });
+
+        // Confirm restore
+        confirmRestoreButton.addEventListener('click', function () {
+            if (selectedIds.length === 0) {
+                alert('No products selected for restoration!');
+                return;
+            }
+
+            fetch('/restore-products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ product_ids: selectedIds })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // alert('Product(s) restored successfully!');
+                        location.reload(); // Refresh the table or dynamically update rows here
+                    } else {
+                        alert('Failed to restore product(s).');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+        });
+    });
+
+</script>
+
 @endsection
