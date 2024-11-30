@@ -17,6 +17,10 @@ class CartPageController extends Controller
         $id = base64_decode($encodedId);
         $userId = Auth::user()->id;
 
+        $user = DB::table('carts')
+            ->where('user_id', $userId)
+            //get the value in the id column
+            ->value('id');
 
 
         // Get the category id for a case-insensitive match
@@ -44,13 +48,14 @@ class CartPageController extends Controller
                 'p.shop_id',
                 'p.id as productId'
             )
-            ->where('i.cart_id', '=', $userId)
-            ->where('p.shop_id', '=', function ($query) use ($userId) {
+            ->where('i.cart_id', '=', $user)
+            ->where('p.shop_id', '=', function ($query) use ($user) {
                 // Subquery to get the shop_id of the first product
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
-                    ->where('ci.cart_id', '=', $userId)
+                    ->where('ci.cart_id', '=', $user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
                     ->limit(1); // Limit to just the first match
             })
             ->where(function ($query) use ($categoryId) {
@@ -79,9 +84,14 @@ class CartPageController extends Controller
     public function remove($id)
     {
         try {
-            $userId = Auth::id();
+            $userId = Auth::user()->id;
+
+            $user = DB::table('carts')
+                ->where('user_id', $userId)
+                ->value('id');
+
             $deleted = DB::table('cart_items')
-                ->where('cart_id', $userId)
+                ->where('cart_id', $user)
                 ->where('id', $id)
                 ->delete();
 
@@ -100,11 +110,16 @@ class CartPageController extends Controller
     public function updateQuantity(Request $request, $id)
     {
         $userId = Auth::user()->id;
+
+        $user = DB::table('carts')
+        ->where('user_id', $userId)
+            ->value('id');
+
         $quantity = $request->input('quantity');
 
         // Update the quantity in the cart_items table
         $updated = DB::table('cart_items')
-            ->where('cart_id', '=', $userId)
+            ->where('cart_id', '=', $user)
             ->where('id', '=', $id)
             ->update(['quantity' => $quantity]);
 
@@ -120,10 +135,15 @@ class CartPageController extends Controller
     public function updateSize(Request $request, $id)
     {
         $userId = Auth::user()->id;
+
+        $user = DB::table('carts')
+        ->where('user_id', $userId)
+            ->value('id');
+
         $size = $request->input('size');  // Get the selected size
 
         $updated = DB::table('cart_items')
-            ->where('cart_id', '=', $userId)
+            ->where('cart_id', '=', $user)
             ->where('id', '=', $id)
             ->update(['size' => $size]);
 
