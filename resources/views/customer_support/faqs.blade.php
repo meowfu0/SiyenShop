@@ -63,11 +63,6 @@ document.addEventListener("DOMContentLoaded", function() {
         supportChatButton.addEventListener('click', function(e) {
             e.preventDefault(); 
 
-            if (!isLoggedIn) {
-                window.location.href = "/login";
-                return;
-            }
-
             fetch("{{ route('start.chat') }}", {
                 method: 'POST',
                 headers: {
@@ -93,8 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Error sending message: ' + error.message);
+                window.location.href = "/login";
             });
         });
     } else {
