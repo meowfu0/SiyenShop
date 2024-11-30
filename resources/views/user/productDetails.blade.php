@@ -342,8 +342,7 @@ document.getElementById('continueAddToCartButton').addEventListener('click', fun
     const formData = new FormData(form); // Gather all form data
 
     // Log all form data entries for debugging
-    console.log('Form Data:', [...formData.entries()]);
-
+    $('#errorModal .close').click();
     fetch(form.action, {
         method: 'POST',
         headers: {
@@ -359,8 +358,10 @@ document.getElementById('continueAddToCartButton').addEventListener('click', fun
         })
         .then(data => {
             // Handle success response
-            $('#successModal .modal-body').text(response.message);
-                successModal.show();
+            $('#loadingIndicator').addClass('d-none');
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            $('#successModal .modal-body').text(data.message); // Use 'data' instead of 'response'
+            successModal.show();
         })
         .catch(error => {
             // Handle error response
