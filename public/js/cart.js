@@ -21,7 +21,11 @@ function AddCheckedProducts() {
                 // Ensure the quantity input exists
                 let quantity = parseInt(quantityInput.value);
 
-                totalValue += parseFloat(checkbox.value) * quantity;
+                
+                let productPrice = parseFloat(
+                checkbox.value.replace(/,/g, ""));
+
+                totalValue += productPrice * quantity;
                 totalQuantity += quantity; // Calculate total quantity of checked products
             }
         } else {
@@ -39,6 +43,7 @@ function AddCheckedProducts() {
         "en-US",
         { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     );
+    
     document.getElementById(totalItem).innerHTML = totalQuantity;
     // document.getElementById(checked_Item).innerHTML = totalQuantity;
 }
