@@ -68,7 +68,7 @@
                             </div>
                             
                             <div class="d-flex justify-content-between align-items-center w-100" style="margin-top: 5rem;">
-                                <img src="{{ asset('images/chat.svg') }}" class="chat-icon" style="width:22px; height:22px">
+                                <img src="{{ asset('images/chat.svg') }}" class="chat-icon" style="width:22px; height:22px" id="chatIcon" data-shop-id="{{ $product->organization->id }}" data-shop-name="{{ $product->organization->shop_name }}">
                                 <!-- Add to Cart Button -->
                                 <form action="{{ route('productDetails.addToCart') }}" method="POST" id="addToCartForm">
                                     @csrf
@@ -370,6 +370,38 @@ document.getElementById('continueAddToCartButton').addEventListener('click', fun
         });
 });
 
+//message snet
+document.addEventListener("DOMContentLoaded", function() {
+    const chatIcon = document.getElementById('chatIcon');
+
+    chatIcon.addEventListener('click', function() {
+        const shopId = this.getAttribute('data-shop-id');
+        const shopName = this.getAttribute('data-shop-name');
+
+        // Fetch the user_id based on shop_id
+        fetch("{{ route('getShopUserId') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ shop_id: shopId, message: 'Hello! How can I help you?' }) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "{{ route('start.chat') }}";
+                console.log('Message sent to shop owner:', data.user_id);
+                
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user ID:', error);
+        });
+    });
+});
 
 </script>
 
