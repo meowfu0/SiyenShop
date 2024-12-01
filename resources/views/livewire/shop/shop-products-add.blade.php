@@ -224,26 +224,27 @@
                                             </tr>
                                         </thead>
                                         <tbody id="variantRows">
-                                        <tr id="inputRow_1">
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="text" name="sizes[]" id="size_1" class="form-control" placeholder="e.g. XL" value="{{ old('size', $product_variants->size ?? '') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="number" name="variantStocks[]" id="variantStock" class="form-control" placeholder="e.g. 10" min="0" step="1" value="{{ old('variantStocks', $product_variants->stocks ?? '') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
-                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                                                </button>
-                                            </td>
-                                        </tr>
+                                            <tr id="inputRow_1">
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" name="variants[1][size]" id="size_1" class="form-control" placeholder="e.g. XL" value="">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="number" name="variants[1][stocks]" id="variantStocks_1" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                        <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            
                                     </tbody>
                                     </table>
-                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
+                                    <button id="addNewField" class="btn" type="button" onclick="addVariantRow()">
                                         <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Save/Add New Size
                                     </button>
 
@@ -361,33 +362,41 @@
 
 
     //Updated Add Size fields
-    let rowCount = 1; // Keeps track of the number of rows
-    function myCreateFunction() {
-        var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+    let variantCount = 1;
 
-        var row = table.insertRow();
+function addVariantRow() {
+    variantCount++;
 
-        row.id = `inputRow_${++rowCount}`; // Set a unique ID for the row
+    const newRow = `
+        <tr id="inputRow_${variantCount}">
+            <td>
+                <div class="form-group">
+                    <input type="text" name="variants[${variantCount}][size]" id="size_${variantCount}" class="form-control" placeholder="e.g. XL" value="">
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <input type="number" name="variants[${variantCount}][stocks]" id="variantStocks_${variantCount}" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
+                </div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_${variantCount}')">
+                    <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                </button>
+            </td>
+        </tr>
+    `;
 
-        var sizeCell = row.insertCell(0);
-        var quantityCell = row.insertCell(1);
-        var deleteCell = row.insertCell(2); // For the delete button
+    document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
+}
 
-        // Populate the cells with input fields
-        sizeCell.innerHTML = `
-            <div class="form-group">
-                <input type="text" id="size_${rowCount}" class="form-control" placeholder="e.g. XL">
-            </div>`;
-
-        // Check the current status to decide whether to show the quantity field
-        updateQuantityCell(quantityCell, rowCount);
-
-        quantityCell.classList.add('text-end');
-        deleteCell.innerHTML = `
-            <button type="button" class="btn btn-sm" onclick="myDeleteFunction('${row.id}')">
-                <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-            </button>`;
+function myDeleteFunction(rowId) {
+    const row = document.getElementById(rowId);
+    if (row) {
+        row.remove();
     }
+}
+
 
     // Function to update the quantity cell based on status
     function updateQuantityCell(cell, rowCount) {
