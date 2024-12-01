@@ -1,6 +1,6 @@
 @extends('layouts.admin')
-
 @section('content')
+
     <div class="flex-grow-1" style="width: 100%!important;">
         <!-- Top Navbar -->
         @include('components.profilenav')
@@ -69,9 +69,9 @@
                         <tr>
                             <th scope="row">
                                 @if($user->profile_picture)
-                                    <img src="https://cdn.britannica.com/59/204159-050-5055F2A9/Beyonce-2013.jpg" alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                    <img src="{{ $user->profile_picture }}" alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
                                 @else
-                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                    <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
                                 @endif
                             </th>
                             <td>{{ $user->first_name.' '. $user->last_name }}</td>
@@ -113,6 +113,7 @@
 
                     <!-- User Info Section -->
                     <div class="user-info-container">
+                        <input type="hidden" id="userId" value="" />
                         <p class="user-name"><span id="modalName"></span></p>
                         <p><span id="modalStatus"></span></p>
                         <table class="user-info-table">
@@ -137,14 +138,11 @@
                                     <td class="fw-bold">Role:</td>
                                     <td>
                                         <div class="custom-dropdown-container">
-                                            <select class="form-select custom-dropdown" style="width: 168px;"
-                                                id="modalRole">
-                                                <option value="role1" selected>Student</option>
-                                                <option value="role2">Business Manager</option>
+                                            <select class="form-select" id="modalRole" name="role_id">
+                                                <!-- Options will be populated dynamically by JavaScript -->
+                                                
                                             </select>
-                                            <!-- Hidden hyperlink that appears when Business Manager is selected -->
-                                            <a href="#" id="editPermissionsLink" data-bs-toggle="modal"
-                                                data-bs-target="#editPermissionsModal">
+                                            <a href="#" id="editPermissionsLink" data-bs-toggle="modal" data-bs-target="#editPermissionsModal" style="display: none;">
                                                 Edit Permissions
                                             </a>
                                         </div>
@@ -153,12 +151,16 @@
                             </tbody>
                         </table>
                     </div>
+                    
 
                 </div>
                 <div class="modal-footer mt-1">
+                    <button type="button" class="btn fs-2 fw-bold" id="cancelBtn" style="display:none">Cancel</button>
                     <button type="button" class="btn fs-2 fw-bold" id="deactivateBtn">Deactivate Account</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="editBtn">Edit Account</button>
+                        <button type="button" class="btn btn-primary fs-2 fw-bold"
+                        style="width: 130px; height: 40px; border-radius: 8px; display:none" id="saveBtn">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -304,7 +306,9 @@
         </div>
     </div>
     <script> 
-        const usersData = @json($users);
+        //const usersData = @json($users);
+        const toEdit = @json(route('users.edit', ['userId' => ':userId']));
+        const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
     </script>
     <script src="{{asset('js/admin-users.js')}}">
         

@@ -115,22 +115,40 @@ else {
 
     
     // Event delegation: Listen for clicks on .view-users-btn within resultsContainer
-    document.addEventListener('click', function(event) {
+ // Event delegation: Listen for clicks on .view-users-btn within resultsContainer
+
+ document.addEventListener('click', function(event) {
     if (event.target.classList.contains('view-users-btn')) {
         const button = event.target;
         const userId = button.getAttribute('data-user-id'); // Get user ID
-        const user = usersData.find(user => user.id == userId);
-        const roleAccess = "role";
 
-        if(user) {
+        // Fetch user details and roles
+        fetch(toEdit.replace(':userId', userId), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data);
+
+            if (!data.roles || !data.user) {
+                alert('Invalid data format from the server.');
+                return;
+            }
+
+            // Set the hidden input field for userId
+            document.getElementById('userId').value = userId;
+            
             // Extract and set user data for the modal
-            const name = `${user.first_name} ${user.last_name}`;
-            const email = user.email;
-            const role = user.role?.role_name || "N/A"; 
-            const course = user.course?.course_name || "N/A";
-            const status = user.status?.status_name || "N/A";
-            const block = user.course_bloc;
-            const year = user.year;
+            const name = `${data.user.first_name} ${data.user.last_name}`;
+            const email = data.user.email;
+            const course = data.user.course?.course_name || "N/A";
+            const status = data.user.status?.status_name || "N/A";
+            const block = data.user.course_bloc;
+            const year = data.user.year;
 
             // Insert data into modal
             document.getElementById('modalName').innerText = name;
@@ -139,125 +157,128 @@ else {
             document.getElementById('modalCourse').innerText = course;
             document.getElementById('modalYear').innerText = year;
             document.getElementById('modalBlock').innerText = block;
-            const dropdown = document.getElementById('modalRole');
-            dropdown.value = roleAccess.concat(user.role?.id || "");
+
+            // Set the role dropdown value
+            const rolesDropdown = document.getElementById('modalRole');
+            rolesDropdown.innerHTML = ''; // Clear existing options
+            rolesDropdown.disabled = true;
+            data.roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id; // Use the correct role ID
+                option.textContent = role.role_name; // Display the role name
+                if (role.id === data.user.role_id) { // Check FK
+                    option.selected = true; // Mark the current role as selected
+                }
+                else if (role.role_name === 'Admin'){
+                    option.hidden = true;
+                }
+                rolesDropdown.appendChild(option); // Append the option to the dropdown
+            });
+
+            // Show "Edit Permissions" link if role is "Business Manager"
+            const editPermissionsLink = document.getElementById('editPermissionsLink');
+            if (data.user.role && data.user.role.id === 2) { // Adjust role ID for "Business Manager"
+                editPermissionsLink.style.display = 'inline-block';
+            } 
+            else {
+                editPermissionsLink.style.display = 'none';
+            }
+
+            // Set the user ID on the modal to pass it to the update function
+            document.getElementById('userInfoModal').setAttribute('data-user-id', userId);
 
             // Show the modal
             var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
             myModal.show();
-            } 
-    else {
-        console.error(`User with ID ${userId} not found.`);
+
+            const saveBtn = document.getElementById('saveBtn'); // Define Save button
+            const editBtn = document.getElementById('editBtn');
+            const deactivateBtn = document.getElementById('deactivateBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const roleDropdown = document.getElementById('modalRole');
+            let isEditing = false;
+        
+            // When the Edit button is clicked
+            editBtn?.addEventListener('click', function () {
+                if (!isEditing) {
+                    roleDropdown.disabled = false;
+                    editBtn.style.display = 'none';
+                    saveBtn.style.display = 'inline';
+                    deactivateBtn.style.display = 'none';
+                    cancelBtn.style.display = "inline"; 
+                    document.querySelectorAll('.editable-field').forEach(field => field.disabled = false);
+                    isEditing = true;
+                } 
+            });
+        
+            // When Save Changes is clicked, update the role and save changes
+            saveBtn?.addEventListener('click', function () {
+                const selectedRoleId = roleDropdown.value; // Get updated role ID from the dropdown
+                updateRole(userId, selectedRoleId); // Pass both user ID and role ID to the updateRole function
+            
+                // After saving, reset the buttons to their original state
+                resetButtons();
+            });
+            
+        
+            // Cancel edit when Cancel button is clicked
+            cancelBtn?.addEventListener('click', function () {
+                if (isEditing) {
+                    alert('Edit canceled!');
+                    resetButtons();
+                } 
+                else {
+                    const confirmDeactivateModal = new bootstrap.Modal(document.getElementById('confirmDeactivateModal'));
+                    confirmDeactivateModal.show();
+                }
+            });
+                            // Reset the modal buttons
+    function resetButtons() {
+        roleDropdown.disabled = true;
+        editBtn.style.display = 'inline';
+        saveBtn.style.display = 'none';
+        deactivateBtn.style.display = 'inline';
+        cancelBtn.style.display = "none"; 
+        document.querySelectorAll('.editable-field').forEach(field => field.disabled = true);
+        isEditing = false;
+    }
+                
+        });
+    }
+});
+
+
+// Function to update the role in the database
+function updateRole(userId, selectedRoleId) {
+    console.log('User ID:', userId);
+    console.log('Selected Role ID:', selectedRoleId);
+
+    fetch(updateRoles.replace(':userId', userId), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify({ role_id: selectedRoleId })
+    })
+    .then(response => {
+        console.log('Response status:', response.status); // Log status code
+        if (response.ok) {
+            alert('User role updated successfully.');
+            location.reload();
+        } 
+        else {
+            return response.json().then(data => {
+                throw new Error(data.message || 'Failed to update role');
+            });
         }
-    }
-});
-
-        // Edit/Deactivate Button functionality
-const editBtn = document.getElementById('editBtn');
-const deactivateBtn = document.getElementById('deactivateBtn');
-const modalRole = document.getElementById('modalRole'); // Dropdown
-let isEditing = false;
-let savedRoleValue = modalRole.value; // Store initial dropdown value
-
-// Initially disable the dropdown
-modalRole.disabled = true;
-
-// Edit button functionality
-editBtn?.addEventListener('click', function() {
-    if (!isEditing) {
-        // Switch to editing mode
-        editBtn.innerText = 'Save Changes';
-        deactivateBtn.innerText = 'Cancel';
-        isEditing = true;
-
-        // Enable the dropdown for editing
-        modalRole.disabled = false;
-    } else {
-        // Handle saving changes
-        savedRoleValue = modalRole.value; // Save the selected value
-        alert('Changes saved!');
-
-        // After saving, disable the dropdown and reset button states
-        modalRole.disabled = true;
-        resetButtons();
-    }
-});
-
-// Deactivate (Cancel) button functionality
-deactivateBtn?.addEventListener('click', function() {
-    if (isEditing) {
-        // If editing, reset to the saved value (in case of cancel)
-        modalRole.value = savedRoleValue;
-        alert('Changes canceled!');
-
-        // After cancel, disable the dropdown and reset button states
-        modalRole.disabled = true;
-        resetButtons();
-    }
-});
-
-// Function to reset the buttons after save or cancel
-function resetButtons() {
-    editBtn.innerText = 'Edit Account';
-    deactivateBtn.innerText = 'Deactivate Account';
-    isEditing = false;
+    })
+    .catch(error => {
+        console.error('Error updating role:', error);
+        alert('Failed to update role. User ID: ' + userId + ', Role ID: ' + selectedRoleId + '. Error: ' + error.message);
+    });
 }
 
 
-        deactivateBtn?.addEventListener('click', function() {
-            if (isEditing) {
-                alert('Edit canceled!');
-                resetButtons();
-            } 
-            else {
-                var confirmDeactivateModal = new bootstrap.Modal(document.getElementById(
-                    'confirmDeactivateModal'));
-                confirmDeactivateModal.show();
-            }
-        });
 
-        // Confirm deactivation
-        document.getElementById('confirmDeactivateBtn')?.addEventListener('click', function() {
-            alert('Account deactivated!');
-            var confirmDeactivateModal = bootstrap.Modal.getInstance(document.getElementById(
-                'confirmDeactivateModal'));
-            confirmDeactivateModal.hide();
-        });
 
-        // Reset buttons function
-        function resetButtons() {
-            editBtn.innerText = 'Edit Account';
-            deactivateBtn.innerText = 'Deactivate Account';
-            isEditing = false;
-        }
-
-        // Role dropdown and permissions link
-        const roleDropdown = document.getElementById('modalRole');
-        const editPermissionsLink = document.getElementById('editPermissionsLink');
-
-        roleDropdown?.addEventListener('change', function() {
-            editPermissionsLink.style.display = (roleDropdown.value === 'role2') ? 'inline-block' :
-                'none';
-        });
-
-        // Save changes in Edit Permissions modal
-        document.getElementById('saveChangesBtn')?.addEventListener('click', function() {
-            closeAndOpenModal('editPermissionsModal', 'userInfoModal');
-        });
-
-        // Close Edit Permissions modal and reopen User Info modal
-        document.getElementById('closeBtn')?.addEventListener('click', function() {
-            closeAndOpenModal('editPermissionsModal', 'userInfoModal');
-        });
-
-        // Utility function for closing one modal and opening another
-        function closeAndOpenModal(closeModalId, openModalId) {
-            var closeModal = bootstrap.Modal.getInstance(document.getElementById(closeModalId));
-            closeModal.hide();
-            setTimeout(function() {
-                var openModal = new bootstrap.Modal(document.getElementById(openModalId));
-                openModal.show();
-            }, 300);
-        }
-    
- 
