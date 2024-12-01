@@ -241,11 +241,17 @@ class PaymentPageController extends Controller
         // Update stocks for all products
         foreach ($processedProducts as $productId => $totalQuantity) {
             $currentStock = DB::table('products')->where('id', '=', $productId)->value('stocks');
+            $salesCount = DB::table('products')->where('id', '=', $productId)->value('sales_count');
+
+            $newSalesCount = $salesCount + $totalQuantity;
             $newStock = max(0, $currentStock - $totalQuantity);
 
             DB::table('products')
             ->where('id', '=', $productId)
-            ->update(['stocks' => $newStock]);
+            ->update([
+                'stocks' => $newStock,
+                'sales_count' => $newSalesCount
+            ]);
         }
 
       
