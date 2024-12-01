@@ -20,6 +20,8 @@ class Shop extends Model
      */
 
      protected $table = 'shops';
+     public $timestamps = false;
+
      
     protected $fillable = [
         'shop_name', 'shop_email', 'shop_logo', 'user_id', 'course_id', 'status_id'
