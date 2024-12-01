@@ -193,43 +193,7 @@ const dropdown1 = document.getElementById('managerName1');
     
     
 
-    // Update display elements when input fields change
-    shopNameInput.addEventListener('input', () => {
-        displayShopName.textContent = shopNameInput.value;
-    });
-
-    shopEmailInput.addEventListener('input', () => {
-        displayShopEmail.textContent = shopEmailInput.value;
-    });
-
-
-    managerInput.addEventListener('change', () => {
-        const selectedOptionText = managerInput.options[managerInput.selectedIndex].text;
-
-        displayManager.textContent = selectedOptionText;
-       
-    });
-
-    managerInput2.addEventListener('change', () => {
-        const selectedOptionText = managerInput2.options[managerInput2.selectedIndex].text;
-        displayManager2.textContent = selectedOptionText;
-       
-    });
-
-    
         
-
-
-
-    courseInput.addEventListener('change', () => {
-    // Get the text of the selected option
-    const selectedOptionText = courseInput.options[courseInput.selectedIndex].text;
-
-
-    // Update the display element
-    displayCourse.textContent = selectedOptionText !== 'Choose...' ? selectedOptionText : 'Course';
-});
-
 
 
 

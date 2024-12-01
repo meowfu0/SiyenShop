@@ -35,10 +35,6 @@ class CreateShopsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-        
-            //di pa sure tto
-           $table->unsignedBigInteger('manager_1_id')->nullable(); // First manager
-    $table->unsignedBigInteger('manager_2_id')->nullable(); // Second manager
         });
     }
 

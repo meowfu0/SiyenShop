@@ -52,13 +52,13 @@
             <!-- INPUT FIELDS--> 
                         <div class="form-group">
                             <label for="shopName" class="fw-bold mb-1">Shop Name</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopName" name="shop_name" placeholder="Enter Shop Name" >
+                            <input type="text" class="form-control px-3 py-2" id="shopName" name="shop_name" placeholder="Enter Shop Name" required>
                         </div>
                         
                         
                         <div class="form-group">
                             <label for="course"  class="fw-bold mb-1">Course</label>
-                            <select class="form-control px-3 py-2" id="course" name="course_id">
+                            <select class="form-control px-3 py-2" id="course" name="course_id" required>
                                 <option value="" selected>Choose...</option>
                                 @foreach($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->course_name }}</option>
@@ -67,12 +67,12 @@
                         </div>
                         <div class="form-group">
                             <label for="shopEmail" class="fw-bold mb-1">Shop Email Address</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" placeholder="Enter Shop Email Address" >
+                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" placeholder="Enter Shop Email Address" required>
                         </div>
                         <div class="form-group">
                             <label for="businessManager"  class="fw-bold mb-1 ">Assign Business Manager(s)</label>
                                 <div class="align-items-center gap-3" id="managerRow1" style="display:flex;">
-                                <select class="form-control px-3 py-2" name="managers[]" class="form-control" id="managerName1">
+                                <select class="form-control px-3 py-2" name="managers[]" class="form-control" id="managerName1" required>
                                 <option value="" selected>Choose Business Manager</option>
                                     @foreach($managers as $manager)
                                         <option value="{{ $manager->id }}">{{ $manager->first_name }} {{ $manager->last_name }}</option>
@@ -84,7 +84,7 @@
                                         
                                 </div>
 
-                                <!--Hidden by default
+                                <!--Hidden by default-->
                                 <div class="mt-2 align-items-center gap-3" id="managerRow2" style="display: none;">
                                     <select class="form-control px-3 py-2" id="managerName2" name="managers[]">
                                     <option value="" selected>Choose Business Manager</option>
@@ -96,7 +96,7 @@
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
                                         </button >
                                         
-                                </div> -->
+                                </div>
 
                                
                         </div>
