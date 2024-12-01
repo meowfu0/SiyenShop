@@ -168,8 +168,7 @@
 </form>
 
  <!-- Modal -->
-
- <div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
+<div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -196,13 +195,13 @@
                         <!-- Initial row with a delete button -->
                         @foreach ($gcashInfos as $info)
                             <div class="col-md-4 text-center">
-                                <p id="gcashNameInfo">{{$info->gcash_name}} </p>
+                                <p id="gcashNameInfo">{{$info->gcash_name}}</p>
                             </div>
                             <div class="col-md-4 text-center">
-                                <p id="gcashNumberInfo"> {{$info->gcash_number}}</p>
+                                <p id="gcashNumberInfo">{{$info->gcash_number}}</p>
                             </div>
                             <div class="col-md-4 text-center">
-                                <p id="gcashLimitInfo">{{$info->gcash_limit}} </p>
+                                <p id="gcashLimitInfo">{{$info->gcash_limit}}</p>
                             </div>
                             <div class="col-12 text-end">
                                 <button type="button" class="btn btn-outline-danger btn-sm" id="deleteInitialRow">−</button>
@@ -211,21 +210,32 @@
                     </div>
                 </div>
 
-                <!-- Gcash Edit Section -->
-                <div id="gcashEdit" style="display: none;">
-                    <form id="gcashForm">
-                        <!-- The first row will be dynamically added when entering edit mode -->
+                <!-- Gcash Edit Section --> 
+                    <form id="gcashForm" action="{{ route('gcash.store') }}" method="POST">
+                        @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="gcash_name[]" placeholder="Enter Gcash Name" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="gcash_number[]" placeholder="Enter Gcash Number" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="gcash_limit[]" placeholder="Enter Gcash Limit" required>
+                            </div>
+                        </div>
                     </form>
-
                     <!-- Buttons Row -->
-                    <div class="text-end mb-3 d-flex justify-content-end"></div>
+                    <div class="text-end mb-3 d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary" id="cancelBtn" style="width: 100px; height: 40px; border-radius: 5px; margin-right: 10px;">Cancel</button>
+                    <button id="saveBtn" type="submit" form="gcashForm" class="btn btn-primary" style="width: 100px; height: 40px; border-radius: 5px;">Save</button>
+                </div>
+
                 </div>
             </div>
 
             <!-- Modal Footer -->
             <div class="modal-footer d-flex justify-content-center" style="border-top: none;">
-                <button type="button" class="btn btn-outline-secondary" id="cancelBtn" style="width: 100px; height: 40px; border-radius: 5px; display: none;">Cancel</button>
-                <button type="button" class="btn btn-primary" id="saveBtn" style="width: 100px; height: 40px; border-radius: 5px; display: none;">Save</button> <!-- Hidden by default -->
             </div>
         </div>
     </div>
@@ -353,6 +363,13 @@
             }
         }
     }
+
+
+
+
+    
+
+
 </script>
 
 

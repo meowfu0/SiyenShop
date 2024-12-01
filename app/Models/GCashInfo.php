@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class GCashInfo extends Model
 {
     use HasFactory;
+
+   
+
+    protected $fillable = ['gcash_name', 'gcash_number', 'gcash_limit'];
 }
+

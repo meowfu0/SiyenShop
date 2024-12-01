@@ -58,6 +58,24 @@ public function update(Request $request, User $user)
         
     ]);
 
+
+    // Handle profile picture upload
+    if ($request->hasFile('profile_picture')) {
+        // Delete old profile picture if it exists
+        if ($user->profile_picture) {
+            \Storage::disk('public')->delete($user->profile_picture);
+        }
+
+        // Generate unique file name
+        $fileName = uniqid() . '_' . $request->file('profile_picture')->getClientOriginalName();
+
+        // Store the new profile picture
+        $filePath = $request->file('profile_picture')->storeAs('profile_pictures', $fileName, 'public');
+        $validated['profile_picture'] = $filePath;
+
+        // Update the user's profile picture in the database
+        $user->profile_picture = $filePath;
+    }
     // Initialize a variable to track profile picture updates
     $updatedData = $validated;
     $profilePicturePath = null;
@@ -80,12 +98,6 @@ public function update(Request $request, User $user)
     $user->course_bloc = $validated['course_bloc'];
     $user->year = $validated['year'];
     $user->course_id = $validated['course_id'];
-    $user->gcash_name = $validated['gcash_name'] ?? $user->gcash_name;
-    $user->gcash_number = $validated['gcash_number'] ?? $user->gcash_number;
-    $user->gcash_limit = $validated['gcash_limit'] ?? $user->gcash_limit;
-
-
-    
 
 
      // Hash and update password if provided

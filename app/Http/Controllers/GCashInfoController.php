@@ -7,79 +7,29 @@ use Illuminate\Http\Request;
 
 class GCashInfoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
-        //
+        // Validate the incoming request
+        $validated = $request->validate([
+            'gcash_name' => 'required|array',
+            'gcash_name.*' => 'required|string|max:255',
+            'gcash_number' => 'required|array',
+            'gcash_number.*' => 'required|string|max:255',
+            'gcash_limit' => 'required|array',
+            'gcash_limit.*' => 'required|string|max:255',
+        ]);
+    
+        // Save each Gcash info
+        foreach ($request->gcash_name as $key => $gcash_name) {
+            \App\Models\GcashInfo::create([
+                'gcash_name' => $gcash_name,
+                'gcash_number' => $request->gcash_number[$key],
+                'gcash_limit' => $request->gcash_limit[$key],
+            ]);
+        }
+    
+        // Return success
+        return redirect()->back()->with('success', 'Gcash info added successfully!');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\GCashInfo  $gCashInfo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(GCashInfo $gCashInfo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\GCashInfo  $gCashInfo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(GCashInfo $gCashInfo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GCashInfo  $gCashInfo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, GCashInfo $gCashInfo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\GCashInfo  $gCashInfo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(GCashInfo $gCashInfo)
-    {
-        //
-    }
-}
+}    

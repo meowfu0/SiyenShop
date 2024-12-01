@@ -133,9 +133,15 @@ Route::prefix('admin')->group(function () {
 
     });
 
-    Route::post('/gcash/store', [GcashController::class, 'store'])->name('gcash.store');
+   
 Route::post('/gcash/update/{id}', [GcashController::class, 'update'])->name('gcash.update');
 Route::delete('/gcash/delete/{id}', [GcashController::class, 'destroy'])->name('gcash.destroy');
+
+
+use App\Http\Controllers\GCashInfoController;
+
+Route::post('/gcash/store', [GCashInfoController::class, 'store'])->name('gcash.store');
+
 
 
         
