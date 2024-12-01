@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\GCashInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class GCashInfoController extends Controller
 {
     
     public function store(Request $request)
     {
+        $user = Auth::id();
+
+        $gcashInfo = GCashInfo::where('user_id', $user)->first();
+        $shopId = $gcashInfo->shop_id; // Access shop_id
+
         // Validate the incoming request
         $validated = $request->validate([
             'gcash_name' => 'required|array',
@@ -22,11 +31,15 @@ class GCashInfoController extends Controller
     
         // Save each Gcash info
         foreach ($request->gcash_name as $key => $gcash_name) {
-            \App\Models\GcashInfo::create([
+            DB::table('g_cash_infos')->insert([
+                'user_id' => $user,
+                'shop_id' => $shopId,
                 'gcash_name' => $gcash_name,
                 'gcash_number' => $request->gcash_number[$key],
                 'gcash_limit' => $request->gcash_limit[$key],
+                'created_at' => now(),
             ]);
+            
         }
     
         // Return success
