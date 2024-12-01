@@ -225,17 +225,18 @@
                                         </thead>
                                         <tbody>
                                             <tr id="inputRow_1">
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                                                    </div>
-                                                </td>
-                                                <td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <!-- Correct the value to reflect the product's size or leave it empty for a new product -->
+                                                    <input type="text" id="size_1" class="form-control" placeholder="e.g. XL" name="size" value="{{ old('size', $product->size ?? '') }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <!-- Correct the name to match your variant stock field, and keep the old value for validation -->
+                                                    <input type="number" class="form-control" name="variantStocks" value="{{ old('variantStocks', $variant->stocks ?? '') }}">
+                                                </div>
+                                            </td>
                                                 <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
                                                     <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
                                                 </button>
