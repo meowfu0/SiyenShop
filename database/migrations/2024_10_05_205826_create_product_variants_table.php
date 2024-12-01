@@ -15,13 +15,12 @@ class CreateProductVariantsTable extends Migration
     {
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id'); 
-            
-            $table->string('size', 255); 
-            $table->integer('stock'); 
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // Foreign key to products
+            $table->string('size');
+            $table->integer('stock');
             $table->timestamps();
         });
+        
     }
 
     /**

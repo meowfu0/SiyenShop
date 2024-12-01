@@ -52,14 +52,15 @@
                         <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
                         
                         <!-- Drag and Drop Zone -->
-                        <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
+                        <div id="drop_zone" class="border p-4 text-center position-relative" style="cursor: pointer;">
                             <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                            <input type="file" id="image_upload" name="product_image"class="form-control-file d-none" accept="image/*" wire:model="product_image">
+                            <input type="file" id="image_upload" name="product_image" class="form-control-file d-none" accept="image/*">
                             <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+                            <button id="remove_image" class="btn btn-outline-primary d-none position-absolute" style="top: 5px; right: 5px;">X</button>
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Second Column -->
                 <div class="col-md-6 d-flex flex-column gap-3"> 
                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -160,13 +161,11 @@
                     </div>
                 </div>
 
-                    <div class="form-group mb-1">
-                        <label for="shop_id" class="fw-bold text-primary">Organization</label>
-                       <!-- <input type="text" id="organization" class="form-control" 
-                            value="{{ Auth::user()->organization ?? 'No organization assigned' }}" readonly disabled> for backend part-->
-                            <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
-                    </div>
-
+                <div class="form-group mb-1">
+                    <label for="shop_id" class="fw-bold text-primary">Organization</label>
+                    <input type="text" id="shop_id" class="form-control" 
+                        value="{{ $shop->shop_name ?? 'No organization assigned' }}" readonly disabled>
+                </div>
                     <div class="col-md-6 gap-3"> 
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             <p class="fw-bold m-0 text-primary">Inventory</p>
@@ -180,8 +179,8 @@
                                 <select name="status_id" id="status_id" class="form-select" required>
                                     <option value="" disabled selected>Select a status</option>
                                     <!-- Example statuses -->
-                                    <option value="1" {{ old('status_id') == 1 ? 'selected' : '' }}>Pre-Order</option>
-                                    <option value="2" {{ old('status_id') == 2 ? 'selected' : '' }}>On-Hand</option>
+                                    <option value="9" {{ old('status_id') == 9 ? 'selected' : '' }}>Pre-Order</option>
+                                    <option value="8" {{ old('status_id') == 8 ? 'selected' : '' }}>On-Hand</option>
                                 </select>
                                 @error('status_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -192,11 +191,10 @@
                                     <select name="visibility_id" id="visibility_id" class="form-select" required>
                                         <option value="" disabled selected>Select visibility</option>
                                         <!-- Example visibility options -->
-                                        <option value="1" {{ old('visibility_id') == 1 ? 'selected' : '' }}>Public</option>
-                                        <option value="2" {{ old('visibility_id') == 2 ? 'selected' : '' }}>Private</option>
+                                        <option value="1" {{ old('visibility_id') == 1 ? 'selected' : '' }}>Visible</option>
+                                        <option value="2" {{ old('visibility_id') == 2 ? 'selected' : '' }}>Hidden</option>
                                     </select>
                                     @error('visibility_id') <span class="text-danger">{{ $message }}</span> @enderror
-
                                 </div>
                             </div>
                         </div>
@@ -225,28 +223,28 @@
                                                 <th class="text-end"></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr id="inputRow_1">
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                                                    </div>
-                                                </td>
-                                                <td>
+                                        <tbody id="variantRows">
+                                        <tr id="inputRow_1">
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" name="sizes[]" id="size_1" class="form-control" placeholder="e.g. XL" value="{{ old('size', $product_variants->size ?? '') }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="number" name="variantStocks[]" id="variantStock" class="form-control" placeholder="e.g. 10" min="0" step="1" value="{{ old('variantStocks', $product_variants->stocks ?? '') }}">
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
                                                     <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
                                                 </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                     </table>
                                     <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
-                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
+                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Save/Add New Size
                                     </button>
 
                                 </div>
@@ -272,11 +270,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label for="stocks" class="form-label">Stocks</label>
-                                    <input type="number" name="stocks" id="stocks" class="form-control" value="{{ old('stocks') }}" required>
-                                    @error('stocks') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="row g-2"> 
+                                <div class="col-md-6"> 
+                                    <div class="form-group">
+                                        <label for="stocks" id="stock" class="form-label">Stocks</label>
+                                        <input type="number" name="stocks" id="stocks" class="form-control" value="{{ old('stocks') }}">
+                                        @error('stocks') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -293,106 +293,73 @@
         </div>
     </div>
     </form>
+    
 </div>
 
 <script>
 
     function toggleQuantity() {
         const statusSelect = document.getElementById('status_id');
-        const quantityInput = document.getElementById('quantity_id');
-        const quantityTitle = document.getElementById('quantity');
-        const quantityTitle2 = document.getElementById('quantity_1');
+        const stocksTitle = document.getElementById('stock'); 
+        const quantityTitle = document.getElementById('quantity_1');
         const variationToggle = document.getElementById('variationToggle');
+        const stocksInput = document.getElementById('stocks');
 
-        if (statusSelect.value === 'preorder' || variationToggle.checked) { //Hides the quantity field
-            quantityInput.style.display = 'none';
+        // Handle stocks input visibility
+        if (statusSelect.value === '9' || variationToggle.checked) { 
+            stocksInput.style.display = 'none';
+            stocksTitle.style.display = 'none';
             quantityTitle.style.display = 'none';
-            
-            //Hide the quantity in the hidden fields
-            if (statusSelect.value === 'preorder') {
-                quantityTitle2.style.visibility = 'hidden'; 
-            } else {
-                quantityTitle2.style.visibility = 'visible'; 
-            }
-        } else if (statusSelect.value === 'onhand' && !variationToggle.checked){ //Shows the quantity field
-            quantityInput.style.display = 'block';
+            console.log('Selected Status:', statusSelect.value); // Debugging line
+
+        } else if (statusSelect.value === '8') { 
+            stocksInput.style.display = 'block';
+            stocksTitle.style.display = 'block';
             quantityTitle.style.display = 'block';
+
         }
+
+
     }
 
-    let currentCategoryId; // Variable to hold the current category ID
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('status_id');
+        const variationToggle = document.getElementById('variationToggle');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const sizeInput = document.getElementById('size_1'); 
+        const quantityInput = document.getElementById('quantity_1'); 
+        const disabledInput = document.getElementById('disabledInput');
+        const stocksInput = document.getElementById('stocks');
+        const stocksTitle = document.getElementById('stock'); 
 
-    function openEditModal(categoryId, categoryName) {
-        // Set the current category name in the input field
-        document.getElementById('category_name').value = categoryName; // This should be the category name
-        // Store the category ID in a variable for later use
-        currentCategoryId = categoryId; // This should be the category ID
-        // Show the modal
-        var myModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
-        myModal.show();
+        // Initial call to set visibility based on default selection
+        toggleQuantity();
 
-        // Handle the Save button click
-        document.getElementById('saveCategoryBtn').onclick = function() {
-            saveCategory(categoryName); // Pass the old category name
-            myModal.hide(); // Hide the modal after saving
-        };
-    }
+        variationToggle.addEventListener('change', function() {
+            if (variationToggle.checked) {
+                hiddenFields.style.display = 'block'; // Show hidden fields
+                disabledInput.style.display = 'none';  // Hide the disabled input
+                quantityInput.style.display = 'block'; // Show quantity input if toggle is on
+                stocksInput.style.display = 'none'; // Hide stocks input if toggle is on
+                stocksTitle.style.display = 'none'; // Hide stocks title if toggle is on
 
-    function selectCategory(categoryName) {
-        // Update the button text
-        document.getElementById('dropdownMenuButton').innerText = categoryName;
-
-        // Close the dropdown
-        const dropdown = new bootstrap.Dropdown(document.getElementById('dropdownMenuButton'));
-        dropdown.hide(); // This will close the dropdown
-    }
-
-    function saveCategory(oldCategory) {
-        const newCategory = document.getElementById('category_name').value.trim();
-        if (newCategory && newCategory !== oldCategory) {
-            const items = document.querySelectorAll('#category-dropdown .dropdown-item');
-            items.forEach(item => {
-                const span = item.querySelector('span');
-                if (span.textContent === oldCategory) {
-                    span.textContent = newCategory; // Update the displayed name
-
-                    // Update the onclick function for the buttons
-                    item.querySelector('button[onclick^="openEditModal"]').setAttribute('onclick', `openEditModal('${currentCategoryId}', '${newCategory}');`);
-                    item.querySelector('button[onclick^="deleteCategory"]').setAttribute('onclick', `deleteCategory('${newCategory}');`);
-                }
-            });
-
-            // Also update the button text if the current selection was the edited category
-            if (document.getElementById('dropdownMenuButton').innerText === oldCategory) {
-                document.getElementById('dropdownMenuButton').innerText = newCategory;
-            }
-
-            // Send the updated category name to the server to update the database
-            sendUpdateToDatabase(currentCategoryId, newCategory);
-        }
-    }
-
-    function sendUpdateToDatabase(categoryId, newCategory) {
-        fetch('/update-category', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // If using Laravel
-            },
-            body: JSON.stringify({ id: categoryId, name: newCategory })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Category updated successfully');
+                 // Set the stocks input value to 0 when variation is checked
+                stocksInput.value = 0;
             } else {
-                console.error('Error updating category:', data.message);
+                hiddenFields.style.display = 'none'; // Hide hidden fields
+                disabledInput.style.display = 'block';  // Show the disabled input
+                toggleQuantity(); // Call toggleQuantity to handle visibility
+
+                // Optionally reset the stocks value to empty or its old value
+                stocksInput.value = ""; 
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
-    }
+
+        // Attach event listener to status select
+        statusSelect.addEventListener('change', toggleQuantity);
+    });
+
+
     //Updated Add Size fields
     let rowCount = 1; // Keeps track of the number of rows
     function myCreateFunction() {
@@ -424,7 +391,7 @@
 
     // Function to update the quantity cell based on status
     function updateQuantityCell(cell, rowCount) {
-        if (document.getElementById('status_id').value === 'preorder') {
+        if (document.getElementById('status_id').value === '9') {
             cell.innerHTML = ''; // Clear the cell for quantity if pre-order
         } else {
             cell.innerHTML = `
@@ -454,80 +421,61 @@
         }
     }
 
-    //Uploading Image
     document.addEventListener('DOMContentLoaded', function() {
-        const dropZone = document.getElementById('drop_zone');
-        const fileInput = document.getElementById('image_upload');
-        const imagePreview = document.getElementById('uploaded_image_preview');
+    const dropZone = document.getElementById('drop_zone');
+    const fileInput = document.getElementById('image_upload');
+    const imagePreview = document.getElementById('uploaded_image_preview');
+    const removeButton = document.getElementById('remove_image');
 
-        // Click on drop zone triggers the file input click
-        dropZone.addEventListener('click', () => {
-            fileInput.click();
-        });
+    // Click on drop zone triggers the file input click
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
 
-        // Handle file selection via input
-        fileInput.addEventListener('change', handleFile);
+    // Handle file selection via input
+    fileInput.addEventListener('change', handleFile);
 
-        // Drag and Drop Handlers
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('border-success');
-        });
+    // Drag and Drop Handlers
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-success');
+    });
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('border-success');
-        });
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-success');
+    });
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('border-success');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                handleFile(); // Show preview
-            }
-        });
-
-        function handleFile() {
-            const file = fileInput.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.classList.remove('d-none');
-                }
-                reader.readAsDataURL(file);
-            }
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-success');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            handleFile(); // Show preview
         }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const statusSelect = document.getElementById('status_id');
-        const categorySelect = document.getElementById('category');
-        const variationToggle = document.getElementById('variationToggle');
-        const hiddenFields = document.getElementById('hiddenFields');
-        const sizeInput = document.getElementById('size_1');
-        const quantityInput = document.getElementById('quantity_1');
-        const disabledInput = document.getElementById('disabledInput');
-
-        // Initial call to set visibility based on default selection
-        toggleQuantity();
-
-        variationToggle.addEventListener('change', function() {
-            if (variationToggle.checked) {
-                hiddenFields.style.display = 'block'; // Show hidden fields
-                disabledInput.style.display = 'none';  // Hide the disabled input
-            } else {
-                hiddenFields.style.display = 'none'; // Hide hidden fields
-                disabledInput.style.display = 'block';  // Show the disabled input
+    function handleFile() {
+        const file = fileInput.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.classList.remove('d-none');
+                removeButton.classList.remove('d-none'); // Show the "X" button
             }
+            reader.readAsDataURL(file);
+        }
+    }
 
-            toggleQuantity(); // Call toggleQuantity to handle visibility
-        });
-
-        // Attach event listener to status select
-        statusSelect.addEventListener('change', toggleQuantity);
+    // Remove image and hide button
+    removeButton.addEventListener('click', function() {
+        imagePreview.classList.add('d-none'); // Hide the image
+        removeButton.classList.add('d-none'); // Hide the button
+        fileInput.value = ''; // Clear the file input
     });
+});
+    
 
 </script>
 
