@@ -42,6 +42,11 @@
                             <div class="mb-3">
                                 <label for="gcashNumber" class="form-label fw-bold">Pay to this GCash Number:</label>
                                 <select class="form-select" id="gcashNumber" name="gcash_number" required>
+
+                                    @if($gcashInfo->isEmpty())
+                                    <option value="" class="text-danger" selected  >No GCash number available!</option>
+                                    @else
+
                                     @foreach($gcashInfo as $gcash)
                                     <option value="{{ $gcash->id }}"
                                         @if($gcash->gcash_limit == 0 || $gcash->gcash_limit < $amount_to_pay) class="text-danger" disabled @endif>
@@ -64,6 +69,7 @@
                                         @endif
                                     </option>
                                     @endforeach
+                                    @endif
                                 </select>
                             </div>
 
