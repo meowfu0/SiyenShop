@@ -207,4 +207,36 @@ class MessageController extends Controller
     {
         return view('components.emailers.message_notification');
     }
+
+    public function getShopUserId(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'shop_id' => 'required|exists:shops,id', 
+            'message' => 'required|string|max:1000', 
+        ]);
+    
+
+        $shop = Shop::find($request->shop_id);
+    
+        if ($shop) {
+            $userId = $shop->user_id; 
+
+            if (auth()->user()->role_id == 2) {
+                $message = Message::create([
+                    'sender_id' => auth()->id(),
+                    'recipient_id' => $userId, 
+                    'message' => $request->message, 
+                ]);
+
+                broadcast(new MessageSent(auth()->user(), $message))->toOthers();
+
+                return response()->json(['success' => true, 'user_id' => $userId, 'message' => $message]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'You are not authorized to send a message.'], 403);
+            }
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Shop not found.']);
+    }
 }
