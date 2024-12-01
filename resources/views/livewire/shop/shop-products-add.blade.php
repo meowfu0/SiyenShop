@@ -225,18 +225,17 @@
                                         </thead>
                                         <tbody>
                                             <tr id="inputRow_1">
-                                            <td>
-                                                <div class="form-group">
-                                                    <!-- Correct the value to reflect the product's size or leave it empty for a new product -->
-                                                    <input type="text" id="size_1" class="form-control" placeholder="e.g. XL" name="size" value="{{ old('size', $product->size ?? '') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <!-- Correct the name to match your variant stock field, and keep the old value for validation -->
-                                                    <input type="number" class="form-control" name="variantStocks" value="{{ old('variantStocks', $variant->stocks ?? '') }}">
-                                                </div>
-                                            </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" name="size" id="size_1" class="form-control" placeholder="e.g. XL" value="{{ old('size', $product_variants->size ?? '') }}">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="number" name="variantStocks" id="variantStocks" class="form-control" placeholder="e.g. 10" min="0" step="1" value="{{ old('variantStocks', $product_variants->stocks ?? '') }}">
+                                                    </div>
+                                                </td>
+                                                <td>
                                                 <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
                                                     <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
                                                 </button>
@@ -342,10 +341,16 @@
                 quantityInput.style.display = 'block'; // Show quantity input if toggle is on
                 stocksInput.style.display = 'none'; // Hide stocks input if toggle is on
                 stocksTitle.style.display = 'none'; // Hide stocks title if toggle is on
+
+                 // Set the stocks input value to 0 when variation is checked
+                stocksInput.value = 0;
             } else {
                 hiddenFields.style.display = 'none'; // Hide hidden fields
                 disabledInput.style.display = 'block';  // Show the disabled input
                 toggleQuantity(); // Call toggleQuantity to handle visibility
+
+                // Optionally reset the stocks value to empty or its old value
+                stocksInput.value = ""; // Reset to empty or use: `stocksInput.value = "{{ old('stocks') }}";` to restore old value
             }
         });
 
