@@ -12,17 +12,17 @@
             </div>
 
             @foreach($shopName as $shop)
-                @php
-                    $shops = "";
-                    $shops = $shop->shop_name;
-                    $shopsid = $shop->id;
-                @endphp
+            @php
+            $shops = "";
+            $shops = $shop->shop_name;
+            $shopsid = $shop->id;
+            @endphp
             @endforeach
 
             @foreach($total_amount_toPay as $total)
-                @php
-                    $amount_to_pay = $total->total_amount;
-                @endphp
+            @php
+            $amount_to_pay = $total->total_amount;
+            @endphp
             @endforeach
 
             <div class="container mt-2">
@@ -47,7 +47,7 @@
                                         @if($gcash->gcash_limit == 0 || $gcash->gcash_limit < $amount_to_pay) class="text-danger" disabled @endif>
                                             @if($gcash->gcash_limit == 0 || $gcash->gcash_limit < $amount_to_pay)
                                                 @php
-                                                    $nameParts=explode(' ', $gcash->gcash_name);
+                                                $nameParts=explode(' ', $gcash->gcash_name);
                                                     $firstName = isset($nameParts[0]) ? $nameParts[0] : '';
                                                     $middleInitial = isset($nameParts[1]) ? $nameParts[1] : '';
                                                     $lastName = isset($nameParts[2]) ? $nameParts[2] : $nameParts[1];
@@ -89,7 +89,7 @@
                             </div>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="ModalProceedPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="ModalProceedPayment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header border-0">
@@ -99,9 +99,9 @@
                                             <p class="fw-semibold fs-5">Are the given information correct?</p>
                                         </div>
                                         <div class="modal-footer border-0 d-flex justify-content-end">
-                                            <button type="button" class="btn btn-outline-primary btn-md w-25" data-bs-dismiss="modal">No</button>
+                                            <button type="button" id="BTNno" class="btn btn-outline-primary btn-md w-25" data-bs-dismiss="modal">No</button>
                                             <button type="button" class="btn btn-secondary btn-md w-25" data-bs-dismiss="modal" style="display: none;">Okay</button>
-                                            <button type="submit" class="btn btn-primary btn-md w-25">Yes</button>
+                                            <button type="submit" id="BTNyes" class="btn btn-primary btn-md w-25">Yes</button>
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,11 @@
     </div>
 </div>
 
-
+<script>
+    document.getElementById("BTNyes").addEventListener("click", function() {
+        document.getElementById("BTNno").disabled = true;
+    });
+</script>
 
 
 @endsection

@@ -22,13 +22,26 @@ class PaymentPageController extends Controller
         // Get the current authenticated user's ID
         $userId = Auth::user()->id;
 
+        $user = DB::table('carts')
+        ->where('user_id', $userId)
+        ->value('id');
+
 
         // --- QUERY TO GET THE SHOP NAME ---
         $shopName = DB::table('cart_items as i')
             ->join('products as p', 'i.product_id', '=', 'p.id')
             ->join('shops as s', 'p.shop_id', '=', 's.id')
             ->select('s.shop_name', 's.id')
-            ->where('i.cart_id', '=', $userId) // Assuming $userId refers to cart_id
+            ->where('i.cart_id', '=', $user) // Assuming $userId refers to cart_id
+            ->where('p.shop_id', '=', function ($query) use ($user) {
+                // Subquery to get the shop_id of the first product
+                $query->select('shop_id')
+                    ->from('products')
+                    ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
+                    ->where( 'ci.cart_id','=',$user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
+                    ->limit(1); // Limit to just the first match
+            })
             ->limit(1)
             ->get();
 
@@ -47,17 +60,15 @@ class PaymentPageController extends Controller
             ->join('shops as s', 'p.shop_id', '=', 's.id')
             ->join('g_cash_infos as g', 's.id', '=', 'g.shop_id')
             ->select('s.shop_name', 'g.id', 'g.gcash_name', 'g.gcash_number', 'g.gcash_limit')
-            ->where('i.cart_id', '=', $userId)
-            ->where('p.shop_id', '=', function ($query) use ($userId) {
+            ->where('i.cart_id', '=', $user)
+            ->where('p.shop_id', '=', function ($query) use ($user) {
                 // Subquery to get the shop_id of the first product
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
-                    ->where(
-                        'ci.cart_id',
-                        '=',
-                        $userId
-                    )
+                    ->where( 'ci.cart_id','=',$user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
+
                     ->limit(1); // Limit to just the first match
             })
 
@@ -77,6 +88,12 @@ class PaymentPageController extends Controller
     {
         // Get the current authenticated user's ID
         $userId = Auth::user()->id;
+
+        $user = DB::table('carts')
+        ->where('user_id', $userId)
+            ->value('id');
+
+            
         // Decode the base64-encoded product IDs
         $decodedIds = base64_decode($id);
         // Convert the string of IDs into an array
@@ -125,7 +142,7 @@ class PaymentPageController extends Controller
             'c.total_amount',
             DB::raw("IF(cat.id = {$categoryId}, 'Shirt', 'Other') as item_type") // Conditional column to differentiate between Shirt and Other items
         )
-        ->where('i.cart_id', '=', $userId)
+        ->where('i.cart_id', '=', $user)
         ->whereIn('i.id',
             $productIds
         )
@@ -140,7 +157,16 @@ class PaymentPageController extends Controller
             ->join('products as p', 'i.product_id', '=', 'p.id')
             ->join('shops as s', 'p.shop_id', '=', 's.id')
             ->select('s.shop_name', 's.id')
-            ->where('i.cart_id', '=', $userId) // Assuming $userId refers to cart_id
+            ->where('i.cart_id', '=', $user) // Assuming $userId refers to cart_id
+            ->where('p.shop_id', '=', function ($query) use ($user) {
+                // Subquery to get the shop_id of the first product
+                $query->select('shop_id')
+                    ->from('products')
+                    ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
+                    ->where('ci.cart_id', '=', $user )
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
+                    ->limit(1); // Limit to just the first match
+            })
             ->limit(1)
             ->get();
 
@@ -222,54 +248,48 @@ class PaymentPageController extends Controller
             ->update(['stocks' => $newStock]);
         }
 
-
+      
 
         // Get the shirts and their details
-        $sizes = DB::table('carts as c')
-            ->join('users as u', 'c.user_id', '=', 'u.id')
-            ->join('cart_items as i', 'c.user_id', '=', 'i.cart_id')
-            ->join('products as p', 'i.product_id', '=', 'p.id')
-            ->join('categories as cat', 'p.category_id', '=', 'cat.id')
-            ->join('product_variants as v', 'i.size', '=', 'v.id')
-            ->select(
-                'i.size', // Variant ID
-                'i.quantity', // Quantity purchased
-                'v.stock as current_stock' // Current stock in product_variants
-            )
-            ->where('i.cart_id', '=', $userId)
-            ->where(
-                'cat.id',
-                '=',
-                4
-            )
-            ->whereIn('i.id', $productIds)
+        // Retrieve the sizes and their details from the cart
+        $sizes = DB::table('cart_items as i')
+        ->join('carts as c', 'i.cart_id', '=', 'c.id')
+        ->join('products as p', 'i.product_id', '=', 'p.id')
+        ->join('categories as cat', 'p.category_id', '=', 'cat.id')
+        ->join('product_variants as v', 'i.size', '=', 'v.id')
+        ->select(
+            'i.size',        // Variant ID
+            'i.quantity',    // Quantity purchased
+            'v.stock as current_stock' // Current stock in product_variants
+        )
+        ->where('i.cart_id', '=', $user)
+        ->where('cat.id',
+            '=',
+            4
+        ) // Filter by category ID
+        ->whereIn('i.id', $productIds) // Filter by selected product IDs
             ->get();
 
-        // Group by size and sum the quantities
+        // Group sizes by `size` ID and sum the quantities
         $groupedSizes = $sizes->groupBy('size')->map(function ($items) {
             return $items->sum('quantity');
         });
 
         // Update stock sizes
         foreach ($groupedSizes as $sizeId => $totalQuantity) {
-            // Get the current stock of this size variant
-            $currentStock = DB::table('product_variants')->where('id', $sizeId)->value('stock');
+            // Fetch the current stock for the size variant
+            $currentStock = DB::table('product_variants')
+            ->where('id', $sizeId)
+            ->value('stock');
 
-            // Calculate the new stock after the quantity deduction
-            $newStock = $currentStock - $totalQuantity;
-
-            // Ensure stock doesn't go negative
-            if ( $newStock < 0 ) {
-                $newStock = 0; 
-            }
+            // Calculate the new stock after deduction
+            $newStock = max($currentStock - $totalQuantity, 0); // Ensure stock is not negative
 
             // Update the stock in the product_variants table
             DB::table('product_variants')
-                ->where('id', $sizeId)
-                ->update(['stock' => $newStock]);
+            ->where('id', $sizeId)
+            ->update(['stock' => $newStock]);
         }
-
-
 
         // Fetch the total amount to be deducted from GCash
         $reducegcash = DB::table('carts as c')
@@ -281,12 +301,13 @@ class PaymentPageController extends Controller
             ->select('c.total_amount', 'g.id as gcash_id', 'g.gcash_limit')
             ->where('g.id', '=', $gcashNumber)
             ->where('c.user_id', '=', $userId) 
-            ->where('p.shop_id', '=', function ($query) use ($userId) {
+            ->where('p.shop_id', '=', function ($query) use ($user) {
                 // Subquery to get the shop_id of the first product in the cart
                 $query->select('shop_id')
                     ->from('products')
                     ->join('cart_items as ci', 'products.id', '=', 'ci.product_id')
-                    ->where('ci.cart_id', '=', $userId)
+                    ->where('ci.cart_id', '=', $user)
+                    ->orderBy('ci.id', 'DESC') // get only the shop_id of the last product added to the cart
                     ->limit(1);
             })
             ->get(); // Removed distinct as it's unnecessary here
