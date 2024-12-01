@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Status;
 use App\Models\User;
 
+
 class Shop extends Model
 {
     use HasFactory;
@@ -17,10 +18,14 @@ class Shop extends Model
      *
      * @var array<int, string>
      */
+
+     protected $table = 'shops';
+     
     protected $fillable = [
-        'shop_name', 'shop_description', 'shop_logo', 'user_id', 'course_id', 'status_id'
+        'shop_name', 'shop_email', 'shop_logo', 'user_id', 'course_id', 'status_id'
     ];
 
+    
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id'); 

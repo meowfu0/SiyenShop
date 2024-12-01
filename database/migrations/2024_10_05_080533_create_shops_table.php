@@ -23,7 +23,7 @@ class CreateShopsTable extends Migration
             
             // Other fields
             $table->string('shop_name', 255); 
-            $table->text('shop_description'); 
+            $table->string('shop_email', 255)->unique(); // Replacing shop_description with shop_email
             $table->string('shop_logo', 255)->nullable(); 
 
             // Foreign keys with not null and cascade on delete

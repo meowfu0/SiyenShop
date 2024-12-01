@@ -12,57 +12,72 @@
                 <h1 class="mb-2 fw-bold text-primary">Create Shop</h1>
             </div>
             
-           
+            
 <!-- FORM-->   
-            <form action="{{ route('shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
+            <form action="{{ route('admin.shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
             @csrf
 <!--LOGO/PROFILE PIC--> 
-            <div class="d-flex gap-4 ms-3">
-                <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
-                class="profile-picture1" style="margin-right: 20px;"
-                alt="Profile Picture"
-                />
-                <div class="form-group d-flex align-items-center gap-3">
-                    
-                    <button class="btn btn-outline-primary d-flex align-items-center gap-2 hoverinvert p-3 flex-grow-1" style="height: 2rem">Upload Photo
-                        <img src="{{ asset('images/add.svg')}}" alt="">
-                    </button>
-                    <button class="btn btn-secondary h-25">Remove</button>
-                </div>
-            </div>
+<div class="d-flex gap-1 ms-3">
+    <!-- Profile Picture -->
+    <div id="profilePictureContainer">
+        <img
+            id="profileImage"
+            src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+            class="profile-picture1"
+            style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
+            alt="Profile Picture"
+        />
+    </div>
 
+    <!-- Form Group with Buttons -->
+    <div class="form-group d-flex align-items-center gap-3">
+        <!-- Upload Photo Button -->
+        <label for="fileInput" class="btn btn-outline-primary d-flex align-items-center gap-2 hoverinvert p-3 flex-grow-1" style="height: 2rem; cursor: pointer;">
+            Upload Photo
+            <img src="{{ asset('images/add.svg') }}" alt="">
+        </label>
+        <input
+            type="file"
+            id="fileInput"
+            style="display: none;"
+            accept="image/*"
+            name="shop_logo"
+            onchange="previewImage(event)"
+        />
+        
+        <!-- Remove Button -->
+        <button type="button" class="btn btn-secondary h-25" id="removeBtn" onclick="removeImage()">Remove</button>
+    </div>
+</div>
             <!-- INPUT FIELDS--> 
                         <div class="form-group">
                             <label for="shopName" class="fw-bold mb-1">Shop Name</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopName" placeholder="Enter Shop Name" >
+                            <input type="text" class="form-control px-3 py-2" id="shopName" name="shop_name" placeholder="Enter Shop Name" required>
                         </div>
                         
                         
                         <div class="form-group">
                             <label for="course"  class="fw-bold mb-1">Course</label>
-                            <select class="form-control px-3 py-2" id="course" name="course_id">
+                            <select class="form-control px-3 py-2" id="course" name="course_id" required>
                                 <option value="" selected>Choose...</option>
-                                <option value="1">BS Information Technology</option>
-                                <option value="2">BS Computer Science</option>
-                                <option value="3">BS Biology</option>
-                                <option value="4">BS Chemistry</option>
-                                <option value="5">BS Meteorology</option>
+                                @foreach($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="shopEmail" class="fw-bold mb-1">Shop Email Address</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" placeholder="Enter Shop Email Address" >
+                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" placeholder="Enter Shop Email Address" required>
                         </div>
                         <div class="form-group">
                             <label for="businessManager"  class="fw-bold mb-1 ">Assign Business Manager(s)</label>
                                 <div class="align-items-center gap-3" id="managerRow1" style="display:flex;">
-                                    <select class="form-control px-3 py-2" id="managerName1"  name="managers[]">
-                                        <option value="" selected>Choose Business Manager</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Name</option>
-                                        <option value="3">Name</option>
-                                    </select>
+                                <select class="form-control px-3 py-2" name="managers[]" class="form-control" id="managerName1" required>
+                                <option value="" selected>Choose Business Manager</option>
+                                    @foreach($managers as $manager)
+                                        <option value="{{ $manager->id }}">{{ $manager->first_name }} {{ $manager->last_name }}</option>
+                                    @endforeach
+                                </select>
                                     <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn1">
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
                                         </button>  
@@ -73,9 +88,9 @@
                                 <div class="mt-2 align-items-center gap-3" id="managerRow2" style="display: none;">
                                     <select class="form-control px-3 py-2" id="managerName2" name="managers[]">
                                     <option value="" selected>Choose Business Manager</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Name</option>
-                                        <option value="3">Name</option>
+                                        @foreach($managers as $manager)
+                                            <option value="{{ $manager->id }}">{{ $manager->first_name }} {{ $manager->last_name }}</option>
+                                        @endforeach
                                     </select>
                                         <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn2">
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
@@ -91,20 +106,24 @@
                             <img src="{{ asset('images/add.svg')}}" alt="">
                         </button>
                                 
-                            
-                    </form>
-            <div class="d-flex gap-2 justify-content-end ">
+                    
+                        <div class="d-flex gap-2 justify-content-end ">
                 <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
-                <button class="btn btn-primary p-2 px-4 fs-4" type="submit" onclick="shops()">Create</button>
+                <button class="btn btn-primary p-2 px-4 fs-4" type="submit">Create</button>
             </div>
+                    </form>
+            
         </div>
         <div class="col d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column  border border-primary p-5" style="border-radius: 1rem">
                 <div class="mb-3 d-flex justify-content-center w-100">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
-                         class="profile-picture1"
-                         alt="Profile Picture"
-                         style="width: 200px; height: 200px;">
+                    <img
+                        id="displayProfileImage"
+                        src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+                        class="profile-picture1"
+                        style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
+                        alt="Profile Picture"
+                    />
                 </div>
                 <div class="d-flex flex-column justify-content-start px-5">
                     <h3 id="displayShopName" class="fw-bold fs-7">Shop Name</h3>
@@ -124,9 +143,19 @@
 </div>
 
 
-
 <script src="{{asset('js/admin-shops.js')}}" ></script>
+<script>
+    function cancel(){
+        
+        window.location.href = "{{ route('admin.shops') }}";
+    
+    }
 
+    function shops(){
+        //create function tbf
+        window.location.href = "{{ route('admin.shops') }}";
+    }
+</script>
 <!--
 <script>
 

@@ -33,7 +33,8 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
-
+use App\Http\Controllers\CreateShopController;
+use App\Http\Controllers\Status;
 
 
 Auth::routes();
@@ -117,13 +118,16 @@ Route::middleware(['role:Admin'])->group(function () {
             Route::prefix('shops')->group(function () {
                 Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
                 Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
-                Route::post('/update', [shopPageController::class, 'update'])->name('admin.update');
+                Route::get('/shops/create', [CreateShopController::class, 'index'])->name('admin.createshop');
+                Route::get('/create', [CreateShopController::class, 'index'])->name('admin.shops.create');  // Form for creating a shop
+                Route::post('/', [CreateShopController::class, 'store'])->name('admin.shops.store');  // Store shop data
+
             });
             //Role Edit / Update
             Route::get('/users/{userId}/edit', [UserController::class, 'edit'])->name('users.edit'); // Fetch user and roles
             Route::put('/users/{userId}/update-role', [UserController::class, 'updateRole'])->name('users.updateRoles'); // Update role
             
-        });
+    });
 
        
 });
