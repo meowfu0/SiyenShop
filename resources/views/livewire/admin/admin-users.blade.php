@@ -183,7 +183,12 @@
                         <div class="col-md-6 ms-4" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Account & Profile</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="manageUsers">
+                                <input class="form-check-input ms-3" 
+                                type="checkbox" 
+                                id="addProducts" 
+                                name="permissions[]" 
+                                value="edit_profile" 
+                                >
                                 <label class="form-check-label ms-2" for="editProfile">Edit Profile</label>
                             </div>
                             <div class="form-check mt-3">
@@ -294,10 +299,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center align-items-center" style="height: 60px;">
-                    <p>Are you sure you want to deactivate this account?</p>
+                    <p id="prompt">Are you sure you want to deactivate this account?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn custom-btn fs-2 fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn custom-btn fs-2 fw-bold" data-bs-dismiss="modal" 
+                    id="cancelDeactBtn" >Cancel</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;"
                         id="confirmDeactivateBtn">Deactivate</button>
@@ -309,6 +315,7 @@
         //const usersData = @json($users);
         const toEdit = @json(route('users.edit', ['userId' => ':userId']));
         const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
+        const alterStatus = @json(route('users.status', ['userId' => ':userId']));
     </script>
     <script src="{{asset('js/admin-users.js')}}">
         

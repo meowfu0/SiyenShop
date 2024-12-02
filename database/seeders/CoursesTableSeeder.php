@@ -23,6 +23,7 @@ class CoursesTableSeeder extends Seeder
             ['course_name' => 'Bachelor of Science in Biology', 'created_at' => Carbon::now(), 'modified_at' => Carbon::now()],
             ['course_name' => 'Bachelor of Science in Chemistry', 'created_at' => Carbon::now(), 'modified_at' => Carbon::now()],
             ['course_name' => 'Bachelor of Science in Meteorology', 'created_at' => Carbon::now(), 'modified_at' => Carbon::now()],
+            ['course_name' => 'College of Science', 'created_at' => Carbon::now(), 'modified_at' => Carbon::now()],
         ]);
     }
 }

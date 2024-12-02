@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Shop;
 use App\Models\GCashInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class shopPageController extends Controller
 {
@@ -25,6 +26,29 @@ class shopPageController extends Controller
             'shop' => $shop,
             'g_cash_info' => $shop->g_cash_info, // Include Gcash info along with shop
         ]);
+    }
+
+    public function update(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+        ]);
+
+        // Update the user's profile
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    }
+
+    public function create(Request $request, Shop $shop)
+    {
+        //
     }
 
 

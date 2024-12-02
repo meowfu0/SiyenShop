@@ -126,8 +126,11 @@ Route::middleware(['role:Admin'])->group(function () {
             //Role Edit / Update
             Route::get('/users/{userId}/edit', [UserController::class, 'edit'])->name('users.edit'); // Fetch user and roles
             Route::put('/users/{userId}/update-role', [UserController::class, 'updateRole'])->name('users.updateRoles'); // Update role
-            
+            Route::put('/users/{userId}/status', [UserController::class, 'statusChange'])->name('users.status'); // Update role
+
+            Route::get('/users/{userId}/permissions', [UserController::class, 'showPermissions'])->name('permissions.show');  // Form for creating a shop
     });
+    
 
        
 });

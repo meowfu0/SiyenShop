@@ -196,6 +196,9 @@ else {
             const deactivateBtn = document.getElementById('deactivateBtn');
             const cancelBtn = document.getElementById('cancelBtn');
             const roleDropdown = document.getElementById('modalRole');
+            const confirmDeactivateBtn = document.getElementById('confirmDeactivateBtn'); 
+            const cancelDeactBtn = document.getElementById('cancelDeactBtn');
+            let savedRoleValue = roleDropdown.value;
             let isEditing = false;
         
             // When the Edit button is clicked
@@ -219,19 +222,33 @@ else {
                 // After saving, reset the buttons to their original state
                 resetButtons();
             });
+
+            confirmDeactivateBtn?.addEventListener('click', function(){
+                const userStatus = 2;
+                deactivate(userId, userStatus); 
+            })
             
         
             // Cancel edit when Cancel button is clicked
             cancelBtn?.addEventListener('click', function () {
                 if (isEditing) {
                     alert('Edit canceled!');
+                    roleDropdown.value = savedRoleValue;
                     resetButtons();
                 } 
-                else {
-                    const confirmDeactivateModal = new bootstrap.Modal(document.getElementById('confirmDeactivateModal'));
-                    confirmDeactivateModal.show();
-                }
             });
+
+            deactivateBtn?.addEventListener('click', function(){
+                const confirmDeactivateModal = new bootstrap.Modal(document.getElementById('confirmDeactivateModal'));
+                confirmDeactivateModal.show();
+            }); 
+
+            cancelDeactBtn?.addEventListener('click', function(){
+                const cancelDeactivateModal = new bootstrap.Modal(document.getElementById('confirmDeactivateModal'));
+                cancelDeactivateModal.hide();
+            }); 
+                
+            
                             // Reset the modal buttons
     function resetButtons() {
         roleDropdown.disabled = true;
@@ -276,6 +293,33 @@ function updateRole(userId, selectedRoleId) {
     .catch(error => {
         console.error('Error updating role:', error);
         alert('Failed to update role. User ID: ' + userId + ', Role ID: ' + selectedRoleId + '. Error: ' + error.message);
+    });
+}
+
+function deactivate(userId, status){
+    fetch(alterStatus.replace(':userId', userId), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify({ statusId: status })
+    })
+    .then(response => {
+        console.log('Response status:', response.status); // Log status code
+        if (response.ok) {
+            alert('User account deactivated successfully.');
+            location.reload();
+        } 
+        else {
+            return response.json().then(data => {
+                throw new Error(data.message || 'Deactivation failed');
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error deactivating user:', error);
+        alert('Error deactivating user. User ID: ' + userId + ', Status: ' + status + '. Error: ' + error.message);
     });
 }
 

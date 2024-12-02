@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-         // Fetch all the user rows from the database
-         
+        $roles = Role::all(); // Fetch all roles
+        return view('livewire.admin.admin-users', compact('roles'));
     }
 
     /**
@@ -57,11 +58,17 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
-        //
-    }
+        // Fetch the user by ID
+        $user = User::findOrFail($id);
 
+        // Fetch all roles
+        $roles = Role::all();
+
+        // Pass the user and roles data to the view
+        return view('users.edit', compact('user', 'roles'));
+    }
     /**
      * Update the specified resource in storage.
      *
