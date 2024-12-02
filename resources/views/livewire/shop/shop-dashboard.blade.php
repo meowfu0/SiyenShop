@@ -1,229 +1,74 @@
-@extends('layouts.shop')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@section('content')
-    <div class="flex-grow-1" style="width: 100%!important;">
-        @include('components.profilenav')
-        <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
-            <div class="ps-3">
-                <img src="{{ asset('images/Circuits.svg') }}" alt="">
-            </div>
-            <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
-        </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('images/logo.png') }}">
 
-        <div class="d-flex justify-content-between px-5 py-3">
-            <h2 class="fw-bold m-0 text-primary">Sales Analytics</h2>
-            <div class="d-flex align-items-center gap-2">
-                <p class="fs-3 fw-medium m-0 text-primary">Filter Date</p>
-                <input type="date" class="border border-primary rounded-2 p-2 text-primary">
-            </div>
-        </div>
+    <title>{{ config('app.name') }}</title>
+    <link rel="icon" href="{{ asset('images/icon.svg') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bussOrder.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/statusdd.js') }}"></script>
+    <link href="{{ asset('css/customer_support.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/customer_support.js') }}" defer></script>
 
-        <div class="d-flex gap-4 px-5">
-            <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                <h4 class="text-secondary fw-bold">Gross Sales</h4>
-                <h3 class="text-primary fw-bolder">P {{ $Totals['total_amount'] }}</h3>
-
-            </div>
-            <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                <h4 class="text-secondary fw-bold">Profits</h4>
-                <h3 class="text-primary fw-bolder">P {{ $Totals['profits'] }}</h3>
-            </div>
-            <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                <h4 class="text-secondary fw-bold">Orders</h4>
-                <h3 class="text-primary fw-bolder"> {{ $orderCount}} </h3>
-            </div>
-            <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                <h4 class="text-secondary fw-bold">Total Orders</h4>
-                <h3 class="text-primary fw-bolder"> {{$allOrdersCount}} </h3>
-            </div>
-        </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 
-        <div class="d-flex px-5 py-4 gap-4 flex-grow-1 " style="max-height: 60%">
-            <div class=" border border-primary rounded-4 p-4 " style="flex:4;">
-                <div class="d-flex justify-content-between">
-                    <h4 class="text-secondary fw-bold">Recent Orders</h4>
-                    <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
-                </div>
-                <div>
-                    <table class="table table-hover  table-borderless">
-                        <thead>
-                            <tr>
-                                <th scope="col">Order Number</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Course</th>
-                                <th scope="col">Item(s)</th>
-                                <th scope="col">Total</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Ian Gabriel Villame</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Vicente Bercasio</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Archie Onoya</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>John Robert Rodejo</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>John Dave Banas</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Jay Bombales</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Jucel Christopher</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Adornado Cabalbag</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Danielle Rubis</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Shakira Regalado</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Ron Peter Mortega</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
-                            <tr>
-                                <td>09102024001</td>
-                                <td>Mark James Barreda</td>
-                                <td>BSIT</td>
-                                <td>3</td>
-                                <td>P 750.00</td>
-                            </tr>
+</head>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="d-flex flex-column gap-4 " style="flex:3; ">
-                <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="text-secondary fw-bold">Unverified Payments</h4>
-                        <a href="{{ route('shop.orders') }}" class="text-secondary">See all</a>
-                    </div>
-                    <div>
-                        <table class="table table-hover  table-borderless">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Order No.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Referene No.</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>09102024001</td>
-                                    <td>John Robert Rodejo</td>
-                                    <td>536754683287432</td>
-                                </tr>
-                                <tr>
-                                    <td>09102024001</td>
-                                    <td>Ian AGbriel Villame</td>
-                                    <td>536754683287432</td>
-                                </tr>
-                                <tr>
-                                    <td>09102024001</td>
-                                    <td>Vicente Bercasio</td>
-                                    <td>536754683287432</td>
-                                </tr>
-                                <tr>
-                                    <td>09102024001</td>
-                                    <td>Archie Onoya</td>
-                                    <td>536754683287432</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-                <div class="border border-primary rounded-4 p-4 flex-grow-1">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="text-secondary fw-bold">Stock Alert</h4>
-                        <a href="{{ route('shop.products') }}" class="text-secondary">See all</a>
-                    </div>
-                    <div>
-                        <table class="table table-hover  table-borderless">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Stock</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Circuits Tshirt (Black)</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>Circuits Tshirt (Black)</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr>
-                                    <td>Circuits Tshirt (Black)</td>
-                                    <td>10</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
+<body class="antialiased">
+    <div class="d-none d-lg-flex">
+        @livewire('shop-sidenav')
+        <main class="min-vh-100 d-flex flex-grow-1">
+            @livewire('seller.dashboard')
+        </main>
     </div>
-@endsection
+    
+    <div class="d-lg-none text-center">
+        @include('components.screen-prompt')
+    </div>
+    @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+        
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+        
+            function cb(start, end) {
+                Livewire.emit('dateRangeUpdated', start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+            }
+        
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                   'Today': [moment(), moment()],
+                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                   'This Month': [moment().startOf('month'), moment().endOf('month')],
+                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+        
+            cb(start, end);
+        
+        });
+        </script>
+
+</body>
+
+</html>
+
+
+

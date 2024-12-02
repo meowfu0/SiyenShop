@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Orders Print Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+      /* General styling */
+      .bg-image {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          object-fit: cover;
+          z-index: -1;
+      }
+
+      .contents {
+          position: relative;
+          z-index: 1;
+          padding-top: 20px;
+          text-align: center;
+          color: #333;
+      }
+
+      /* Bar styling */
+      .bar {
+          width: 100%;
+          height: 1.875rem;
+          background: linear-gradient(90deg, #E2B93B 0%, #092C4C 100%);
+      }
+
+      /* Footer styling */
+      .footer {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          text-align: center;
+          z-index: 1;
+          padding-top: 10px;
+      }
+
+      /* Print layout adjustments */
+     /* Print layout adjustments */
+@media print {
+    /* Set to letter size */
+    @page {
+        size: 8.5in 11in landscape;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .contents {
+        margin: 0 auto;
+        width: 90%;
+        text-align: center;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .bar {
+        display: block;
+        height: 1.875rem;
+        background: linear-gradient(90deg, #E2B93B 0%, #092C4C 100%);
+    }
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Background image as an inline image element -->
+    <img src="../../../public/images/PrintableLayout.png" class="bg-image" alt="Background Design">
+
+    <div class="contents w-100 mx-5 me-5">
+        <img class="pt-5" src="../../../public/images/icon.svg" alt="" style="height: 100px; width:90.38px">
+        <h1 class="text-primary fw-bold">Orders</h1>
+        <div class="d-flex justify-content-between">
+            <p>Circuits</p>
+            <p>November 9, 2024</p>
+        </div>
+
+        <div class="border rounded-4 p-3">
+            <table class="table table-hover table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Ref no.</th>
+                        <th scope="col">Proof of payment</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0123123</td>
+                        <td>Vintage Shoes</td>
+                        <td>1</td>
+                        <td>200.00</td>
+                        <td>200.00</td>
+                        <td>901234871</td>
+                        <td>screenshot101.jpeg</td>
+                        <td>Pending</td>
+                        <td>08-10-24</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer section with logo and bar that sticks to the bottom -->
+    <div class="footer">
+        <img src="../../../public/images/logo.png" alt="Logo" style="height: 83px; width: 291px; transform: scale(0.5);">
+        <div class="bar"> </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

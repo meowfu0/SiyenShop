@@ -30,15 +30,14 @@ class AdminDashboard extends Component
             ->pluck('count', 'courses.course_name')
             ->toArray();
 
-        // Get top shops based on order count
-        $this->topShops = Shop::select('shops.shop_name')
-            ->join('orders', 'shops.id', '=', 'orders.shop_id')
-            ->selectRaw('shops.shop_name, COUNT(orders.id) as order_count')
-            ->groupBy('shops.shop_name')
-            ->orderByDesc('order_count')
+        // Get top shops based on total order amount
+        $this->topShops = Shop::join('orders', 'shops.id', '=', 'orders.shop_id')
+            ->select('shops.shop_name')
+            ->selectRaw('SUM(orders.total_amount) as total_amount')
+            ->groupBy('shops.shop_name', 'shops.id')
+            ->orderByDesc('total_amount')
             ->limit(5)
-            ->pluck('shop_name')
-            ->toArray();
+            ->get();
 
         // Get all shops
         $this->allShops = Shop::pluck('shop_name')->toArray();
@@ -51,5 +50,6 @@ class AdminDashboard extends Component
             'topShops' => $this->topShops,
             'allShops' => $this->allShops,
         ]);
+        
     }
 }

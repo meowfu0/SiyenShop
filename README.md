@@ -1,6 +1,6 @@
 <p align="center">
   <img src="images/logo.png" alt="Laravel Logo">
-</p>
+</p> 
 
 # SiyenSHOP: AN INTEGRATED E-COMMERCE PLATFORM FOR MERCHANDISE SHOPS WITHIN BICOL UNIVERSITY COLLEGE OF SCIENCE
 

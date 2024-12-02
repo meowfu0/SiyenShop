@@ -29,6 +29,7 @@ use App\Http\Livewire\Admin\Updateshop;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
+use App\Http\Controllers\OrderEmailsController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
@@ -41,14 +42,9 @@ use App\Mail\MessageNotification;
 
 Auth::routes();
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
 
 // =================== user side routes ==================================
 // profile page
@@ -118,7 +114,10 @@ Route::get('/faqs', function () {
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
 
+Route::get('/email', [ OrderEmailsController::class, 'index'])->name('email');
+
 Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('profile.update');
+
 
 
 // Shop Routes Group
@@ -126,7 +125,7 @@ Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('p
 Route::get('/shop', function () {
     return redirect()->route('shop.dashboard');
 })->name('Shop');
-Route::prefix('shop')->group(function () {
+Route::prefix('shop')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');

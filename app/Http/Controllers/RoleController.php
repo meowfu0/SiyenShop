@@ -14,7 +14,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all(); 
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -44,9 +45,10 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
+
     public function show(Role $role)
     {
-        //
+        
     }
 
     /**

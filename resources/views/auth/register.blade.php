@@ -17,6 +17,12 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+                <input id="first_name" type="text" class="form-control py-2 @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required placeholder="Input text" style="font-size: 14px;">
+                @error('first_name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <!-- Last Name -->
@@ -28,12 +34,25 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+                <input id="last_name" type="text" class="form-control py-2 @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required placeholder="Input text" style="font-size: 14px;">
+                @error('last_name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
         </div>
+
 
         <!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label" style="font-size: 16px; color: #092C4C;">Email</label>
+            <input id="email" type="email" class="form-control py-2 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required placeholder="Input text" style="font-size: 14px;">
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
             <input id="email" type="email" class="form-control py-2 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required placeholder="Input text" style="font-size: 14px;">
             @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -51,11 +70,23 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
+            <input id="password" type="password" class="form-control py-2 @error('password') is-invalid @enderror" name="password" required placeholder="Input text" style="font-size: 14px;">
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
         <!-- Phone Number -->
         <div class="mb-3">
             <label for="phone_number" class="form-label" style="font-size: 16px; color: #092C4C;">Phone Number</label>
+            <input id="phone_number" type="text" class="form-control py-2 @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required placeholder="Input text" style="font-size: 14px;">
+            @error('phone_number')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
             <input id="phone_number" type="text" class="form-control py-2 @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required placeholder="Input text" style="font-size: 14px;">
             @error('phone_number')
                 <span class="invalid-feedback" role="alert">
@@ -86,6 +117,7 @@
                         </div>
 
         <!-- Year and Course Block side by side -->
+        <!-- Year and Course Block side by side -->
         <div class="mb-3 row">
             <div class="col">
                 <label for="year" class="form-label" style="font-size: 16px; color: #092C4C;">Year</label>
@@ -96,7 +128,17 @@
                     <option value="3rd Year" {{ old('year') == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
                     <option value="4th Year" {{ old('year') == '4th Year' ? 'selected' : '' }}>4th Year</option>
                     <option value="5th Year" {{ old('year') == '5th Year' ? 'selected' : '' }}>5th Year</option>
+                    <option value="1st Year" {{ old('year') == '1st Year' ? 'selected' : '' }}>1st Year</option>
+                    <option value="2nd Year" {{ old('year') == '2nd Year' ? 'selected' : '' }}>2nd Year</option>
+                    <option value="3rd Year" {{ old('year') == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
+                    <option value="4th Year" {{ old('year') == '4th Year' ? 'selected' : '' }}>4th Year</option>
+                    <option value="5th Year" {{ old('year') == '5th Year' ? 'selected' : '' }}>5th Year</option>
                 </select>
+                @error('year')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
                 @error('year')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -112,7 +154,17 @@
                     <option value="C" {{ old('course_bloc') == 'C' ? 'selected' : '' }}>C</option>
                     <option value="D" {{ old('course_bloc') == 'D' ? 'selected' : '' }}>D</option>
                     <option value="E" {{ old('course_bloc') == 'E' ? 'selected' : '' }}>E</option>
+                    <option value="A" {{ old('course_bloc') == 'A' ? 'selected' : '' }}>A</option>
+                    <option value="B" {{ old('course_bloc') == 'B' ? 'selected' : '' }}>B</option>
+                    <option value="C" {{ old('course_bloc') == 'C' ? 'selected' : '' }}>C</option>
+                    <option value="D" {{ old('course_bloc') == 'D' ? 'selected' : '' }}>D</option>
+                    <option value="E" {{ old('course_bloc') == 'E' ? 'selected' : '' }}>E</option>
                 </select>
+                @error('course_bloc')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
                 @error('course_bloc')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -124,7 +176,13 @@
         <!-- Terms and Conditions -->
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" id="terms" required data-bs-toggle="modal" data-bs-target="#termsModal">
+            <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" id="terms" required data-bs-toggle="modal" data-bs-target="#termsModal">
             <label class="form-check-label" for="terms" style="font-size: 14px; color: #092C4C;">I read and agreed to the <a href="#" style="color: #092C4C; text-decoration: underline;">Terms and Conditions</a></label>
+            @error('terms')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
             @error('terms')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -147,6 +205,7 @@
             <span style="font-size: 14px; color: #092C4C; padding: 0 10px;">or</span>
             <hr class="flex-grow-1 m-0" style="border-top: 1px solid #092C4C;">
         </div>
+        
         
         <!-- Log in Link with lines and or text -->
         <div class="text-center">
@@ -215,3 +274,4 @@
     </div>
 </div>
 @endsection
+
