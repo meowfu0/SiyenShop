@@ -45,4 +45,22 @@ class GCashInfoController extends Controller
         // Return success
         return redirect()->back()->with('success', 'Gcash info added successfully!');
     }
+
+
+
+
+    public function destroy($id)
+    {
+        // Find the GCashInfo record by its ID
+        $gcashInfo = GCashInfo::find($id);
+    
+        // Check if the record exists
+        if ($gcashInfo) {
+            $gcashInfo->delete(); // Soft delete or forceDelete() if you need a permanent deletion
+            return response()->json(['success' => true, 'message' => 'GCash info deleted successfully.']);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'GCash info not found.'], 404);
+    }
+    
 }    

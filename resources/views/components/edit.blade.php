@@ -169,7 +169,7 @@
 
  <!-- Modal -->
 <div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%; width: auto;">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" style="border-bottom: none;">
@@ -184,193 +184,143 @@
                     <button id="addBtn" class="btn btn-outline-primary">+ Add</button>
                 </div>
 
-                <!-- Display Gcash Info -->
                 <div id="gcashInfo" style="display: block;">
-                    <div class="row mb-3">
-                        <div class="col-md-4 text-center"><strong>Gcash Name</strong></div>
-                        <div class="col-md-4 text-center"><strong>Gcash Number</strong></div>
-                        <div class="col-md-4 text-center"><strong>Gcash Limit</strong></div>
+                    <div class="row mb-3 fw-bold">
+                        <div class="col-md-3 text-center">Gcash Name</div>
+                        <div class="col-md-3 text-center">Gcash Number</div>
+                        <div class="col-md-3 text-center">Gcash Limit</div>
+                        <div class="col-md-3 text-center">Actions</div>
                     </div>
-                    <div class="row mb-3" id="gcashInfoContainer">
-                        <!-- Initial row with a delete button -->
-                        @foreach ($gcashInfos as $info)
-                            <div class="col-md-4 text-center">
-                                <p id="gcashNameInfo">{{$info->gcash_name}}</p>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <p id="gcashNumberInfo">{{$info->gcash_number}}</p>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <p id="gcashLimitInfo">{{$info->gcash_limit}}</p>
-                            </div>
-                            <div class="col-12 text-end">
-                                <button type="button" class="btn btn-outline-danger btn-sm" id="deleteInitialRow">−</button>
-                            </div>
-                        @endforeach
+                    <div id="gcashInfoContainer">
+                    @foreach ($gcashInfos as $info)
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-3 text-center">
+            <p class="mb-0">{{ $info->gcash_name }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <p class="mb-0">{{ $info->gcash_number }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <p class="mb-0">{{ $info->gcash_limit }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <button class="delete-gcash btn btn-danger" data-id="{{ $info->id }}">Delete</button>
+        </div>
+    </div>
+@endforeach
+
                     </div>
                 </div>
 
-                <!-- Gcash Edit Section --> 
+                <!-- Gcash Edit Section -->
+                <div id="gcashEdit" style="display: none;">
                     <form id="gcashForm" action="{{ route('gcash.store') }}" method="POST">
                         @csrf
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="gcash_name[]" placeholder="Enter Gcash Name" required>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="gcash_number[]" placeholder="Enter Gcash Number" required>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" name="gcash_limit[]" placeholder="Enter Gcash Limit" required>
-                            </div>
-                        </div>
+                        <div id="gcashFieldsContainer"></div>
+
+                        
                     </form>
+
+                    
                     <!-- Buttons Row -->
-                    <div class="text-end mb-3 d-flex justify-content-end">
-                    <button type="button" class="btn btn-outline-secondary" id="cancelBtn" style="width: 100px; height: 40px; border-radius: 5px; margin-right: 10px;">Cancel</button>
-                    <button id="saveBtn" type="submit" form="gcashForm" class="btn btn-primary" style="width: 100px; height: 40px; border-radius: 5px;">Save</button>
+                    <div class="d-flex justify-content-center mb-5">
+                        <button type="button" class="btn btn-outline-secondary mx-2" id="cancelBtn" style="width: 100px;">Cancel</button>
+                        <button type="submit" form="gcashForm" class="btn btn-primary mx-2" id="saveBtn" style="width: 100px;">Save</button>
+                    </div>
                 </div>
-
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer d-flex justify-content-center" style="border-top: none;">
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    let currentFieldCount = 0; // Start from 0 since we will manually add the first row
+    let fieldCount = 0;
 
-    // Show the Gcash Edit section and Add the first field
-    document.getElementById('addBtn').addEventListener('click', function() {
-        // Hide Gcash Info and show the Edit section
+    // Switch to edit mode and add the first field
+    document.getElementById('addBtn').addEventListener('click', function () {
         document.getElementById('gcashInfo').style.display = 'none';
         document.getElementById('gcashEdit').style.display = 'block';
-        document.getElementById('cancelBtn').style.display = 'inline-block'; // Show Cancel button
-        document.getElementById('saveBtn').style.display = 'inline-block'; // Show Save button when in edit mode
-
-        // Remove the initial row in gcashInfoContainer when switching to edit mode
-        const gcashInfoContainer = document.getElementById('gcashInfoContainer');
-        gcashInfoContainer.innerHTML = ''; // Clear the initial "No data" row
-
-        addField(); // Add the first empty row for editing
+        document.getElementById('gcashFieldsContainer').innerHTML = ''; // Clear fields
+        addField(); // Add an initial empty row
     });
 
-    // Cancel button to switch back to view mode
-    document.getElementById('cancelBtn').addEventListener('click', function() {
+    // Cancel button functionality
+    document.getElementById('cancelBtn').addEventListener('click', function () {
         document.getElementById('gcashEdit').style.display = 'none';
         document.getElementById('gcashInfo').style.display = 'block';
-        document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
-        document.getElementById('saveBtn').style.display = 'none'; // Hide Save button when switching back to view mode
     });
 
-    // Save button to store the data and display it in the modal
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        const gcashNames = document.querySelectorAll('[name="gcashName[]"]');
-        const gcashNumbers = document.querySelectorAll('[name="gcashNumber[]"]');
-        const gcashLimits = document.querySelectorAll('[name="gcashLimit[]"]');
-
-        const infoContainer = document.getElementById('gcashInfoContainer');
-        infoContainer.innerHTML = ''; // Clear the container before adding new data
-
-        // Loop through input fields and display their values
-        for (let i = 0; i < gcashNames.length; i++) {
-            const newRow = document.createElement('div');
-            newRow.classList.add('row', 'mb-3');
-
-            newRow.innerHTML = `
-                <div class="col-md-4 text-center">
-                    <p>${gcashNames[i].value || 'No data'}</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <p>${gcashNumbers[i].value || 'No data'}</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <p>${gcashLimits[i].value || 'No data'}</p>
-                </div>
-            `;
-            infoContainer.appendChild(newRow); // Append the new row to the info container
-        }
-
-        // Switch back to display mode
-        document.getElementById('gcashEdit').style.display = 'none';
-        document.getElementById('gcashInfo').style.display = 'block';
-        document.getElementById('cancelBtn').style.display = 'none'; // Hide Cancel button
-        document.getElementById('saveBtn').style.display = 'none'; // Hide Save button after saving
-    });
-
-    // Add new input fields
-    document.getElementById('addFieldBtn').addEventListener('click', function() {
-        addField(); // Add a new field set when clicking the Add button
-    });
-
-    // Remove last input field
-    document.getElementById('removeFieldBtn').addEventListener('click', function() {
-        removeField(); // Remove the last added field set
-    });
-
-    // Function to add a new field set dynamically
+    // Function to add a new input field
     function addField() {
-        const container = document.getElementById('gcashForm');
-        
-        // Create new field set
-        const newFieldSet = document.createElement('div');
-        newFieldSet.classList.add('row', 'mb-3');
-        newFieldSet.setAttribute('id', `fieldSet-${currentFieldCount}`);
+        const container = document.getElementById('gcashFieldsContainer');
+        const newRow = document.createElement('div');
+        newRow.classList.add('row', 'mb-3');
+        newRow.setAttribute('data-id', fieldCount);
 
-        // Create input fields for Gcash Name, Number, Limit
-        newFieldSet.innerHTML = `
-            <div class="col-md-4 text-center">
-                <input type="text" class="form-control text-center" name="gcashName[]" placeholder="Gcash Name">
+        newRow.innerHTML = `
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="gcash_name[]" placeholder="Gcash Name" required>
             </div>
-            <div class="col-md-4 text-center">
-                <input type="text" class="form-control text-center" name="gcashNumber[]" placeholder="Gcash Number">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="gcash_number[]" placeholder="Gcash Number" required>
             </div>
-            <div class="col-md-4 text-center">
-                <input type="text" class="form-control text-center" name="gcashLimit[]" placeholder="Gcash Limit">
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="gcash_limit[]" placeholder="Gcash Limit" required>
             </div>
-            <div class="col-12 text-end">
-                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteField(${currentFieldCount})">−</button>
-            </div>
+            
         `;
 
-        // Append the new row to the form container
-        container.appendChild(newFieldSet);
-        currentFieldCount++; // Increment the field count
+        container.appendChild(newRow);
+        fieldCount++;
+
+        // Add delete functionality for the newly added field
+        newRow.querySelector('.delete-btn').addEventListener('click', function () {
+            container.removeChild(newRow);
+        });
     }
 
-    // Function to remove the last added field set
-    function removeField() {
-        if (currentFieldCount > 0) { // Ensure we don't remove the last field
-            const lastFieldSet = document.getElementById(`fieldSet-${currentFieldCount - 1}`);
-            if (lastFieldSet) {
-                lastFieldSet.remove(); // Remove the last added field set
-                currentFieldCount--; // Decrease the field count
-            }
+    // Delete functionality for existing GCash entries in the table
+    document.addEventListener('DOMContentLoaded', function () {
+        const gcashInfoContainer = document.getElementById('gcashInfo');
+
+        if (gcashInfoContainer) {
+            gcashInfoContainer.addEventListener('click', function (event) {
+                if (event.target.classList.contains('delete-gcash')) {
+                    const id = event.target.dataset.id; // Assuming you pass the ID via a data attribute
+
+                    if (confirm('Are you sure you want to delete this GCash info?')) {
+                        fetch(`/gcash/delete/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Accept': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert(data.message);
+
+                                    // Remove the corresponding row from the DOM
+                                    const row = event.target.closest('.row');
+                                    if (row) {
+                                        row.remove();
+                                    }
+                                } else {
+                                    alert(data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while deleting the GCash info.');
+                            });
+                    }
+                }
+            });
         }
-    }
-
-    // Function to delete a specific field set (including the first row)
-    function deleteField(fieldId) {
-        if (confirm("Are you sure you want to delete this entry?")) {
-            const fieldSet = document.getElementById(`fieldSet-${fieldId}`);
-            if (fieldSet) {
-                fieldSet.remove(); // Remove the specific field set
-                currentFieldCount--; // Decrease the field count
-            }
-        }
-    }
-
-
-
-
-    
-
-
+    });
 </script>
+
 
 
 

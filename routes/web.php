@@ -33,7 +33,7 @@ use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserProfileController;
-
+use App\Http\Controllers\GCashInfoController;
 
 
 
@@ -135,10 +135,10 @@ Route::prefix('admin')->group(function () {
 
    
 Route::post('/gcash/update/{id}', [GcashController::class, 'update'])->name('gcash.update');
-Route::delete('/gcash/delete/{id}', [GcashController::class, 'destroy'])->name('gcash.destroy');
+Route::delete('/gcash/delete/{id}', [GCashInfoController::class, 'destroy'])->name('gcash.destroy');
 
 
-use App\Http\Controllers\GCashInfoController;
+
 
 Route::post('/gcash/store', [GCashInfoController::class, 'store'])->name('gcash.store');
 
