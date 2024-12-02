@@ -12,14 +12,19 @@
                     
                     <!-- Left Column for Image -->
                     <div class="col-md-5 d-flex align-items-start justify-content-center">
-                       
+                    @if (!empty($product->product_image) && Storage::exists('public/Products/' . $product->product_image))
                         <img 
-                        src="{{ Storage::exists('public/' . $product->product_image) ? Storage::url('public/' . $product->product_image) :  asset('images/sample.jpg') }}" 
-                        class="img-fluid" 
-                        style="width: 400px !important; height: 100% !important; border-radius:5px"
-                    />
-                    
-                    </div>
+                            src="{{ asset('storage/Products/' . $product->product_image) }}" 
+                            class="img-fluid" 
+                            style="width: 400px !important; height: 100% !important; border-radius:5px;">
+                    @else
+                        <img 
+                            src="{{ asset('images/sample.jpg') }}" 
+                            class="img-fluid" 
+                            style="width: 500px !important; height: 70% !important; border-radius:5px;">
+                    @endif
+                </div>
+
                     
                     <!-- Right Column for Details -->
                      
@@ -58,7 +63,7 @@
                                 @if($product->status->status_name === 'onhand')
                                     <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
                                 @endif
-
+                            
                                 <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button type="button" id="decrement" style="color: #092C4C">-</button>
@@ -75,30 +80,33 @@
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                                     <input type="number" class="quantity d-none" name="quantity" value="1">
                                     @if ($variants->isNotEmpty())
-                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
+                                        <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                                     @endif
 
                                     <button type="submit" 
                                         class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
-                                        style="width:130px; height:48px">
+                                        style="width:130px; height:48px"
+                                        {{ $product->stocks <= 0 ? 'disabled' : '' }}>
                                         <img src="{{ asset('images/cart.svg') }}" class="invert" style="width:15px; height:15px"> 
                                         Add to Cart
                                     </button>
                                 </form>
-                                
+
+                                <!-- Buy Now Button -->
                                 <form action="{{ route('productDetails.buy') }}" method="POST" id="buyNow">
                                     @csrf
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                                     <input type="number" class="quantity d-none" name="quantity" value="1">
                                     @if ($variants->isNotEmpty())
-                                    <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
+                                        <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                                     @endif
                                     <button type="submit" id="buyNowButton" class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
-                                        style="width:130px; height:48px; color:white">
+                                        style="width:130px; height:48px; color:white"
+                                        {{ $product->stocks <= 0 ? 'disabled' : '' }}>
                                         <img src="{{ asset('images/cart.svg') }}" class="invert" style="width: 15px; height:15px"> Buy Now
                                     </button>
                                 </form>
-                                <!-- Buy Now Button -->
+                                
                                 
                             </div>
                         </div>
@@ -117,15 +125,19 @@
 
                                 <!-- Review Section-->
                             @foreach ($reviews as $review)
-                                <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px;">
-                                    <div class="p-2 mt-2">
-                                        <span class="round"><img src="{{ asset('images/user.svg') }}" alt="user" width="25"></span>
-                                    </div>
+                            <div class="ml-4 mt-4 d-flex flex-row comment-row" style="border: 1px solid #BDBDBD; border-radius: 8px; padding: 10px;">
+                                <div class="p-2" style="margin-top: -2px;"> 
+                                <span class="round">
+                                    <img src="{{ asset('images/user.svg') }}" alt="user" width="25" style="margin-top: -3px;"> </span>
+                            </div>
+
                                     <div class="comment-text w-100">
-                                        <!-- Name and date -->
-                                        <p class="fs-4 mt-3 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}
-                                            <span class="date fs-3 mr-3" style="float:right;">{{ $review->review_date }}</span>
-                                        </p>
+                                <!-- Name and Date -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fs-5 mb-1">{{ $review->user->first_name }} {{ $review->user->last_name }}</p>
+                                    <p class="fs-3 text-muted mb-1" style="margin-right: 5px;">{{ $review->review_date }}</p>
+                                </div>
+
                                         <div class="ratings-below" style="margin-top: -5px;">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <i class="fa fa-star{{ $i <= $review->ratings ? ' rating-color2' : '' }} mr-1"></i>
@@ -142,32 +154,40 @@
 
                 <!-- You may also like -->
                 <div class="row col-md-12 justify-content-center">
-                    <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
-                    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 gap-5 justify-content-center">
-                        @foreach ($relatedProducts as $relatedProduct)
-                        <div class="block-7 pd">
-                        <img src="{{ asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
-                            <div class="text-center p-4">
-                                <div class="badge">{{$relatedProduct->organization->shop_name}}</div>
-                                <span class="excerpt d-block">{{$relatedProduct->product_name}}</span>
-                                <span class="price"><span class="number">₱{{number_format($relatedProduct->retail_price, 2)}}</span></span>
-                                <div class="ratings d-flex align-items-center mt-0">
- <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star rating-color mr-1"></i>
-                                                <i class="fa fa-star mr-1"></i>
-                                                <span class="solds">{{$relatedProduct->sales_count}} solds</span>          
-                                </div>
-                                <a href="{{route('productDetails', ['id' => $relatedProduct->id])}}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
+    <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 gap-5 justify-content-center">
+        @foreach ($relatedProducts as $relatedProduct)
+        <div class="block-7 pd">
+            @if (!empty($relatedProduct->product_image) && Storage::exists('public/Products/' . $relatedProduct->product_image))
+                <img 
+                    src="{{ asset('storage/Products/' . $relatedProduct->product_image) }}" 
+                    class="img-fluid" 
+                    style="width: 190px !important; height: 200px !important; border-radius:5px;">
+            @else
+                <img 
+                    src="{{ asset('images/sample.jpg') }}" 
+                    class="img-fluid" 
+                    style="width: 190px !important; height: 200px !important; border-radius:5px;">
+            @endif
+            <div class="text-center p-4">
+                <div class="badge">{{$relatedProduct->organization->shop_name}}</div>
+                <span class="excerpt d-block">{{$relatedProduct->product_name}}</span>
+                <span class="price"><span class="number">₱{{number_format($relatedProduct->retail_price, 2)}}</span></span>
+                <div class="ratings d-flex align-items-center mt-0">
+                    <i class="fa fa-star rating-color mr-1"></i>
+                    <i class="fa fa-star rating-color mr-1"></i>
+                    <i class="fa fa-star rating-color mr-1"></i>
+                    <i class="fa fa-star rating-color mr-1"></i>
+                    <i class="fa fa-star mr-1"></i>
+                    <span class="solds">{{$relatedProduct->sales_count}} solds</span>          
                 </div>
+                <a href="{{route('productDetails', ['id' => $relatedProduct->id])}}" class="btn btn-primary d-block px-2 py-3">
+                    View Details<span style="margin-left: 5px;">&#8599;</span>
+                </a>
             </div>
         </div>
-    </div>               
+        @endforeach
+    </div>
 </div>
 
 
@@ -194,9 +214,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="successModalLabel">Success</h5>
-                <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="font-size:25px">&times;</span>
-                </button>
+                <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 7px; margin-left: 420px; font-size: 25px;">
+                <span aria-hidden="true" style="font-size: 25px;">&times;</span>
+            </button>
+
             </div>
             <div class="modal-body">
                 <p>Product added to cart successfully!</p>
@@ -224,10 +245,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{ route('productDetails.clearandadd') }}" method="POST" id="ContinueaddToCartForm" >
+                <form action="{{ route('productDetails.clearandadd') }}" method="POST" id="addToCartForm">
                     @csrf
                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
-                    <input type="number" class="quantity d-none" name="quantity" value="1">
+                    <input type="number" id="quantity" name="quantity" value="1" class="d-none">
                     @if ($variants->isNotEmpty())
                     <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                     @endif
@@ -251,24 +272,21 @@
 <script>
     // Increment and decrement button functionality
     const selectorQuantity = document.getElementById('selectorQuantity');
-    const formQuantities = document.querySelectorAll('.quantity'); // NodeList of all inputs with class "quantity"
+    const formQuantity = document.getElementById('quantity');
     const incrementButton = document.getElementById('increment');
     const decrementButton = document.getElementById('decrement');
 
-    // Update the form quantity inputs whenever the selector changes
+    // Update the form quantity input whenever the selector changes
     function updateQuantity(value) {
-        selectorQuantity.value = value; // Update the selector quantity
-        // Loop through all elements with class "quantity" and update their value
-        formQuantities.forEach(input => {
-            input.value = value;
-        });
+        selectorQuantity.value = value;
+        formQuantity.value = value;
     }
 
     // Increment button logic
     incrementButton.addEventListener('click', function () {
         let currentQuantity = parseInt(selectorQuantity.value, 10);
         currentQuantity++;
-        updateQuantity(currentQuantity); // Update all quantities
+        updateQuantity(currentQuantity);
     });
 
     // Decrement button logic
@@ -276,10 +294,9 @@
         let currentQuantity = parseInt(selectorQuantity.value, 10);
         if (currentQuantity > 1) {
             currentQuantity--;
-            updateQuantity(currentQuantity); // Update all quantities
+            updateQuantity(currentQuantity);
         }
     });
-
 
     // AJAX form submission
 
@@ -337,39 +354,42 @@
     });
 });
 
-document.getElementById('continueAddToCartButton').addEventListener('click', function () {
-    const form = document.getElementById('ContinueaddToCartForm');
-    const formData = new FormData(form); // Gather all form data
 
-    // Log all form data entries for debugging
-    $('#errorModal .close').click();
-    fetch(form.action, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content // CSRF token
-        },
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+$(document).ready(function() {
+    // Trigger the AJAX request when the button is clicked
+    $('#continueAddToCartButton').click(function(event) {
+        event.preventDefault();  // Prevent the form from submitting normally
+
+        var product_id = $('#product_id').val();  // Product ID from hidden field
+        var quantity = $('#quantity').val();  // Quantity from input field
+
+        $('#loadingIndicator').removeClass('d-none');
+
+        $('#errorModal .close').click();
+
+
+        $.ajax({
+            url: '{{ route("productDetails.clearandadd") }}',  // Controller route
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',  // CSRF token
+                product_id: product_id,
+                quantity: quantity
+            },
+            success: function(response) {
+                $('#loadingIndicator').addClass('d-none');
+
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                updateQuantity(1);
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors
+                alert('Error adding product to cart.');
             }
-            return response.json();
-        })
-        .then(data => {
-            // Handle success response
-            $('#loadingIndicator').addClass('d-none');
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            $('#successModal .modal-body').text(data.message); // Use 'data' instead of 'response'
-            successModal.show();
-        })
-        .catch(error => {
-            // Handle error response
-            console.error('Fetch error:', error);
-            alert('Failed to add product to cart.');
         });
+    });
 });
-
 
 </script>
 

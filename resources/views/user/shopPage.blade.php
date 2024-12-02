@@ -29,29 +29,38 @@
     
     <!--Product List-->
     <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 gap-5 p-4">
-        @foreach ($products as $product)
-        <div class="block-7">
-            <img src="{{ Storage::exists('public/' . $product->product_image) ? Storage::url('public/' . $product->product_image) :  asset('images/sample.jpg') }}"  class="img-fluid" style="width: 190px !important; height: 200px !important">
-            <div class="text-center p-4">
-                <div class="badge">{{$product->organization->shop_name}}</div>
-                <span class="excerpt d-block">{{$product->product_name}}</span>
-                <span class="price"><span class="number">₱{{$product->retail_price}}</span></span>
-                <div class="ratings d-flex align-items-center mt-0">
+    @foreach ($products as $product)
+    <div class="block-7">
+        @if (!empty($product->product_image) && Storage::exists('public/Products/' . $product->product_image))
+            <img 
+                src="{{ Storage::url('public/Products/' . $product->product_image) }}" 
+                class="img-fluid" 
+                style="width: 190px !important; height: 200px !important; border-radius: 5px;">
+        @else
+            <img 
+                src="{{ asset('images/sample.jpg') }}" 
+                class="img-fluid" 
+                style="width: 190px !important; height: 200px !important; border-radius: 5px;">
+        @endif
+        <div class="text-center p-4">
+            <div class="badge">{{$product->organization->shop_name}}</div>
+            <span class="excerpt d-block">{{$product->product_name}}</span>
+            <span class="price"><span class="number">₱{{ number_format($product->retail_price, 2) }}</span></span>
+            <div class="ratings d-flex align-items-center mt-0">
                 @for ($i = 1; $i <= 5; $i++)
                     <i class="fa fa-star{{ $i <= floor($product->reviews->first()->average_rating ?? 0) ? ' rating-color' : '' }}"></i>
-                    @endfor
+                @endfor
                 <span class="solds">{{$product->sales_count}} solds</span>          
-                </div>
-                <hr>
-                
-                <a href="{{ route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span>
-                </a>
             </div>
+            <hr>
+            <a href="{{ route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3">
+                View Details<span style="margin-left: 5px;">&#8599;</span>
+            </a>
         </div>
-
-        @endforeach
     </div>
+    @endforeach
 </div>
+
 
     <script>
 
