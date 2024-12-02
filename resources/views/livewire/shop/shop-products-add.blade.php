@@ -63,14 +63,6 @@
                 
                 <!-- Second Column -->
                 <div class="col-md-6 d-flex flex-column gap-3"> 
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="resetModal()">
-                            Add Category
-                            <img src="{{ asset('images/add.svg') }}" alt="" style="width: 10px; height: 10px; margin-left: 3px;">
-                        </button>
-                    </div>
-        
                     <div>
                     <!-- Category Selection -->
                     <div class="form-group mb-1">
@@ -299,7 +291,7 @@
 
 <script>
 
-    function toggleQuantity() {
+function toggleQuantity() {
         const statusSelect = document.getElementById('status_id');
         const stocksTitle = document.getElementById('stock'); 
         const quantityTitle = document.getElementById('quantity_1');
@@ -310,13 +302,17 @@
         if (statusSelect.value === '9' || variationToggle.checked) { 
             stocksInput.style.display = 'none';
             stocksTitle.style.display = 'none';
-            quantityTitle.style.display = 'none';
-            console.log('Selected Status:', statusSelect.value); // Debugging line
+            if (statusSelect.value === '9' && variationToggle.checked) { 
+                quantityTitle.style.display = 'none';
+            }
+            else if (statusSelect.value === '8' && variationToggle.checked) { 
+                quantityTitle.style.display = 'block';
+            }
+
         } else if (statusSelect.value === '8') { 
             stocksInput.style.display = 'block';
             stocksTitle.style.display = 'block';
             quantityTitle.style.display = 'block';
-            console.log('Selected Status:', statusSelect.value); // Debugging line
 
         }
 
@@ -328,7 +324,7 @@
         const variationToggle = document.getElementById('variationToggle');
         const hiddenFields = document.getElementById('hiddenFields');
         const sizeInput = document.getElementById('size_1'); 
-        const quantityInput = document.getElementById('variantStocks_1'); 
+        const quantityInput = document.getElementById('quantity_1'); 
         const disabledInput = document.getElementById('disabledInput');
         const stocksInput = document.getElementById('stocks');
         const stocksTitle = document.getElementById('stock'); 
@@ -386,7 +382,6 @@ function addVariantRow() {
             </td>
         </tr>
     `;
-    
 
     document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
 }
