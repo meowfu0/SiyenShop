@@ -31,10 +31,21 @@ class ShopProductsAdd extends Component
         'retail_price' => 'required|numeric',
         'stocks' => 'required|integer',
     ];
-
+    
     public function create()
     {
-        $this->validate();
+        // Get the data from the request
+        $data = request()->all();
+
+        // Check if variation toggle is checked and adjust stocks accordingly
+        if (isset($data['variationToggle']) && $data['variationToggle'] == 'on') {
+            $stocks = 0;  // Set stocks to 0 when variation is checked
+        } else {
+            $stocks = $data['stocks'];  // Use the value of stocks from the form
+        }
+
+        // Validate the data with the adjusted stocks value
+        $this->validate($data, $this->rules);
 
         // Store the product in the database
         DB::table('products')->insert([
@@ -46,11 +57,11 @@ class ShopProductsAdd extends Component
             'visibility_id' => $this->visibility_id,
             'supplier_price' => $this->supplier_price,
             'retail_price' => $this->retail_price,
-            'stocks' => $this->stocks,
+            'stocks' => $stocks,  // Ensure the correct stocks value is passed here
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+        
         session()->flash('message', 'Product added successfully.');
         return redirect()->route('shop.products'); // Redirect to the products page
     }
