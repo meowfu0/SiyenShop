@@ -223,28 +223,29 @@
                                                 <th class="text-end"></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="variantRows">
                                             <tr id="inputRow_1">
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                                        <input type="text" name="variants[1][size]" id="size_1" class="form-control" placeholder="e.g. XL" value="">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                        <input type="number" name="variants[1][stocks]" id="variantStocks_1" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
                                                     </div>
                                                 </td>
                                                 <td>
-                                                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
-                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                                                </button>
+                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                        <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                                                    </button>
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                            
+                                    </tbody>
                                     </table>
-                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
-                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
+                                    <button id="addNewField" class="btn" type="button" onclick="addVariantRow()">
+                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Save/Add New Size
                                     </button>
 
                                 </div>
@@ -293,6 +294,7 @@
         </div>
     </div>
     </form>
+    
 </div>
 
 <script>
@@ -310,11 +312,11 @@
             stocksTitle.style.display = 'none';
             quantityTitle.style.display = 'none';
             console.log('Selected Status:', statusSelect.value); // Debugging line
-
         } else if (statusSelect.value === '8') { 
             stocksInput.style.display = 'block';
             stocksTitle.style.display = 'block';
             quantityTitle.style.display = 'block';
+            console.log('Selected Status:', statusSelect.value); // Debugging line
 
         }
 
@@ -326,7 +328,7 @@
         const variationToggle = document.getElementById('variationToggle');
         const hiddenFields = document.getElementById('hiddenFields');
         const sizeInput = document.getElementById('size_1'); 
-        const quantityInput = document.getElementById('quantity_1'); 
+        const quantityInput = document.getElementById('variantStocks_1'); 
         const disabledInput = document.getElementById('disabledInput');
         const stocksInput = document.getElementById('stocks');
         const stocksTitle = document.getElementById('stock'); 
@@ -341,10 +343,16 @@
                 quantityInput.style.display = 'block'; // Show quantity input if toggle is on
                 stocksInput.style.display = 'none'; // Hide stocks input if toggle is on
                 stocksTitle.style.display = 'none'; // Hide stocks title if toggle is on
+
+                 // Set the stocks input value to 0 when variation is checked
+                stocksInput.value = 0;
             } else {
                 hiddenFields.style.display = 'none'; // Hide hidden fields
                 disabledInput.style.display = 'block';  // Show the disabled input
                 toggleQuantity(); // Call toggleQuantity to handle visibility
+
+                // Optionally reset the stocks value to empty or its old value
+                stocksInput.value = ""; 
             }
         });
 
@@ -354,33 +362,42 @@
 
 
     //Updated Add Size fields
-    let rowCount = 1; // Keeps track of the number of rows
-    function myCreateFunction() {
-        var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+    let variantCount = 1;
 
-        var row = table.insertRow();
+function addVariantRow() {
+    variantCount++;
 
-        row.id = `inputRow_${++rowCount}`; // Set a unique ID for the row
+    const newRow = `
+        <tr id="inputRow_${variantCount}">
+            <td>
+                <div class="form-group">
+                    <input type="text" name="variants[${variantCount}][size]" id="size_${variantCount}" class="form-control" placeholder="e.g. XL" value="">
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <input type="number" name="variants[${variantCount}][stocks]" id="variantStocks_${variantCount}" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
+                </div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_${variantCount}')">
+                    <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                </button>
+            </td>
+        </tr>
+    `;
+    
 
-        var sizeCell = row.insertCell(0);
-        var quantityCell = row.insertCell(1);
-        var deleteCell = row.insertCell(2); // For the delete button
+    document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
+}
 
-        // Populate the cells with input fields
-        sizeCell.innerHTML = `
-            <div class="form-group">
-                <input type="text" id="size_${rowCount}" class="form-control" placeholder="e.g. XL">
-            </div>`;
-
-        // Check the current status to decide whether to show the quantity field
-        updateQuantityCell(quantityCell, rowCount);
-
-        quantityCell.classList.add('text-end');
-        deleteCell.innerHTML = `
-            <button type="button" class="btn btn-sm" onclick="myDeleteFunction('${row.id}')">
-                <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-            </button>`;
+function myDeleteFunction(rowId) {
+    const row = document.getElementById(rowId);
+    if (row) {
+        row.remove();
     }
+}
+
 
     // Function to update the quantity cell based on status
     function updateQuantityCell(cell, rowCount) {
