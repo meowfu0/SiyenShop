@@ -74,9 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ocompButton) addHoverEvents(ocompButton, 4);
     if (denButton) addHoverEvents(denButton, 5);
 
-
-    
-    
     // Reset stars when modal is closed
     const rateModal = document.getElementById('rateModal');
     rateModal.addEventListener('hidden.bs.modal', resetStars);

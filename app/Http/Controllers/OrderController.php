@@ -7,6 +7,9 @@ use App\Models\ProductVariant;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Shop;
+use App\Models\User;
+use App\Mail\OrderStatusUpdate;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -93,29 +96,58 @@ class OrderController extends Controller
         $variant_item = ProductVariant::all();
         $categories = Category::all();
 
-        Log::debug($orders);
-
+        
         return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop'));
- 
     }
     public function updateStatus(Request $request)
     {
         $validated = $request->validate([
-            'order_id' => 'required|integer',  // Validate order ID
-            'status_id' => 'required|integer', // Validate status ID
+            'currentCustomer' => 'required|integer',
+            'order_id' => 'required|integer',  
+            'status_id' => 'required|integer',
+            'denial_reason' => 'required|string',
+            'denial_comment' => 'required|string' 
         ]);
     
-        // Find the order by ID from the request
-        $order = Order::find($validated['order_id']);  // Use the order ID passed in the request
-    
-        // Update the order's status
-        $order->order_status_id = $validated['status_id'];  // Update with the new status ID
-    
-        // Make sure order_date is not updated when saving the order
-        $order->timestamps = false;  // Disable automatic timestamp updates
-        $order->save();
+        $order = Order::find($validated['order_id']);
+        $shop = Shop::where('user_id', auth()->id())->first();
+        $order->order_status_id = $validated['status_id'];
+        $order->denial_reason = $validated['denial_reason'];
+        $order->denial_comment = $validated['denial_comment'];
         
+        $order->timestamps = false; 
+        $order->save();
+
+        $id = $validated['currentCustomer'];
+        $user = User::where('id', $id)->select('id', 'first_name', 'last_name', 'email')->first();
+        $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $order->pluck('id'))->get();
+        $categories = $orderItems->map(function ($orderItem) {
+            return Category::where('id', $orderItem->product->category_id)->first();
+        });
+        
+        $variant_item = ProductVariant::all();
+       
+        Mail::to($user->email)->send(new OrderStatusUpdate($user, $order, $orderItems, $categories, $shop, $variant_item));
+
         return response()->json(['message' => 'Order status updated successfully']);
     }
+    public function getOrders()
+    {
+        $shop = Shop::where('user_id', auth()->id())->first();
+        $orders = Order::where('shop_id', $shop->id)->get();
+        return response()->json($orders);
+    }
+    public function processDataTable(Request $request)
+    {
+        // Retrieve the data from the request
+        $dataTable = $request->all();
+    
+        // Render the Blade view with the data
+        $htmlContent = view('livewire.shop.order-print-layout', ['dataTable' => $dataTable])->render();
+    
+        // Return the rendered HTML as a JSON response
+        return response()->json(['success' => true, 'htmlContent' => $htmlContent]);
+    }
+    
 }
 

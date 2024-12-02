@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Review;
 
 class MyPurchasesController extends Controller
 {
@@ -18,13 +19,14 @@ class MyPurchasesController extends Controller
         $orders = Order::where('user_id', auth()->id())->get();
         
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
-        $variant_item = ProductVariant::all();            
+        $variant_item = ProductVariant::all();
+        $reviews = Review::all();
+
         LOG::debug($orderItems->pluck('product.product_name'));
 
         $categories = Category::all();
-        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item'));
-
-        }
+        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews'));
+    }
 
     public function countOrders($orderId)
         {
@@ -33,4 +35,38 @@ class MyPurchasesController extends Controller
                 ->count();  // Count distinct products by product_i
             return response()->json(['distinct_item_count' => $distinctItemCount]);
         }
+
+    public function submitReview(Request $request){
+        $validated = $request->validate([
+            'order_id' => 'required|integer',
+            'product_id' => 'required|integer',
+            'ratings' => 'required|integer|min:1|max:5',
+            'review' => 'nullable|string|max:1000',
+        ]);
+        Log::debug($validated);
+
+        $review = Review::create([
+            'order_id' => $validated['order_id'],
+            'user_id' => auth()->id(), // Add the logged-in user's ID
+            'product_id' => $validated['product_id'],
+            'ratings' => $validated['ratings'],
+            'review_text' => $validated['review'],  // Use 'review_text' to match the column name
+        ]);
+        
+        return response()->json(['message' => 'Review submitted successfully!', 'review' => $review], 201);
+    }
+    public function getReviews(Request $request)
+{
+    // Assuming the user is authenticated, you can use Auth to get the current user ID
+    $userId = $request->user()->id;  // Or use Auth::id() if you prefer
+
+    // Fetch only reviews for the authenticated user
+    $reviews = Review::where('user_id', $userId)->get();
+
+    // Return the reviews as a JSON response
+    return response()->json([
+        'reviews' => $reviews
+    ]);
+}
+
 }

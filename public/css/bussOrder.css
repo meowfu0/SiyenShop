@@ -166,6 +166,9 @@ th, td {
 #orderDetailsModal .modal-dialog{
     max-width: 900px !important; 
 }
+#denial-options .modal-dialog{
+    max-width: 600px !important;
+}
 .modal-content{
     padding-top: 20px !important;
     padding-left: 20px !important;
@@ -562,7 +565,11 @@ td.status-label:hover {
 .modal-item-details td:first-child {
     padding-right: 10px;
     width: 140px; /* Adjust this value to your desired width */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any text that overflows the container */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
 }
+
 .modal-list-inline li {
     font-weight: bold;
     font-size: 15px;
@@ -590,4 +597,59 @@ td.status-label:hover {
     margin-left: 40px;
     margin-top: -20px;
     border-radius: 10px;
+}
+#denial-options .btn.btn-light.dropdown-toggle{
+    width: 220px;
+    margin-left: 120px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: left !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;               /* Hide the overflowing text */
+    text-overflow: ellipsis;
+    height: 40px !important;
+}
+#denial-options .btn.btn-light.dropdown-toggle span {
+    display: inline-block;
+    max-width: 190px;               /* Limit the width of the text */
+    white-space: nowrap;            /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-size: 16px;
+    color: #092C4C;
+    /* Add ellipsis when text exceeds */
+}
+#denial-options .btn.btn-light.dropdown-toggle::after{
+    position: absolute;
+    top: 15px;
+    left: 190px !important;
+}
+#denial-options .dropdown-menu{
+    width: 220px !important;
+}
+#denial-options .btn.btn-light{
+    color: #092C4C !important;
+    border: 1px solid #092C4C !important;
+}
+#denial-options h3{
+    margin-left: 160px !important;
+}
+#denial-options textarea{
+    width: 430px;
+    resize: none;
+    height: 150px;
+    border-radius: 7px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.dropdown-menu li{
+    cursor: pointer;
+}
+.dropdown-item:hover{
+    background-color:rgb(190, 190, 190) !important;
+}
+#denyComment{
+    margin-left: 20px;
 }

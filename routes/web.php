@@ -72,8 +72,9 @@ Route::get('/faqs', function () {
 
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+Route::post('/submit-review', [MyPurchasesController::class, 'submitReview'])->name('submit.review');
 Route::get('/count-orders/{orderId}', [MyPurchasesController::class, 'countOrders'])->name('count_orders');
-
+Route::post('/orders-pdf-print', [OrderController::class, 'processDataTable']);
 
 
 // Shop Routes Group
@@ -96,8 +97,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
     // Updated route to fetch the shop details for the authenticated user
     Route::get('/shop', [OrderController::class, 'getShop'])->name('shop.index');
+    Route::get('shop/orders/take', [OrderController::class, 'getOrders']);
 
-
+    
 
     Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])
     ->middleware('auth')

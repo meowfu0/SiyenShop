@@ -51,10 +51,10 @@
             </div>
 
             <div class="icon">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal" onclick="printTable()" disabled style="opacity: 0.5">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#PrintConfirmModal">
                     <img  style="height: 23px; width:23px;" src="{{ asset('images/print.svg') }}" alt="">
                 </button>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal" disabled style="opacity: 0.5">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#ExportConfirmModal">
                     <img  style="height: 23px; width:23px" src="{{ asset('images/export.svg') }}" alt="">
                 </button>
             </div>
@@ -102,7 +102,7 @@
             @endphp
             
             @foreach ($orders as $order)
-                <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ $order }}, {{ $orderItems }}, {{ $categories }})">
+                <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ $order }})">
                     <td class="id">{{ $order->id }}</td>
                     <td >{{ $order->total_items }}</td>
                     <td>{{ number_format($order->total_amount, 1) }}</td>
@@ -161,7 +161,7 @@
                 <div class="modal-items">
                     <table class="modal-item-table" id="modalItemsTable">
                         
-                        </table>
+                    </table>
                 </div>
                 <hr/>
                 <div class="transact-col1">
@@ -195,8 +195,8 @@
             <!-- Modal Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="closeModal">Cancel</button>
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" onclick="confirmStatus('Denied', document.getElementById('modalOrderId').innerText)" id="denyButton">Deny Payment</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="confirmStatus(document.getElementById('modalStatus').innerText, document.getElementById('modalOrderId').innerText)" style="width: 150px !important;" id="updateButton">Update Status</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="confirmStatus('Denied', document.getElementById('modalOrderId').innerText)" id="denyButton">Deny Payment</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="confirmStatus(document.getElementById('modalStatus').innerText, document.getElementById('modalOrderId').innerText)" style="width: 150px !important;" id="updateButton">Update Status</button>
             </div>
         </div>
     </div>
@@ -220,10 +220,23 @@
                 <div class="modal-content border-0">
                     <div class="modal-body">
                         <h3>Deny Options</h3>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-light dropdown-toggle" id="denyChoiceButton" data-bs-toggle="dropdown" aria-expanded="false" style="border: 1px solid #092C4C important;">
+                                <span>Select Reason</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" onclick="setDenyStatus('Invalid Image')">Invalid Image</a></li>
+                                <li><a class="dropdown-item" onclick="setDenyStatus('Blurred Image')">Blurred Image</a></li>
+                                <li><a class="dropdown-item" onclick="setDenyStatus('Insufficient Payment')">Insufficient Payment</a></li>
+                                <li><a class="dropdown-item" onclick="setDenyStatus('Others')">Other Reason</a></li>
+                            </ul>
+                        </div>
+                        <h5 id="denyComment">Comment</h5>
+                        <textarea name="comment" rows="4" cols="50" id="revMsg"></textarea>
                     </div>
                     <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="denyConfirm()">Confirm</button>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="closeDenial()">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="gotoDen"data-bs-dismiss="modal" onclick="denyConfirm(document.getElementById('revMsg').value.toString())" disabled>Confirm</button>
                     </div>
                 </div>
             </div>
@@ -237,7 +250,7 @@
                         <img id="proofImg" src="" style="height: 400px; width: auto; margin-left: 30px; border-radius: 10px;">
                     </div>
                     <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="orderDetailsModal" style="margin-right: 100px !important; margin-bottom: 20px !important;">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="orderDetailsModal" style="margin-right: 100px !important; margin-bottom: 20px !important;" onclick="closeDenial()">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -250,7 +263,7 @@
                         <h3>Are you sure you want to deny this payment?</h3>
                     </div>
                     <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="closeDenial()">Cancel</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(6)">Confirm</button>
                     </div>
                 </div>
@@ -346,11 +359,11 @@
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="printTable()" style="width: 76px; height: 28px;">Print</button>
+                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF()" style="width: 76px; height: 28px;">Print</button>
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
 </div>
 
 
@@ -362,6 +375,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
 <script>
+    var denial_reason;
+    var denial_comment;
     let currentPage = 1;
     let entriesPerPage = 10; // Default entries per page
 
@@ -494,7 +509,9 @@
     }
 }
 // MODAL
-function openOrderModal(order, orderItem, category) {
+function openOrderModal(order) {
+    const orderItem = @json($orderItems);
+    const category = @json($categories);
     const currentItems = orderItem.filter(item => item.order_id === order.id);
     createModalTable(currentItems, category);
     document.getElementById("modalOrderId").textContent = order.id;
@@ -587,85 +604,143 @@ document.getElementById('status-filter').addEventListener('change', function() {
 });
 
 
-// EXPORT AND PRINT
-function printTable() {
-    // Get the selected dates from the print modal
-    var startDate = document.getElementById('print-from').value;
-    var endDate = document.getElementById('print-to').value;
+function validateDate() {
+    const startDate = document.getElementById('export-from').value;
+    const endDate = document.getElementById('export-to').value;
 
-    // Check if the user has selected both dates
-    if (startDate && endDate) {
-        var rows = document.querySelectorAll('.status-label.completed-order'); // Get only completed orders
-        if (rows.length > 0) {
-            var printContent = "<table>" + Array.from(rows).map(row => row.outerHTML).join('') + "</table>";
-            var printWindow = window.open('', '', 'height=800,width=800');
-            printWindow.document.write('<html><head><title>Print Completed Orders</title></head><body>');
-            printWindow.document.write('<h3>Completed Orders from ' + startDate + ' to ' + endDate + '</h3>');
-            printWindow.document.write(printContent);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        } else {
-            alert("No completed orders to print.");
-        }
-    } else {
-        alert("Please select both start and end dates.");
+    // Check if either startDate or endDate is null or empty
+    if (!startDate || !endDate) {
+        return false; // Return false if either date is missing
     }
+
+    return true; // Return true if both dates are provided
 }
 
+function extractDataTable() {
+    const table = document.getElementById("order-table");
+    const selectedStatus = document.getElementById('status-filter').value;
+    let status;
+
+    // Map filter value to status description
+    switch (selectedStatus) {
+        case 'pending-payment':
+            status = "Pending Orders";
+            break;
+        case 'received-payment':
+            status = "Received Payments - Approved Orders";
+            break;
+        case 'denied-payment':
+            status = "Denied Orders";
+            break;
+        case 'for-pickup':
+            status = "Orders Ready for Pickup";
+            break;
+        case 'completed-order':
+            status = "Completed Orders";
+            break;
+        case 'all':
+            status = "All Orders";
+            break;
+        default:
+            status = "Unknown Status";
+            break;
+    }
+
+    console.log("Selected Status:", status);
+
+    // Extract shop name and date range
+    const shopName = document.getElementById('shopName')?.innerText || "Shop Name";
+    const startDate = document.getElementById('export-from').value;
+    const endDate = document.getElementById('export-to').value;
+
+    // Extract headers from the first row
+    const headers = [...table.rows[0].cells].map(cell => cell.innerText);
+
+    const rows = [];
+    let totalSales = 0;
+
+    for (let i = 1; i < table.rows.length; i++) {
+        const row = table.rows[i];
+
+        // Check if the row matches the selected status or "all"
+        if (selectedStatus === 'all' || row.querySelector(`.status-label.${selectedStatus}`)) {
+            const rowData = {};
+            headers.forEach((header, index) => {
+                const cellValue = row.cells[index]?.innerText || "";
+                rowData[header] = cellValue;
+
+                // Accumulate total sales if the column matches "Amount" or "Price"
+                if (header.toLowerCase().includes("amount") || header.toLowerCase().includes("price")) {
+                    const amount = parseFloat(cellValue.replace(/[^0-9.-]+/g, '')) || 0;
+                    totalSales += amount;
+                }
+            });
+            rows.push(rowData);
+        }
+    }
+
+    const reportData = {
+        shopName,
+        startDate,
+        endDate,
+        status,
+        headers,
+        rows
+    };
+
+    console.log(reportData);
+    return reportData;
+    
+}
+
+
 function downloadCSV() {
-    // Get the selected dates from the export modal
-    var startDate = document.getElementById('export-from').value;
-    var endDate = document.getElementById('export-to').value;
+    if(validateDate()){
+        var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
 
-    // Fetch the shop name dynamically
-    var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
+        // Use the getDataTable() function to fetch the table data
+        const dataTable = extractDataTable(); // Assuming getDataTable() is a predefined function that returns the necessary table data
+        const status = dataTable['status'];
+        const startDate = dataTable['startDate'];
+        const endDate = dataTable['endDate'];
+        console.log("Fetched Data Table:", dataTable);
 
-    if (startDate && endDate) {
-        // Select rows with the specified class
-        var rows = document.querySelectorAll('.status-label.completed-order');
-        console.log("Fetching rows with class '.status-label.completed-order'");
-        console.log("Rows:", rows);
-        console.log("Row count:", rows.length);
-
-        if (rows && rows.length > 0) {
+        // Check if the rows are available in the dataTable
+        if (dataTable && dataTable.rows && dataTable.rows.length > 0) {
             var csv = [];
             var totalSales = 0; // Variable to calculate total sales
 
-            // Add the main header with shop name and report range
-            csv.push(['Shop Name', shopName]); // Shop name
-            csv.push(['Date Range', startDate, endDate]); // Date range
-            csv.push(['Total Sales', totalSales.toFixed(2)]); // Total sales placeholder
+            // Add the main header with shop name
+            csv.push(['Shop Name', shopName]);
+            csv.push(['Status', status]);
+            csv.push(['From', startDate]);
+            csv.push(['To', endDate]); // Shop name
             csv.push([]); // Empty line for spacing
 
-            // Add column headers (without the "Product" column)
-            csv.push(['Order ID', 'Quantity', 'Unit Price', 'Amount', 'Ref no.', 'Status', 'Date'].join(','));
+            // Add column headers (from the dataTable headers)
+            csv.push(dataTable.headers.join(',')); // Using dynamic headers from dataTable
 
-            // Loop through the rows to process the order data
-            rows.forEach(row => {
-                var cols = row.cells || [];
+            // Loop through the rows in the dataTable
+            dataTable.rows.forEach(row => {
                 var rowData = [];
 
-                // Gather cell data while skipping the 2nd and 7th columns
-                for (var j = 0; j < cols.length; j++) {
-                    if (j === 1 || j === 6) continue; // Skip the 2nd (index 1) and 7th (index 6) columns
-                    if (cols[j]) {
-                        rowData.push(cols[j].innerText.trim());
-                    }
-                }
+                // Loop through the row data to extract the values corresponding to the headers
+                dataTable.headers.forEach(header => {
+                    // Access the row data for each header and push to rowData
+                    rowData.push(row[header] || ''); // Use empty string if data is missing
+                });
 
                 // Add the row to the CSV array if it has valid data
                 if (rowData.some(cell => cell !== '')) {
-                    // Calculate total sales from the 4th column (Amount, now index 3 after removing Product)
+                    // Calculate total sales from the 4th column (Amount)
                     var amount = parseFloat(rowData[3]?.replace(/[^0-9.-]+/g, '')) || 0; // Parse amount
-                    totalSales += amount;
 
                     csv.push(rowData.join(',')); // Add the row to CSV
                 }
             });
 
-            // Update the total sales value in the header
-            csv[2] = ['Total Sales', totalSales.toFixed(2)]; // Update total sales row
+            // Update the total sales value in the CSV
+            csv.push([]); // Empty line for spacing
 
             // Check if there is any valid data to export (after cleansing)
             if (csv.length > 5) { // At least the headers + one data row
@@ -681,168 +756,105 @@ function downloadCSV() {
         } else {
             alert("No completed orders to export.");
         }
-    } else {
-        alert("Please select both start and end dates.");
+    }else{
+        alert("Please fill in the dates.")
     }
 }
 
 
 function downloadXLSX() {
-    // Get the selected dates from the export modal
-    var startDate = document.getElementById('export-from').value;
-    var endDate = document.getElementById('export-to').value;
+    if(validateDate()){
+        var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
 
-    // Fetch the shop name dynamically
-    var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
+        // Use the extractDataTable() function to fetch the table data
+        const dataTable = extractDataTable(); // Assuming extractDataTable() is a predefined function that returns the necessary table data
+        const status = dataTable['status'];
+        const startDate = dataTable['startDate'];
+        const endDate = dataTable['endDate'];
+        console.log("Fetched Data Table:", dataTable);
 
-    if (startDate && endDate) {
-        // Select rows with the specified class
-        var rows = document.querySelectorAll('.status-label.completed-order');
-        console.log("Fetching rows with class '.status-label.completed-order'");
-        console.log("Rows:", rows);
-        console.log("Row count:", rows.length);
+        // Check if the rows are available in the dataTable
+        if (dataTable && dataTable.rows && dataTable.rows.length > 0) {
+            var excelData = [];
 
-        if (rows && rows.length > 0) {
-            var totalSales = 0; // Variable to calculate total sales
-            var data = []; // Array to hold all the rows for the Excel file
+            // Add the main header with shop name
+            excelData.push(['Shop Name', shopName]);
+            excelData.push(['Status', status]);
+            excelData.push(['From', startDate]);
+            excelData.push(['To', endDate]);
+            excelData.push([]); // Empty line for spacing
 
-            // Add headers for shop name, date range, and total sales
-            data.push(['Shop Name', shopName]); // Shop name
-            data.push(['Date Range', startDate, endDate]); // Date range
-            data.push(['Total Sales', totalSales.toFixed(2)]); // Total sales placeholder
-            data.push([]); // Empty row for spacing
+            // Add column headers (from the dataTable headers)
+            excelData.push(dataTable.headers);
 
-            // Add column headers
-            data.push(['Order ID', 'Quantity', 'Unit Price', 'Amount', 'Ref no.', 'Status', 'Date']); // Skip 'Product' in headers
-
-            // Loop through the rows to process the order data
-            rows.forEach(row => {
-                var cols = row.cells || [];
+            // Loop through the rows in the dataTable
+            dataTable.rows.forEach(row => {
                 var rowData = [];
 
-                // Gather cell data while skipping the 2nd and 7th columns
-                for (var j = 0; j < cols.length; j++) {
-                    if (j === 1 || j === 6) continue; // Skip the 2nd (index 1) and 7th (index 6) columns
-                    if (cols[j]) {
-                        rowData.push(cols[j].innerText.trim());
-                    }
-                }
+                // Loop through the row data to extract the values corresponding to the headers
+                dataTable.headers.forEach(header => {
+                    // Access the row data for each header and push to rowData
+                    rowData.push(row[header] || ''); // Use empty string if data is missing
+                });
 
-                // Add the row to the data array if it has valid data
+                // Add the row to the Excel data array if it has valid data
                 if (rowData.some(cell => cell !== '')) {
-                    // Calculate total sales from the 4th column (Amount, now index 3 after removing Product)
-                    var amount = parseFloat(rowData[3]?.replace(/[^0-9.-]+/g, '')) || 0; // Parse amount
-                    totalSales += amount;
-
-                    data.push(rowData);
+                    excelData.push(rowData);
                 }
             });
 
-            // Update the total sales value in the header
-            data[2][1] = totalSales.toFixed(2); // Set total sales value
+            // Create a worksheet from the data
+            var ws = XLSX.utils.aoa_to_sheet(excelData);
 
-            // Create a new workbook and worksheet using SheetJS
-            var workbook = XLSX.utils.book_new();
-            var worksheet = XLSX.utils.aoa_to_sheet(data);
+            // Create a new workbook
+            var wb = XLSX.utils.book_new();
 
             // Append the worksheet to the workbook
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Completed Orders");
+            XLSX.utils.book_append_sheet(wb, ws, 'Completed Orders');
 
-            // Export the workbook as an Excel file
-            XLSX.writeFile(workbook, `completed_orders_${shopName.replace(/\s+/g, '_')}.xlsx`);
+            // Generate and download the Excel file
+            XLSX.writeFile(wb, `completed_orders_${shopName.replace(/\s+/g, '_')}.xlsx`);
         } else {
             alert("No completed orders to export.");
         }
-    } else {
-        alert("Please select both start and end dates.");
+    }else{
+        alert("Please fill in the Dates.")
     }
 }
-
-
 function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    if(validateDate()){
+        const dataTable = extractDataTable(); // Assuming this function extracts and formats your table data
+        console.log(dataTable);
 
-    // Get the start and end dates from the modal inputs
-    const startDate = document.getElementById('export-from').value;
-    const endDate = document.getElementById('export-to').value;
-
-    // Get the shop name dynamically
-    const shopName = document.getElementById('shopName')?.innerText || "Shop Name";
-
-    // Extract table data
-    const table = document.getElementById("order-table");
-    const headers = [...table.rows[0].cells]
-        .filter((_, index) => index !== 1 && index !== 6) // Remove 2nd and 7th columns
-        .map(cell => cell.innerText);
-
-    const rows = [];
-    let totalSales = 0; // Track total sales from the 4th column
-
-    for (let i = 1; i < table.rows.length; i++) {
-        const row = table.rows[i];
-
-        // Only process rows with "Completed" status
-        if (row.querySelector('.status-label.completed-order')) {
-            const rowData = [];
-            for (let j = 0; j < row.cells.length; j++) {
-                if (j !== 1 && j !== 6) { // Skip 2nd and 7th columns
-                    const cellValue = row.cells[j].innerText;
-                    rowData.push(cellValue);
-
-                    // Accumulate total sales from the 5th column (4th after deletion)
-                    if (j === 4) {
-                        const amount = parseFloat(cellValue.replace(/[^0-9.-]+/g, '')) || 0;
-                        totalSales += amount;
-                    }
-                }
-            }
-            rows.push(rowData);
-        }
+        // Pass to the OrderController using an AJAX request
+        fetch('/orders-pdf-print', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Laravel CSRF Token
+            },
+            body: JSON.stringify(dataTable),
+        })
+        .then(response => response.json())
+        .then(data => {
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(data.htmlContent);
+                printWindow.document.close();
+                printWindow.onload = function() {
+                // Focus the new window
+                    printWindow.focus();
+                    
+                    // Trigger the print dialog
+                    printWindow.print();
+                };
+        })
+        .catch(error => {
+            console.error('Error passing data to OrderController:', error);
+        });
+    }else{
+        alert("Please fill in the Dates.")
     }
-
-    // Add a header with shop name and report range
-    doc.setFontSize(11);
-    doc.text(`Shop Name: ${shopName}`, 10, 20);
-    if (startDate && endDate) {
-        doc.text(`From: ${startDate}`, 10, 30);
-        doc.text(`To: ${endDate}`, 10, 40);
-    }
-    doc.text(`Total Sales: ${totalSales.toFixed(2)}`, 10, 50);
-
-    // Generate the PDF table with filtered rows
-    doc.autoTable({
-        head: [headers],
-        body: rows,
-        startY: 60,
-        theme: "grid",
-        headStyles: {
-            fillColor: [240, 240, 240],
-            textColor: [0, 0, 0],
-            halign: "center",
-        },
-        bodyStyles: {
-            textColor: [0, 0, 0],
-        },
-    });
-
-    // Add the shop logo at the bottom center
-    const imgPath = "{{ asset('images/logo.png') }}";
-    const imgWidth = 35;
-    const imgHeight = 10;
-    const pageHeight = doc.internal.pageSize.height;
-    const pageWidth = doc.internal.pageSize.width;
-    const xPos = (pageWidth - imgWidth) / 2;
-    const yPos = pageHeight - imgHeight - 10;
-
-    const image = new Image();
-    image.src = imgPath;
-    image.onload = function () {
-        doc.addImage(image, "PNG", xPos, yPos, imgWidth, imgHeight);
-        doc.save(`orders_${shopName.replace(/\s+/g, '_')}.pdf`);
-    };
 }
-
 
 //SORTING 
 document.getElementById('search-box').addEventListener('input', function () {
@@ -884,29 +896,12 @@ document.getElementById('status-filter').addEventListener('change', function() {
         if (selectedStatus === 'all') {
             row.style.display = '';
             // Disable buttons if "all" is selected
-            buttons.forEach(button => {
-                button.disabled = true;  // Disable each button
-            });
         } else {
             // Show only rows with the matching status class
             if (row.classList.contains(selectedStatus)) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
-            }
-            
-            // Disable buttons for all statuses except 'Completed Order'
-            if (selectedStatus !== 'completed-order') {
-                buttons.forEach(button => {
-                    button.disabled = true;  // Disable each button
-                    button.style.opacity = 0.5;
-                });
-            } else {
-                // Enable buttons when 'Completed Order' is selected
-                buttons.forEach(button => {
-                    button.disabled = false;  // Enable each button
-                    button.style.opacity = '';  // Reset opacity to original value
-                });
             }
         }
     });
@@ -1013,21 +1008,18 @@ function updatePagination(totalRows) {
 }
 
     //Update Status
-    function updateStatus(status, orderId){
-        console.log(status);
-        console.log(orderId);
-        const modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
-        modal.show();
-    }
-
-
     var currentStat, currentId;
     // Function to fetch data and refresh the table
-function fetchAndUpdateTable() {
-    const order = @json($orders);
-
-    refreshTable(order);
-}
+    function fetchAndUpdateTable() {
+        fetch('shop/orders/take') // URL to your Laravel route
+            .then(response => response.json())
+            .then(orders => {
+                refreshTable(orders); // Call function to update the table with new data
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
 
 // Function to update the table with new data
 function refreshTable(orders) {
@@ -1087,9 +1079,9 @@ function refreshTable(orders) {
                 return 'unknown-status';
         }
     }
-
-    // Call fetchAndUpdateTable to initially load the table or refresh it
     function confirmStatus(status, orderId){
+        console.log(status);
+        var myModal;
         switch(status){
             case 'Pending':
                 modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
@@ -1100,6 +1092,13 @@ function refreshTable(orders) {
                 break;
             case 'Payment Received':
                 modal = new bootstrap.Modal(document.getElementById('PickUpConfirmModal'));
+                console.log(status);
+                console.log(orderId);
+                currentStat = status;
+                currentId = orderId;
+                break;
+            case 'Payment Denied':
+                modal = new bootstrap.Modal(document.getElementById('approveConfirmModal'));
                 console.log(status);
                 console.log(orderId);
                 currentStat = status;
@@ -1125,29 +1124,35 @@ function refreshTable(orders) {
 
     function updateStatus(newStatus) {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
         const targetId = parseInt(currentId, 10);
-       
+        const currentOrder = @json($orders).find(order => order.id === targetId);
+        currentCustomer = currentOrder.user_id;
+       if(newStatus != 6){
+            denial_reason = "N/A";
+            denial_comment = "N/A";
+       }
         const data = {
+            currentCustomer,
             order_id: targetId,
-            status_id: newStatus
+            status_id: newStatus,
+            denial_reason,
+            denial_comment
         };
         fetch('/shop/orders/update-status', {
-            method: 'POST',  // Using POST method
+            method: 'POST', 
             headers: {
-                'Content-Type': 'application/json',  // Sending JSON data
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')  // CSRF token for security
+                'Content-Type': 'application/json',  
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify(data)  // Convert the data object to JSON
+            body: JSON.stringify(data)  
         })
-        .then(response => response.json())  // Parse JSON response from the server
+        .then(response => response.json())  
         .then(data => {
             console.log('Success:', data);
             fetchAndUpdateTable()
         })
         .catch((error) => {
             console.error('Error:', error);
-            // Optionally, handle error (e.g., display an error message)
         });
 
     }
@@ -1235,11 +1240,23 @@ function refreshTable(orders) {
         modalTable.appendChild(modalRow);
     });
 }
-function denyConfirm(){
+function denyConfirm(denial_com){
     var myModal = new bootstrap.Modal(document.getElementById('denyConfirmModal'));
+    denial_comment = denial_com;
+    console.log(denial_comment);
+    myModal.show();
+}
+function setDenyStatus(stat){
+    document.getElementById('gotoDen').disabled = false;
+    document.getElementById('denyChoiceButton').textContent = stat;
+    denial_reason = stat;
+}
+function closeDenial(){
+    document.getElementById('gotoDen').disabled = true;
+    document.getElementById('denyChoiceButton').textContent = 'Choose Options';
+    var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
     myModal.show();
 }
 </script>
-
 
 @endsection

@@ -135,7 +135,11 @@ body{
 }
 
 .dets tr td:first-child, .dets tr th:first-child{
-    width: 200px ;
+    width: 200px;
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any text that overflows the container */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
+    padding-right: 20px;
 }
 #modal-cover{
     background-color: rgba(0, 0, 0, 0.662);
@@ -315,9 +319,40 @@ body{
     border-radius: 7px !important;
     font-weight: 500 !important;
 }
-.modal-footer .btn.btn-light{
+.modal-footer .btn.btn-light, #chooseRate .btn.btn-light{
     color: #092C4C !important;
     border: 1px solid #092C4C !important;
+}
+#chooseRate .btn.btn-light.dropdown-toggle{
+    width: 220px;
+    margin-left: 70px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: left !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 40px !important;
+}
+#chooseRate .btn.btn-light.dropdown-toggle span {
+    display: inline-block;
+    max-width: 190px;               /* Limit the width of the text */
+    white-space: nowrap;            /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-size: 16px;  
+    padding-right: 20px;     /* Add ellipsis when text exceeds */
+}
+#chooseRate .btn.btn-light.dropdown-toggle::after{
+    position: absolute;
+    top: 15px;
+    left: 190px !important;
+}
+#chooseRate .dropdown-menu{
+    width: 220px !important;
+    white-space: nowrap;            /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    padding-right: 30px !important;
 }
 .p-3.mb-2.bg-light.text-dark{
     color: #E2B93B !important;
@@ -468,7 +503,7 @@ body{
 }
 .rate-stars{
     position: absolute;
-    top: 120px;
+    top: 350px;
     left: 170px;
 }
 
@@ -480,16 +515,16 @@ body{
     margin-top: 10px;
     border-radius: 7px;
     padding: 10px;
-    top: 240px;
+    top: 450px;
     left: 60px;
 }
 #rateModal{
     position: fixed;
     background-color: white;
     border-radius: 10px;
-    height: 500px;
+    height: 700px;
     width: 560px;
-    top: 120px;
+    top: 20px;
     left: 480px;
     border: 1px solid rgb(219, 219, 219);
     z-index: 10000;
@@ -500,9 +535,15 @@ body{
     top: 60px;
     left: 220px;
 }
-#rateModal h5{
+
+#rateComment{
     position: absolute;
-    top: 210px;
+    top: 430px;
+    left: 70px;
+}
+#rateLabel{
+    position: absolute;
+    top: 120px;
     left: 70px;
 }
 #rateModal .btn-light{
@@ -510,14 +551,14 @@ body{
     color: #092C4C !important;
     border: 1px solid #092C4C !important;
     position: absolute;
-    top: 430px;
+    top: 630px;
     left: 195px;
     font-weight: 600 !important;
 }
 #rateModal .btn-primary{
     width: 140px;
     position: absolute;
-    top: 430px;
+    top: 630px;
     left: 350px;
     font-weight: 600 !important;
 }
@@ -525,14 +566,47 @@ body{
     width: 0; /* Set width to 0 to hide it */
     background: transparent; /* Optional: make the background transparent */
 }
-
+#rateItemHolder{
+    width: 430px;
+    height: 200px;
+    position: absolute;
+    top: 120px;
+    left: 60px;
+}
+#rateItemHolder img{
+    height: 140px;
+    width: 140px;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+.rate-col1{
+   position: absolute;
+   top: 40px;
+   left: 170px;
+}
+.rate-col1 p {
+    font-size: 14px;
+    margin-bottom: 5px;/* Adjust the value as needed */
+}
+.rate-col2{
+    position: absolute;
+    top: 40px;
+    left: 270px;
+    width: 150px;
+ }
+ .rate-col2 p {
+    font-size: 14px;
+    margin-bottom: 5px;/* Adjust the value as needed */
+    overflow: hidden;    /* Hide the overflowing text */
+    text-overflow: ellipsis; 
+ }
 #clear-stars{
     border: none;
     background-color: white;
     color: rgb(148, 148, 148);
     font-weight: 400;
     position: absolute;
-    top: 170px;
+    top: 400px;
     left: 220px;
     display: none;
 }
@@ -593,6 +667,9 @@ body{
 .modal-item-details td:first-child {
     padding-right: 10px;
     width: 140px; /* Adjust this value to your desired width */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any text that overflows the container */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
 }
 
 @media (max-width: 768px) {
@@ -1254,6 +1331,23 @@ body{
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Matches the slide-in duration */
     display: none; /* Will be handled via JavaScript to ensure visibility during the animation */
 }
-#viewProof button{
-    margin-right: 140px !important;
+#msgSection{
+    height: 400px; 
+    position: absolute;
+    left: 400px;
+    top: 95px;
+    width: 280px;
+}
+#sellerRem {
+    margin-left: 20px;
+    margin-top: 20px;
+    text-align: justify;
+    padding-right: 20px;
+    max-width: calc(100% - 40px); /* Adjust for margin and padding */
+    word-wrap: break-word; /* Ensures long words break to fit */
+    overflow-y: auto; /* Allow vertical scrolling */
+    scrollbar-width: none; /* Firefox: Hide scrollbar */
+    -ms-overflow-style: none;
+    max-height: 250px;
+    font-size: 16px;
 }
