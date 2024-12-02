@@ -172,5 +172,6 @@ class UsersTableSeeder extends Seeder
         ];
 
         DB::table('users')->insert($users);
+        
     }
 }

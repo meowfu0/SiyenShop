@@ -1,15 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{ route('profile') }}" method="POST">
+<div class="d-flex ">
+    <div class="d-none d-md-flex flex-md-row">
+        @livewire('user-sidenav')
+
+<form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+
     @csrf
+    @method('PUT')
 <div class="container mt-5"> 
     <div class="row">
         <div class="col-md-2">
         </div>
         <div class="col-md-10">
+      
             <!-- Profile Header -->
-            <div class="d-flex align-items-center mb-4" style="margin-left: 150px; margin-top: -50px;">
+            <div class="d-flex align-items-center mb-4" style="margin-left: 65px; margin-top: -35px;">
                 <!-- Embedded SVG Icon -->
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.5 1C6.14855 1 1 6.14855 1 12.5C1 18.8514 6.14855 24 12.5 24C18.8514 24 24 18.8514 24 12.5C24 6.14855 18.8514 1 12.5 1Z" stroke="#092C4C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -19,117 +26,139 @@
                 <!-- Profile Text -->
                 <h4 class="mb-0 fw-bold" style="margin-left: 10px;">Profile</h4>
             </div>
-
+          
             <!-- Profile Card with Avatar above Edit Button -->
-            <div class="card mx-auto" style="max-width: 800px; margin-right: 30px;">
-                <div class="card-body" style="padding: 2.5rem;">
-                    <div class="row">
-                        <!-- Avatar Section -->
-                        <div class="col-md-4 text-center mb-3">
-                            <div class="profile-avatar" style="width: 200px; height: 200px; border-radius: 50%; background-color: #FFF8E4; display: flex; align-items: center; justify-content: center; margin: 0 auto; margin-top: 20px;">
-                                <!-- Removed text inside the circle -->
-                            </div>
-                            <!-- Moved Edit Profile button below the avatar -->
-                            <a href="{{ route('profile.edit') }}" class="btn btn-outline-secondary mt-4 edit-profile-btn" style="width: 200px; height: 50px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; margin-left: 12px; line-height: 1.2;">
-    Edit Profile
-    <span style="margin-left: 10px; vertical-align: middle; display: flex; align-items: center;">
-        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.64704 4.5293H2.76469C2.29667 4.5293 1.84781 4.71522 1.51687 5.04616C1.18592 5.37711 1 5.82597 1 6.29399V14.2351C1 14.7031 1.18592 15.152 1.51687 15.4829C1.84781 15.8139 2.29667 15.9998 2.76469 15.9998H10.7058C11.1738 15.9998 11.6227 15.8139 11.9536 15.4829C12.2846 15.152 12.4705 14.7031 12.4705 14.2351V13.3528" stroke="#092C4C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11.5881 2.76479L14.2351 5.41183M15.4571 4.16331C15.8047 3.8158 15.9999 3.34448 15.9999 2.85302C15.9999 2.36157 15.8047 1.89025 15.4571 1.54274C15.1096 1.19523 14.6383 1 14.1469 1C13.6554 1 13.1841 1.19523 12.8366 1.54274L5.41162 8.94122V11.5883H8.05866L15.4571 4.16331Z" stroke="#092C4C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </span>
-    <i class="bi bi-pencil" style="margin-left: 8px;"></i>
-</a>
-                            
-                            </a>
-                        </div>
+    <!-- Profile Picture Section -->
+    <div class="container mt-5"> 
+    <div class="row">
+        <div class="col-md-3 d-flex justify-content-center align-items-start">
+            <!-- Profile Picture Section -->
+            <div class="d-flex flex-column align-items-center mb-3" style="flex-shrink: 0; position: relative;">
+                @if($user->profile_picture)
+                    <label for="profilePictureInput" class="profile-avatar" style="cursor: pointer; position: relative; width: 200px; height: 200px;">
+                        <img src="{{ asset('storage/' . $user->profile_picture) }}" id="picture_preview_container" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+                        <div class="hover-label" style=" position: absolute; top: 0; left: 0; width: 200px; height: 200px; border-radius: 50%; background-color: rgba(0, 0, 0, 0.6); color: white;display: none;justify-content: center;align-items: center; font-size: 0.9rem;">Click to upload</div>
+                    </label>
+                @else
+                    <label for="profilePictureInput" class="profile-avatar" style="cursor: pointer; position: relative; width: 200px; height: 200px;">
+                        <img src="{{ asset('images/profile.svg') }}" id="picture_preview_container" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;" alt="Default Profile Picture">
+                        <div class="hover-label" style=" position: absolute; top: 0; left: 0; width: 200px; height: 200px; border-radius: 50%; background-color: rgba(0, 0, 0, 0.6); color: white;display: none;justify-content: center;align-items: center;font-size: 0.9rem;">Click to upload</div>
+                    </label>
+                @endif
+        </div>
+
+    <input type="file" id="profilePictureInput" name="profile_picture" style="display: none;" onchange="uploadProfilePicture(event)">
+</div>
 
                         <!-- Profile Details Form -->
                         <div class="col-md-8">
-                            <form>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="firstName" class="form-label fw-bold">First Name</label>
-                                        <input type="text" class="form-control" id="firstName" value="Archie">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="lastName" class="form-label fw-bold">Last Name</label>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" value="Onoya">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-5">
+                                    <label for="firstName" class="form-label fw-bold">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ old('first_name', $user->first_name) }}">
                                 </div>
+                                <div class="col-md-5">
+                                    <label for="lastName" class="form-label fw-bold">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ old('last_name', $user->last_name) }}">
+                                </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="email" class="form-label fw-bold">Email</label>
-                                        <input type="email" class="form-control" id="email" value="archie@gmail.com">
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-10">
+                                    <label for="email" class="form-label fw-bold">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}">
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="password" class="form-label fw-bold">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" value="">
-                                    </div>
-                                </div>
+                            <div class="row mb-3">
+    <div class="col-md-10">
+        <label for="password" class="form-label fw-bold">New Password</label>
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+</div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="phone" class="form-label fw-bold">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone" value="09123456789">
-                                    </div>
-                                </div>
+<div class="row mb-3">
+    <div class="col-md-10">
+        <label for="password_confirmation" class="form-label fw-bold">Confirm Password</label>
+        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+    </div>
+</div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="course" class="form-label fw-bold">Course</label>
-                                        <select id="course" class="form-select" name="course" required style="font-size: 14px;">
-                                            <option value="" disabled selected>Select your course</option>
-                                            <option value="BS Information Technology">BS Information Technology</option>
-                                            <option value="BS Meteorology">BS Meteorology</option>
-                                            <option value="BS Biology">BS Biology</option>
-                                            <option value="BS Computer Science">BS Computer Science</option>
-                                            <option value="BS Chemistry">BS Chemistry</option>
-                                        </select>
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-10">
+                                    <label for="phone" class="form-label fw-bold">Phone Number</label>
+                                    <input type="text" class="form-control" id="phone" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}">
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="year" class="form-label fw-bold">Year</label>
-                                        <select id="year" class="form-select" name="year" required style="font-size: 14px;">
-                                            <option value="" disabled selected>Select your year</option>
-                                            <option value="1st Year">1st Year</option>
-                                            <option value="2nd Year">2nd Year</option>
-                                            <option value="3rd Year">3rd Year</option>
-                                            <option value="4th Year">4th Year</option>
-                                            <option value="5th Year">5th Year</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="block" class="form-label fw-bold">Block</label>
-                                        <select id="block" class="form-select" name="block" required style="font-size: 14px;">
-                                            <option value="" disabled selected>Select your block</option>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="C">C</option>
-                                            <option value="D">D</option>
-                                            <option value="E">E</option>
-                                        </select>
-                                    </div>
+                            <div class="row mb-3">
+   
+</div>
+
+
+                             <div class="row mb-3">
+                                <div class="col-md-10">
+                                    <label for="course" class="form-label fw-bold">Course</label>
+                                    <select id="course" class="form-select" name="course_id" required style="font-size: 14px;">
+                                        <option value="" disabled>Select your course</option>
+                                        <option value="1" {{ $user->course_id == 1 ? 'selected' : '' }}>BS Information Technology</option>
+                                        <option value="2" {{ $user->course_id == 2 ? 'selected' : '' }}>BS Meteorology</option>
+                                        <option value="3" {{ $user->course_id == 3 ? 'selected' : '' }}>BS Biology</option>
+                                        <option value="4" {{ $user->course_id == 4 ? 'selected' : '' }}>BS Computer Science</option>
+                                        <option value="5" {{ $user->course_id == 5 ? 'selected' : '' }}>BS Chemistry</option>
+                                    </select>
+
                                 </div>
-                            </form>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-5">
+                                    <label for="year" class="form-label fw-bold">Year</label>
+                                    <select id="year" class="form-select" name="year" required style="font-size: 14px;">
+                                        <option value="" disabled>Select your year</option>
+                                        <option value="1st Year" {{ $user->year == '1st Year' ? 'selected' : '' }}>1st Year</option>
+                                        <option value="2nd Year" {{ $user->year == '2nd Year' ? 'selected' : '' }}>2nd Year</option>
+                                        <option value="3rd Year" {{ $user->year == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
+                                        <option value="4th Year" {{ $user->year == '4th Year' ? 'selected' : '' }}>4th Year</option>
+                                        <option value="5th Year" {{ $user->year == '5th Year' ? 'selected' : '' }}>5th Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="block" class="form-label fw-bold">Block</label>
+                                    <select id="block" class="form-select" name="course_bloc" required style="font-size: 14px;">
+                                        <option value="" disabled>Select your block</option>
+                                        <option value="A" {{ $user->block == 'A' ? 'selected' : '' }}>A</option>
+                                        <option value="B" {{ $user->block == 'B' ? 'selected' : '' }}>B</option>
+                                        <option value="C" {{ $user->block == 'C' ? 'selected' : '' }}>C</option>
+                                        <option value="D" {{ $user->block == 'D' ? 'selected' : '' }}>D</option>
+                                        <option value="E" {{ $user->block == 'E' ? 'selected' : '' }}>E</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="row mb-3">
+    @if($user->role_id == 2)
+    <div class="col-md-10 mt-3">
+            <!-- Gcash Button -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gcashModal">Gcash</button>
+            
+        </div>
+    @endif
+</div>
+
+
             <!-- Save and Cancel Buttons Outside the Card -->
-            <div class="d-flex justify-content-end mt-4">
-                <div class="me-2"> <!-- Add margin to the right of the Cancel button -->
-                    <a href="{{ route('profile') }}" class="btn btn-outline-secondary cancel-btn" style="width: 150px; height: 50px;">Cancel</a>
+            <div class="d-flex justify-content-end mt-3">
+                <div class="me-2">
+                <a href="{{ route('profile') }}" class="btn btn-outline-secondary cancel-btn d-flex justify-content-center align-items-center" style="width: 150px; height: 50px;">Cancel</a>
+
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary btn-block" style="width: 150px; height: 50px; margin-right:138px">Save Changes</button>
+                    <button type="submit" type="submit" class="btn btn-primary btn-block" style="width: 150px; height: 50px; margin-right:203px">Save Changes</button>
                 </div>
             </div>
 
@@ -137,6 +166,221 @@
     </div>
 </div>
 </form>
+
+ <!-- Modal -->
+<div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%; width: auto;">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title fw-bold" id="gcashModalLabel" style="font-size: 20px; color: #092C4C;">Gcash Management</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Add Button -->
+                <div class="text-end mb-3">
+                    <button id="addBtn" class="btn btn-outline-primary">+ Add</button>
+                </div>
+
+                <div id="gcashInfo" style="display: block;">
+                    <div class="row mb-3 fw-bold">
+                        <div class="col-md-3 text-center">Gcash Name</div>
+                        <div class="col-md-3 text-center">Gcash Number</div>
+                        <div class="col-md-3 text-center">Gcash Limit</div>
+                        <div class="col-md-3 text-center">Actions</div>
+                    </div>
+                    <div id="gcashInfoContainer">
+                    @foreach ($gcashInfos as $info)
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-3 text-center">
+            <p class="mb-0">{{ $info->gcash_name }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <p class="mb-0">{{ $info->gcash_number }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <p class="mb-0">{{ $info->gcash_limit }}</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <button class="delete-gcash btn btn-danger" data-id="{{ $info->id }}">Delete</button>
+        </div>
+    </div>
+@endforeach
+
+                    </div>
+                </div>
+
+                <!-- Gcash Edit Section -->
+                <div id="gcashEdit" style="display: none;">
+                    <form id="gcashForm" action="{{ route('gcash.store') }}" method="POST">
+                        @csrf
+                        <div id="gcashFieldsContainer"></div>
+
+                        
+                    </form>
+
+                    
+                    <!-- Buttons Row -->
+                    <div class="d-flex justify-content-center mb-5">
+                        <button type="button" class="btn btn-outline-secondary mx-2" id="cancelBtn" style="width: 100px;">Cancel</button>
+                        <button type="submit" form="gcashForm" class="btn btn-primary mx-2" id="saveBtn" style="width: 100px;">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this GCash info?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success/Error Modal -->
+<div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="responseModalLabel">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="responseMessage">
+                <!-- Success/Error message will appear here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+    let fieldCount = 0;
+
+    // Switch to edit mode and add the first field
+    document.getElementById('addBtn').addEventListener('click', function () {
+        document.getElementById('gcashInfo').style.display = 'none';
+        document.getElementById('gcashEdit').style.display = 'block';
+        document.getElementById('gcashFieldsContainer').innerHTML = ''; // Clear fields
+        addField(); // Add an initial empty row
+    });
+
+    // Cancel button functionality
+    document.getElementById('cancelBtn').addEventListener('click', function () {
+        document.getElementById('gcashEdit').style.display = 'none';
+        document.getElementById('gcashInfo').style.display = 'block';
+    });
+
+    // Function to add a new input field
+    function addField() {
+        const container = document.getElementById('gcashFieldsContainer');
+        const newRow = document.createElement('div');
+        newRow.classList.add('row', 'mb-3');
+        newRow.setAttribute('data-id', fieldCount);
+
+        newRow.innerHTML = `
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="gcash_name[]" placeholder="Gcash Name" required>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="gcash_number[]" placeholder="Gcash Number" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="gcash_limit[]" placeholder="Gcash Limit" required>
+            </div>
+            
+        `;
+
+        container.appendChild(newRow);
+        fieldCount++;
+
+        // Add delete functionality for the newly added field
+        newRow.querySelector('.delete-btn').addEventListener('click', function () {
+            container.removeChild(newRow);
+        });
+    }
+
+    // Delete functionality for existing GCash entries in the table
+    document.addEventListener('DOMContentLoaded', function () {
+    const gcashInfoContainer = document.getElementById('gcashInfo');
+    let selectedId = null;
+
+    const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+    const responseModal = new bootstrap.Modal(document.getElementById('responseModal'));
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const responseMessage = document.getElementById('responseMessage');
+    
+
+    if (gcashInfoContainer) {
+        gcashInfoContainer.addEventListener('click', function (event) {
+            if (event.target.classList.contains('delete-gcash')) {
+                selectedId = event.target.dataset.id;
+
+                // Show the confirmation modal
+                confirmationModal.show();
+   
+            }
+        });
+
+        confirmDeleteBtn.addEventListener('click', function () {
+            if (selectedId) {
+                fetch(`/gcash/delete/${selectedId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        responseMessage.textContent = data.message;
+
+                        if (data.success) {
+                            // Remove the corresponding row
+                            const row = document.querySelector(`[data-id="${selectedId}"]`).closest('.row');
+                            if (row) {
+                                row.remove();
+                            }
+                        }
+
+                        // Show the response modal
+                        responseModal.show();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        responseMessage.textContent = 'An error occurred while deleting the GCash info.';
+                        responseModal.show();
+                    })
+                    .finally(() => {
+                        selectedId = null;
+                        confirmationModal.hide();
+                    });
+            }
+        });
+    }
+});
+
+</script>
+
+
+
 
 <style>
     .list-group-item {
@@ -194,5 +438,40 @@
         padding: 0.75rem;
         width: 100%;
     }
+
 </style>
+
+<script>
+
+    document.querySelectorAll('.profile-avatar').forEach((avatar) => {
+        avatar.addEventListener('mouseenter', () => {
+            avatar.querySelector('.hover-label').style.display = 'flex';
+        });
+
+        avatar.addEventListener('mouseleave', () => {
+            avatar.querySelector('.hover-label').style.display = 'none';
+        });
+    });
+
+
+    function uploadProfilePicture(event) {
+        const fileInput = event.target;
+        const picturePreview = document.getElementById('picture_preview_container');
+
+       
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                picturePreview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+
+            
+            }
+        }
+    
+</script>
+
 @endsection

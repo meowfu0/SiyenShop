@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -18,8 +19,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name', 'last_name', 'phone_number', 'course_bloc', 'course_id', 'year', 'email', 'password',
-    ];
+        'first_name', 'last_name', 'phone_number', 'course_bloc', 'course_id', 'year', 
+        'email', 'password', 'profile_picture', 'last_login', 'modified_at',];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,9 +52,29 @@ class User extends Authenticatable
         return $this->belongsTo(Course::class, 'course_id'); 
     }
 
-
-    public function reviews()
+    /**
+     * Ensure `modified_at` is updated manually when the profile is updated.
+     */
+    public static function boot()
     {
-        return $this->hasMany(Review::class, 'reviews_id');
+        parent::boot();
+
+        // Automatically update `modified_at` when the user is updated
+        static::updating(function ($user) {
+            $user->modified_at = now();
+        });
+
+        // Automatically update `last_login` when the user logs in
+        static::created(function ($user) {
+            // Set the initial last login to the current time when the user is created
+            $user->last_login = now();
+            $user->save();
+        });
     }
+
+    public function gcashInfo()
+    {
+        return $this->hasOne(GCashInfo::class);
+    }
+
 }

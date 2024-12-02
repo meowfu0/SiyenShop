@@ -32,6 +32,9 @@ use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\GCashInfoController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FaqController;
 use App\Mail\MessageNotification;
@@ -51,6 +54,16 @@ Route::get('/', function () {
 // profile page
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::get('/profile', [UserProfileController::class, 'showProfile'])->name('profile')->middleware('auth');
+
+Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
+Route::put('/profile/update/{user}', [UserProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+
+
+
+
+
+
 
 // shopping module
 Route::get('/shopPage', [shopPageController::class, 'index'])->name('shopPage');
@@ -103,7 +116,10 @@ Route::get('/faqs', function () {
 })->name('faqs');
 
 // user purchases route
-Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases'); 
+Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+
+Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('profile.update');
+
 
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
@@ -150,7 +166,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
-});
+}); 
 
 use App\Http\Controllers\MessageController;
 
@@ -172,3 +188,11 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/faqs', [FaqController::class, 'index'])->name('faqs.index');
 Route::get('/message_notification', [MessageController::class, 'email'])->name('components.message_notification');
 Route::post('/getShopUserId', [MessageController::class, 'getShopUserId'])->name('getShopUserId');
+
+Route::post('/gcash/update/{id}', [GCashInfoController::class, 'update'])->name('gcash.update');
+Route::delete('/gcash/delete/{id}', [GCashInfoController::class, 'destroy'])->name('gcash.destroy');
+
+
+
+
+Route::post('/gcash/store', [GCashInfoController::class, 'store'])->name('gcash.store');
