@@ -15,19 +15,44 @@ class MyPurchasesController extends Controller
 {
     public function index()
     {
-       // Fetch orders for the authenticated user
         $orders = Order::where('user_id', auth()->id())->get();
         
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
         $variant_item = ProductVariant::all();
         $reviews = Review::all();
-
-        LOG::debug($orderItems->pluck('product.product_name'));
-
+        $keyId = 0;
+ 
+        Log::debug($orderItems->pluck('product.product_name'));
+        Log::debug("\nPuta ka");
+    
         $categories = Category::all();
-        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews'));
+        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId'));
     }
+    public function mypurchases($keyId)
+    {
+        // Retrieve query parameters from the URL
 
+        // Query orders for the authenticated user
+        $orders = Order::where('user_id', auth()->id())->get();
+        
+        // Get order items, including product and variant info
+        $orderItems = OrderItem::with(['product', 'productVariant'])
+                               ->whereIn('order_id', $orders->pluck('id'))
+                               ->get();
+
+        // Retrieve all product variants and reviews
+        $variant_item = ProductVariant::all();
+        $reviews = Review::all();
+        
+        // Retrieve categories
+        $categories = Category::all();
+
+        // Log the product names (optional)
+        Log::debug($orderItems->pluck('product.product_name'));
+
+        // Pass the data to the view
+        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId'));
+    }
     public function countOrders($orderId)
         {
             // Count distinct items in the order_items table for the given order ID

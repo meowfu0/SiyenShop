@@ -87,8 +87,8 @@
         @endforeach
     </ul>
     <hr>
-
-    <p>You can check <a href="{{ url('/mypurchases') }}">Check Your Order</a> or <a href="{{ url('/shop/chat') }}">Contact Seller.</a></p>
+ 
+    <p>You can check <a href="{{ route('mypurchases-open', ['orderId' => $order->id]) }}">View Order</a>Check Your Order</a> or <a href="{{ url('/shop/chat') }}">Contact Seller.</a></p>
     <p>{{ $footer_status }}</p>
     <p>Thank you for shopping with us!</p>
 </body>

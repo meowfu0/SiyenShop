@@ -75,6 +75,8 @@ Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypu
 Route::post('/submit-review', [MyPurchasesController::class, 'submitReview'])->name('submit.review');
 Route::get('/count-orders/{orderId}', [MyPurchasesController::class, 'countOrders'])->name('count_orders');
 Route::post('/orders-pdf-print', [OrderController::class, 'processDataTable']);
+Route::get('/mypurchases/{orderId}', [MyPurchasesController::class, 'mypurchases'])->name('mypurchases-open');
+
 
 
 // Shop Routes Group

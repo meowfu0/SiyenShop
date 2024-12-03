@@ -96,7 +96,7 @@ class OrderController extends Controller
         $variant_item = ProductVariant::all();
         $categories = Category::all();
         $customer = User::whereIn('id', $orders->pluck('user_id'))->get();
-        Log::debug($customer);
+        Log::debug("nigga");
         return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop', 'customer'));
     }
     public function updateStatus(Request $request)

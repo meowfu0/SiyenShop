@@ -340,6 +340,15 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             filterOrders(7);
+            console.log(parseInt(@json($keyId)));
+            if(@json($keyId != 0)){
+                var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+                myModal.show();
+                const orderToPass = @json($orders).find(od => od.id === parseInt(@json($keyId)));
+                openModalYes(orderToPass, @json($orderItems), @json($categories));
+                
+            }
+
         });
 
         function openModalYes(yesId, orderItem, category) {
