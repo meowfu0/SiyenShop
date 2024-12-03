@@ -30,7 +30,7 @@ class GCashInfo extends Model
      * Relationship to the Role model.
      */
     // The table associated with the model (if it's not the default plural)
-    protected $table = 'g_cash_infos';
+    protected $table = 'gcash_manager_info';
 
     // Define the relationship
     public function shop()
