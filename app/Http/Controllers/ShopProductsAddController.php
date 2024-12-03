@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,14 @@ class ShopProductsAddController extends Controller
     {
         // Fetch categories to pass to the view
         $categories = DB::table('categories')->get();
+        $shop_id = $this->getShopId();
 
-        return view('livewire.shop.shop-products-add', compact('categories'));
+        $shop = DB::table('shops')
+            ->where('id', $shop_id)
+            ->first();
+
+
+        return view('livewire.shop.shop-products-add', compact('categories','shop'));
     }
 
     public function getShopId() {
