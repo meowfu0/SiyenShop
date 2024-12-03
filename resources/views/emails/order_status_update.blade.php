@@ -12,6 +12,17 @@
         h1, p, h3, ul {
             margin-left: 40px;
         }
+        img{
+            height: 300px;
+            width: auto;
+            margin-left: 40px;
+        }
+        hr{
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            width: 90%;
+        }
     </style>
 </head>
 <body>
@@ -45,9 +56,9 @@
     @endphp
 
     <h1 id="emailTitle">Order Status Update</h1>
-
+    <hr>
     <p>Dear {{ $user->first_name }} {{ $user->last_name }},</p>
-
+    
     <p>Your order with Order ID: {{ $order->id }} has been updated.</p>
 
     <h3>New Order Status</h3>
@@ -57,7 +68,7 @@
         <p>Reason for Denial: {{ $order->denial_reason ?? 'N/A' }}</p>
         <p>Seller's Comment: {{ $order->denial_comment ?? 'N/A' }}</p>
     @endif
-    <h3>Order Items:</h3>
+    <h3>Your Ordered Items</h3>
     <ul>
         @foreach($currentItems as $item)
             @php
@@ -75,7 +86,9 @@
             </li>
         @endforeach
     </ul>
+    <hr>
 
+    <p>You can check <a href="{{ url('/mypurchases') }}">Check Your Order</a> or <a href="{{ url('/shop/chat') }}">Contact Seller.</a></p>
     <p>{{ $footer_status }}</p>
     <p>Thank you for shopping with us!</p>
 </body>

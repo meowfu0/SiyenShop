@@ -12,7 +12,6 @@
 
 <div class="w-100">
     @include('components.profilenav')
-   
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
         <div class="ps-3">
             <img src="{{asset('images/Circuits.svg')}}" alt="">
@@ -66,6 +65,7 @@
         <thead>
             <tr>
                 <th scope="col">Order ID</th>
+                <th scope="col">Customer Name</th>
                 <th scope="col">Total Items</th>
                 <th scope="col">Total Cost</th>
                 <th scope="col">Reference Number</th>
@@ -102,10 +102,14 @@
             @endphp
             
             @foreach ($orders as $order)
+                @php
+                    $currentCustomer = $customer->firstWhere('id', $order->user_id);
+                @endphp
                 <tr class="status-label {{ getStatusClass($order->order_status_id) }}" onclick="openOrderModal({{ $order }})">
                     <td class="id">{{ $order->id }}</td>
+                    <td>{{ $currentCustomer->first_name }} {{ $currentCustomer->last_name }}</td>
                     <td >{{ $order->total_items }}</td>
-                    <td>{{ number_format($order->total_amount, 1) }}</td>
+                    <td>₱ {{ number_format($order->total_amount, 2) }}</td>
                     <td class="reference-number">{{ $order->reference_number }}</td>
                     <td class="status-label {{ getStatusClass($order->order_status_id) }}">
                         {{ $statusLabels[$order->order_status_id] ?? 'Unknown Status' }}
@@ -182,11 +186,13 @@
                     onclick="viewProof(document.getElementById('modalOrderId').innerText)"><u>Click to View</u></p>
                 </div>
                 <div class="transact-col3">
+                    <p>Customer: </p>
                     <p>Date:</p>
                     <p>Time:</p>
                     <p>Item(s):</p>
                 </div>
                 <div class="transact-col4">
+                    <p id="customerName"></p>
                     <p id="modalDate"></p>
                     <p id="modalTime"></p>
                     <p id="modalItemCount"></p>
@@ -211,6 +217,19 @@
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(10)">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="msgModal" tabindex="-1" aria-labelledby="msgModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-body">
+                        <img src="{{ asset('images/check.svg') }}">
+                        <h3>Status has been updated!</h3>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -279,6 +298,17 @@
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateStatus(11)">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModal" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                    <div class="modal-body" style="height: 150px !important;">
+                        <h3 style="position: absolute; left: 80px !important; top: 30px !important;">Updating Status...</h3>
+                    </div>
+                    <div class="modal-footer border-0">
                     </div>
                 </div>
             </div>
@@ -375,6 +405,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
 <script>
+    
     var denial_reason;
     var denial_comment;
     let currentPage = 1;
@@ -513,11 +544,15 @@ function openOrderModal(order) {
     const orderItem = @json($orderItems);
     const category = @json($categories);
     const currentItems = orderItem.filter(item => item.order_id === order.id);
+    const customer = @json($customer).find(cus => cus.id === order.user_id);
+
     createModalTable(currentItems, category);
     document.getElementById("modalOrderId").textContent = order.id;
-    document.getElementById("modalTotalAmount").textContent = `P${order.total_amount}`;
+    document.getElementById("modalTotalAmount").textContent = `₱ ${order.total_amount}`;
     document.getElementById("modalPaymentMethod").textContent = order.payment_method ?? 'N/A';
     document.getElementById("modalReferenceNumber").textContent = order.reference_number;
+    document.getElementById('customerName').textContent = customer.first_name +" "+ customer.last_name;
+    document.getElementById('customerName').style.fontWeight = '600';
     const orderDate = new Date(order.order_date);
 
     // Format the date as MM-DD-YYYY
@@ -1028,10 +1063,13 @@ function refreshTable(orders) {
     
     console.log(orders);
     orders.forEach(order => {
+            const currentCustomer = @json($customer).find(cus => cus.id === order.user_id);
+
             const row = document.createElement('tr');
             row.classList.add('status-label', getStatusClass(order.order_status_id));
             row.innerHTML = `
                 <td>${order.id}</td>
+                <td>${currentCustomer.first_name} ${currentCustomer.last_name}</td>
                 <td>${order.total_items}</td>
                 <td>${order.total_amount.toFixed(1)}</td>
                 <td class="reference-number">${order.reference_number}</td>
@@ -1124,9 +1162,12 @@ function refreshTable(orders) {
 
     function updateStatus(newStatus) {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const targetId = parseInt(currentId, 10);
+        const targetId = parseInt(currentId);
         const currentOrder = @json($orders).find(order => order.id === targetId);
-        currentCustomer = currentOrder.user_id;
+        const currentCustomer = currentOrder.user_id;
+        var upModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        console.log(currentCustomer);
+        upModal.show();
        if(newStatus != 6){
             denial_reason = "N/A";
             denial_comment = "N/A";
@@ -1149,6 +1190,9 @@ function refreshTable(orders) {
         .then(response => response.json())  
         .then(data => {
             console.log('Success:', data);
+            upModal.hide();
+            var myModal = new bootstrap.Modal(document.getElementById('msgModal'));
+            myModal.show();
             fetchAndUpdateTable()
         })
         .catch((error) => {
@@ -1163,7 +1207,7 @@ function refreshTable(orders) {
 
         console.log(matchedOrder.proof_of_payment);
 
-        document.getElementById('proofImg').src = matchedOrder.proof_of_payment;
+        document.getElementById('proofImg').src = "/images/"+matchedOrder.proof_of_payment;
     }
 
     function createModalTable(orderItems, category) {
@@ -1187,7 +1231,7 @@ function refreshTable(orders) {
         // Add the product image to the image holder
         const img = document.createElement('img');
         
-        img.src = item.product.product_image;
+        img.src = "/images/"+item.product.product_image;
         imgHolder.appendChild(img);
 
         // Create the product details table
@@ -1222,8 +1266,8 @@ function refreshTable(orders) {
             <td>${categ}</td>
             <td>${item.product_variant.size || "N/A"}</td>
             <td>${item.quantity}</td>
-            <td>P${parseFloat(item.price).toFixed(2)}</td>
-            <td>P${parseFloat(item.price*item.quantity).toFixed(2)}</td>
+            <td>₱ ${parseFloat(item.price).toFixed(2)}</td>
+            <td>₱ ${parseFloat(item.price*item.quantity).toFixed(2)}</td>
         `;
 
         // Append the item row to the item details table

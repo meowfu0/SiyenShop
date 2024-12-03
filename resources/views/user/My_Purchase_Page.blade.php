@@ -79,7 +79,7 @@
                             </script>
                             <!-- Item Image -->
                             <div class="item-img">
-                                <img src="{{ $currentItem->product->product_image }}">
+                                <img src="\images\{{ $currentItem->product->product_image }}">
                             </div>
                             <!-- Order Details Table -->
                             <table class="dets">
@@ -95,7 +95,7 @@
                                     <td data-label="Category">{{ $currentCategory->category_name }}</td>
                                     <td data-label="Variant/Size">{{ $currentVariant->size }}</td>
                                     <td data-label="Quantity">{{ $currentItem->quantity }}</td>
-                                    <td data-label="Price">P {{ number_format($currentItem->price, 2) }}</td>
+                                    <td data-label="Price">₱ {{ number_format($currentItem->price, 2) }}</td>
                                 </tr>
                             </table>
 
@@ -103,7 +103,7 @@
                             <div class="other-content-low">
                                 <h5>TOTAL:</h5>
                                 <p id="idTaker" style="display: none">{{ $order->id }}</p>
-                                <p class="costPrice">P{{ number_format($order->total_amount, 2) }}</p>
+                                <p class="costPrice">₱ {{ number_format($order->total_amount, 2) }}</p>
                                 <p class="itemLab">Item(s):</p>
                                 <p class="itemCount">{{ $order->total_items }}</p>
                                 <p class="dateLabel">Date:</p>
@@ -115,19 +115,30 @@
                                 <!-- Multiple Indicator -->
                                 <p class="multiple-indicator" id="multipleIndicator_{{ $order->id }}"></p>
                                 <script>
-                                    console.log("{{ $order->id }}");
                                     fetch("{{ route('count_orders', ['orderId' => $order->id]) }}")
                                         .then(response => response.json())
                                         .then(data => {
                                             const rev = @json($reviews);
-                                            const unreviewedItems = @json($orderItems).filter(item => {{ $order->id }} === item.order_id && !rev.some(review => review.order_id === item.id));
+                                            const unreviewedItems = @json($orderItems).filter(item => {{ $order->id }} === item.order_id && !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
                                             
+                                            let existingItem = [];
+                                            unreviewedItems.forEach(item => {
+                                                if(existingItem.length === 0){  // Check if the array is empty
+                                                    existingItem.push(item.product_id);
+                                                }
+
+                                                if(!existingItem.includes(item.product_id)){  // Check if product_id already exists in the array
+                                                    existingItem.push(item.product_id);
+                                                }
+                                            });
+                                            console.log(existingItem.length);
                                             if(@json($order->order_status_id) != 12){
                                                 if (data.distinct_item_count > 1) {
                                                     document.getElementById('multipleIndicator_{{ $order->id }}').textContent = "Multiple items available. Click 'View Details' to see more";
                                                 }
                                             }else{
-                                                document.getElementById('multipleIndicator_{{ $order->id }}').textContent =  unreviewedItems.length === 0 ? "" : unreviewedItems.length+" item(s) to review";
+                                                document.getElementById('multipleIndicator_{{ $order->id }}').textContent =  unreviewedItems.length === 0 ? "" : existingItem.length+" item(s) to review";
+                                                document.get
                                                 document.getElementById('multipleIndicator_{{ $order->id }}').style.left = '200px';
                                             }
         
@@ -256,15 +267,15 @@
             <button type="button" class="btn btn-primary" id="submit-ratings" onclick="submitRate()">Submit</button>
     </div>
     <div class="modal fade" id="viewProof" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" style="width: 540px !important; height: 400px !important;">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0">
                     <div class="modal-body">
-                        <h3 style="margin-left: 110px !important; font-weight: 600;">Proof Image</h3>
+                        <h3>Proof Image</h3>
                         <p id="proofId_holder"style="display: none;">fuck</p>
                         <img id="proofImg" src="" style="height: 400px; width: auto; margin-left: 20px; border-radius: 10px; margin-top: 20px;">
                     </div>
                     <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="closeImage(parseInt(document.getElementById('proofId_holder').textContent))" style="margin-right: 130px !important; margin-bottom: 20px !important;">Confirm</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="closeImage(parseInt(document.getElementById('proofId_holder').textContent))">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -273,7 +284,7 @@
             <div class="modal-dialog modal-dialog-centered" style="max-width: 800px !important; height: 400px !important;">
                 <div class="modal-content border-0">
                     <div class="modal-body">
-                        <h3 style="margin-left: 230px !important; margin-top: 20px; font-weight: 600;">Payment Denied</h3>
+                        <h3 id="denHead">Payment Denied</h3>
                         <img id="reasonImg" src="" style="height: 400px; width: auto; margin-left: 20px; border-radius: 10px; margin-top: 20px;">
                         <div id="msgSection">
                             <h4 style="margin-left: 20px; margin-top: 20px; font-weight: 600;" id="reasonHead">Reason: <h4>
@@ -343,17 +354,47 @@
             document.getElementById('toRate').textContent = "Reason: ";
             document.getElementById('denyReason').textContent = yesId.denial_reason;
         }else{
+            document.getElementById('toRate').textContent ="";
             document.getElementById('denyReason').textContent = "";
         }
         
         if(yesId.order_status_id === 12){
-            document.getElementById('rateButton').style.setProperty('display', 'block', 'important');
+            const rev = @json($reviews);
+            const unreviewedItems = @json($orderItems).filter(item => yesId.id === item.order_id && !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
+            let existingItem = [];
+                unreviewedItems.forEach(item => {
+                    if(existingItem.length === 0){  // Check if the array is empty
+                        existingItem.push(item.product_id);
+                    }
+                    if(!existingItem.includes(item.product_id)){  // Check if product_id already exists in the array
+                        existingItem.push(item.product_id);
+                    }
+                });
+            document.getElementById('rateButton').style.setProperty('display', 'block', 'important');   
+            document.getElementById('reasonButton').style.setProperty('display', 'none', 'important');
+            document.getElementById('rateButton').disabled = existingItem.length > 0 ? false : true;
+            if (window.innerWidth <= 768) {
+                document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important');
+                if(existingItem.length > 0){
+                    document.querySelector('.transact-col4').style.setProperty('margin-left', '-10%', 'important');
+                }else{
+                document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
+                }
+            }
         }else if(yesId.order_status_id == 6){
             document.getElementById('rateButton').style.setProperty('display', 'none', 'important');
             document.getElementById('reasonButton').style.setProperty('display', 'block', 'important');
+            if (window.innerWidth <= 768) {
+                document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important'); 
+                document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
+            }
         }else{
             document.getElementById('rateButton').style.setProperty('display', 'none', 'important');
             document.getElementById('reasonButton').style.setProperty('display', 'none', 'important');
+            if (window.innerWidth <= 768) {
+                document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important'); 
+                document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
+            }
         }
         
         document.getElementById('orderDetailsLabel').textContent = yesId.shop.shop_name;
@@ -376,7 +417,7 @@
         // Fetch the order details
     
         modalOrderId.textContent = yesId.id;
-        modalTotalAmount.textContent = `P${parseFloat(yesId.total_amount).toFixed(2)}`;
+        modalTotalAmount.textContent = `₱ ${parseFloat(yesId.total_amount).toFixed(2)}`;
         modalReferenceNumber.textContent = yesId.reference_number || "No reference available";
                 
         // Format date and time
@@ -385,7 +426,7 @@
         const formattedTime = orderDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
         modalDate.textContent = formattedDate;
         modalTime.textContent = formattedTime;
-                
+        console.log(yesId.total_items);
         modalItemCount.textContent = yesId.total_items;
         
     }
@@ -409,7 +450,7 @@
             // Add the product image to the image holder
             const img = document.createElement('img');
             
-            img.src = item.product.product_image;
+            img.src = '/images/' + item.product.product_image;
             imgHolder.appendChild(img);
 
             // Create the product details table
@@ -446,8 +487,8 @@
                 <td>${categ}</td>
                 <td>${item.product_variant.size || "N/A"}</td>
                 <td>${item.quantity}</td>
-                <td>P${parseFloat(item.price).toFixed(2)}</td>
-                <td>P${parseFloat(item.price*item.quantity).toFixed(2)}</td>
+                <td>₱ ${parseFloat(item.price).toFixed(2)}</td>
+                <td>₱ ${parseFloat(item.price*item.quantity).toFixed(2)}</td>
             `;
 
             // Append the item row to the item details table
@@ -521,24 +562,36 @@
             modal.style.display = 'none'; // Completely hide modal
             backdrop.style.display = 'none'; // Hide backdrop
         }, 400); // Match the CSS transition duration (300ms)
-        var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
         
+        var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
         myModal.show();
-    }
-    function showRate(id) {
 
-        const currentItem = @json($orderItems).find(name => id === name.id);
+    }
+    function showRate(prodId, id, orderItemId) {
+        const filteredItems = @json($orderItems).filter(name => id === name.order_id && prodId === name.product_id);
+        var qtty = 0;
+        var variants = "";
+        var costz = 0;
+        filteredItems.forEach(itemz => {
+            qtty+=itemz.quantity;
+            variants+=(itemz.product_variant.size+", ");
+            costz +=itemz.price;
+        })
+        variants = variants.slice(0,-2);
+        console.log("Hey nigga "+ variants +": "+qtty)
+        const currentItem =  @json($orderItems).find(itemz => itemz.id === orderItemId);
+
         const name = currentItem.product.product_name;
         const currentCateg = @json($categories).find(categ => currentItem.product.category_id === categ.id);
         currentId = id;
         console.log(currentId);
 
-        document.querySelector('#rateItemHolder img').src = currentItem.product.product_image;
+        document.querySelector('#rateItemHolder img').src = "/images/"+currentItem.product.product_image;
         document.getElementById('rateItemName').textContent = name;
         document.getElementById('rateItemCategory').textContent = currentCateg.category_name;
-        document.getElementById('rateItemVariant').textContent = currentItem.product_variant.size;
-        document.getElementById('rateItemQuantity').textContent = currentItem.quantity;
-        document.getElementById('rateItemCost').textContent = "P"+parseFloat(currentItem.price).toFixed(2);
+        document.getElementById('rateItemVariant').textContent = variants;
+        document.getElementById('rateItemQuantity').textContent = qtty;
+        document.getElementById('rateItemCost').textContent = "₱ "+parseFloat(costz).toFixed(2);
 
         var chooseRateButton = new bootstrap.Modal(document.getElementById('chooseRate'));
         chooseRateButton.hide();
@@ -546,11 +599,9 @@
         const modal = document.getElementById('rateModal');
         const backdrop = document.getElementById('modal-cover');
 
-        // Ensure modal is visible before applying fade-in effect
         modal.style.display = 'block';
         backdrop.style.display = 'block';
 
-        // Add fade-in effect
         setTimeout(() => {
             modal.classList.add('custom-show');
             backdrop.classList.add('custom-show');
@@ -564,7 +615,7 @@
         var reviewComment = (document.querySelector('#rateModal textarea').value === "" ? "N/A" : document.querySelector('#rateModal textarea').value);
 
         const reviewData = {
-            order_id: currentItem.id,
+            order_id: currentItem.order_id,
             product_id: currentItem.product.id,
             ratings: rateNum,
             review: reviewComment,
@@ -677,7 +728,7 @@
         let matchedOrder = orderYes.find(order => order.id === targetId);
 
         // Set the source of the proof image (you can use this to update the modal content)
-        document.getElementById('proofImg').src = matchedOrder.proof_of_payment;
+        document.getElementById('proofImg').src = "/images/"+matchedOrder.proof_of_payment;
 
         const proofIdHolder = document.getElementById('proofId_holder');
         proofIdHolder.textContent = id;
@@ -692,49 +743,49 @@
         const reviews = @json($reviews);
         const buttonSub = document.getElementById('openRate');
         buttonSub.disable = true;
+
         var myModal = new bootstrap.Modal(document.getElementById('chooseRate'));
         myModal.show();
 
         const currentId = parseInt(id);
         console.log(reviews);
 
-        const currentItem = @json($orderItems).filter(item => currentId === item.order_id && !reviews.some(review => review.order_id === item.id));
+        const currentItem = @json($orderItems).filter(item => currentId === item.order_id && !reviews.some(review => review.order_id === currentId && review.product_id === item.product_id));
 
         // Populate the dropdown menu with unique products
         const dropdownMenu = document.querySelector("#chooseRate .dropdown-menu");
         dropdownMenu.innerHTML = ""; // Clear existing items
 
+        let uniqueProducts = new Set(); 
+
         currentItem.forEach(item => {
-            const listItem = document.createElement("li");
-            const link = document.createElement("a");
+            if (!uniqueProducts.has(item.product_id)) { // Check if the product ID is already added
+                uniqueProducts.add(item.product_id); // Add the product ID to the Set
 
-            link.className = "dropdown-item";
-            if(item.product_variant.size === 'N/A'){
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+
+                link.className = "dropdown-item";
                 link.textContent = item.product.product_name;
-            }else{
-                link.textContent = item.product_variant.size+" - "+item.product.product_name;
+
+                // Set the onclick event to set the rate
+                link.onclick = function() {
+                    setRateItem(item);
+                };
+
+                listItem.appendChild(link);
+                dropdownMenu.appendChild(listItem);
             }
-            // Set the onclick event to set the rate
-            link.onclick = function() {
-                setRateItem(item);
-            };
-
-            listItem.appendChild(link);
-            dropdownMenu.appendChild(listItem);
         });
-
-        // currentItem will still have the duplicates and can be used for other logic
     }
     function setRateItem(item) {
-        document.querySelector('#rateChoiceButton span').textContent = item.product_variant.size === 'N/A' 
-        ? item.product.product_name 
-        : item.product_variant.size + " - " + item.product.product_name;
+        document.querySelector('#rateChoiceButton span').textContent = item.product.product_name;
 
         const link = document.getElementById('openRate');
         document.getElementById('selectIndicator').style.display = "none";
         link.disabled = false;
         link.addEventListener('click', function() {
-            showRate(item.id);
+            showRate(item.product_id, item.order_id, item.id);
         });
     }
 
@@ -761,7 +812,7 @@
 
         document.getElementById('reasonHead').textContent = "Reason: "+currentOrder.denial_reason;
         document.getElementById('sellerRem').textContent = currentOrder.denial_comment;
-        document.getElementById('reasonImg').src = currentOrder.proof_of_payment;
+        document.getElementById('reasonImg').src = "/images/"+currentOrder.proof_of_payment;
     }
     function closeReason(){
         var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));

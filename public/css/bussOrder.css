@@ -169,6 +169,13 @@ th, td {
 #denial-options .modal-dialog{
     max-width: 600px !important;
 }
+#msgModal img {
+    width: 70px;
+    height: 70px;
+    margin: 40px auto 0 auto; /* This centers the image horizontally */
+    display: block; /* Ensures the image is treated as a block element */
+}
+
 .modal-content{
     padding-top: 20px !important;
     padding-left: 20px !important;
@@ -320,6 +327,12 @@ th, td {
 }
 #to{
     margin-bottom: 10px;
+}
+#msgModal .modal-dialog{
+    max-width: 480px !important;
+}
+#msgModal .modal-footer .btn.btn-primary{
+    margin-right: 100px;
 }
 td.status-label {
     padding: 2px;

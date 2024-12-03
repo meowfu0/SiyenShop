@@ -4,6 +4,7 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -29,8 +30,7 @@ class OrderStatusUpdate extends Mailable
     }
 
     public function build()
-    {
-        return $this->subject('Order Status Update')
-                    ->view('emails.order_status_update'); // Make sure you have a view called 'order_status_update'
+    {   
+        return $this->subject('Order Status Update')->view('emails.order_status_update'); // Make sure you have a view called 'order_status_update'
     }
 }

@@ -95,9 +95,9 @@ class OrderController extends Controller
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
         $variant_item = ProductVariant::all();
         $categories = Category::all();
-
-        
-        return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop'));
+        $customer = User::whereIn('id', $orders->pluck('user_id'))->get();
+        Log::debug($customer);
+        return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop', 'customer'));
     }
     public function updateStatus(Request $request)
     {
@@ -135,6 +135,7 @@ class OrderController extends Controller
     {
         $shop = Shop::where('user_id', auth()->id())->first();
         $orders = Order::where('shop_id', $shop->id)->get();
+      
         return response()->json($orders);
     }
     public function processDataTable(Request $request)
