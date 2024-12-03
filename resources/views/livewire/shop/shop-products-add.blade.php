@@ -360,126 +360,126 @@ function toggleQuantity() {
     //Updated Add Size fields
     let variantCount = 1;
 
-function addVariantRow() {
-    variantCount++;
+    function addVariantRow() {
+        variantCount++;
 
-    const newRow = `
-        <tr id="inputRow_${variantCount}">
-            <td>
-                <div class="form-group">
-                    <input type="text" name="variants[${variantCount}][size]" id="size_${variantCount}" class="form-control" placeholder="e.g. XL" value="">
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    <input type="number" name="variants[${variantCount}][stocks]" id="variantStocks_${variantCount}" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
-                </div>
-            </td>
-            <td>
-                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_${variantCount}')">
-                    <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                </button>
-            </td>
-        </tr>
-    `;
+        const newRow = `
+            <tr id="inputRow_${variantCount}">
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="variants[${variantCount}][size]" id="size_${variantCount}" class="form-control" placeholder="e.g. XL" value="">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="number" name="variants[${variantCount}][stocks]" id="variantStocks_${variantCount}" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_${variantCount}')">
+                        <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                    </button>
+                </td>
+            </tr>
+        `;
 
-    document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
-}
-
-function myDeleteFunction(rowId) {
-    const row = document.getElementById(rowId);
-    if (row) {
-        row.remove();
-    }
-}
-
-
-    // Function to update the quantity cell based on status
-    function updateQuantityCell(cell, rowCount) {
-        if (document.getElementById('status_id').value === '9') {
-            cell.innerHTML = ''; // Clear the cell for quantity if pre-order
-        } else {
-            cell.innerHTML = `
-                <div class="form-group">
-                    <input type="number" id="quantity_${rowCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                </div>`;
-        }
+        document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
     }
 
-    // Event listener to handle status change
-    document.getElementById('status_id').addEventListener('change', function() {
-        var rows = document.getElementById("myTable").getElementsByTagName('tbody')[0].rows;
-
-        for (var i = 0; i < rows.length; i++) {
-            var cell2 = rows[i].cells[1]; // Get the second cell (Quantity cell)
-            updateQuantityCell(cell2, i + 1); // Update quantity cell for each row
-        }
-    });
-
-    // Delete the specified row from the table
     function myDeleteFunction(rowId) {
-        var row = document.getElementById(rowId);
-            if (row) {
-                row.remove();
+        const row = document.getElementById(rowId);
+        if (row) {
+            row.remove();
+        }
+    }
+
+
+        // Function to update the quantity cell based on status
+        function updateQuantityCell(cell, rowCount) {
+            if (document.getElementById('status_id').value === '9') {
+                cell.innerHTML = ''; // Clear the cell for quantity if pre-order
             } else {
-                console.error('Row not found:', rowId);
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-    const dropZone = document.getElementById('drop_zone');
-    const fileInput = document.getElementById('image_upload');
-    const imagePreview = document.getElementById('uploaded_image_preview');
-    const removeButton = document.getElementById('remove_image');
-
-    // Click on drop zone triggers the file input click
-    dropZone.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    // Handle file selection via input
-    fileInput.addEventListener('change', handleFile);
-
-    // Drag and Drop Handlers
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('border-success');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('border-success');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('border-success');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            fileInput.files = files;
-            handleFile(); // Show preview
-        }
-    });
-
-    function handleFile() {
-        const file = fileInput.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.src = e.target.result;
-                imagePreview.classList.remove('d-none');
-                removeButton.classList.remove('d-none'); // Show the "X" button
+                cell.innerHTML = `
+                    <div class="form-group">
+                        <input type="number" id="quantity_${rowCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                    </div>`;
             }
-            reader.readAsDataURL(file);
         }
-    }
 
-    // Remove image and hide button
-    removeButton.addEventListener('click', function() {
-        imagePreview.classList.add('d-none'); // Hide the image
-        removeButton.classList.add('d-none'); // Hide the button
-        fileInput.value = ''; // Clear the file input
+        // Event listener to handle status change
+        document.getElementById('status_id').addEventListener('change', function() {
+            var rows = document.getElementById("myTable").getElementsByTagName('tbody')[0].rows;
+
+            for (var i = 0; i < rows.length; i++) {
+                var cell2 = rows[i].cells[1]; // Get the second cell (Quantity cell)
+                updateQuantityCell(cell2, i + 1); // Update quantity cell for each row
+            }
+        });
+
+        // Delete the specified row from the table
+        function myDeleteFunction(rowId) {
+            var row = document.getElementById(rowId);
+                if (row) {
+                    row.remove();
+                } else {
+                    console.error('Row not found:', rowId);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const dropZone = document.getElementById('drop_zone');
+        const fileInput = document.getElementById('image_upload');
+        const imagePreview = document.getElementById('uploaded_image_preview');
+        const removeButton = document.getElementById('remove_image');
+
+        // Click on drop zone triggers the file input click
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection via input
+        fileInput.addEventListener('change', handleFile);
+
+        // Drag and Drop Handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-success');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-success');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-success');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFile(); // Show preview
+            }
+        });
+
+        function handleFile() {
+            const file = fileInput.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('d-none');
+                    removeButton.classList.remove('d-none'); // Show the "X" button
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Remove image and hide button
+        removeButton.addEventListener('click', function() {
+            imagePreview.classList.add('d-none'); // Hide the image
+            removeButton.classList.add('d-none'); // Hide the button
+            fileInput.value = ''; // Clear the file input
+        });
     });
-});
     
 
 </script>

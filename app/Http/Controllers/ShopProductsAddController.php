@@ -69,7 +69,7 @@ class ShopProductsAddController extends Controller
         }
     
         // Determine stocks value
-        $stocks = $validated['status_id'] !== 9 ? ($validated['stocks'] ?? 0) : null; // Set to null if pre-order
+        $stocks = $validated['status_id'] !== 9 ? ($validated['stocks'] ?? null) : null; // Set to null if pre-order
         Log::info('Calculated stocks value', ['stocks' => $stocks]);
     
         // Insert product and get the product ID
@@ -89,46 +89,62 @@ class ShopProductsAddController extends Controller
         ]);
         
         Log::info('Product inserted', ['product_id' => $product_id]);
-    
+
         // Handle product variants if provided
         if (!empty($validated['variants'])) {
             $total_variant_stocks = 0;
             Log::info('Handling product variants', ['variants' => $validated['variants']]);
-        
+            
             foreach ($validated['variants'] as $variant) {
                 // Safely access keys with null coalescing
                 $size = $variant['size'] ?? null;
-                $stocks = $variant['stocks'] ?? null; // Default stocks to 0 if not set
+                $stocks = $variant['stocks'] ?? 0;
         
                 // Skip insertion if size or stocks are invalid
                 if (is_null($size)) {
                     Log::warning('Skipping variant due to missing size', ['variant' => $variant]);
                     continue;
                 }
-        
-                // Insert each variant into the product_variants table
-                DB::table('product_variants')->insert([
-                    'product_id' => $product_id,
-                    'size' => $size,
-                    'stock' => $stocks,
-                    'created_at' => now(),
-                ]);
-        
+                
+                if ($validated['status_id'] == 9) { // If pre-order with variants
+                    // Insert each variant into the product_variants table
+                    DB::table('product_variants')->insert([
+                        'product_id' => $product_id,
+                        'size' => $size,
+                        'stock' => 0,
+                        'created_at' => now(),
+                    ]);
+                
+                    // Update the stocks in the products table to null
+                    DB::table('products')
+                        ->where('id', $product_id)
+                        ->update(['stocks' => null]);
+                        
+                } else if ($validated['status_id'] == 8) { // If on-hand with variants
+                    // Insert each variant into the product_variants table with the given stock
+                    DB::table('product_variants')->insert([
+                        'product_id' => $product_id,
+                        'size' => $size,
+                        'stock' => $stocks,
+                        'created_at' => now(),
+                    ]);
+                }
+                
                 // Accumulate the total stocks for all variants
                 $total_variant_stocks += $stocks;
                 Log::info('Variant inserted', ['size' => $size, 'stocks' => $stocks]);
             }
             
             if($stocks != null){
+        
                 DB::table('products')
                 ->where('id', $product_id)
                 ->update(['stocks' => $total_variant_stocks]);
-        
+
                 Log::info('Product stocks updated with variants', ['total_variant_stocks' => $total_variant_stocks]);
             }
-            // Update the product's stocks field with the total stocks of its variants
-            
-        } else {
+        }        
+        else {
             Log::info('No variants to process for this product.');
         }
         
