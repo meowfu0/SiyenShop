@@ -129,19 +129,11 @@
                     <h3 id="displayShopName" class="fw-bold fs-7">Shop Name</h3>
                     <p class="mb-0" id="displayCourse">Course</p>
                     <p id="displayShopEmail">shopemail@email.com</p>
-                    <div class="text-start d-flex w-100 gap-3">
-                        <div class="gcashDetails">
-                            <p class="mb-1"><strong id="displayManager">Business Manager Name</strong></p>
-                            <p class="m-0" id="gcashNum"></p>
-                            <p class="m-0" id="gcashReceiver"></p>
-                        </div>
-                        
-                        <div class="gcashDetails2">
-                            <p class="mb-1"><strong id="displayManager2" style="display: none;">Business Manager Name</strong></p>
-                            <p class="m-0" id="gcashNum2"></p>
-                            <p class="m-0" id="gcashReceiver2"></p>
-                        </div>
-                        
+                    <div class="text-start">
+                        <p class="mb-1"><strong id="displayManager">Business Manager Name</strong></p>
+                        <p class="mb-1"><strong id="displayManager2" style="display: none;">Business Manager Name</strong></p>
+                        <p class="m-0" id="gcashNum">GCash Number</p>
+                        <p class="m-0" id="gcashReceiver">GCash Receiver</p>
                     </div>
                 </div>
 
