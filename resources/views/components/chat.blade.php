@@ -12,7 +12,7 @@
                 <div class="container d-flex justify-content-center mt-3">
                     <input type="text" id="search-user" placeholder="Search..." class="form-control" style="width: 100%;">
                 </div>
-                    <div id="user-results" class="container d-flex flex-column align-items-center justify-content-center px-0">
+                    <div id="user-results" class="container d-flex flex-column align-items-center justify-content-center px-0" style="overflow-y: auto;">
                     <!-- Dynamic buttons for users -->
                         @if(isset($contacts) && count($contacts) > 0)                            
                          @foreach($contacts as $contact)
@@ -21,7 +21,7 @@
                                 style="cursor: pointer; border-radius: 8px; padding: 10px;">
                                 <div class="d-flex align-items-center">
                                 <img 
-                                    src="{{ $contact->profile_picture ? asset($contact->profile_picture) : asset('images/profile.svg') }}" 
+                                    src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
                                     alt="Profile Picture" 
                                     style="
                                         margin-left: 10px; 
@@ -56,7 +56,7 @@
             <div class="container-chat" id="chat-area" style="display: none; position: relative;">
                 <div class="d-flex gap-2 p-4 w-100 border-bottom border-bottom-2">
                 <img 
-                    src="{{ !empty($contact->profile_picture) ? asset($contact->profile_picture) : asset('images/profile.svg') }}"
+                    src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
                     alt="Profile Picture" 
                     style="
                         margin-left: 10px; 
@@ -311,7 +311,15 @@
 
                         contactDiv.innerHTML = `
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
+                            <img 
+                                src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
+                                alt="Profile Picture" 
+                                style="
+                                    margin-left: 10px; 
+                                    width: 20px; 
+                                    height: 20px; 
+                                    border-radius: 50%; 
+                                    object-fit: cover;">
                                 <div class="ms-2">
                                     <span class="text-primary d-block d-md-inline" style="font-size: 12px;">${contact.first_name} ${contact.last_name}</span>
                                 </div>

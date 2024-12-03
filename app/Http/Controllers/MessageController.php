@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail; // Make sure this is included
 use App\Mail\MessageNotification; 
 use Illuminate\Support\Facades\Log;
+use App\Models\Shop;
 
 class MessageController extends Controller
 {
@@ -212,31 +213,44 @@ class MessageController extends Controller
     {
         // Validate the incoming request
         $request->validate([
-            'shop_id' => 'required|exists:shops,id', 
-            'message' => 'required|string|max:1000', 
+            'shop_id' => 'required|exists:shops,id',
+            'message' => 'required|string|max:1000',
         ]);
     
-
+        // Find the shop
         $shop = Shop::find($request->shop_id);
     
         if ($shop) {
-            $userId = $shop->user_id; 
-
-            if (auth()->user()->role_id == 2) {
+            $senderId = $shop->user_id;
+            $recipientId = auth()->id();
+    
+            // Check if the user is logged in
+            if (auth()->check()) {
+                // Create the message
                 $message = Message::create([
-                    'sender_id' => auth()->id(),
-                    'recipient_id' => $userId, 
-                    'message' => $request->message, 
+                    'sender_id' => $senderId, // Use the user_id from the shop table as the sender
+                    'recipient_id' => $recipientId, // Authenticated user as the recipient
+                    'message' => $request->message,
                 ]);
-
+    
+                // Broadcast the message
                 broadcast(new MessageSent(auth()->user(), $message))->toOthers();
-
-                return response()->json(['success' => true, 'user_id' => $userId, 'message' => $message]);
+    
+                return response()->json([
+                    'success' => true,
+                    'sender_id' => $senderId, // Include the sender ID in the response
+                    'message' => $message,
+                ]);
             } else {
-                return response()->json(['success' => false, 'message' => 'You are not authorized to send a message.'], 403);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You must be logged in to receive a message.',
+                ], 403);
             }
         }
     
         return response()->json(['success' => false, 'message' => 'Shop not found.']);
     }
+    
+    
 }
