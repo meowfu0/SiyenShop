@@ -21,7 +21,7 @@
         <div class="ps-3">
             <img src="{{ asset('images/Circuits.svg') }}" alt="">
         </div>
-        <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students</h2>
+        <h2 class="fw-bold m-0 text-primary"> {{$shop->shop_name}} </h2>
     </div>
 
     <div class="d-flex justify-content-between px-5 py-3">

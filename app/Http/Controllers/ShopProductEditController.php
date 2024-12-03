@@ -19,9 +19,11 @@ class ShopProductEditController extends Controller
 
         // Fetch categories to pass to the view
         $categories = DB::table('categories')->get();
+        $shop_id = $this->getShopId();
+
         $shop = DB::table('shops')
-            ->where('user_id', Auth::id())
-            ->first(['id', 'shop_name']);
+            ->where('id', $shop_id)
+            ->first();
 
         return view('livewire.shop.shop-products-edit', compact('product', 'categories', 'shop'));
     }
@@ -30,17 +32,12 @@ class ShopProductEditController extends Controller
         $user_id = Auth::user()->id; 
     
         // Fetch the shop_id from the database
-        $shop_id = DB::table('shops')
+        $shop_id = DB::table('g_cash_infos')
             ->where('user_id', $user_id)
-            ->value('id'); // Directly get the `shop_id` column value
+            ->value('shop_id'); // Directly get the `shop_id` column value
 
-        // Check if shop_id is found
-        if (is_null($shop_id)) {
-            // Handle the case where the shop_id is not found
-            throw new \Exception('Shop ID not found for the authenticated user.');
-        }
-
-        return $shop_id; // Return the found shop_id
+        return $shop_id;
+    
     }
 
     public function update(Request $request, $id)
