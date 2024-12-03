@@ -26,7 +26,7 @@
             @endforeach
 
             <div class="container mt-2">
-                <div class="card border border-primary p-3">
+                <div class="card border border-primary p-3  payment-css">
                     <div class="card-body">
                         <form action="{{ route('payment', ['id' => base64_encode(implode(',', $productIds))]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -35,7 +35,7 @@
                                     <span class="fs-5 fw-bold text-primary">Mode Of Payment: </span> GCash
                                 </label>
                             </div>
-                            <p class="fs-4"> Please ensure that you make a payment of <span class="fw-bolder text-primary fs-3">
+                            <p class="fs-4" id="payment-text"> Please ensure that you make a payment of <span class="fw-bolder text-primary fs-3">
                                     <span class="fs-4 text-primary fw-bold"> ₱ </span>{{ number_format($amount_to_pay, 2) }}</span> to <span class="fw-bolder text-primary fs-3">{{ $shops }}</span>, and remember to provide accurate information.</p>
 
 

@@ -11,7 +11,7 @@
     <h1 class="ms-1 text-primary fw-bold">Cart</h1>
 </div>
 
-<div class="container" style="min-height: calc(180vh - 80px); overflow-y: auto;">
+<div class="container " style="min-height: calc(300vh - 80px); overflow-y: auto;">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12  col-md-12 col-lg-12  col-xl-12 ">
 
@@ -150,7 +150,7 @@
                             <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)" class="form-check-input border border-primary checkbox-all">
 
                             @endif
-                            <label class="fs-3 fw-bold mb-0 ms-1 text-primary">Select All (<span id="selectAll-count" class="fs-3">{{ $AllItems->count() }}</span>)</label>
+                            <label for="selectAll" class="fs-3 fw-bold mb-0 ms-1 text-primary">Select All (<span id="selectAll-count" class="fs-3">{{ $AllItems->count() }}</span>)</label>
                         </div>
                     </div>
                     <hr class="hr-fixed">
@@ -169,6 +169,7 @@
                         <div>
                             <!-- data-bs-toggle="modal" data-bs-target="#ModalProceed -->
                             @if($AllItems->isEmpty())
+                            
                             <!-- Modal for no items in the cart -->
                             <a href="#" data-bs-toggle="modal" data-bs-target="#noItemModal" class="btn btn-primary btn-md" id="button-size">
                                 Proceed To Checkout

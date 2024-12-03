@@ -57,7 +57,6 @@
 
 /*---------------- Mobile Responsive Styles for cart page--------------*/
 
-/*------------AAYUSIN PA ITO---------*/
 @media (max-width: 376px){
     .img-items{
         display: none !important;
@@ -79,8 +78,15 @@
     }
 
 }
+
+@media (max-width: 460px) {
+    .img-items{
+        width: 110px !important;
+        height: 70px;
+    }
+    
+}
 @media (max-width: 520px){
-  /*------------AAYUSIN PA ITO---------*/
     #items-total{
         display: flex !important;
         flex-direction: column !important;
@@ -113,7 +119,6 @@
     
 }
 @media (max-width: 600px){
-    /*------------AAYUSIN PA ITO---------*/
    
         #items-total{
           display: flex !important;
@@ -272,7 +277,12 @@
   
 }
 /* ------------------------------------end-------------------------------------*/
-
+.scrollable-section {
+    max-height: 400px;
+    /* Adjust height as needed */
+    overflow-y: auto;
+    padding: 10px;
+}
 
 
 
@@ -315,7 +325,6 @@
 
   
   /* --------------------------Mobile Responsive Styles for checkout page-----------*/
-  /*------------AAYUSIN PA ITO---------*/
 @media (max-width: 400px) {
     #checkout-div {
        display: flex !important;
@@ -325,6 +334,7 @@
        margin-bottom: 10px;
    
    }
+
    .noBorder{
        font-size: 10px !important;
    }
@@ -346,6 +356,12 @@
     .table-head th{
         font-size: 11px !important;
     }
+           .noBorder td {
+               border: none;
+               padding: 12px;
+               font-size: 10px !important;
+    
+           }
        .remove{
            display: none !important;
        }
@@ -409,11 +425,94 @@
    }
    
    /*-----------------------------------------end------------------*/
-   /*------------AAYUSIN PA ITO---------*/
 
-     /*-----------------------------------payment page mobile------------------*/
-     @media (max-width: 500px) {
+/*-----------------------------------payment page mobile------------------*/
+@media (max-width: 600px) {
         .payment-sizes{
             font-size: 10px !important;
         }
-       }
+        #payment-text span, #payment-text {
+            font-size: 12px !important;
+        }
+        .payment-css{
+            font-size: 10px !important;
+            padding: 0px !important;
+
+        }
+        #gcashNumber,  #gcashNumber > option {
+            font-size:12px !important;
+        }
+        #referenceNumber{
+            font-size:12px !important;
+        }
+        #proofPayment{
+            font-size:12px !important;
+        }
+    }
+
+   /*-----------------------------------------end------------------*/
+
+
+/*-----------------------------------order summary page css ------------------*/
+
+#add-border {
+    border: none !important;
+}
+
+/* --------------------------Mobile Responsive Styles for order summary page-----------*/
+@media (max-width: 768px) {
+    #remove-border {
+        border: none !important;
+    }
+
+    #add-border {
+        border: #092C4C 1px solid !important;
+        margin-top: 10px !important;
+    }
+
+    #add-border h4 {
+        font-size: 13px !important;
+    }
+
+    #add-border li {
+        font-size: 11px !important;
+    }
+
+    #remove-border li {
+        font-size: 11px !important;
+    }
+
+    #remove-border h4 {
+        font-size: 13px !important;
+    }
+
+    #table-data th {
+        font-size: 11px !important;
+    }
+
+    #order-data td {
+        border: none;
+        font-size: 11px !important;
+    }
+
+    #order-footer {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 0px !important;
+        padding: 0px !important;
+    }
+
+    #order-width {
+        width: 100% !important;
+        align-items: center !important;
+    }
+}
+
+
+
+
+
+
+
+

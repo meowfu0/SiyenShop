@@ -23,16 +23,16 @@
             <!-- Order Review Table -->
             <div class="border rounded-3 border-primary table-responsive">
                 <table class="table border-primary mt-2 p-2">
-                    <thead class="table-head">
+                    <thead class="table-head" id="table-data">
                         <tr class="fw-bold fs-4">
                             <th class="text-primary">Item</th>
-                            <th class="text-primary">Unit Price</th>
+                            <th class="text-primary remove">Unit Price</th>
                             <th class="text-primary">Variant/Size</th>
                             <th class="text-primary">Quantity</th>
                             <th class="text-primary">Item Subtotal</th>
                         </tr>
                     </thead>
-                    <tbody class="noBorder">
+                    <tbody class="noBorder" id="order-data">
 
                         @foreach($OrderDetails as $item)
                         <tr>
@@ -70,9 +70,9 @@
             </div>
 
 
-            <div class="container mt-2 rounded-3">
-                <div class="row border border-primary rounded-3" style="height: 150px;">
-                    <div class="col-md-6 p-4 border-left" style="height: 149px;">
+            <div class="container mt-2 rounded-3" id="order-container">
+                <div class="row border border-primary rounded-3" style="height: 150px;" id="receiver-sender">
+                    <div class="col-md-6 p-4 border-left" style="height: 149px;" id="remove-border">
                         <h4 class="ms-5 fw-bold text-primary fs-5">GCash Receiver</h4>
                         <ul class="list-unstyled mt-4 ms-5">
                             <li><strong class="text-primary">Mode of Payment:</strong> <span class="ps-5 fs-3">GCash</span></li>
@@ -81,7 +81,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="col-md-6 p-3">
+                    <div class="col-md-6 p-3 border border-primary rounded-3" id="add-border">
                         <h4 class="ms-5 fw-bold text-primary mt-1 fs-5">GCash Sender</h4>
                         <ul class="list-unstyled mt-3 ms-5">
                             <li><strong class="text-primary">Shop Name:</strong> <span class="ps-5 fs-3 ms-5">{{$item->shop_name}}</span></li>
@@ -105,16 +105,16 @@
 
                         <hr class="hr-fixed">
 
-                        <div class="d-flex justify-content-between align-items-center px-5">
-                            <div class="col-2 m-0 p-0 w-25">
+                        <div class="d-flex justify-content-between align-items-center px-5" id="order-footer">
+                            <div class="col-2 m-0 p-0 w-25" id="order-width">
                                 <p class="fw-bolder text-primary mb-0">Ref No. : <span class="fw-normal fs-3 "> {{ ($item->reference_number) }}</span></p>
                                 <p class="fw-bolder text-primary mb-0">Order Date: <span class="fw-normal fs-3">{{ \Carbon\Carbon::parse($item->order_date)->format('m-d-Y h:i:s A') }}</span></p>
 
                             </div>
 
-                            <div class="mt-2 w-25">
+                            <div class="mt-2 w-25" id="order-width">
                                 <p class="fs-4">
-                                    <span class="ms-1 fw-bolder col-6 fs-4 text-primary ">Total Payment:</span>
+                                    <span class=" fw-bolder col-6 fs-4 text-primary ">Total Payment:</span>
                                     <span class="fs-4">₱ {{ number_format($item->total_amount, 2) }}</span>
                                 </p>
                             </div>
