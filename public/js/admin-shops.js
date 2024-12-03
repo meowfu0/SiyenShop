@@ -196,11 +196,88 @@ const dropdown1 = document.getElementById('managerName1');
         
 
 
+// Update display for first Business Manager
+managerInput.addEventListener('change', () => {
+    const selectedOption = managerInput.options[managerInput.selectedIndex];
+    const selectedOptionText = selectedOption.text;
 
-//add button
+    // Display the selected Business Manager's name
+    displayManager.textContent = selectedOptionText;
 
+    // Get GCash details
+    const gcashName = selectedOption.getAttribute('data-gcash-name');
+    const gcashNumber = selectedOption.getAttribute('data-gcash-number');
+
+    // Display the GCash Name and Number
+    if (gcashName && gcashNumber) {
+        gcashNum.textContent = gcashNumber;
+        gcashReceiver.textContent = gcashName;
+    } else {
+        gcashNum.textContent = "N/A";
+        gcashReceiver.textContent = "N/A";
+    }
+});
+
+// Update display for second Business Manager
+managerInput2.addEventListener('change', () => {
+    const selectedOption = managerInput2.options[managerInput2.selectedIndex]; // Corrected reference
+    const selectedOptionText = selectedOption.text;
+
+    // Display the selected Business Manager's name
+    displayManager2.textContent = selectedOptionText;
+
+    // Get GCash details for the second manager
+    const gcashName = selectedOption.getAttribute('data-gcash-name');
+    const gcashNumber = selectedOption.getAttribute('data-gcash-number');
+
+    // Display the GCash Name and Number
+    if (gcashName && gcashNumber) {
+        gcashNum2.textContent = gcashNumber; // Corrected reference
+        gcashReceiver2.textContent = gcashName; // Corrected reference
+    } else {
+        gcashNum2.textContent = "N/A"; // Corrected reference
+        gcashReceiver2.textContent = "N/A"; // Corrected reference
+    }
+});
+
+// Reset dropdown to default and clear GCash info when delete button is clicked (1st Manager)
+trashButton1.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    // Reset dropdown to the first option (default option)
+    dropdown1.selectedIndex = 0;
+
+    // Reset display for Business Manager
+    const selectedText = dropdown1.options[dropdown1.selectedIndex].text; // Get the text of the selected option
+    displayManager.textContent = selectedText;
+
+    // Reset the GCash info
+    gcashNum.textContent = "N/A";  
+    gcashReceiver.textContent = "N/A";  
+});
+
+// Hide managerRow2, reset dropdown, and clear GCash info when delete button is clicked (2nd Manager)
+trashButton2.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    // Hide the manager row
+    managerRow2.style.display = 'none';
+
+    // Reset dropdown to the first option (default option)
+    dropdown2.selectedIndex = 0;
+
+    // Reset display for Business Manager
+    const selectedText = dropdown2.options[dropdown2.selectedIndex].text;
+    displayManager2.textContent = selectedText;
+    displayManager2.style.display = 'none'; // Hide the second manager name display
+
+    // Reset the GCash info
+    gcashNum2.textContent = " "; 
+    gcashReceiver2.textContent = " "; 
+});
+
+// Add Manager Button: Show the second manager row and display
 function addManager(event) {
-    // Prevent the form from submitting
     event.preventDefault();
 
     // Get the elements for managerRow2 and managerRow3
@@ -209,16 +286,60 @@ function addManager(event) {
 
     // Show the elements
     if (managerRow2) {
-        managerRow2.style.display = 'flex'; // Or 'block'
+        managerRow2.style.display = 'flex'; 
     }
 
     if (displayManager2) {
-        displayManager2.style.display = 'flex'; // Or 'block'
+        displayManager2.style.display = 'flex'; 
     }
-
-
-   
 }
+
+
+
+
+    // Update display elements when input fields change
+    shopNameInput.addEventListener('input', () => {
+        displayShopName.textContent = shopNameInput.value;
+    });
+
+    shopEmailInput.addEventListener('input', () => {
+        displayShopEmail.textContent = shopEmailInput.value;
+    });
+
+
+    managerInput.addEventListener('change', () => {
+        const selectedOptionText = managerInput.options[managerInput.selectedIndex].text;
+
+        displayManager.textContent = selectedOptionText;
+       
+    });
+
+    managerInput2.addEventListener('change', () => {
+        const selectedOptionText = managerInput2.options[managerInput2.selectedIndex].text;
+        displayManager2.textContent = selectedOptionText;
+       
+    });
+
+    
+        
+
+
+
+    courseInput.addEventListener('change', () => {
+    // Get the text of the selected option
+    const selectedOptionText = courseInput.options[courseInput.selectedIndex].text;
+
+
+    // Update the display element
+    displayCourse.textContent = selectedOptionText !== 'Choose...' ? selectedOptionText : 'Course';
+});
+
+
+
+
+
+
+
 
 
 

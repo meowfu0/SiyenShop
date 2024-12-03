@@ -45,10 +45,10 @@
                         @foreach($shops as $shop)
                         <tr>
                             <td scope="row" class="align-middle">
-                                <img src="{{ asset('images/'. $shop->shop_logo) }}" 
-                                     alt="Profile Picture" 
-                                     class="img-fluid rounded-circle profile-data-table" 
-                                     style="width: 40px; height: 40px;">
+                            <img src="{{ $shop->shop_logo ? asset('storage/shop_logos/' . $shop->shop_logo) : asset('images/default-profile.png') }}" 
+                                alt="Profile Picture" 
+                                class="img-fluid rounded-circle profile-data-table" 
+                                style="width: 40px; height: 40px;">
                             </td>
                             <td class="text-center align-middle">{{ $shop->shop_name}}</td>
                             <td class="text-center align-middle">{{ $shop->course->course_name }}</td>
