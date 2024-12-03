@@ -31,7 +31,7 @@ class ShopProductsAddController extends Controller
         // Fetch the shop_id from the database
         $shop_id = DB::table('g_cash_infos')
             ->where('user_id', $user_id)
-            ->value('shop_id'); // Directly get the `shop_id` column value
+            ->value('shop_id'); // Directly get the shop_id column value
 
         return $shop_id;
     
@@ -55,11 +55,11 @@ class ShopProductsAddController extends Controller
             'supplier_price' => 'required|numeric|min:0',
             'retail_price' => 'required|numeric|min:0',
             'stocks' => 'nullable|integer|min:0',
-            'variants' => 'array', // Optional variants array
-            'variants.*.size' => 'required_with:variants|string|max:50',
-            'variants.*.stocks' => 'required_with:variants|integer|min:0',
+            'variants' => 'nullable|array', // The 'variants' array is optional
+            'variants.*.size' => 'nullable|string|max:50', // 'size' is optional but must be a string with max length 50 if provided
+            'variants.*.stocks' => 'nullable|integer|min:0',
         ]);
-        
+
         Log::info('Validated request data', ['validated' => $validated]);
     
         // Handle product image upload
@@ -94,29 +94,44 @@ class ShopProductsAddController extends Controller
         if (!empty($validated['variants'])) {
             $total_variant_stocks = 0;
             Log::info('Handling product variants', ['variants' => $validated['variants']]);
-    
+        
             foreach ($validated['variants'] as $variant) {
-                // Insert each variant into the `product_variants` table
+                // Safely access keys with null coalescing
+                $size = $variant['size'] ?? null;
+                $stocks = $variant['stocks'] ?? null; // Default stocks to 0 if not set
+        
+                // Skip insertion if size or stocks are invalid
+                if (is_null($size)) {
+                    Log::warning('Skipping variant due to missing size', ['variant' => $variant]);
+                    continue;
+                }
+        
+                // Insert each variant into the product_variants table
                 DB::table('product_variants')->insert([
                     'product_id' => $product_id,
-                    'size' => $variant['size'],
-                    'stock' => $variant['stocks'],
+                    'size' => $size,
+                    'stock' => $stocks,
                     'created_at' => now(),
                 ]);
-                
+        
                 // Accumulate the total stocks for all variants
-                $total_variant_stocks += $variant['stocks'];
-                Log::info('Variant inserted', ['size' => $variant['size'], 'stocks' => $variant['stocks']]);
+                $total_variant_stocks += $stocks;
+                Log::info('Variant inserted', ['size' => $size, 'stocks' => $stocks]);
             }
-    
-            // Update the product's stocks field with the total stocks of its variants
-            DB::table('products')
+            
+            if($stocks != null){
+                DB::table('products')
                 ->where('id', $product_id)
                 ->update(['stocks' => $total_variant_stocks]);
+        
+                Log::info('Product stocks updated with variants', ['total_variant_stocks' => $total_variant_stocks]);
+            }
+            // Update the product's stocks field with the total stocks of its variants
             
-            Log::info('Product stocks updated with variants', ['total_variant_stocks' => $total_variant_stocks]);
+        } else {
+            Log::info('No variants to process for this product.');
         }
-    
+        
         return redirect()->route('shop.products')->with('message', 'Product added successfully.');
     }
     
