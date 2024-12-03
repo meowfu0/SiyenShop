@@ -44,13 +44,13 @@
                             </div>
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
 
-                        @if ($variants->isNotEmpty())
+                        
                         
                         @if($product->status->status_name === 'onhand')
                                     <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
                                 @endif
 
-
+                        @if ($variants->isNotEmpty())
                         <div class="size-variation">
                             <p class="size mb-1 mt-2" style="color: #092C4C">Size</p>
                         
