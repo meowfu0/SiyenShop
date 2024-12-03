@@ -69,9 +69,9 @@
                         <tr>
                             <th scope="row">
                                 @if($user->profile_picture)
-                                    <img src="https://cdn.britannica.com/59/204159-050-5055F2A9/Beyonce-2013.jpg" alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt="Profile Picture" class="img-thumbnail" style="border-radius: 50px; width: 50px; height: 50px;">
                                 @else
-                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                <img src="https://cdn.britannica.com/59/204159-050-5055F2A9/Beyonce-2013.jpg" alt="Profile Picture" class="img-thumbnail" style="border-radius: 50px; width: 50px; height: 50px;">
                                 @endif
                             </th>
                             <td>{{ $user->first_name.' '. $user->last_name }}</td>

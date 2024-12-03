@@ -153,54 +153,123 @@ document.addEventListener('click', function(event) {
 
 ////////CREATE SHOP AND UPDATE SHOP/////////
 
+// Get references to input fields
+const shopNameInput = document.getElementById('shopName');
+const shopEmailInput = document.getElementById('shopEmail');
+const courseInput = document.getElementById('course');
+const managerInput = document.getElementById('managerName1');
+const managerInput2 = document.getElementById('managerName2');
+const managerRow2 = document.getElementById('managerRow2');
+const dropdown2 = document.getElementById('managerName2');
+const trashButton2 = document.getElementById('trash-btn2');
 
-    // Get references to input fields
-    const shopNameInput = document.getElementById('shopName');
-    const shopEmailInput = document.getElementById('shopEmail');
-    const courseInput = document.getElementById('course');
-    const managerInput = document.getElementById('managerName1');
-    const managerInput2 = document.getElementById('managerName2');
-    const managerRow2 = document.getElementById('managerRow2');
-    const dropdown2 = document.getElementById('managerName2');
-    const trashButton2 = document.getElementById('trash-btn2');
-
-    // Reference to the dropdown and trash button
+// Reference to the dropdown and trash button for first manager
 const dropdown1 = document.getElementById('managerName1');
-    const trashButton1 = document.getElementById('trash-btn1');
+const trashButton1 = document.getElementById('trash-btn1');
 
-    
-    
+// Get references to display elements
+const displayShopName = document.getElementById('displayShopName');
+const displayCourse = document.getElementById('displayCourse');
+const displayShopEmail = document.getElementById('displayShopEmail');
+const displayManager = document.getElementById('displayManager');
+const displayManager2 = document.getElementById('displayManager2');
+const gcashNum = document.getElementById('gcashNum');
+const gcashReceiver = document.getElementById('gcashReceiver');
+const gcashNum2 = document.getElementById('gcashNum2');
+const gcashReceiver2 = document.getElementById('gcashReceiver2');
 
-    // Get references to display elements
-    const displayShopName = document.getElementById('displayShopName');
-    const displayCourse = document.getElementById('displayCourse');
-    const displayShopEmail = document.getElementById('displayShopEmail');
-    const displayManager = document.getElementById('displayManager');
-    const displayManager2 = document.getElementById('displayManager2');
+// Cancel function to go back
+function cancel(){
+    window.location.href = "{{ route('admin.shops') }}";
+}
 
+// Function to navigate to the shop page
+function shops(){
+    window.location.href = "{{ route('admin.shops') }}";
+}
 
-    function cancel(){
-        
-        window.location.href = "{{ route('admin.shops') }}";
-    
+// Update display for the first Business Manager
+managerInput.addEventListener('change', () => {
+    const selectedOption = managerInput.options[managerInput.selectedIndex];
+    const selectedOptionText = selectedOption.text;
+
+    // Display the selected Business Manager's name
+    displayManager.textContent = selectedOptionText;
+
+    // Get GCash details for the first manager
+    const gcashName = selectedOption.getAttribute('data-gcash-name');
+    const gcashNumber = selectedOption.getAttribute('data-gcash-number');
+
+    // Display the GCash Name and Number
+    if (gcashName && gcashNumber) {
+        gcashNum.textContent = gcashNumber;
+        gcashReceiver.textContent = gcashName;
+    } else {
+        gcashNum.textContent = "N/A";
+        gcashReceiver.textContent = "N/A";
     }
+});
 
-    function shops(){
-        //create function tbf
-        window.location.href = "{{ route('admin.shops') }}";
+// Update display for the second Business Manager
+managerInput2.addEventListener('change', () => {
+    const selectedOption = managerInput2.options[managerInput2.selectedIndex];
+    const selectedOptionText = selectedOption.text;
+
+    // Display the selected Business Manager's name
+    displayManager2.textContent = selectedOptionText;
+
+    // Get GCash details for the second manager
+    const gcashName = selectedOption.getAttribute('data-gcash-name');
+    const gcashNumber = selectedOption.getAttribute('data-gcash-number');
+
+    // Display the GCash Name and Number
+    if (gcashName && gcashNumber) {
+        gcashNum2.textContent = gcashNumber;
+        gcashReceiver2.textContent = gcashName;
+    } else {
+        gcashNum2.textContent = "N/A";
+        gcashReceiver2.textContent = "N/A";
     }
-;
-    
-    
+});
 
-        
+// Reset dropdown to default and clear GCash info when delete button is clicked (1st Manager)
+trashButton1.addEventListener('click', function (event) {
+    event.preventDefault();
 
+    // Reset dropdown to the first option (default option)
+    dropdown1.selectedIndex = 0;
 
+    // Reset display for Business Manager
+    const selectedText = dropdown1.options[dropdown1.selectedIndex].text;
+    displayManager.textContent = selectedText;
 
-//add button
+    // Reset the GCash info
+    gcashNum.textContent = "N/A";  
+    gcashReceiver.textContent = "N/A";  
+});
 
+// Hide managerRow2, reset dropdown, and clear GCash info when delete button is clicked (2nd Manager)
+trashButton2.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    // Hide the manager row
+    managerRow2.style.display = 'none';
+
+    // Reset dropdown to the first option (default option)
+    dropdown2.selectedIndex = 0;
+
+    // Reset display for Business Manager
+    const selectedText = dropdown2.options[dropdown2.selectedIndex].text;
+    displayManager2.textContent = selectedText;
+    displayManager2.style.display = 'none'; // Hide the second manager name display
+
+    // Reset the GCash info
+    gcashNum2.textContent = " "; 
+    gcashReceiver2.textContent = " "; 
+});
+
+// Add Manager Button: Show the second manager row and display
 function addManager(event) {
-    // Prevent the form from submitting
     event.preventDefault();
 
     // Get the elements for managerRow2 and managerRow3
@@ -209,82 +278,84 @@ function addManager(event) {
 
     // Show the elements
     if (managerRow2) {
-        managerRow2.style.display = 'flex'; // Or 'block'
+        managerRow2.style.display = 'flex'; 
     }
 
     if (displayManager2) {
-        displayManager2.style.display = 'flex'; // Or 'block'
+        displayManager2.style.display = 'flex'; 
     }
-
-
-   
 }
 
+// Update display elements when input fields change
+shopNameInput.addEventListener('input', () => {
+    displayShopName.textContent = shopNameInput.value;
+});
 
+shopEmailInput.addEventListener('input', () => {
+    displayShopEmail.textContent = shopEmailInput.value;
+});
 
+managerInput.addEventListener('change', () => {
+    const selectedOptionText = managerInput.options[managerInput.selectedIndex].text;
+    displayManager.textContent = selectedOptionText;
+});
 
+managerInput2.addEventListener('change', () => {
+    const selectedOptionText = managerInput2.options[managerInput2.selectedIndex].text;
+    displayManager2.textContent = selectedOptionText;
+});
 
-    // Reset dropdown to default when delete button is clicked
-    trashButton1.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent any default behavior
-        dropdown1.selectedIndex = 0; // Reset dropdown to the first option
-        // Display the newly selected option (default option)
+courseInput.addEventListener('change', () => {
+    const selectedOptionText = courseInput.options[courseInput.selectedIndex].text;
+    displayCourse.textContent = selectedOptionText !== 'Choose...' ? selectedOptionText : 'Course';
+});
 
-    const selectedText = dropdown1.options[dropdown1.selectedIndex].text; // Get the text of the selected option
-    displayManager.textContent = selectedText; 
-    });
-
-
-
-
-
-
-
-// Hide managerRow2 when the delete button is clicked
-trashButton2.addEventListener('click', function () {
-
+// Reset dropdown to default when delete button is clicked for the first manager
+trashButton1.addEventListener('click', function (event) {
     event.preventDefault();
-        managerRow2.style.display = 'none'; // Hide the row
-        dropdown2.selectedIndex = 0;
-       const selectedText = dropdown2.options[dropdown2.selectedIndex].text; // Get the text of the selected option
+    dropdown1.selectedIndex = 0;
+    const selectedText = dropdown1.options[dropdown1.selectedIndex].text;
+    displayManager.textContent = selectedText; 
+});
+
+// Hide managerRow2 when the delete button is clicked for the second manager
+trashButton2.addEventListener('click', function (event) {
+    event.preventDefault();
+    managerRow2.style.display = 'none'; // Hide the row
+    dropdown2.selectedIndex = 0;
+    const selectedText = dropdown2.options[dropdown2.selectedIndex].text;
     displayManager2.textContent = selectedText; 
     displayManager2.style.display = 'none';
-    });
+});
 
+// Image Preview and Removal Functions
+function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            // Set the uploaded image as the profile picture
+            document.getElementById('profileImage').src = e.target.result;
 
+            // Set the uploaded image in the second section
+            document.getElementById('displayProfileImage').src = e.target.result;
 
-
-
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                // Set the uploaded image as the profile picture
-                document.getElementById('profileImage').src = e.target.result;
-
-                // Set the uploaded image in the second section
-                document.getElementById('displayProfileImage').src = e.target.result;
-
-                // Show the remove button
-                document.getElementById('removeBtn').style.display = 'block'; 
-            };
-            reader.readAsDataURL(file);
-        }
+            // Show the remove button
+            document.getElementById('removeBtn').style.display = 'block'; 
+        };
+        reader.readAsDataURL(file);
     }
+}
 
-    // Function to remove the image and reset the profile picture
-    function removeImage() {
-        const defaultImage = 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png';
-        document.getElementById('profileImage').src = defaultImage;
-        document.getElementById('displayProfileImage').src = defaultImage;
+// Function to remove the image and reset the profile picture
+function removeImage() {
+    const defaultImage = 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png';
+    document.getElementById('profileImage').src = defaultImage;
+    document.getElementById('displayProfileImage').src = defaultImage;
 
-        // Hide the remove button
-        document.getElementById('removeBtn').style.display = 'none'; 
+    // Hide the remove button
+    document.getElementById('removeBtn').style.display = 'none'; 
 
-        // Clear the file input value so no file is selected
-        document.getElementById('fileInput').value = ''; 
-    }
-
-///////// END /////////////
-
+    // Clear the file input value so no file is selected
+    document.getElementById('fileInput').value = ''; 
+}

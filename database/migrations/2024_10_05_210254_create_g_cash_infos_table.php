@@ -23,7 +23,7 @@ class CreateGCashInfosTable extends Migration
             $table->float('gcash_limit');
        
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('modified_at')->nullable()->useCurrentOnUpdate();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
             $table->timestamp('deleted_at')->nullable();
         
           

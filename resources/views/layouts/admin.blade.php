@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('images/icon.svg') }}">
-
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -31,6 +32,9 @@
         </main>
     </div>
     
+    @include('partials.flash') <!-- Include the partial -->
+
+
     <div class="d-lg-none text-center">
         @include('components.screen-prompt')
     </div>

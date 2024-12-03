@@ -25,8 +25,18 @@ class RoleAccessValidate
 
         // Check if the user has the required role
         $user = Auth::user();
+
+        // Debugging: Log the user's role and required role
+        \Log::info('User Role: ' . $user->role->role_name);
+        \Log::info('Required Role: ' . $role);
+        
         if ($user->role->role_name !== $role) {
-            return redirect()->route('unauthorized')->with('error', 'Unauthorized access.');
+            return redirect()->route('home')->with('unauthorized', 'You do not have access to this feature');
+        }
+
+       // Redirect 'admin' users to the admin dashboard (if they are admin)
+        if ($user->role->role_name === 'admin') {
+            return redirect()->route('admin.dashboard');
         }
 
         return $next($request);

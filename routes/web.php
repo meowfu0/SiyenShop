@@ -43,7 +43,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['role:Admin, Student'])->group(function () {
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['role:Student'])->group(function () {
         // =================== user side routes ==================================
     // profile page
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
@@ -55,7 +57,6 @@ Route::middleware(['role:Admin, Student'])->group(function () {
     Route::get('/productDetailswithSize', [ProductDetailswithSizeController::class, 'index'])->name('productDetailswithSize');
     Route::get('/customerReview', [CustomerReviewController::class, 'index'])->name('customerReview');
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     // cart and checkout routes
     Route::get('/cartPage', [cartPageController::class, 'index'])->name('cartPage');
     Route::get('/checkOutPage', [checkOutPageController::class, 'index'])->name('checkOutPage');
@@ -82,6 +83,7 @@ Route::middleware(['role:Business Manager'])->group(function () {
     Route::get('/shop', function () {
         return redirect()->route('shop.dashboard');
     })->name('Shop');
+
     Route::prefix('shop')->group(function () {
         Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
         Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
@@ -114,20 +116,25 @@ Route::middleware(['role:Business Manager'])->group(function () {
             Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
             Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
             Route::prefix('shops')->group(function () {
-                Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
+                Route::get('/create', [CreateShop::class, 'store'])->name('admin.createshop');
                 Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
-                
                 Route::get('/shops/create', [CreateShopController::class, 'index'])->name('admin.createshop');
                 Route::get('/create', [CreateShopController::class, 'index'])->name('admin.shops.create');  // Form for creating a shop
-        Route::post('/', [CreateShopController::class, 'store'])->name('admin.shops.store');  // Store shop data
+                Route::post('/', [CreateShopController::class, 'store'])->name('admin.shops.store');  // Store shop data
 
             });
-            
-    });
+            //Role Edit / Update
+            Route::get('/users/{userId}/edit', [UserController::class, 'edit'])->name('users.edit'); // Fetch user and roles
+            Route::put('/users/{userId}/update-role', [UserController::class, 'updateRole'])->name('users.updateRoles'); // Update role
+            Route::put('/users/{userId}/status', [UserController::class, 'statusChange'])->name('users.status'); // Update role
 
-        Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
+            Route::get('/users/{userId}/permissions', [UserController::class, 'showPermissions'])->name('permissions.show');  // Form for creating a shop
+    });
+    
+
+       
 });
 
-    //for user
+
 
     

@@ -15,6 +15,7 @@ class CreateShopController extends Controller
     {
         // Retrieve managers and courses
         $managers = User::where('role_id', 2)->get();
+        //$shops = Shop::with(['gcashInfo.user', 'course', 'status'])->get();
         $courses = Course::all();
 
         return view('livewire.admin.create-shop', compact('managers', 'courses'));
@@ -32,41 +33,48 @@ class CreateShopController extends Controller
 
         // Handle shop logo if uploaded
         $shopLogoPath = null;
-        if ($request->hasFile('shop_logo') && $request->file('shop_logo')->isValid()) {
-            $shopLogo = $request->file('shop_logo');
-            $fileName = time() . '_' . $shopLogo->getClientOriginalName();
-            $shopLogo->storeAs('public/shop_logos', $fileName); // Save file in storage
-            $shopLogoPath = $fileName; // Save logo path
-        }
+if ($request->hasFile('shop_logo') && $request->file('shop_logo')->isValid()) {
+    $shopLogo = $request->file('shop_logo');
+    $fileName = time() . '_' . $shopLogo->getClientOriginalName();
+    
+    // Save the shop logo in both directories
+    $shopLogo->storeAs('public/shop_logos', $fileName); 
+    $shopLogo->storeAs('public/profile_pictures', $fileName); 
+    
+    // Set the file path for storing in the database
+    $shopLogoPath = $fileName; 
+}
 
-        try {
-            // Create a user for the shop
-            $user = User::create([
-                'first_name' => $request->shop_name, // Use shop name for user first name
-                'last_name' => "", // No last name provided
-                'email' => $request->shop_email,
-                'phone_number' => " ",
-                'course_bloc' => " ",
-                'year' => " ",
-                'password' => bcrypt('defaultpassword'), // Ensure passwords are hashed
-                'role_id' => 1, // Assuming role_id 2 is for shops
-                'course_id' => $request->course_id,
-                'status_id' => 1, // Assuming 1 is the default active status
-                'profile_picture' => $shopLogoPath, // No profile picture by default
-            ]);
+try {
+    // Create a user for the shop
+    $user = User::create([
+        'first_name' => $request->shop_name, // Use shop name as first name
+        'last_name' => "", // Leave last name empty
+        'email' => $request->shop_email,
+        'phone_number' => " ", // No phone number provided
+        'course_bloc' => " ",  // Default or placeholder value
+        'year' => " ",         // Default or placeholder value
+        'password' => bcrypt('defaultpassword'), // Default password (hashed)
+        'role_id' => 2,        // Assuming role ID 1 is for shops
+        'course_id' => $request->course_id,
+        'status_id' => 1,      // Default active status
+        'profile_picture' => $shopLogoPath, // Use the same path as the shop logo
+    ]);
 
-            // Create the shop using mass assignment
-            $shop = Shop::create([
-                'shop_name' => $request->shop_name,
-                'user_id' => $user->id,
-                'shop_description' => " ",
-                'course_id' => $request->course_id,
-                'status_id' => 1, // Default active status
-                'shop_logo' => $shopLogoPath,
-            ]);
-        } catch (\Exception $e) {
-            return redirect()->route('admin.shops')->with('error', 'Failed to create shop. Please try again.');
-        }
+    // Create the shop record
+    $shop = Shop::create([
+        'shop_name' => $request->shop_name,
+        'user_id' => $user->id,
+        'shop_description' => " ", // Default or placeholder description
+        'course_id' => $request->course_id,
+        'status_id' => 1, // Default active status
+        'shop_logo' => $shopLogoPath, // Use the same path as the user's profile picture
+    ]);
+} catch (\Exception $e) {
+    // Handle the exception and redirect with an error message
+    return redirect()->route('admin.shops')->with('error', 'Failed to create shop. Please try again.');
+}
+
 
         foreach ($request->managers as $manager) {
             // Skip null values
