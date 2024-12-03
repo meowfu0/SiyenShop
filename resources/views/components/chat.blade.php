@@ -17,7 +17,7 @@
                         @if(isset($contacts) && count($contacts) > 0)                            
                          @foreach($contacts as $contact)
                             <div class="container-btn border d-flex align-items-center justify-content-between"
-                                onclick="showChat('{{ $contact->contact_id }}', '{{ $contact->name }}')"
+                                onclick="showChat('{{ $contact->contact_id }}', '{{ $contact->name }}', '{{ $contact->profile_picture}}')"
                                 style="cursor: pointer; border-radius: 8px; padding: 10px;">
                                 <div class="d-flex align-items-center">
                                 <img 
@@ -89,7 +89,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
-    console.log("Profile picture URL:", "{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}");
+    console.log("Profile picture URL:", "{{ asset('storage/' . $contact->profile_picture) }}");
 
     Pusher.logToConsole = true;
 
@@ -103,20 +103,22 @@
 
     const authenticatedUserId = "{{ Auth::user()->id }}";
 
-    function showChat(contactId, contactName) {
-        document.getElementById("chat-area").style.display = "block";
-        document.getElementById("contact-name").innerText = contactName;
+    function showChat(contactId, contactName, profilePicture) {
+        document.getElementById('chat-area').style.display = 'block';
 
-        const profilePictureElement = document.querySelector("#chat-area img");
-        if (profilePictureElement) {
-            // Check if the profile picture URL is valid
-            profilePictureElement.src = profilePictureUrl && profilePictureUrl.trim() !== '' 
-                ? profilePictureUrl 
-                : "{{ asset('images/profile.svg') }}"; // Default image
+        document.getElementById('contact-name').textContent = contactName;
+
+        const profilePicElement = document.getElementById('contact-profile-picture');
+        if (profilePicture) {
+            profilePicElement.src = `/storage/${profilePicture}`;
+        } else {
+            profilePicElement.src = '/images/profile.svg';
         }
-
+        
+        console.log('Opening chat with ID:', contactId);
         loadChatHistory(contactId);
     }
+
 
     //halding send message
     document.addEventListener("DOMContentLoaded", function () {
@@ -288,8 +290,8 @@
             .catch((error) => console.error("Error fetching chat history:", error));
     }
 
-    // User search
-document.getElementById("search-user").addEventListener("input", function () {
+    //user search
+    document.getElementById("search-user").addEventListener("input", function () {
     const query = this.value.trim();
 
     if (query === "") {
@@ -320,14 +322,9 @@ document.getElementById("search-user").addEventListener("input", function () {
                             showChat(contact.id, contact.first_name);
                         };
 
-                        // Use the correct profile picture URL
-                        const profilePictureUrl = contact.profile_picture 
-                            ? `{{ asset('storage/') }}/${contact.profile_picture}` 
-                            : "{{ asset('images/user.svg') }}"; // Default image
-
                         contactDiv.innerHTML = `
                             <div class="d-flex align-items-center">
-                                <img src="${profilePictureUrl}" alt="Profile Picture" style="margin-left: 10px; width: 20px; height: 20px; border-radius: 50%; object-fit: cover;">
+                                <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
                                 <div class="ms-2">
                                     <span class="text-primary d-block d-md-inline" style="font-size: 12px;">${contact.first_name} ${contact.last_name}</span>
                                 </div>
