@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-xxl">
     <div class="row justify-content-center">
-        <div class="review col-md-10"> 
-            <h2 class="fs-9 fw-semibold mt-0" style="color: #092C4C">Customer Reviews</h2> 
+        <div class="review col-md-10 mt-3"> 
+            <h2 class="fs-9 fw-semibold mt-3=0" style="color: #092C4C">Customer Reviews</h2> 
             <div class="ratings d-flex flex-column align-items-center justify-content-center"> 
                 <div class="d-flex align-items-center justify-content-center mb-2" style="color: #363636">
                     <span class="product-rating fs-14 fw-medium mb-0">{{ $roundedAverageRating }}</span><span class="fs-8">/5</span>

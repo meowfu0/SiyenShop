@@ -21,7 +21,7 @@
                         <img 
                             src="{{ asset('images/sample.jpg') }}" 
                             class="img-fluid" 
-                            style="width: 500px !important; height: 70% !important; border-radius:5px;">
+                            style="width: 400px !important; height: 100% !important; border-radius:5px;">
                     @endif
                 </div>
 
@@ -45,8 +45,14 @@
                             <p class="price fs-8 fw-bold mb-1">₱{{number_format($product->retail_price, 2)}}</p>
 
                         @if ($variants->isNotEmpty())
+                        
+                        @if($product->status->status_name === 'onhand')
+                                    <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
+                                @endif
+
+
                         <div class="size-variation">
-                            <p class="size mb-1 mt-4" style="color: #092C4C">Size</p>
+                            <p class="size mb-1 mt-2" style="color: #092C4C">Size</p>
                         
                             @foreach ($variants as $index => $variant)
                                 <!-- Radio button to select a size -->
@@ -58,13 +64,10 @@
                         </div>
                         
                             @endif
+                            <div class="quantity mb-4">
+                                
                             
-                            <div class="quantity mb-4" style="margin-top: 150px;">
-                                @if($product->status->status_name === 'onhand')
-                                    <p class="fs-4 pt-1">Stocks left: <b>{{ $product->stocks }}</b></p>
-                                @endif
-                            
-                                <p class="quantity-text mb-1 mt-3" style="color: #092C4C">Quantity</p>
+                                <p class="quantity-text mb-1 mt-0" style="color: #092C4C">Quantity</p>
                                 <div class="quantity-selector" style="height:35px; width:80px">
                                     <button type="button" id="decrement" style="color: #092C4C">-</button>
                                     <input type="text" id="selectorQuantity" value="1" readonly style="color: #092C4C">
@@ -75,7 +78,7 @@
                             <div class="d-flex justify-content-between align-items-center w-100" style="margin-top: 5rem;">
                                 <img src="{{ asset('images/chat.svg') }}" class="chat-icon" style="width:22px; height:22px">
                                 <!-- Add to Cart Button -->
-                                <form action="{{ route('productDetails.addToCart') }}" method="POST" id="addToCartForm">
+                                <form action="{{ route('productDetails.addToCart') }}" method="POST" id="addToCartForm" style="cursor: pointer;">
                                     @csrf
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                                     <input type="number" class="quantity d-none" name="quantity" value="1">
@@ -86,23 +89,27 @@
                                     <button type="submit" 
                                         class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
                                         style="width:130px; height:48px"
-                                        {{ $product->stocks <= 0 ? 'disabled' : '' }}>
+                                        {{ $product->stocks <= 0 && $product->status_id === 8 ? 'disabled' : '' }}>
                                         <img src="{{ asset('images/cart.svg') }}" class="invert" style="width:15px; height:15px"> 
                                         Add to Cart
                                     </button>
                                 </form>
 
                                 <!-- Buy Now Button -->
-                                <form action="{{ route('productDetails.buy') }}" method="POST" id="buyNow">
+                                <form action="{{ route('productDetails.buy') }}" method="POST" id="buyNow" style="cursor: pointer;">
                                     @csrf
                                     <input type="number" name="product_id" value="{{ $product->id }}" class="d-none">
                                     <input type="number" class="quantity d-none" name="quantity" value="1">
                                     @if ($variants->isNotEmpty())
                                         <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                                     @endif
+
+                                    
+
+                                    
                                     <button type="submit" id="buyNowButton" class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
                                         style="width:130px; height:48px; color:white"
-                                        {{ $product->stocks <= 0 ? 'disabled' : '' }}>
+                                        {{ $product->stocks <= 0 && $product->status_id === 8 ? 'disabled' : '' }}>
                                         <img src="{{ asset('images/cart.svg') }}" class="invert" style="width: 15px; height:15px"> Buy Now
                                     </button>
                                 </form>
@@ -153,7 +160,7 @@
             </div>
 
                 <!-- You may also like -->
-                <div class="row col-md-12 justify-content-center">
+                <div class="row col-md-12 justify-content-center ">
     <h2 class="fs-9 fw-semibold mt-3" style="color: #092C4C">You may also like</h2>
     <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 gap-5 justify-content-center">
         @foreach ($relatedProducts as $relatedProduct)
@@ -209,23 +216,25 @@
     </script>
 @endif
 <!-- Success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+<div class="modal fade success-modal" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" style="width: 100px; height: 200px;">
+        <div class="modal-content" style="height: 200px">
+            <div class="modal-header d-flex flex-column align-items-center">
+                <img src="{{ asset('images/check-modal.svg') }}" class="mb-0" style="width: 100px; height: 100px;">
                 <h5 class="modal-title" id="successModalLabel">Success</h5>
-                <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 7px; margin-left: 420px; font-size: 25px;">
-                <span aria-hidden="true" style="font-size: 25px;">&times;</span>
-            </button>
-
+                <button type="button" class="close bg-transparent border-0" data-dismiss="modal" aria-label="Close" 
+                    style="position: absolute; top: 7px; right: 15px; font-size: 25px;">
+                    <span aria-hidden="true" style="font-size: 25px;">&times;</span>
+                </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 <p>Product added to cart successfully!</p>
             </div>
         </div>
     </div>
 </div>
 
+@include('components.footer')
 
 
 <div class="modal fade md-6" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -258,6 +267,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 
 <div id="loadingIndicator" class="d-none position-fixed top-0 start-50 translate-middle-x w-100 vh-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50"  >
@@ -265,6 +275,7 @@
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
