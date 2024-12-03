@@ -109,7 +109,7 @@
                                 <p class="dateLabel">Date:</p>
                                 <p class="date">{{ \Carbon\Carbon::parse($order->order_date)->format('m-d-Y') }}</p>
                                 <p class="time">{{ \Carbon\Carbon::parse($order->order_date)->format('h:i a') }}</p>
-                                <button class="btn btn-light">Contact Seller</button>
+                                <button class="btn btn-light" onclick="goChat()">Contact Seller</button>
                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" onclick="openModalYes({{ $order }}, {{ $orderItems }}, {{ $categories }})">View Details</button>
 
                                 <!-- Multiple Indicator -->
@@ -215,7 +215,7 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary" id="reasonButton" data-bs-dismiss="modal" onclick="reason(document.getElementById('modalOrderId').innerText)" style="display: none;">View Reason</button>
                                     <button type="button" class="btn btn-primary" id="rateButton" data-bs-dismiss="modal" onclick="chooseRate(document.getElementById('modalOrderId').innerText)">Rate Order</button>
-                                    <button type="button" class="btn btn-primary">Contact Seller</button>
+                                    <button type="button" class="btn btn-primary" onclick="goChat()">Contact Seller</button>
 
                                 </div>
                             </div>
@@ -398,7 +398,7 @@
         }
         
         document.getElementById('orderDetailsLabel').textContent = yesId.shop.shop_name;
-        document.getElementById('shopImg').src = yesId.shop.shop_logo;
+        document.getElementById('shopImg').src = "/images/"+yesId.shop.shop_logo;
         setStatus(yesId.order_status_id);
 
         console.log('Current Order: '+yesId.shop.shop_logo);
@@ -817,5 +817,10 @@
     function closeReason(){
         var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
         myModal.show();
+    }
+
+    function goChat() {
+        // Redirect to the 'shop.chat' route
+        window.location.href = "{{ route('shop.chat') }}";
     }
 </script>

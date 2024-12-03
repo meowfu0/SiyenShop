@@ -14,7 +14,7 @@
     @include('components.profilenav')
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
         <div class="ps-3">
-            <img src="{{asset('images/Circuits.svg')}}" alt="">
+            <img src="{{ asset('images/' . $shop->shop_logo) }}" alt="" height="40px" width="40px">
         </div>
        <h2 class="fw-bold m-0 text-primary" id="shopName">{{$shop->shop_name}}</h2>
        
