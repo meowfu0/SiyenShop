@@ -1,6 +1,6 @@
 @extends('layouts.admin')
-@section('content')
 
+@section('content')
     <div class="flex-grow-1" style="width: 100%!important;">
         <!-- Top Navbar -->
         @include('components.profilenav')
@@ -69,9 +69,9 @@
                         <tr>
                             <th scope="row">
                                 @if($user->profile_picture)
-                                    <img src="{{ $user->profile_picture }}" alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                    <img src="https://cdn.britannica.com/59/204159-050-5055F2A9/Beyonce-2013.jpg" alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
                                 @else
-                                    <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Default Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
                                 @endif
                             </th>
                             <td>{{ $user->first_name.' '. $user->last_name }}</td>
@@ -113,7 +113,6 @@
 
                     <!-- User Info Section -->
                     <div class="user-info-container">
-                        <input type="hidden" id="userId" value="" />
                         <p class="user-name"><span id="modalName"></span></p>
                         <p><span id="modalStatus"></span></p>
                         <table class="user-info-table">
@@ -138,11 +137,14 @@
                                     <td class="fw-bold">Role:</td>
                                     <td>
                                         <div class="custom-dropdown-container">
-                                            <select class="form-select" id="modalRole" name="role_id">
-                                                <!-- Options will be populated dynamically by JavaScript -->
-                                                
+                                            <select class="form-select custom-dropdown" style="width: 168px;"
+                                                id="modalRole">
+                                                <option value="role1" selected>Student</option>
+                                                <option value="role2">Business Manager</option>
                                             </select>
-                                            <a href="#" id="editPermissionsLink" data-bs-toggle="modal" data-bs-target="#editPermissionsModal" style="display: none;">
+                                            <!-- Hidden hyperlink that appears when Business Manager is selected -->
+                                            <a href="#" id="editPermissionsLink" data-bs-toggle="modal"
+                                                data-bs-target="#editPermissionsModal">
                                                 Edit Permissions
                                             </a>
                                         </div>
@@ -151,16 +153,12 @@
                             </tbody>
                         </table>
                     </div>
-                    
 
                 </div>
                 <div class="modal-footer mt-1">
-                    <button type="button" class="btn fs-2 fw-bold" id="cancelBtn" style="display:none">Cancel</button>
                     <button type="button" class="btn fs-2 fw-bold" id="deactivateBtn">Deactivate Account</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="editBtn">Edit Account</button>
-                        <button type="button" class="btn btn-primary fs-2 fw-bold"
-                        style="width: 130px; height: 40px; border-radius: 8px; display:none" id="saveBtn">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -183,12 +181,7 @@
                         <div class="col-md-6 ms-4" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Account & Profile</h6>
-                                <input class="form-check-input ms-3" 
-                                type="checkbox" 
-                                id="addProducts" 
-                                name="permissions[]" 
-                                value="edit_profile" 
-                                >
+                                <input class="form-check-input ms-3" type="checkbox" id="manageUsers">
                                 <label class="form-check-label ms-2" for="editProfile">Edit Profile</label>
                             </div>
                             <div class="form-check mt-3">
@@ -299,11 +292,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center align-items-center" style="height: 60px;">
-                    <p id="prompt">Are you sure you want to deactivate this account?</p>
+                    <p>Are you sure you want to deactivate this account?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn custom-btn fs-2 fw-bold" data-bs-dismiss="modal" 
-                    id="cancelDeactBtn" >Cancel</button>
+                    <button type="button" class="btn custom-btn fs-2 fw-bold" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;"
                         id="confirmDeactivateBtn">Deactivate</button>
@@ -312,10 +304,7 @@
         </div>
     </div>
     <script> 
-        //const usersData = @json($users);
-        const toEdit = @json(route('users.edit', ['userId' => ':userId']));
-        const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
-        const alterStatus = @json(route('users.status', ['userId' => ':userId']));
+        const usersData = @json($users);
     </script>
     <script src="{{asset('js/admin-users.js')}}">
         

@@ -45,7 +45,7 @@
                         @foreach($shops as $shop)
                         <tr>
                             <td scope="row" class="align-middle">
-                                <img src="{{ asset('images/'. $shop->shop_logo) }}" 
+                            <img src="{{ $shop->shop_logo ? asset('storage/shop_logos/' . $shop->shop_logo) : asset('images/default-profile.png') }}" 
                                      alt="Profile Picture" 
                                      class="img-fluid rounded-circle profile-data-table" 
                                      style="width: 40px; height: 40px;">
