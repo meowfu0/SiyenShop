@@ -21,7 +21,7 @@
                                 style="cursor: pointer; border-radius: 8px; padding: 10px;">
                                 <div class="d-flex align-items-center">
                                 <img 
-                                    src="{{ $contact->profile_picture ? asset($contact->profile_picture) : asset('images/profile.svg') }}" 
+                                    src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
                                     alt="Profile Picture" 
                                     style="
                                         margin-left: 10px; 
@@ -56,7 +56,7 @@
             <div class="container-chat" id="chat-area" style="display: none; position: relative;">
                 <div class="d-flex gap-2 p-4 w-100 border-bottom border-bottom-2">
                 <img 
-                    src="{{ !empty($contact->profile_picture) ? asset($contact->profile_picture) : asset('images/profile.svg') }}"
+                    src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
                     alt="Profile Picture" 
                     style="
                         margin-left: 10px; 
@@ -89,6 +89,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
+    console.log("Profile picture URL:", "{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}");
+
     Pusher.logToConsole = true;
 
     var pusher = new Pusher("4f6a33c759843c81e465", {
@@ -104,6 +106,15 @@
     function showChat(contactId, contactName) {
         document.getElementById("chat-area").style.display = "block";
         document.getElementById("contact-name").innerText = contactName;
+
+        const profilePictureElement = document.querySelector("#chat-area img");
+        if (profilePictureElement) {
+            // Check if the profile picture URL is valid
+            profilePictureElement.src = profilePictureUrl && profilePictureUrl.trim() !== '' 
+                ? profilePictureUrl 
+                : "{{ asset('images/profile.svg') }}"; // Default image
+        }
+
         loadChatHistory(contactId);
     }
 
@@ -277,8 +288,8 @@
             .catch((error) => console.error("Error fetching chat history:", error));
     }
 
-    //user search
-    document.getElementById("search-user").addEventListener("input", function () {
+    // User search
+document.getElementById("search-user").addEventListener("input", function () {
     const query = this.value.trim();
 
     if (query === "") {
@@ -309,9 +320,14 @@
                             showChat(contact.id, contact.first_name);
                         };
 
+                        // Use the correct profile picture URL
+                        const profilePictureUrl = contact.profile_picture 
+                            ? `{{ asset('storage/') }}/${contact.profile_picture}` 
+                            : "{{ asset('images/user.svg') }}"; // Default image
+
                         contactDiv.innerHTML = `
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
+                                <img src="${profilePictureUrl}" alt="Profile Picture" style="margin-left: 10px; width: 20px; height: 20px; border-radius: 50%; object-fit: cover;">
                                 <div class="ms-2">
                                     <span class="text-primary d-block d-md-inline" style="font-size: 12px;">${contact.first_name} ${contact.last_name}</span>
                                 </div>

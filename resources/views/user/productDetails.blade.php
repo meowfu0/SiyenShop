@@ -376,32 +376,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
     chatIcon.addEventListener('click', function() {
         const shopId = this.getAttribute('data-shop-id');
-        const shopName = this.getAttribute('data-shop-name');
+        const message = 'Hello! How can I assist you?';
 
-        // Fetch the user_id based on shop_id
-        fetch("{{ route('getShopUserId') }}", {
+        fetch("{{ route('start.shop.chat') }}", { 
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ shop_id: shopId, message: 'Hello! How can I help you?' }) 
+            body: JSON.stringify({
+                shop_id: shopId,
+                message: message,
+            })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 window.location.href = "{{ route('start.chat') }}";
-                console.log('Message sent to shop owner:', data.user_id);
-                
+                console.log('Message sent by user:', data.sender_id);
             } else {
-                alert(data.message);
+                alert(data.message); 
             }
         })
         .catch(error => {
-            console.error('Error fetching user ID:', error);
+            console.error('Error sending message:', error);
         });
     });
 });
+
 
 </script>
 

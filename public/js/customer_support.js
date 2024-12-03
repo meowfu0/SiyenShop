@@ -6,7 +6,24 @@ document.addEventListener("DOMContentLoaded", () => {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
 
-    ClassicEditor.create(document.querySelector("#answer"))
+    ClassicEditor.create(document.querySelector("#answer"), {
+        // Configure the toolbar to exclude image and media buttons
+        toolbar: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+            "insertTable",
+            "|",
+            "undo",
+            "redo",
+        ],
+    })
         .then((editor) => {
             newAnswerEditor = editor;
             editor.editing.view.change((writer) => {
@@ -21,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => {
             console.error("Error initializing new answer editor:", error);
         });
+
     window.hideModal = function (modalId) {
         const modalElement = document.getElementById(modalId);
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -31,7 +49,25 @@ document.addEventListener("DOMContentLoaded", () => {
             newModal.hide();
         }
     };
-    ClassicEditor.create(document.querySelector("#editAnswer"))
+
+    ClassicEditor.create(document.querySelector("#editAnswer"), {
+        // Configure the toolbar to exclude image and media buttons
+        toolbar: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+            "insertTable",
+            "|",
+            "undo",
+            "redo",
+        ],
+    })
         .then((editor) => {
             editAnswerEditor = editor;
             editor.editing.view.change((writer) => {
