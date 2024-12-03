@@ -11,13 +11,14 @@ class GCashInfo extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'shop_id', 'gcash_name', 'gcash_number', 'gcash_limit'
+        'user_id', 'shop_id'
     ];
 
     public function shops()

@@ -22,7 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name', 'last_name', 'phone_number', 'course_bloc', 'course_id', 'year', 'email', 'password',
-        'role_id', 'status_id'
+        'role_id', 'status_id', 'profile_picture'
     ];
 
     /**
@@ -72,6 +72,14 @@ class User extends Authenticatable
     {
         return $this->role->permissions();
     }
+
+
+     public function shops()
+{
+    return $this->belongsToMany(Shop::class)
+                ->withPivot('gcash_name', 'gcash_number', 'gcash_limit')  // Attach extra fields
+                ->withTimestamps();
+}
 
 
 }

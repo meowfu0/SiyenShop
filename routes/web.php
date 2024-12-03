@@ -100,7 +100,7 @@ Route::middleware(['role:Business Manager'])->group(function () {
 //roles management module
 
 
-Route::middleware(['role:Admin'])->group(function () {
+Route::middleware(['role:Business Manager'])->group(function () {
 
     // admin routes
     Route::get('/admin', function () {
@@ -117,7 +117,7 @@ Route::middleware(['role:Admin'])->group(function () {
             Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
             Route::get('/chat', [AdminChat::class, 'render'])->name('admin.chat');
             Route::prefix('shops')->group(function () {
-                Route::get('/create', [CreateShop::class, 'render'])->name('admin.createshop');
+                Route::get('/create', [CreateShop::class, 'store'])->name('admin.createshop');
                 Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
                 Route::get('/shops/create', [CreateShopController::class, 'index'])->name('admin.createshop');
                 Route::get('/create', [CreateShopController::class, 'index'])->name('admin.shops.create');  // Form for creating a shop

@@ -21,9 +21,11 @@ class Shop extends Model
      */
 
      protected $table = 'shops';
+     public $timestamps = false;
+
      
     protected $fillable = [
-        'shop_name', 'shop_email', 'shop_logo', 'user_id', 'course_id', 'status_id'
+        'shop_name', 'shop_description', 'shop_logo', 'user_id', 'course_id', 'status_id'
     ];
 
     
@@ -46,5 +48,13 @@ class Shop extends Model
     {
         return $this->belongsTo(GCashInfo::class, 'shop_id'); // Assuming 'shop_id' is the foreign key in `g_cash_infos`
     }
+
+    public function managers()
+{
+    return $this->belongsToMany(User::class)
+                ->withPivot('gcash_name', 'gcash_number', 'gcash_limit')  // Attach extra fields
+                ->withTimestamps();
+}
+
 }
 
