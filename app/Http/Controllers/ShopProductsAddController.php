@@ -47,7 +47,7 @@ class ShopProductsAddController extends Controller
         // Validate the form data, including variants
         $validated = $request->validate([
             'product_name' => 'required|string|max:255',
-            'product_description' => 'required|string',
+            'product_description' => 'required|min:1',
             'product_image' => 'nullable|image|max:2048',
             'category_id' => 'required|integer',
             'status_id' => 'required|integer',

@@ -25,7 +25,12 @@ class ShopProductEditController extends Controller
             ->where('id', $shop_id)
             ->first();
 
-        return view('livewire.shop.shop-products-edit', compact('product', 'categories', 'shop'));
+        $variants = DB::table('product_variants')
+            ->where('product_id', $id)
+            ->get();
+        
+
+        return view('livewire.shop.shop-products-edit', compact('product', 'categories', 'shop', 'variants'));
     }
 
     public function getShopId() {

@@ -168,15 +168,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($variants as $variant)
+                                                
+                                            
                                             <tr id="inputRow_1">
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                                        <input type="text" id="size_1" class="form-control" value="{{$variant->size}}">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                        <input type="number" class="form-control" value="{{$variant->stock}}" min="0" step="1">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -185,6 +188,7 @@
                                                     </button>
                                                 </td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                     <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
