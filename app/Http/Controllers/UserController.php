@@ -213,52 +213,35 @@ public function updateRole(Request $request, $userId)
             return response()->json(['message' => 'Failed to update status thru controller. ' . $e->getMessage()], 500);
         }
     }
-
-    /**
-     * Get the mapping of checkbox IDs to permission IDs.
+   /**
+     * Display a listing of the resource.
      *
-     * @return array
+     * @return \Illuminate\Http\Response
      */
-    protected function getPermissionMap()
+    public function getUserPermissions($userId)
     {
-        return [
-            'addProducts' => 1,
-            'editProducts' => 2,
-            'deleteProducts' => 3,
-            'generateReports' => 4,
-            'markProduct' => 5,
-            'lowStocksAlert' => 6,
-            'accessChatbox' => 7,
-            'studentQueries' => 8,
-        ];
+
+    \Log::info('Updating status for User ID:', ['user_id' => $userId]);
+
+    // Retrieve the user with their associated role and permissions
+    $user = User::with('role.permissions')->find($userId);
+    \Log::info('Fetched user data:', ['user' => $user]);
+
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
     }
 
-    public function editPermissions(User $user)
-{
-    $permissionMap = $this->getPermissionMap();
-    $userPermissions = $user->permissions->pluck('id')->toArray();
+    // Collect permissions assigned to the user, including the id and name
+    $assignedPermissions = $user->role->permissions->map(function ($permission) {
+        return [
+            'id' => $permission->id, 
+            'name' => $permission->permission_name
+        ];
+    });
 
-    return view('edit-permissions', compact('user', 'permissionMap', 'userPermissions'));
-}
-
-public function updatePermissions(Request $request, User $user)
-{
-    $validated = $request->validate([
-        'permissions' => 'array',
-        'permissions.*' => 'string',
+    return response()->json([
+        'permissions' => $assignedPermissions
     ]);
-
-    // Get permission map
-    $permissionMap = $this->getPermissionMap();
-
-    // Map checkbox IDs to permission IDs
-    $permissionIds = array_map(fn($value) => $permissionMap[$value], $validated['permissions']);
-
-    // Sync the permissions for the user
-    $user->permissions()->sync($permissionIds);
-
-    return back()->with('success', 'Permissions updated successfully!');
 }
 
-    
 }

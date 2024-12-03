@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusesTableSeeder::class);
         $this->call(GCashInfoSeeder::class);
         $this->call(PermissionsTableSeeder::class);
+        $this->call(RolesPermissionsTableSeeder::class);
       
     }
 

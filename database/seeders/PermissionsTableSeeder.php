@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -13,7 +15,7 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('ALTER TABLE messages AUTO_INCREMENT = 1;');
+        DB::statement('ALTER TABLE permissions AUTO_INCREMENT = 1;');
         $permission = [
             [
                 'permission_name' => 'edit_profile',

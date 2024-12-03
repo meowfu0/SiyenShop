@@ -11,7 +11,7 @@ class GCashInfo extends Model
 {
     use HasFactory;
 
-    **
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -20,9 +20,9 @@ class GCashInfo extends Model
         'user_id', 'shop_id', 'gcash_name', 'gcash_number', 'gcash_limit'
     ];
 
-    public function user()
+    public function shops()
     {
-        return $this->belongsTo(User::class, 'user_id'); 
+        return $this->hasMany(Shop::class); 
     }
 
      /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Course;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\GCashInfo;
 
 
 class Shop extends Model
@@ -43,7 +44,7 @@ class Shop extends Model
 
     public function g_cash_info()
     {
-        return $this->hasOne(GCashInfo::class, 'shop_id'); // Assuming 'shop_id' is the foreign key in `g_cash_infos`
+        return $this->belongsTo(GCashInfo::class, 'shop_id'); // Assuming 'shop_id' is the foreign key in `g_cash_infos`
     }
 }
 

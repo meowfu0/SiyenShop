@@ -64,22 +64,15 @@ class User extends Authenticatable
     }
 
     public function status()
-{
+    {
     return $this->belongsTo(Status::class, 'status_id');
-}
-     // Relationship with roles
-     public function rolesForPermissions()
-     {
-         return $this->belongsToMany(Role::class, 'user_roles_permissions', 'user_id', 'role_id')
-                     ->withPivot('permission_id');
-     }
- 
-     // Relationship with permissions
-     public function permissions()
-     {
-         return $this->belongsToMany(Permission::class, 'user_roles_permissions', 'user_id', 'permission_id')
-                     ->withPivot('role_id');
-     }
+    }
+
+    public function permissions()
+    {
+        return $this->role->permissions();
+    }
+
 
 }
 

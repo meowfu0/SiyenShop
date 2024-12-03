@@ -113,8 +113,8 @@ else {
 }
 }
 
-    
-    // Event delegation: Listen for clicks on .view-users-btn within resultsContainer
+
+
  // Event delegation: Listen for clicks on .view-users-btn within resultsContainer
 
  document.addEventListener('click', function(event) {
@@ -183,6 +183,13 @@ else {
             else {
                 editPermissionsLink.style.display = 'none';
             }
+
+            editPermissionsLink?.addEventListener('click', function(){
+                var myModal = new bootstrap.Modal(document.getElementById('editPermissionsModal'));
+                fetchPermissions(userId); 
+                myModal.show();
+                
+            });
 
             // Set the user ID on the modal to pass it to the update function
             document.getElementById('userInfoModal').setAttribute('data-user-id', userId);
@@ -263,6 +270,40 @@ else {
         });
     }
 });
+
+// Function to fetch and display user permissions
+function fetchPermissions(userId) {
+    console.log('User ID:', userId);
+
+    fetch(permissionFetch.replace(':userId', userId), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        console.log('Fetched permissions:', data);
+
+        if (!data.permissions) {
+            console.error('Permissions not found in the response.');
+            return;
+        }
+        data.permissions.forEach(permission => {
+            // Find the checkbox that corresponds to the permission
+            const permissionCheckbox = document.getElementById(`allowable-${permission.id}`);
+            if (permissionCheckbox) {
+                permissionCheckbox.checked = true; // Check the checkbox
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching permissions:', error);
+        alert('Error fetching permissions.');
+    });
+}
 
 
 // Function to update the role in the database
