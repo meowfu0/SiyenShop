@@ -23,7 +23,7 @@
     <div id="profilePictureContainer">
         <img
             id="profileImage"
-            src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+            src="{{ $shop->user->profile_picture ? Storage::url('profile_pictures/' . $shop->user->profile_picture) : 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png' }}"
             class="profile-picture1"
             style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
             alt="Profile Picture"
@@ -52,7 +52,7 @@
             <!-- INPUT FIELDS--> 
                         <div class="form-group">
                             <label for="shopName" class="fw-bold mb-1">Shop Name</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopName" placeholder="Enter Shop Name" >
+                            <input type="text" class="form-control px-3 py-2" id="shopName" value="{{ old('shop_name', $shop->shop_name) }}" placeholder="Enter Shop Name" >
                         </div>
                         
                         
@@ -60,25 +60,24 @@
                             <label for="course"  class="fw-bold mb-1">Course</label>
                             <select class="form-control px-3 py-2" id="course" name="course_id">
                                 <option value="" selected>Choose...</option>
-                                <option value="1">BS Information Technology</option>
-                                <option value="2">BS Computer Science</option>
-                                <option value="3">BS Biology</option>
-                                <option value="4">BS Chemistry</option>
-                                <option value="5">BS Meteorology</option>
+                                @foreach($courses as $course)
+                                    <option value="{{ $course->id }}" {{ $shop->course_id == $course->id ? 'selected' : '' }}>{{ $course->course_name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="shopEmail" class="fw-bold mb-1">Shop Email Address</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" placeholder="Enter Shop Email Address" >
+                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" value="{{ old('shop_email', $shop->user->email) }}" placeholder="Enter Shop Email Address" >
                         </div>
                         <div class="form-group">
                             <label for="businessManager"  class="fw-bold mb-1 ">Assign Business Manager(s)</label>
                                 <div class="align-items-center gap-3" id="managerRow1" style="display:flex;">
                                     <select class="form-control px-3 py-2" id="managerName1"  name="managers[]">
-                                        <option value="" selected>Choose Business Manager</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Name</option>
-                                        <option value="3">Name</option>
+                                    @foreach($managers as $manager)
+                                        <option value="{{ $manager->id }}" {{ in_array($manager->id, old('managers', [])) ? 'selected' : '' }}>
+                                            {{ $manager->first_name }} {{ $manager->last_name }}
+                                        </option>
+                                    @endforeach
                                     </select>
                                     <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn1">
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
@@ -90,9 +89,11 @@
                                 <div class="mt-2 align-items-center gap-3" id="managerRow2" style="display: none;">
                                     <select class="form-control px-3 py-2" id="managerName2" name="managers[]">
                                     <option value="" selected>Choose Business Manager</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Name</option>
-                                        <option value="3">Name</option>
+                                    @foreach($managers as $manager)
+                                        <option value="{{ $manager->id }}" {{ in_array($manager->id, old('managers', [])) ? 'selected' : '' }}>
+                                            {{ $manager->first_name }} {{ $manager->last_name }}
+                                        </option>
+                                    @endforeach
                                     </select>
                                         <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn2">
                                             <img src="{{ asset('images/trash.svg')}}" alt="">
@@ -130,11 +131,19 @@
                     <h3 id="displayShopName" class="fw-bold fs-7">Shop Name</h3>
                     <p class="mb-0" id="displayCourse">Course</p>
                     <p id="displayShopEmail">shopemail@email.com</p>
-                    <div class="text-start">
-                        <p class="mb-1"><strong id="displayManager">Business Manager Name</strong></p>
-                        <p class="mb-1"><strong id="displayManager2" style="display: none;">Business Manager Name</strong></p>
-                        <p class="m-0" id="gcashNum">GCash Number</p>
-                        <p class="m-0" id="gcashReceiver">GCash Receiver</p>
+                    <div class="text-start d-flex w-100 gap-3">
+                        <div class="gcashDetails">
+                            <p class="mb-1"><strong id="displayManager">Business Manager Name</strong></p>
+                            <p class="m-0" id="gcashNum"></p>
+                            <p class="m-0" id="gcashReceiver"></p>
+                        </div>
+                        
+                        <div class="gcashDetails2">
+                            <p class="mb-1"><strong id="displayManager2" style="display: none;">Business Manager Name</strong></p>
+                            <p class="m-0" id="gcashNum2"></p>
+                            <p class="m-0" id="gcashReceiver2"></p>
+                        </div>
+                        
                     </div>
                 </div>
 

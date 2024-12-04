@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Shop;
+use App\Models\User;
+use App\Models\Course;
 
 class UpdateShopController extends Controller
 {
     public function edit($id)
 {
     $shop = Shop::findOrFail($id);
-    return view('livewire.admin.updateshop', compact('shop')); // Show the edit form
+    $managers = User::where('role_id', 2)->get(); // Fetch users with 'role_id' 2 (managers)
+        $courses = Course::all();
+
+        return view('livewire.admin.updateshop', compact('shop', 'managers', 'courses'));
 }
 
     public function update(Request $request, $id)

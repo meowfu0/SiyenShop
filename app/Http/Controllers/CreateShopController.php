@@ -29,6 +29,8 @@ class CreateShopController extends Controller
             'shop_email' => 'required|email|unique:users,email', // Validate against the users table
             'course_id' => 'required|exists:courses,id',
             'shop_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'managers' => 'required|array',  // Ensure managers are passed as an array
+        'managers.*' => 'exists:users,id' // Ensure each selected manager exists in the users table
         ]);
 
         // Handle shop logo if uploaded
@@ -64,7 +66,7 @@ try {
     // Create the shop record
     $shop = Shop::create([
         'shop_name' => $request->shop_name,
-        'user_id' => $user->id,
+        'user_id' => $request->managers[0],
         'shop_description' => " ", // Default or placeholder description
         'course_id' => $request->course_id,
         'status_id' => 1, // Default active status
