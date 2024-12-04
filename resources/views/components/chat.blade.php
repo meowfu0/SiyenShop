@@ -55,7 +55,7 @@
                 </div>
             <div class="container-chat" id="chat-area" style="display: none; position: relative;">
                 <div class="d-flex gap-2 p-4 w-100 border-bottom border-bottom-2">
-                <img 
+                <img
                     src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
                     alt="Profile Picture" 
                     style="
@@ -118,7 +118,6 @@
         console.log('Opening chat with ID:', contactId);
         loadChatHistory(contactId);
     }
-
 
     document.addEventListener("DOMContentLoaded", function () {
     const messageInput = document.getElementById("message");
@@ -327,10 +326,15 @@
                         contactDiv.onclick = function () {
                             showChat(contact.id, contact.first_name);
                         };
+                        // Use the correct profile picture URL
+                        const profilePictureUrl = contact.profile_picture 
+                            ? `{{ asset('storage/') }}/${contact.profile_picture}` 
+                            : "{{ asset('images/user.svg') }}"; // Default image
+
 
                         contactDiv.innerHTML = `
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
+                                <img src="${profilePictureUrl}" alt="Profile Picture" style="margin-left: 10px; width: 20px; height: 20px; border-radius: 50%; object-fit: cover;">
                                 <div class="ms-2">
                                     <span class="text-primary d-block d-md-inline" style="font-size: 12px;">${contact.first_name} ${contact.last_name}</span>
                                 </div>
