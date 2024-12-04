@@ -150,7 +150,11 @@ document.addEventListener('click', function(event) {
 });
 
 function createShopPage() {
-    window.location.href = "{{ route('admin.createshop') }}";
+    
+    const updateUrl = `/admin/shops/shops/create`; 
+    window.location.href = updateUrl;
+    
+    
 }
 
 
