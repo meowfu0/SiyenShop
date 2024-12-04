@@ -13,7 +13,7 @@ class UpdateGcashInfosTableDefaults extends Migration
      */
     public function up()
     {
-        Schema::table('gcash_infos', function (Blueprint $table) {
+        Schema::table('g_cash_infos', function (Blueprint $table) {
             $table->string('gcash_name')->nullable()->default(null)->change();
             $table->string('gcash_number')->nullable()->default(null)->change();
             $table->decimal('gcash_limit', 10, 2)->nullable()->default(null)->change();
@@ -27,7 +27,7 @@ class UpdateGcashInfosTableDefaults extends Migration
      */
     public function down()
     {
-        Schema::table('gcash_infos', function (Blueprint $table) {
+        Schema::table('g_cash_infos', function (Blueprint $table) {
             // Revert changes if needed
             $table->string('gcash_name')->nullable(false)->change();
             $table->string('gcash_number')->nullable(false)->change();
