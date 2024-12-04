@@ -1277,7 +1277,7 @@ function refreshTable(orders) {
         itemRow.innerHTML = `
             <td>${item.product.product_name}</td>
             <td>${categ}</td>
-            <td>${item.product_variant.size || "N/A"}</td>
+            <td>${item.product_variant ? item.product_variant.size || "N/A" : "N/A"}</td>
             <td>${item.quantity}</td>
             <td>₱ ${parseFloat(item.price).toFixed(2)}</td>
             <td>₱ ${parseFloat(item.price*item.quantity).toFixed(2)}</td>

@@ -93,7 +93,9 @@
                                 <tr>
                                     <td data-label="Item">{{ $currentItem->product->product_name }}</td>
                                     <td data-label="Category">{{ $currentCategory->category_name }}</td>
-                                    <td data-label="Variant/Size">{{ $currentVariant->size }}</td>
+                                    <td data-label="Variant/Size">
+                                        {{ $currentVariant->size ?? 'N/A' }}
+                                    </td>
                                     <td data-label="Quantity">{{ $currentItem->quantity }}</td>
                                     <td data-label="Price">₱ {{ number_format($currentItem->price, 2) }}</td>
                                 </tr>
@@ -494,7 +496,7 @@
             itemRow.innerHTML = `
                 <td>${item.product.product_name}</td>
                 <td>${categ}</td>
-                <td>${item.product_variant.size || "N/A"}</td>
+                <td>${item.product_variant ? item.product_variant.size || "N/A" : "N/A"}</td>
                 <td>${item.quantity}</td>
                 <td>₱ ${parseFloat(item.price).toFixed(2)}</td>
                 <td>₱ ${parseFloat(item.price*item.quantity).toFixed(2)}</td>
@@ -583,11 +585,12 @@
         var costz = 0;
         filteredItems.forEach(itemz => {
             qtty+=itemz.quantity;
-            variants+=(itemz.product_variant.size+", ");
+            variants += (itemz.product_variant && itemz.product_variant.size ? itemz.product_variant.size + ", " : "");
             costz +=itemz.price;
         })
         variants = variants.slice(0,-2);
-        console.log("Hey nigga "+ variants +": "+qtty)
+        variants = !variants ? "N/A" : variants;
+
         const currentItem =  @json($orderItems).find(itemz => itemz.id === orderItemId);
 
         const name = currentItem.product.product_name;

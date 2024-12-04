@@ -16,6 +16,10 @@ class MyPurchasesController extends Controller
 {
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect()->route('home'); // Redirect to the homepage if the user is not logged in
+        }
+
         $orders = Order::where('user_id', auth()->id())->get();
         
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
