@@ -50,17 +50,21 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
+                                <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
                             
                             <!-- Drag and Drop Zone -->
-                            <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
+                            <div id="drop_zone" class="border p-4 text-center position-relative" style="cursor: pointer;">
                                 <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                                <input type="file" id="image_upload" class="form-control-file d-none" name="product_image" accept="image/*" wire:model="product_image">
-                                @if ($product->product_image)
-                                    <img src="{{ asset('storage/' . $product->product_image) }}" alt="Product Image" class="img-fluid">
-                                @else
-                                    <p>No image available</p>
-                                @endif                            
+                                <input type="file" id="image_upload" class="form-control-file d-none" name="product_image" accept="image/*">
+                                
+                                <!-- Existing Image Preview -->
+                                <img id="uploaded_image_preview" src="{{ $product->product_image ? asset('storage/' . $product->product_image) : '' }}" alt="Product Image" class="img-fluid @if (!$product->product_image) d-none @endif">
+                                
+                                <!-- No Image Message -->
+                                <p id="no_image_message" class="text-muted @if ($product->product_image) d-none @endif">No image available</p>
+                                
+                                <!-- Remove Image Button -->
+                                <button type="button" id="remove_image" class="btn btn-outline-primary position-absolute @if (!$product->product_image) d-none @endif" style="top: 5px; right: 5px;">X</button>
                             </div>
 
                         </div>
@@ -176,9 +180,15 @@
                                                 <td>
                                                     <input type="text" name="variants[{{$index}}][size]" class="form-control" value="{{$variant->size}}">
                                                 </td>
-                                                <td>
-                                                    <input type="number" name="variants[{{$index}}][stocks]" class="form-control" value="{{$variant->stock}}" min="0" step="1">
-                                                </td>
+                                                @if ($status == '9')
+                                                    <td>
+                                                        <input type="number" name="variants[{{$index}}][stocks]" class="form-control" value="" placeholder="disabled" disabled min="0" step="1">
+                                                    </td>
+                                                @elseif ($status == '8')
+                                                    <td>
+                                                        <input type="number" name="variants[{{$index}}][stocks]" class="form-control" value="{{$variant->stock}}" min="0" step="1">
+                                                    </td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                             
@@ -230,7 +240,7 @@
 
 <script>
 
-    function toggleQuantity() {
+function toggleQuantity() {
         const statusSelect = document.getElementById('status_id');
         const stocksTitle = document.getElementById('stock'); 
         const quantityTitle = document.getElementById('quantity_1');
@@ -241,18 +251,28 @@
         if (statusSelect.value === '9' || variationToggle.checked) { 
             stocksInput.style.display = 'none';
             stocksTitle.style.display = 'none';
-            if (statusSelect.value === '9' && variationToggle.checked) { 
-                quantityTitle.style.display = 'none';
+            if (statusSelect.value === '9' && (variationToggle.checked || !variationToggle.checked)) { 
+
+                // Hide all variant stocks input fields
+                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
+                variantStocksInputs.forEach(input => {
+                    input.disabled = true; // Hide each variant stock input
+                });
             }
-            else if (statusSelect.value === '8' && variationToggle.checked) { 
-                quantityTitle.style.display = 'block';
+            else if (statusSelect.value === '8' && variationToggle.checked || !variationToggle.checked) { 
+
+                // Show all variant stocks input fields
+                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
+                variantStocksInputs.forEach(input => {
+                    input.disabled = false; // Show each variant stock input
+                });
+
             }
 
         } else if (statusSelect.value === '8') { 
             stocksInput.style.display = 'block';
             stocksTitle.style.display = 'block';
             quantityTitle.style.display = 'block';
-
         }
 
 
@@ -270,6 +290,7 @@
             variationToggle.checked = true; // Set the toggle to checked
             disabledInput.style.display = 'none';  // Hide the disabled input
         }
+        
     });
 
 
@@ -369,6 +390,7 @@
         const fileInput = document.getElementById('image_upload');
         const imagePreview = document.getElementById('uploaded_image_preview');
         const removeButton = document.getElementById('remove_image');
+        const noImageMessage = document.getElementById('no_image_message');
 
         // Click on drop zone triggers the file input click
         dropZone.addEventListener('click', () => {
@@ -393,7 +415,7 @@
             dropZone.classList.remove('border-success');
             const files = e.dataTransfer.files;
             if (files.length > 0) {
-                fileInput.files = files;
+                fileInput.files = files; // Update the file input
                 handleFile(); // Show preview
             }
         });
@@ -405,6 +427,7 @@
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.classList.remove('d-none');
+                    noImageMessage.classList.add('d-none'); // Hide no image message
                     removeButton.classList.remove('d-none'); // Show the "X" button
                 }
                 reader.readAsDataURL(file);
@@ -414,8 +437,9 @@
         // Remove image and hide button
         removeButton.addEventListener('click', function() {
             imagePreview.classList.add('d-none'); // Hide the image
-            removeButton.classList.add('d-none'); // Hide the button
+            noImageMessage.classList.remove('d-none'); // Show the no image message
             fileInput.value = ''; // Clear the file input
+            this.classList.add('d-none'); // Hide the remove button
         });
     });
 </script>

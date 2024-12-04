@@ -237,7 +237,7 @@
                                     </tbody>
                                     </table>
                                     <button id="addNewField" class="btn" type="button" onclick="addVariantRow()">
-                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Save/Add New Size
+                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
                                     </button>
 
                                 </div>
@@ -291,7 +291,7 @@
 
 <script>
 
-function toggleQuantity() {
+    function toggleQuantity() {
         const statusSelect = document.getElementById('status_id');
         const stocksTitle = document.getElementById('stock'); 
         const quantityTitle = document.getElementById('quantity_1');
@@ -302,18 +302,28 @@ function toggleQuantity() {
         if (statusSelect.value === '9' || variationToggle.checked) { 
             stocksInput.style.display = 'none';
             stocksTitle.style.display = 'none';
-            if (statusSelect.value === '9' && variationToggle.checked) { 
-                quantityTitle.style.display = 'none';
+            if (statusSelect.value === '9' && (variationToggle.checked || !variationToggle.checked)) { 
+
+                // Hide all variant stocks input fields
+                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
+                variantStocksInputs.forEach(input => {
+                    input.disabled = true; // Hide each variant stock input
+                });
             }
-            else if (statusSelect.value === '8' && variationToggle.checked) { 
-                quantityTitle.style.display = 'block';
+            else if (statusSelect.value === '8' && variationToggle.checked || !variationToggle.checked) { 
+
+                // Show all variant stocks input fields
+                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
+                variantStocksInputs.forEach(input => {
+                    input.disabled = false; // Show each variant stock input
+                });
+
             }
 
         } else if (statusSelect.value === '8') { 
             stocksInput.style.display = 'block';
             stocksTitle.style.display = 'block';
             quantityTitle.style.display = 'block';
-
         }
 
 
@@ -362,29 +372,79 @@ function toggleQuantity() {
 
     function addVariantRow() {
         variantCount++;
+        const statusSelect = document.getElementById('status_id');
+        const statusValue = statusSelect ? statusSelect.value : null; // Get the selected status value
 
+        let stocksField = `
+            <input type="number" 
+                name="variants[${variantCount}][stocks]" 
+                id="variantStocks_${variantCount}" 
+                class="form-control" 
+                placeholder="e.g. 10" 
+                min="0" 
+                step="1" 
+                value="">
+        `;
+
+        // Add if-else condition for the stocks field
+        if (statusValue === '9') {
+            stocksField = `
+                <input type="number" 
+                    name="variants[${variantCount}][stocks]" 
+                    id="variantStocks_${variantCount}" 
+                    class="form-control" 
+                    placeholder="e.g. 10" 
+                    disabled 
+                    value="">
+            `;
+        } else if (statusValue === '8') {
+            // Optionally customize for active status
+            stocksField = `
+                <input type="number" 
+                    name="variants[${variantCount}][stocks]" 
+                    id="variantStocks_${variantCount}" 
+                    class="form-control" 
+                    placeholder="e.g. 10" 
+                    min="0" 
+                    step="1" 
+                    value="">
+            `;
+        }
+
+        // Construct the new row
         const newRow = `
             <tr id="inputRow_${variantCount}">
                 <td>
                     <div class="form-group">
-                        <input type="text" name="variants[${variantCount}][size]" id="size_${variantCount}" class="form-control" placeholder="e.g. XL" value="">
+                        <input type="text" 
+                            name="variants[${variantCount}][size]" 
+                            id="size_${variantCount}" 
+                            class="form-control" 
+                            placeholder="e.g. XL" 
+                            value="">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="number" name="variants[${variantCount}][stocks]" id="variantStocks_${variantCount}" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
+                        ${stocksField} <!-- Insert the conditionally generated stocks field -->
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_${variantCount}')">
-                        <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                    <button type="button" 
+                            class="btn btn-sm" 
+                            onclick="myDeleteFunction('inputRow_${variantCount}')">
+                        <img src="http://localhost:8000/images/Delete.svg" 
+                            alt="Remove" 
+                            style="width: 16px; height: 16px; margin-right: 5px;">
                     </button>
                 </td>
             </tr>
         `;
 
+        // Append the new row to the table
         document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
     }
+
 
     function myDeleteFunction(rowId) {
         const row = document.getElementById(rowId);
@@ -392,19 +452,6 @@ function toggleQuantity() {
             row.remove();
         }
     }
-
-
-        // Function to update the quantity cell based on status
-        function updateQuantityCell(cell, rowCount) {
-            if (document.getElementById('status_id').value === '9') {
-                cell.innerHTML = ''; // Clear the cell for quantity if pre-order
-            } else {
-                cell.innerHTML = `
-                    <div class="form-group">
-                        <input type="number" id="quantity_${rowCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                    </div>`;
-            }
-        }
 
         // Event listener to handle status change
         document.getElementById('status_id').addEventListener('change', function() {
