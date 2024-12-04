@@ -17,11 +17,11 @@
                         @if(isset($contacts) && count($contacts) > 0)                            
                          @foreach($contacts as $contact)
                             <div class="container-btn border d-flex align-items-center justify-content-between"
-                                onclick="showChat('{{ $contact->contact_id }}', '{{ $contact->name }}')"
+                                onclick="showChat('{{ $contact->contact_id }}', '{{ $contact->name }}', '{{ $contact->profile_picture}}')"
                                 style="cursor: pointer; border-radius: 8px; padding: 10px;">
                                 <div class="d-flex align-items-center">
                                 <img 
-                                    src="{{ $contact->profile_picture ? asset($contact->profile_picture) : asset('images/profile.svg') }}" 
+                                    src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
                                     alt="Profile Picture" 
                                     style="
                                         margin-left: 10px; 
@@ -55,8 +55,9 @@
                 </div>
             <div class="container-chat" id="chat-area" style="display: none; position: relative;">
                 <div class="d-flex gap-2 p-4 w-100 border-bottom border-bottom-2">
-                <img 
-                    src="{{ !empty($contact->profile_picture) ? asset($contact->profile_picture) : asset('images/profile.svg') }}"
+                <img
+                    id="contact-profile-picture"
+                    src="/images/profile.svg"
                     alt="Profile Picture" 
                     style="
                         margin-left: 10px; 
@@ -89,6 +90,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
+    console.log("Profile picture URL:", "{{ asset('storage/' . $contact->profile_picture) }}");
+
     Pusher.logToConsole = true;
 
     var pusher = new Pusher("4f6a33c759843c81e465", {
@@ -101,111 +104,133 @@
 
     const authenticatedUserId = "{{ Auth::user()->id }}";
 
-    function showChat(contactId, contactName) {
-        document.getElementById("chat-area").style.display = "block";
-        document.getElementById("contact-name").innerText = contactName;
+    function showChat(contactId, contactName, profilePicture) {
+
+        const chatArea = document.getElementById('chat-area');
+        chatArea.style.display = 'block';
+
+        if (window.innerWidth <= 768) {
+            document.getElementById('contacts_list').style.display = 'none';
+        }
+
+        const contactNameElement = document.getElementById('contact-name');
+        contactNameElement.textContent = contactName;
+
+        const profilePicElement = document.getElementById('contact-profile-picture');
+        if (profilePicture && profilePicture !== 'null') {
+            profilePicElement.src = `/storage/${profilePicture}`;
+        } else {
+            profilePicElement.src = '/images/profile.svg';
+        }
+
         loadChatHistory(contactId);
     }
 
-    //halding send message
     document.addEventListener("DOMContentLoaded", function () {
-        document
-            .getElementById("send-message")
-            .addEventListener("click", async function () {
-                const messageInput = document.getElementById("message");
-                const message = messageInput.value;
+    const messageInput = document.getElementById("message");
+    const sendMessageButton = document.getElementById("send-message");
 
-                if (message.trim() === "") {
-                    alert("Message cannot be empty");
-                    return;
-                }
+    // Function to handle sending message
+    async function sendMessage() {
+        const message = messageInput.value;
 
-                if (!navigator.onLine) {
-                    document.getElementById("send-icon").style.display = "none";
-                    document.getElementById("loading-spinner").style.display =
-                        "inline-block";
-                    alert("No internet connection. Please check your connection.");
-                    return;
-                }
+        if (message.trim() === "") {
+            alert("Message cannot be empty");
+            return;
+        }
 
-                document.getElementById("send-icon").style.display = "none";
-                document.getElementById("loading-spinner").style.display =
-                    "inline-block";
+        if (!navigator.onLine) {
+            document.getElementById("send-icon").style.display = "none";
+            document.getElementById("loading-spinner").style.display = "inline-block";
+            alert("No internet connection. Please check your connection.");
+            return;
+        }
 
-                try {
-                    const response = await fetch("{{ route('send.message') }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        },
-                        body: JSON.stringify({
-                            message: message,
-                            recipient_id: selectedUserId,
-                        }),
-                    });
+        document.getElementById("send-icon").style.display = "none";
+        document.getElementById("loading-spinner").style.display = "inline-block";
 
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.error || "Error sending message");
-                    }
-
-                    // Update the contacts list
-                    updateContactList(data.contacts);
-                    reloadContactsList();
-
-                    messageInput.value = "";
-                } catch (error) {
-                    console.error("Error sending message:", error.message);
-                    alert("Failed to send message. Please try again.");
-                } finally {
-                    document.getElementById("send-icon").style.display =
-                        "inline-block";
-                    document.getElementById("loading-spinner").style.display =
-                        "none";
-                }
+        try {
+            const response = await fetch("{{ route('send.message') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                body: JSON.stringify({
+                    message: message,
+                    recipient_id: selectedUserId,
+                }),
             });
 
-        window.addEventListener("online", async function () {
-            const messageInput = document.getElementById("message");
-            const message = messageInput.value;
+            const data = await response.json();
 
-            if (message.trim() === "") return;
-            const sendMessage = async () => {
-                try {
-                    const response = await fetch("{{ route('send.message') }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        },
-                        body: JSON.stringify({
-                            message: message,
-                            recipient_id: selectedUserId,
-                        }),
-                    });
+            if (!response.ok) {
+                throw new Error(data.error || "Error sending message");
+            }
 
-                    const data = await response.json();
+            // Update the contacts list
+            updateContactList(data.contacts);
+            reloadContactsList();
 
-                    if (!response.ok) {
-                        throw new Error(data.error || "Error sending message");
-                    }
+            messageInput.value = "";
+        } catch (error) {
+            console.error("Error sending message:", error.message);
+            alert("Failed to send message. Please try again.");
+        } finally {
+            document.getElementById("send-icon").style.display = "inline-block";
+            document.getElementById("loading-spinner").style.display = "none";
+        }
+    }
 
-                    appendMessage({
-                        id: authenticatedUserId,
-                        message: message,
-                        sender_id: authenticatedUserId,
-                    });
+    // Handle click on send button
+    sendMessageButton.addEventListener("click", sendMessage);
 
-                    messageInput.value = "";
-                } catch (error) {
-                    console.error("Error sending message:", error.message);
-                }
-            };
+    // Allow sending message by pressing Enter
+    messageInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && !event.shiftKey) { 
+            event.preventDefault(); 
             sendMessage();
-        });
+        }
     });
+
+    // Re-sending message when coming online
+    window.addEventListener("online", async function () {
+        const message = messageInput.value;
+
+        if (message.trim() === "") return;
+
+        try {
+            const response = await fetch("{{ route('send.message') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                body: JSON.stringify({
+                    message: message,
+                    recipient_id: selectedUserId,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Error sending message");
+            }
+
+            appendMessage({
+                id: authenticatedUserId,
+                message: message,
+                sender_id: authenticatedUserId,
+            });
+
+            messageInput.value = "";
+        } catch (error) {
+            console.error("Error sending message:", error.message);
+        }
+    });
+});
+
 
     channel.bind("chat-event", function (data) {
         console.log("Received message:", data);
@@ -308,10 +333,15 @@
                         contactDiv.onclick = function () {
                             showChat(contact.id, contact.first_name);
                         };
+                        // Use the correct profile picture URL
+                        const profilePictureUrl = contact.profile_picture 
+                            ? `{{ asset('storage/') }}/${contact.profile_picture}` 
+                            : "{{ asset('images/user.svg') }}"; // Default image
+
 
                         contactDiv.innerHTML = `
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('images/user.svg') }}" alt="" style="margin-left: 10px;">
+                                <img src="${profilePictureUrl}" alt="Profile Picture" style="margin-left: 10px; width: 20px; height: 20px; border-radius: 50%; object-fit: cover;">
                                 <div class="ms-2">
                                     <span class="text-primary d-block d-md-inline" style="font-size: 12px;">${contact.first_name} ${contact.last_name}</span>
                                 </div>
@@ -375,32 +405,19 @@ function reloadContactsList() {
         $("#contacts_list").load(location.href + " #contacts_list > *");
     }
 
-    function showChat(contactId, contactName) {
-    document.getElementById('chat-area').style.display = 'block';
-
-    if (window.innerWidth <= 768) {
-        document.getElementById('contacts_list').style.display = 'none'; 
-    }
-
-    document.getElementById('contact-name').textContent = contactName;
-    console.log('Opening chat with ID:', contactId);
-    loadChatHistory(contactId);
-}
-
 function toggleChat() {
     // Check if the device is mobile
     if (window.innerWidth <= 768) {
-        // Get the chat area and contacts list elements
         const chatArea = document.getElementById('chat-area');
         const contactsList = document.getElementById('contacts_list');
 
         // Toggle visibility
         if (chatArea.style.display === 'block') {
-            chatArea.style.display = 'none'; // Hide chat area
-            contactsList.style.display = 'block'; // Show contacts list
+            chatArea.style.display = 'none'; 
+            contactsList.style.display = 'block';
         } else {
-            chatArea.style.display = 'block'; // Show chat area
-            contactsList.style.display = 'none'; // Hide contacts list
+            chatArea.style.display = 'block';
+            contactsList.style.display = 'none'; 
         }
     } else {
         console.log('This feature is only available on mobile devices.');
@@ -408,13 +425,13 @@ function toggleChat() {
 }
 
 function adjustContactStyles() {
-    const isMobile = window.innerWidth <= 768; // Define mobile breakpoint
+    const isMobile = window.innerWidth <= 768; 
     const contactNames = document.querySelectorAll('.container-btn .text-primary');
     const lastMessages = document.querySelectorAll('.container-btn .text-muted');
     const lastMessageTimes = document.querySelectorAll('.container-btn .smaller');
 
     contactNames.forEach(name => {
-        name.style.fontSize = isMobile ? '12px' : 'calc(4px + 0.5vw)'; // Adjust font size for contact names
+        name.style.fontSize = isMobile ? '12px' : 'calc(4px + 0.5vw)';
     });
 
     lastMessages.forEach(message => {

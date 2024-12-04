@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail; // Make sure this is included
 use App\Mail\MessageNotification; 
 use Illuminate\Support\Facades\Log;
+use App\Models\Shop;
 
 class MessageController extends Controller
 {
@@ -19,7 +20,7 @@ class MessageController extends Controller
     {
         $request->validate([
             'recipient_id' => 'required|exists:users,id',
-            'message' => 'required|string|max:1000',
+            'message' => 'required|string',
         ]);
     
         try {
@@ -172,11 +173,10 @@ class MessageController extends Controller
         $nameParts = explode(' ', $query);
         $firstName = isset($nameParts[0]) ? $nameParts[0] : null;
         $lastName = isset($nameParts[1]) ? $nameParts[1] : null;
-
+    
         $users = User::query();
-
+    
         if ($roleId == 1) {
-
             $contactedUserIds = DB::table('messages')
                 ->where('sender_id', $userId)
                 ->orWhere('recipient_id', $userId)
@@ -187,10 +187,10 @@ class MessageController extends Controller
                         ->orWhere('recipient_id', $userId)
                         ->pluck('sender_id')
                 )->unique();
-
+    
             $users->whereIn('id', $contactedUserIds);
         }
-
+    
         if ($firstName) {
             $users->where('first_name', 'LIKE', "%{$firstName}%");
         }
@@ -198,8 +198,9 @@ class MessageController extends Controller
         if ($lastName) {
             $users->where('last_name', 'LIKE', "%{$lastName}%");
         }
-
-        return response()->json($users->get(['id', 'first_name', 'last_name']));
+    
+        // Include the profile_picture in the response
+        return response()->json($users->get(['id', 'first_name', 'last_name', 'profile_picture']));
     }
 
 
@@ -210,33 +211,43 @@ class MessageController extends Controller
 
     public function getShopUserId(Request $request)
     {
-        // Validate the incoming request
         $request->validate([
-            'shop_id' => 'required|exists:shops,id', 
-            'message' => 'required|string|max:1000', 
+            'shop_id' => 'required|exists:shops,id',
+            'message' => 'required|string|max:1000',
         ]);
     
-
         $shop = Shop::find($request->shop_id);
     
         if ($shop) {
-            $userId = $shop->user_id; 
-
-            if (auth()->user()->role_id == 2) {
+            $senderId = $shop->user_id;
+            $recipientId = auth()->id();
+    
+            // Check if the user is logged in
+            if (auth()->check()) {
+                // Create the message
                 $message = Message::create([
-                    'sender_id' => auth()->id(),
-                    'recipient_id' => $userId, 
-                    'message' => $request->message, 
+                    'sender_id' => $senderId, 
+                    'recipient_id' => $recipientId, 
+                    'message' => $request->message,
                 ]);
-
+    
+                // Broadcast the message
                 broadcast(new MessageSent(auth()->user(), $message))->toOthers();
-
-                return response()->json(['success' => true, 'user_id' => $userId, 'message' => $message]);
+    
+                return response()->json([
+                    'success' => true,
+                    'sender_id' => $senderId, 
+                    'message' => $message,
+                ]);
             } else {
-                return response()->json(['success' => false, 'message' => 'You are not authorized to send a message.'], 403);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You must be logged in to receive a message.',
+                ], 403);
             }
         }
     
         return response()->json(['success' => false, 'message' => 'Shop not found.']);
     }
+    
 }

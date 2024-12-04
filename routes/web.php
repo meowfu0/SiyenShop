@@ -218,7 +218,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/faqs', [FaqController::class, 'index'])->name('faqs.index');
 Route::get('/message_notification', [MessageController::class, 'email'])->name('components.message_notification');
-Route::post('/getShopUserId', [MessageController::class, 'getShopUserId'])->name('getShopUserId');
+Route::post('/getShopUserId', [MessageController::class, 'getShopUserId'])->name('start.shop.chat');
 
 Route::post('/gcash/update/{id}', [GCashInfoController::class, 'update'])->name('gcash.update');
 Route::delete('/gcash/delete/{id}', [GCashInfoController::class, 'destroy'])->name('gcash.destroy');
