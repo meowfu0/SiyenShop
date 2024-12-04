@@ -56,8 +56,8 @@
             <div class="container-chat" id="chat-area" style="display: none; position: relative;">
                 <div class="d-flex gap-2 p-4 w-100 border-bottom border-bottom-2">
                 <img
-id="contact-profile-picture"
-            src="/images/profile.svg"
+                    id="contact-profile-picture"
+                    src="/images/profile.svg"
                     alt="Profile Picture" 
                     style="
                         margin-left: 10px; 
