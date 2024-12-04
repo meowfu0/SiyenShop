@@ -14,14 +14,14 @@ class AddTimestampsToShopsTable extends Migration
     public function up()
 {
     Schema::table('shops', function (Blueprint $table) {
-        $table->timestamps(); // Adds `created_at` and `updated_at` columns
+       // $table->timestamps(); // Adds `created_at` and `updated_at` columns
     });
 }
 
 public function down()
 {
     Schema::table('shops', function (Blueprint $table) {
-        $table->dropTimestamps();
+       // $table->dropTimestamps();
     });
 }
 

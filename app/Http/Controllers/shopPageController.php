@@ -11,10 +11,12 @@ class shopPageController extends Controller
 {
     public function index()
     {
-         // Fetch all the user rows from the database
-         $shops = Shop::with(['user', 'course', 'status', 'g_cash_info'])->get();
-         return view('livewire.admin.admin-shops', compact('shops'));
+        // Fetch all shops with related data, including business managers and their users
+        $shops = Shop::with(['user', 'course', 'status', 'businessManagers.user'])->get();
+    
+        return view('livewire.admin.admin-shops', compact('shops'));
     }
+    
 
     public function show($id)
     {
