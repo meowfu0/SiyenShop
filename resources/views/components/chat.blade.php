@@ -56,7 +56,8 @@
             <div class="container-chat" id="chat-area" style="display: none; position: relative;">
                 <div class="d-flex gap-2 p-4 w-100 border-bottom border-bottom-2">
                 <img
-                    src="{{ $contact->profile_picture ? asset('storage/' . $contact->profile_picture) : asset('images/profile.svg') }}"
+id="contact-profile-picture"
+            src="/images/profile.svg"
                     alt="Profile Picture" 
                     style="
                         margin-left: 10px; 
@@ -104,18 +105,24 @@
     const authenticatedUserId = "{{ Auth::user()->id }}";
 
     function showChat(contactId, contactName, profilePicture) {
-        document.getElementById('chat-area').style.display = 'block';
 
-        document.getElementById('contact-name').textContent = contactName;
+        const chatArea = document.getElementById('chat-area');
+        chatArea.style.display = 'block';
+
+        if (window.innerWidth <= 768) {
+            document.getElementById('contacts_list').style.display = 'none';
+        }
+
+        const contactNameElement = document.getElementById('contact-name');
+        contactNameElement.textContent = contactName;
 
         const profilePicElement = document.getElementById('contact-profile-picture');
-        if (profilePicture) {
+        if (profilePicture && profilePicture !== 'null') {
             profilePicElement.src = `/storage/${profilePicture}`;
         } else {
             profilePicElement.src = '/images/profile.svg';
         }
-        
-        console.log('Opening chat with ID:', contactId);
+
         loadChatHistory(contactId);
     }
 
@@ -397,18 +404,6 @@
 function reloadContactsList() {
         $("#contacts_list").load(location.href + " #contacts_list > *");
     }
-
-    function showChat(contactId, contactName) {
-    document.getElementById('chat-area').style.display = 'block';
-
-    if (window.innerWidth <= 768) {
-        document.getElementById('contacts_list').style.display = 'none'; 
-    }
-
-    document.getElementById('contact-name').textContent = contactName;
-    console.log('Opening chat with ID:', contactId);
-    loadChatHistory(contactId);
-}
 
 function toggleChat() {
     // Check if the device is mobile
