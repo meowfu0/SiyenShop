@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+
+    // In Order.php model
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
 }

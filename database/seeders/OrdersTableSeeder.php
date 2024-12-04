@@ -51,6 +51,17 @@ class OrdersTableSeeder extends Seeder
                 'user_id' => 3,
                 'proof_of_payment' => 'payment.png',
             ],
+            [ 
+                'order_date' => Carbon::now()->subDays(3),
+                'order_status_id' => 10,
+                'reference_number' => 10004,
+                'shop_id' => 2,
+                'supplier_price_total_amount' => 200,
+                'total_amount' => 350.50,
+                'total_items' => 2,
+                'user_id' => 10,
+                'proof_of_payment' => 'payment.png',
+            ],
             [
                 'order_date' => Carbon::now()->subDays(4),
                 'order_status_id' => 7,

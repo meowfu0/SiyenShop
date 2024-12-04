@@ -1,5 +1,6 @@
 body{
     overflow-x: none !important;
+    height: 100%;
 }
 
 #sidebar{
@@ -94,6 +95,10 @@ body{
 .img-holder, .img-holder img{
     border-radius: 7px;
 }
+.img-holder img{
+    height: 100px;
+    width: 100px;
+}
 #innerLine{
     display: none;
 }
@@ -120,6 +125,7 @@ body{
     height: 40px !important;
     font-size: 0.9rem !important;
     width: 720px;
+    table-layout: fixed;
 }
 .dets td{
     height: 40px !important;
@@ -129,22 +135,35 @@ body{
 }
 
 .dets tr td:first-child, .dets tr th:first-child{
-    width: 2800px ;
+    width: 200px;
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any text that overflows the container */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
+    padding-right: 20px;
 }
-
+#modal-cover{
+    background-color: rgba(0, 0, 0, 0.662);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    display: none;
+}
 .dets tr td:nth-child(2), .dets tr th:nth-child(2){
-    width: 2200px ;
+    width: 180px ;
 }
 
 .dets tr td:nth-child(3), .dets tr th:nth-child(3){
-    width: 1600px ;
+    width: 140px ;
 }
 
 .dets tr td:nth-child(4), .dets tr th:nth-child(4){
-    width: 1400px ;
+    width: 140px ;
 }
 .dets tr td:nth-child(5), .dets tr th:nth-child(5){
-    width: 1100px ;
+    width: 110px ;
 }
 .other-content-high, .other-content-low{
     height: 40px;
@@ -195,6 +214,11 @@ body{
     position: relative;
     left: 60px;
     top: 30px;
+    border-radius: 5px;
+}
+.item-img img{
+    height: 140px;
+    width: 140px;
     border-radius: 5px;
 }
 .other-content-low h5{
@@ -277,27 +301,58 @@ body{
     color: #eb5757 !important;
     border: 1px solid #eb5757 !important;
 }
-#orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
-#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog{
-    max-width: 800px !important; 
+#orderDetailsModal .modal-dialog{
+    max-width: 900px !important; 
+    height: 400px !important;
 }
 .modal-content{
     padding-top: 20px !important;
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
-/* .modal-header{
+.modal-header{
     margin-top: 20px;
     height: 100px !important;
-} */
+}
 .modal-footer button{
     width: 140px;
     border-radius: 7px !important;
     font-weight: 500 !important;
 }
-.modal-footer .btn.btn-light{
+.modal-footer .btn.btn-light, #chooseRate .btn.btn-light{
     color: #092C4C !important;
     border: 1px solid #092C4C !important;
+}
+#chooseRate .btn.btn-light.dropdown-toggle{
+    width: 220px;
+    margin-left: 70px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: left !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 40px !important;
+}
+#chooseRate .btn.btn-light.dropdown-toggle span {
+    display: inline-block;
+    max-width: 190px;               /* Limit the width of the text */
+    white-space: nowrap;            /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-size: 16px;  
+    padding-right: 20px;     /* Add ellipsis when text exceeds */
+}
+#chooseRate .btn.btn-light.dropdown-toggle::after{
+    position: absolute;
+    top: 15px;
+    left: 190px !important;
+}
+#chooseRate .dropdown-menu{
+    width: 220px !important;
+    white-space: nowrap;            /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    padding-right: 30px !important;
 }
 .p-3.mb-2.bg-light.text-dark{
     color: #E2B93B !important;
@@ -326,13 +381,15 @@ body{
     border-radius: 7px;
     text-align: center;
 }
-/* .modal-content .close-btn{
+.modal-content .btn-close{
     position: absolute;
-    left: 740px;
-} */
+    left: 840px;
+} 
 .modal-items{
+    display: block;
     height: 200px;
     overflow-y: auto;
+    margin-left: -40px !important;
 }
 .modal-items::-webkit-scrollbar {
     width: 10px; /* Width of the scrollbar */
@@ -377,42 +434,52 @@ body{
 }
 .modal-item-details{
     font-size: 12px;
-    width: 520px;
+    width: 570px;
     position: absolute;
-    top:60px;
+    top:40px;
     left: 160px;
     height: 40px;
     table-layout: fixed;
 }
 .transact-col1{
+    margin-top: 10px;
+    margin-bottom: 30px;
     margin-left: 40px;
     display: inline-block;
     font-weight: 500;
 }
+
 .transact-col2{
     margin-left: 40px;
     display: inline-block;
 }
+.transact-col1 p, .transact-col2 p{
+    all: unset;
+    display: block;
+    margin-top: 15px;
+}
 .transact-col3{
     position: absolute;
     font-weight: 500;
-    top: 250px;
+    top: 255px;
     left: 450px;
 }
+
 .transact-col4{
     position: absolute;
-    top: 250px;
+    top: 255px;
     left: 530px;
+}
+.transact-col3 p, .transact-col4 p{
+    all: unset;
+    display: block;
+    margin-top: 15px;
 }
 #rateModal .btn-close{
     position: absolute !important;
-    left: 460px !important;
+    left: 500px !important;
+    top: 20px !important;
 }
-#rateModal .modal-header{
-    height: 40px !important;
-    border: none !important;
-}
-
 #star-button1, #star-button2, #star-button3, #star-button4, #star-button5{
     width: 40px;
     height: 40px;
@@ -434,42 +501,114 @@ body{
     line-height: 120px;
     transition: background-color 0.3s ease;
 }
-
-#rateModal .modal-body{
-    height: 330px;
-}
-#rateModal .modal-footer{
-    border: none;
-}
 .rate-stars{
     position: absolute;
-    top:30px;
-    left: 120px;
+    top: 350px;
+    left: 170px;
 }
-.rate-comment{
+
+#rateModal textarea{
     position: absolute;
-    top: 130px;
-}
-.rate-comment textarea{
     width: 430px;
     resize: none;
     height: 150px;
     margin-top: 10px;
     border-radius: 7px;
     padding: 10px;
+    top: 450px;
+    left: 60px;
+}
+#rateModal{
+    position: fixed;
+    background-color: white;
+    border-radius: 10px;
+    height: 700px;
+    width: 560px;
+    top: 20px;
+    left: 480px;
+    border: 1px solid rgb(219, 219, 219);
+    z-index: 10000;
+    display: none;
+}
+#rateModal h3{
+    position: absolute;
+    top: 60px;
+    left: 220px;
+}
+
+#rateComment{
+    position: absolute;
+    top: 430px;
+    left: 70px;
+}
+#rateLabel{
+    position: absolute;
+    top: 120px;
+    left: 70px;
+}
+#rateModal .btn-light{
+    width: 140px;
+    color: #092C4C !important;
+    border: 1px solid #092C4C !important;
+    position: absolute;
+    top: 630px;
+    left: 195px;
+    font-weight: 600 !important;
+}
+#rateModal .btn-primary{
+    width: 140px;
+    position: absolute;
+    top: 630px;
+    left: 350px;
+    font-weight: 600 !important;
 }
 .rate-comment textarea::-webkit-scrollbar {
     width: 0; /* Set width to 0 to hide it */
     background: transparent; /* Optional: make the background transparent */
 }
+#rateItemHolder{
+    width: 430px;
+    height: 200px;
+    position: absolute;
+    top: 120px;
+    left: 60px;
+}
+#rateItemHolder img{
+    height: 140px;
+    width: 140px;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+.rate-col1{
+   position: absolute;
+   top: 40px;
+   left: 170px;
+}
+.rate-col1 p {
+    font-size: 14px;
+    margin-bottom: 5px;/* Adjust the value as needed */
+}
+.rate-col2{
+    position: absolute;
+    top: 40px;
+    left: 270px;
+    width: 180px;
+    white-space: nowrap;
+ }
+ .rate-col2 p {
+    font-size: 14px;
+    margin-bottom: 5px;/* Adjust the value as needed */
+    overflow: hidden;    /* Hide the overflowing text */
+    text-overflow: ellipsis; 
+ }
 #clear-stars{
     border: none;
     background-color: white;
     color: rgb(148, 148, 148);
     font-weight: 400;
     position: absolute;
-    top: 90px;
-    left: 180px;
+    top: 400px;
+    left: 220px;
     display: none;
 }
 #clear-stars:hover{
@@ -481,60 +620,255 @@ body{
     margin-top: 40px;
     margin-left: 150px;
 }
-#msg-modal .modal-body{
-    height: 200px;
+#msg-modal{
+    position: fixed;
+    top: 230px;
+    left: 500px;
+    height: 300px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid rgb(219, 219, 219);
+    z-index: 10000;
 }
 #msg-modal button{
-    margin-right: 150px;
-    margin-bottom: 15px;
+    width: 150px;
+    margin-left: 170px;
+    margin-top: 40px;
+    font-weight: 600;
 }
 
 #msg-modal img{
     width: 70px;
     height: 70px;
     margin-top: 40px;
-    margin-left: 180px;
+    margin-left: 210px;
 }
 #msg-modal h3{
-    margin-left: 80px;
+    margin-left: 110px;
     font-weight: 600;
     margin-top: 20px;
 }
-#msg-modal .modal-footer{
-    border: none;
-}
+
 .multiple-indicator{
+    display: block;
     margin-top: 50px;
     margin-left:620px;
     font-size: 13px;
     color: #092C4C;
 }
 /* Customize column widths in pixels */
-.modal-item-details th:nth-child(1),
-.modal-item-details td:nth-child(1) {
-    width: 150px; /* Width for the 'Item' column */
+.modal-item-details th:not(:first-child),
+.modal-item-details td:not(:first-child) {
+    width: 70px; 
+    padding-right: 10px;
 }
 
-.modal-item-details th:nth-child(2),
-.modal-item-details td:nth-child(2) {
-    width: 120px; /* Width for the 'Category' column */
+.modal-item-details th:first-child,
+.modal-item-details td:first-child {
+    padding-right: 10px;
+    width: 140px; /* Adjust this value to your desired width */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any text that overflows the container */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
+}
+#ordersTable{
+    height: 100%;
+}
+.order-row {
+    width: 100%;
+    border: 1px solid #ddd; 
+    margin-bottom: 20px; /* Adjusted margin for bottom spacing */
+    background-color: #fff;
+    border-radius: 8px;
+    display: block; /* Use block to maintain normal flow */
+}
+.order-row:hover {
+    background-color: #f9f9f9;
 }
 
-.modal-item-details th:nth-child(3),
-.modal-item-details td:nth-child(3) {
-    width: 100px; /* Width for the 'Variant/Size' column */
+.dets tr:hover {
+    background-color: #f9f9f9;
+}
+#ordersTable{
+    margin-top: 120px;
+    margin-left:140px;
+}
+.multiple-indicator{
+    margin-top:-22.5%;
 }
 
-.modal-item-details th:nth-child(4),
-.modal-item-details td:nth-child(4) {
-    width: 100px; /* Width for the 'Quantity' column */
+.modal-footer button {
+    margin-right: 15px;
+}
+/*
+#orderDetailsModal{
+    height: 500px;
 }
 
-.modal-item-details th:nth-child(5),
-.modal-item-details td:nth-child(5) {
-    width: 80px; /* Width for the 'Price' column */
+.hidden-content {
+    display: none;
+}
+    */
+
+
+
+/*
+.transact-col1 li {
+    margin-bottom: 10px; 
 }
 
+.modal-item-table {
+    width: 100%;
+    c
+    border-collapse: collapse;
+}
+
+.modal-item-table th,
+.modal-item-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.modal-item-table th {
+    background-color: #f8f8f8;
+}
+
+.modal-item-table td img.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.modal-item-table td {
+    vertical-align: middle;
+}
+    */
+.modal-header {
+    margin: 0px 30px; /* Example: top-bottom 10px, left-right 20px */
+}
+
+/* Adjust margin for the modal body */
+.modal-body {
+    margin: 0px 30px; /* Example: top-bottom 15px, left-right 20px */
+}
+
+/* Adjust margin for the modal footer */
+.modal-footer {
+    margin: 0px 10px; /* Example: top-bottom 10px, left-right 20px */
+
+}
+  .modal-items-table{
+    left: 0px !important;
+    
+}
+#modalStatus {
+    padding-bottom: 25x;
+    
+    width:180px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #092C4C; /* Default border color */
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+#modalStatus.denied-payment {
+    border-color: #eb5757; 
+    color: #eb5757;
+}
+#modalStatus.completed-order {
+    border-color: #28a745;
+    color: #28a745;
+}
+#modalStatus.pending {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+#modalStatus.received-payment {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+#modalStatus.for-pickup {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+/* Initial state when modal is hidden */
+/* Hidden state */
+.custom-modal {
+    opacity: 0;
+    display: none; /* Initially hidden */
+    transform: translateY(-20px); /* Start slightly above */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transform transition */
+}
+
+/* Visible state */
+.custom-modal.custom-show {
+    opacity: 1;
+    display: block; /* Become visible */
+    transform: translateY(0); /* Slide to original position */
+}
+
+/* Optional: Add a backdrop fade */
+.custom-backdrop {
+    opacity: 0;
+    display: none; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.custom-backdrop.custom-show {
+    opacity: 0.5;
+    display: block; /* Become visible */
+}
+
+/* Sliding out effect */
+.custom-modal.custom-hide {
+    opacity: 0;
+    transform: translateY(-20px); /* Slide back up */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Matches the slide-in duration */
+    display: none; /* Will be handled via JavaScript to ensure visibility during the animation */
+}
+#msgSection{
+    height: 400px; 
+    position: absolute;
+    left: 400px;
+    top: 95px;
+    width: 280px;
+}
+#sellerRem {
+    margin-left: 20px;
+    margin-top: 20px;
+    text-align: justify;
+    padding-right: 20px;
+    max-width: calc(100% - 40px); /* Adjust for margin and padding */
+    word-wrap: break-word; /* Ensures long words break to fit */
+    overflow-y: auto; /* Allow vertical scrolling */
+    scrollbar-width: none; /* Firefox: Hide scrollbar */
+    -ms-overflow-style: none;
+    max-height: 250px;
+    font-size: 16px;
+}
+#denHead{
+    margin-left: 230px !important; 
+    margin-top: 20px; 
+    font-weight: 600;
+}
+#viewProof .modal-dialog{
+    width: 540px !important;
+    height: 400px !important;
+}
+#viewProof h3{
+    margin-left: 110px !important; 
+    font-weight: 600;
+}
+#viewProof button{
+    margin-right: 130px !important; 
+    margin-bottom: 20px !important;
+}
 @media (max-width: 768px) {
     body, html {
         margin: 0;
@@ -546,11 +880,13 @@ body{
     #sidebar {
         display: none; /* Hide sidebar */
     }
-
+    .modal-items::-webkit-scrollbar{
+        height: 4px !important;
+    }
     .content-purchase {
         top: 20px !important;
-        left: 0 !important;
-        width: 100% !important;
+        left: 2% !important;
+        width: 95% !important;
         height: 100% !important; /* Ensure content fills viewport height */
         position: absolute; /* Adjust if necessary */
         /* overflow-x: hidden;         */
@@ -575,7 +911,8 @@ body{
         position: fixed; /* Keep it fixed at the top */
     }
     .buttons {
-        top: 8%;
+        position: static !important;
+        margin-top: 15%;
         left: 0px !important; /* Adjust this based on your layout */
         overflow-x: auto !important; /* Allow horizontal scrolling if needed */
         width: 100%; /* Full width for buttons */
@@ -591,7 +928,7 @@ body{
     .buttons button {
         height: 35px; /* Adjust height for mobile */
         width: 40% !important;
-        color: black; /* Change text color for better contrast */
+        color: gray;/* Change text color for better contrast */
         border-radius: 0px; /* Optional: add rounded corners */
         font-size: 14px; /* Adjust font size for mobile */
         display: inline !important;
@@ -641,8 +978,8 @@ body{
     .status-box{
         font-size: 10px !important;
         height: auto !important;
-        width: 20% !important;
-        left: 50% !important;
+        width: 30% !important;
+        left: 45% !important;
         top: 10px !important;
         
     }
@@ -689,7 +1026,7 @@ body{
         display: block !important;
         position: absolute !important;
         top: 20% !important;
-        left: 72% !important;
+        left: 74% !important;
         height: 40% !important;
         width: 20% !important;
         font-weight: 400;
@@ -701,7 +1038,7 @@ body{
         top: 20% !important;
         left: 50% !important;
         height: 40% !important;
-        width: 20% !important;
+        width: 22% !important;
         border: 1px solid #092C4C !important;
         color: #092C4C !important;
         font-weight: 400;
@@ -754,13 +1091,12 @@ body{
     }
     
     .dets tr td:nth-child(2), .dets tr th:nth-child(2){
-        width: 10% !important;
+        width: 8% !important;
     }
     
     .dets tr td:nth-child(3), .dets tr th:nth-child(3){
-        width: 10% !important;
+        width: 8% !important;
     }
-    
     .dets tr td:nth-child(4), .dets tr th:nth-child(4){
         width: 10% !important;
     }
@@ -776,8 +1112,9 @@ body{
         padding-right: 2% !important;
     }
     .modal-items{
-        height: 20vh !important;
-        width: auto;
+        height: 10% !important;
+        width: 110% !important;
+        margin-left: -10% !important;
     }
     .modal-body{
         height: 10% !important;
@@ -792,24 +1129,28 @@ body{
     .modal-header{
         max-height: 60px !important;
         height: 50% !important;
-        border-bottom: 1px solid black !important;
+        border-bottom: 1px solid rgb(219, 219, 219) !important;
     }
     .transact-col1, .transact-col2, .transact-col3, .transact-col4{
+        vertical-align: top;
         font-size: 0.5rem !important;
     }
     .transact-col1{
-        margin-left: 2% !important;
+        margin-top: 0% !important;
+        margin-left: -5% !important;
     }
     .transact-col2{
         margin-left: 2% !important;
     }
     .transact-col3{
-        top: 60% !important;
-        left: 65% !important;
+        position: static !important;
+        display: inline-block !important;
+        margin-left: 15% !important;
     }
     .transact-col4{
-        top: 60% !important;
-        left: 80% !important;
+        position: static !important;
+        margin-left: 2% !important;
+        display: inline-block;
     }
     .modal-content .btn-close{
         left: 93% !important;
@@ -821,7 +1162,7 @@ body{
     .modal-td .img-holder{
         height: 6vh !important;
         width: 6vh !important;
-        margin-left: 0 !important;
+        margin-left: 0% !important;
     }
     .img-holder img{
         width: 100% !important;
@@ -830,42 +1171,52 @@ body{
         
     }
     .modal-item-details{
-        left: 17% !important;
+        left: 18% !important;
         font-size: 0.5rem !important;
-        width: 90% !important;
+        width: 100% !important;
         top: 16% !important;
+        border-collapse: separate;
+        table-layout: fixed;
     }
     .modal-item-details th:nth-child(1),
     .modal-item-details td:nth-child(1) {
-        width: 4% !important; /* Width for the 'Item' column */
+        width: 40% !important; /* Width for the 'Item' column */
+        padding-left: 0% !important;
     }
 
     .modal-item-details th:nth-child(2),
     .modal-item-details td:nth-child(2) {
-        width: 4% !important; /* Width for the 'Category' column */
-        margin-left: 2vw !important;
+        width: 40% !important; /* Width for the 'Category' column */
     }
 
     .modal-item-details th:nth-child(3),
     .modal-item-details td:nth-child(3) {
-        width: 4% !important; /* Width for the 'Variant/Size' column */
+        width: 45% !important; /* Width for the 'Variant/Size' column */
     }
 
     .modal-item-details th:nth-child(4),
     .modal-item-details td:nth-child(4) {
-        width: 3% !important; /* Width for the 'Quantity' column */
+        width: 35% !important; /* Width for the 'Quantity' column */
     }
-
     .modal-item-details th:nth-child(5),
     .modal-item-details td:nth-child(5) {
-        width: 4% !important; /* Width for the 'Price' column */
+        width: 50% !important; /* Width for the 'Price' column */
+    }
+    .modal-item-details th:nth-child(6),
+    .modal-item-details td:nth-child(6) {
+        width: 50% !important; /* Width for the 'Price' column */
     }
     .modal-rows{
         height: 10vh !important;
+        
+    }
+    .modal-item-table{
+        width: 100% !important;
+        margin-left: 0% !important;
     }
     #orderDetailsLabel{
-        width: 20vh !important;
-        margin-left: -5% !important;
+        width: 10vh !important;
+        margin-left: 2% !important;
         position: absolute !important;
         left: 25% !important;
     }
@@ -893,28 +1244,43 @@ body{
         position: absolute !important;
         left: 65% !important;
     }
-    .multiple-indicator{
-        margin-left:38% !important;
-        margin-top: -8% !important;
-        font-size: 0.5rem !important;
-    }
     .modal-footer button{
-        width: 30% !important;
+        width: 40% !important;
         border-radius: 7px !important;
         font-weight: 500 !important;
         font-size: 0.7rem !important;
     }
     .modal-footer .btn.btn-light{
+        margin-left: 2% !important;
+        display: block !important;
+        width: 18% !important;
+        border: 1px solid #092C4C !important;
         color: #092C4C !important;
-        border: 
-        1px solid #092C4C !important;
+        font-weight: 400;
+        font-size: 0.4rem !important;
+    }
+    .modal-footer .btn.btn-primary{
+        display: block !important;
+        margin-left: 0% !important;
+        width: 30% !important;
+        font-weight: 400;
+        font-size: 0.4rem !important;
+    }
+    #reasonButton{
+        display: block !important;
+        margin-left: 0% !important;
+        width: 30% !important;
+        font-weight: 400;
+        font-size: 0.4rem !important;
     }
     .modal-footer{
         height: 10% !important;
+        width: 100% !important;
     }
     #rateModal .btn-close{
         position: absolute !important;
-        left: 94% !important;
+        left: 90% !important;
+        display: none;
     }
     #rateModal .modal-header{
         height: 40% !important;
@@ -927,8 +1293,8 @@ body{
         height: 60% !important;
     }
     #star-button1, #star-button2, #star-button3, #star-button4, #star-button5{
-        width: 5vh !important;
-        height: 5vh !important;
+        width: 3vh !important;
+        height: 3vh !important;
         background-color: rgb(219, 219, 219);
         color: rgb(219, 219, 219);
         font-size: 30px;
@@ -946,30 +1312,36 @@ body{
         text-align: center;
         line-height: 120px;
         transition: background-color 0.3s ease;
-        left: -20% !important;
     }
-    
-    #rateModal .modal-body{
-        height: 36vh !important;
+    #rateItemHolder img {
+        height: 80px;
+        width: 80px;
+        border-radius: 5px;
     }
-    #rateModal .modal-footer{
-        border: none;
+    #rateItemHolder{
+        top: 10%;
+        left: 15%;
     }
     .rate-stars{
-        position: absolute;
-        top:30px;
-        left: 120px;
+        top:45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
     .rate-comment{
-        top: 130px;
+        top: 0%;
     }
-    .rate-comment textarea{
-        width: 98% !important;
+    #rateModal textarea {
+        max-width: 98% !important;
+        width: 70% !important;
         resize: none;
-        height: 150px;
-        margin-top: 10px;
+        height: 20% !important;
         border-radius: 7px;
         padding: 10px;
+        position: absolute !important;
+        left: 50%; /* Horizontally center it */
+        top: 60%;
+        font-size: 0.5rem;
+        transform: translateX(-50%); /* Adjust for exact centering */
     }
     .rate-comment textarea::-webkit-scrollbar {
         width: 0; /* Set width to 0 to hide it */
@@ -977,13 +1349,13 @@ body{
     }
     #clear-stars{
         border: none;
+        top: 48%;
+        left: 50%;
+        transform: translateX(-50%); 
         background-color: white;
         color: rgb(148, 148, 148);
         font-weight: 400;
-        position: absolute;
-        top: 90px;
-        left: 39% !important;
-        display: block;
+        font-size: 0.6rem !important;
     }
     #closeMsg{
         width: 100px;
@@ -991,27 +1363,39 @@ body{
         margin-top: 40px;
         margin-left: 150px;
     }
-    #msg-modal .modal-body{
-        height: 1000px;
+    #msg-modal{
+        width: 63% !important;
+        height: 25% !important;
+        position: absolute !important; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%);
     }
-    #msg-modal button{
-        margin-right: 33%;
-        margin-bottom: 4%;
-    }
-    
     #msg-modal img{
-        width: 18vw;
-        height: 18vh;
-        margin-top: 8%;
-        margin-left: 40%;
+        width: 30px;
+        height: 30px;
+        margin-top: 20%;
+        margin-left: 50%;
+        transform: translate(-50%, -50%);
     }
     #msg-modal h3{
-        margin-left: 18% !important;
         font-weight: 600;
-        font-size: 20;
+        font-size: 0.7rem;
+        margin-left: 50%;
+        transform: translate(-50%, -50%);
+        text-wrap: nowrap;
     }
-    #msg-modal .modal-footer{
-        border: none;
+    .modal.fade.show, body.modal-open {
+        padding-right: 0 !important;
+        overflow: auto !important;
+    }
+    #msg-modal button {
+        width: 25%;
+        height: 15%;
+        margin-left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.4rem !important;
+        margin-top: 10%;
     }
     #navigation{
         position: fixed;
@@ -1035,5 +1419,193 @@ body{
         height: auto !important;
         margin-left: -3% !important;
         display: block !important;
+    }
+    nav.d-flex.flex-column.p-4.border-end.gap-2 {
+        display: none !important;
+    }
+   #dLine, .lineBar{
+    display: none !important;
+   }
+   #ordersTable {
+    margin-top: 2% !important;
+    margin-left: 0px !important;
+    }
+    .item-img img, .item-img{
+        width: 60px !important;
+        height: 60px !important;
+    }
+    .buttons button{
+        font-size: 0.7rem !important;
+        width: 30% !important;
+    }
+    #reasonImg {
+        max-width: 45%; /* Ensures the image doesn't exceed its container's width */
+        max-height: 25vh !important;
+        height: auto; /* Maintains aspect ratio */
+        width: auto;
+        margin-left: 0% !important; /* Centers the image horizontally */
+        display: inline-block; /* Ensures proper centering */
+        border-radius: 5px; /* Keeps the rounded corners */
+        vertical-align: top; 
+    }
+    #denHead{
+        font-size: 1rem;
+        margin-left: 30% !important;
+    }
+    #proofImg{
+        max-width: 80%; /* Ensures the image doesn't exceed its container's width */
+        max-height: 40vh !important;
+        height: auto; /* Maintains aspect ratio */
+        width: auto;
+        margin-left: 0% !important; /* Centers the image horizontally */
+        border-radius: 5px; /* Keeps the rounded corners */
+        margin-left: 9% !important;
+    }
+    #viewProof .modal-dialog{
+        width: 95% !important;
+        height: auto !important; 
+    }
+    #viewProof h3{
+        margin-left: 25% !important;
+    }
+    #viewProof button{
+        margin-left: 40% !important;
+    }
+    #msgSection{
+        display: inline-block !important;
+        position: static !important;
+        margin-left: 2% !important;
+        margin-top: 0% !important;
+        max-width: 45%; /* Ensures the image doesn't exceed its container's width */
+        max-height: 25vh !important;
+        height: auto; /* Maintains aspect ratio */
+        width: auto;
+        vertical-align: top; 
+    }
+    #msgSection h4{
+        font-size: 0.7rem !important;
+    }
+    #msgSection p{
+        font-size: 0.5rem !important;
+    }
+    #modalStatus{
+        width: 25% !important;
+        font-size: 0.4rem !important;
+        height: 4% !important;
+        margin-left: 55% !important;
+        margin-top: 2% !important;
+        padding: 2% !important;
+    }
+    .multiple-indicator{
+        display: none;
+    }
+    #chooseRate h3{
+        margin-left: 10% !important;
+        margin-bottom: 5% !important;
+        font-size: 1rem !important;
+    }
+    #chooseRate .modal-dialog {
+        width: 20% !important;
+        position: absolute !important; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); /* Adjust the modal's position by 50% of its own width and height */
+    }
+    #chooseRate p{
+        display: none !important;
+    }
+    
+    #chooseRate .btn-group{
+        max-width: 80% !important;
+        position: static !important;
+        margin-left: 10%;
+        margin-top: 10% !important;
+    }
+    #chooseRate .dropdown-item{
+        width: 40% !important;
+        font-size: 0.7rem !important;
+    }
+    #chooseRate .dropdown-menu{
+        max-width: 40% !important;
+        width: 40% !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 0 !important;
+    }
+    #chooseRate .btn.btn-light.dropdown-toggle {
+        max-width: 100% !important;
+        max-height: 10% !important; /* Adjust the height to auto or set a specific height */
+        font-size: 0.7rem !important;
+        display: block; /* Ensure it's a block-level element to center it */
+        margin: 0 auto; /* Horizontally center the button */
+        text-align: center; /* Optional: ensures text inside the button is centered */
+    }
+    #chooseRate .btn.btn-light.dropdown-toggle::after {
+        position: absolute;
+        top: 15px;
+        left: 90% !important;
+    }
+    #chooseRate .btn.btn-light.dropdown-toggle span{
+        font-size: 0.7rem !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-right: 0% !important;
+        padding: 0% !important;
+    }
+    #rateModal {
+        position: absolute;
+        left: 50%; /* Move the modal to the center horizontally */
+        top: 50%;  /* Move the modal to the center vertically */
+        transform: translate(-50%, -50%); /* Adjust for exact centering */
+        max-width: 80% !important; /* Max width of the modal */
+        width: 80% !important; /* Optional: Ensures the modal width can expand up to 90% of the screen */
+        max-height: 80% !important;
+        height: 60% !important;
+    }
+    .rate-col1{
+        top: 20%;
+        left: 22%;
+     }
+     .rate-col1 p {
+         font-size: 0.5rem !important;
+         margin-bottom: 2% !important;/* Adjust the value as needed */
+     }
+     .rate-col2{
+         top: 20%;
+         left: 35%;
+         width: 16%;
+      }
+      .rate-col2 p {
+         font-size: 0.5rem !important;
+         margin-bottom: 1% !important;/* Adjust the value as needed */
+      }
+      #rateModal h3{
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1rem;
+    }
+    #rateModal .btn-light {
+        width: 18%;
+        height: 5%;
+        position: absolute;
+        top: 88%;
+        left: 42%;
+        font-weight: 600 !important;
+        font-size: 0.4rem;
+    }
+    #rateModal .btn-primary{
+        width: 18%;
+        height: 5%;
+        position: absolute;
+        top: 88%;
+        left: 63%;
+        font-size: 0.4rem;
+    }
+    #rateComment {
+        top: 55%;
+        font-size: 1rem;
+        left: 15%;
     }
 }

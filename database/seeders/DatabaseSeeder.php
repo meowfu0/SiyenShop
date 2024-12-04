@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        //\App\Models\User::factory(10)->create();
         
+        $this->call(UsersTableSeeder::class);
         $this->call(StatusesTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(CoursesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
         $this->call(ShopsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         // $this->call(GCashInfoSeeder::class); merong error yong number
