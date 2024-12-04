@@ -44,10 +44,10 @@ function displayShops(shops) {
             // Profile Picture
             const shopLogoTd = document.createElement("td");
             const shopLogo = document.createElement("img");
-            shopLogo.classList.add("img-thumbnail");
+            shopLogo.classList.add("img-fluid", "rounded-circle", "profile-data-table");
             shopLogo.style.width = "40px";
             shopLogo.style.height = "40px";
-            shopLogo.src = `storage/shop_logos/${shop.shop_logo}`;
+            shopLogo.src = shop.shop_logo ? `/storage/shop_logos/${shop.shop_logo}` : '/images/default-avatar.png';
             shopLogoTd.appendChild(shopLogo);
             row.appendChild(shopLogoTd);
 
@@ -61,20 +61,21 @@ function displayShops(shops) {
             courseCell.textContent = shop.course?.course_name || 'Unknown';
             row.appendChild(courseCell);
 
+            // Business Manager
+            const busmngr = document.createElement("td");
+            busmngr.textContent = `${shop.user.first_name} ${shop.user.last_name}` || 'No manager assigned';
+            row.appendChild(busmngr);
+
             // Status
             const statusCell = document.createElement("td");
             statusCell.textContent = shop.status?.status_name || 'No status assigned';
             row.appendChild(statusCell);
 
-            // Business Manager
-            const busmngr = document.createElement("td");
-            busmngr.textContent = shop.user?.first_name || 'No status assigned';
-            row.appendChild(busmngr);
 
             // Actions
             const actionsCell = document.createElement("td");
             const viewButton = document.createElement("button");
-            viewButton.classList.add("view-users-btn", "fs-2", "p-1", "px-2");
+            viewButton.classList.add("view-shops-btn", "fs-2", "p-1", "px-2");
             viewButton.setAttribute("data-user-id", shop.id);
             viewButton.textContent = "View Shop ";
             const redirectIcon = document.createElement("img");
@@ -109,7 +110,7 @@ else {
     }
 }
 
-//Modal activator
+// Modal activator
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('view-shops-btn')) {
         const button = event.target;
@@ -133,7 +134,10 @@ document.addEventListener('click', function(event) {
             document.getElementById('gcash-num').innerText = gcashNum;
             document.getElementById('gcash-ctrl-name').innerText = gcashCtrl;
             const shopImg = document.getElementById('shopLogo');
-            shopImg.src = `${imageBaseUrl}/${shopPic}`;
+            shopImg.src = `/storage/shop_logos/${shopPic}`;
+
+            document.getElementById("updateShopBtn").setAttribute("data-id", shopAccess.id);
+
 
             // Show the modal
             var shop_modal = new bootstrap.Modal(document.getElementById('shopModal'));
@@ -145,214 +149,52 @@ document.addEventListener('click', function(event) {
     }
 });
 
-
-
-////////CREATE SHOP AND UPDATE SHOP/////////
-
-// Get references to input fields
-const shopNameInput = document.getElementById('shopName');
-const shopEmailInput = document.getElementById('shopEmail');
-const courseInput = document.getElementById('course');
-const managerInput = document.getElementById('managerName1');
-const managerInput2 = document.getElementById('managerName2');
-const managerRow2 = document.getElementById('managerRow2');
-const dropdown2 = document.getElementById('managerName2');
-const trashButton2 = document.getElementById('trash-btn2');
-
-// Reference to the dropdown and trash button for first manager
-const dropdown1 = document.getElementById('managerName1');
-const trashButton1 = document.getElementById('trash-btn1');
-
-// Get references to display elements
-const displayShopName = document.getElementById('displayShopName');
-const displayCourse = document.getElementById('displayCourse');
-const displayShopEmail = document.getElementById('displayShopEmail');
-const displayManager = document.getElementById('displayManager');
-const displayManager2 = document.getElementById('displayManager2');
-const gcashNum = document.getElementById('gcashNum');
-const gcashReceiver = document.getElementById('gcashReceiver');
-const gcashNum2 = document.getElementById('gcashNum2');
-const gcashReceiver2 = document.getElementById('gcashReceiver2');
-
-// Cancel function to go back
-function cancel(){
-    window.location.href = "{{ route('admin.shops') }}";
+function createShopPage() {
+    window.location.href = "{{ route('admin.createshop') }}";
 }
+
+
+updateShopBtn?.addEventListener('click', function(){
+    updateShop(); 
+}); 
+
+function updateShop() {
+
+    console.log(document.getElementById("updateShopBtn").getAttribute("data-id"));
+    const shopId = document.getElementById("updateShopBtn").getAttribute("data-id");
+    const updateUrl = `/admin/shops/update/access/${shopId}`;
+
+    if (shopId) {
+        
+        window.location.href = updateUrl;
+    } 
+    
+    else {
+        alert("No shop ID found.");
+    }
+}
+
+
 
 // Function to navigate to the shop page
 function shops(){
     window.location.href = "{{ route('admin.shops') }}";
 }
 
-// Update display for the first Business Manager
- managerInput.addEventListener('change', () => {
-    const selectedOption = managerInput.options[managerInput.selectedIndex];
-    const selectedOptionText = selectedOption.text;
-
-    // Display the selected Business Manager's name
-    displayManager.textContent = selectedOptionText;
-
-    // Get GCash details for the first manager
-    const gcashName = selectedOption.getAttribute('data-gcash-name');
-    const gcashNumber = selectedOption.getAttribute('data-gcash-number');
-
-    // Display the GCash Name and Number
-    if (gcashName && gcashNumber) {
-        gcashNum.textContent = gcashNumber;
-        gcashReceiver.textContent = gcashName;
-    } else {
-        gcashNum.textContent = "N/A";
-        gcashReceiver.textContent = "N/A";
-    }
-});
-
-
-// Update display for the second Business Manager
-managerInput2.addEventListener('change', () => {
-    const selectedOption = managerInput2.options[managerInput2.selectedIndex];
-    const selectedOptionText = selectedOption.text;
-
-    // Display the selected Business Manager's name
-    displayManager2.textContent = selectedOptionText;
-
-    // Get GCash details for the second manager
-    const gcashName = selectedOption.getAttribute('data-gcash-name');
-    const gcashNumber = selectedOption.getAttribute('data-gcash-number');
-
-    // Display the GCash Name and Number
-    if (gcashName && gcashNumber) {
-        gcashNum2.textContent = gcashNumber;
-        gcashReceiver2.textContent = gcashName;
-    } else {
-        gcashNum2.textContent = "N/A";
-        gcashReceiver2.textContent = "N/A";
-    }
-});
-
-// Reset dropdown to default and clear GCash info when delete button is clicked (1st Manager)
-trashButton1.addEventListener('click', function (event) {
-    event.preventDefault();
-
-    // Reset dropdown to the first option (default option)
-    dropdown1.selectedIndex = 0;
-
-    // Reset display for Business Manager
-    const selectedText = dropdown1.options[dropdown1.selectedIndex].text;
-    displayManager.textContent = selectedText;
-
-    // Reset the GCash info
-    gcashNum.textContent = "N/A";  
-    gcashReceiver.textContent = "N/A";  
-});
-
-// Hide managerRow2, reset dropdown, and clear GCash info when delete button is clicked (2nd Manager)
-trashButton2.addEventListener('click', function (event) {
-    event.preventDefault();
-
-    // Hide the manager row
-    managerRow2.style.display = 'none';
-
-    // Reset dropdown to the first option (default option)
-    dropdown2.selectedIndex = 0;
-
-    // Reset display for Business Manager
-    const selectedText = dropdown2.options[dropdown2.selectedIndex].text;
-    displayManager2.textContent = selectedText;
-    displayManager2.style.display = 'none'; // Hide the second manager name display
-
-    // Reset the GCash info
-    gcashNum2.textContent = " "; 
-    gcashReceiver2.textContent = " "; 
-});
-
-// Add Manager Button: Show the second manager row and display
-function addManager(event) {
-    event.preventDefault();
-
-    // Get the elements for managerRow2 and managerRow3
-    const managerRow2 = document.getElementById('managerRow2');
-    const displayManager2 = document.getElementById('displayManager2');
-
-    // Show the elements
-    if (managerRow2) {
-        managerRow2.style.display = 'flex'; 
-    }
-
-    if (displayManager2) {
-        displayManager2.style.display = 'flex'; 
-    }
+function showDisableAccountModal() {
+    var shopModal = bootstrap.Modal.getInstance(document.getElementById('shopModal'));
+    if (shopModal) shopModal.hide();
+    var disableAccountModal = new bootstrap.Modal(document.getElementById('disableAccountModal'));
+    disableAccountModal.show();
 }
 
-// Update display elements when input fields change
-shopNameInput.addEventListener('input', () => {
-    displayShopName.textContent = shopNameInput.value;
-});
-
-shopEmailInput.addEventListener('input', () => {
-    displayShopEmail.textContent = shopEmailInput.value;
-});
-
-managerInput.addEventListener('change', () => {
-    const selectedOptionText = managerInput.options[managerInput.selectedIndex].text;
-    displayManager.textContent = selectedOptionText;
-});
-
-managerInput2.addEventListener('change', () => {
-    const selectedOptionText = managerInput2.options[managerInput2.selectedIndex].text;
-    displayManager2.textContent = selectedOptionText;
-});
-
-courseInput.addEventListener('change', () => {
-    const selectedOptionText = courseInput.options[courseInput.selectedIndex].text;
-    displayCourse.textContent = selectedOptionText !== 'Choose...' ? selectedOptionText : 'Course';
-});
-
-// Reset dropdown to default when delete button is clicked for the first manager
-trashButton1.addEventListener('click', function (event) {
-    event.preventDefault();
-    dropdown1.selectedIndex = 0;
-    const selectedText = dropdown1.options[dropdown1.selectedIndex].text;
-    displayManager.textContent = selectedText; 
-});
-
-// Hide managerRow2 when the delete button is clicked for the second manager
-trashButton2.addEventListener('click', function (event) {
-    event.preventDefault();
-    managerRow2.style.display = 'none'; // Hide the row
-    dropdown2.selectedIndex = 0;
-    const selectedText = dropdown2.options[dropdown2.selectedIndex].text;
-    displayManager2.textContent = selectedText; 
-    displayManager2.style.display = 'none';
-});
-
-// Image Preview and Removal Functions
-function previewImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            // Set the uploaded image as the profile picture
-            document.getElementById('profileImage').src = e.target.result;
-
-            // Set the uploaded image in the second section
-            document.getElementById('displayProfileImage').src = e.target.result;
-
-            // Show the remove button
-            document.getElementById('removeBtn').style.display = 'block'; 
-        };
-        reader.readAsDataURL(file);
-    }
+function cancelDisableAccount() {
+    var disableAccountModal = bootstrap.Modal.getInstance(document.getElementById('disableAccountModal'));
+    if (disableAccountModal) disableAccountModal.hide();
+    var shopModal = new bootstrap.Modal(document.getElementById('shopModal'));
+    shopModal.show();
 }
-
-// Function to remove the image and reset the profile picture
-function removeImage() {
-    const defaultImage = 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png';
-    document.getElementById('profileImage').src = defaultImage;
-    document.getElementById('displayProfileImage').src = defaultImage;
-
-    // Hide the remove button
-    document.getElementById('removeBtn').style.display = 'none'; 
-
-    // Clear the file input value so no file is selected
-    document.getElementById('fileInput').value = ''; 
+// Cancel function to go back
+function cancel(){
+    window.location.href = "{{ route('admin.shops') }}";
 }

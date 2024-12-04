@@ -156,9 +156,9 @@ public function updateRole(Request $request, $userId)
         }
     
         // Apply course filter if the course parameter is provided
-        if ($request->has('courseCall') && !empty($request->course)) {
+        if ($request->has('courseCall') && !empty($request->courseCall)) {
             $query->whereHas('course', function($q) use ($request) {
-                $q->where('course_name', $request->course);
+                $q->where('id', $request->course);
             });
         }
 

@@ -17,11 +17,11 @@
                     <span class="me-2">Course</span>
                     <select class="form-select custom-dropdown px-3 py-2 fw-bold rounded fs-2" id="course-filter">
                         <option value="" selected> (Choose course)</option>
-                        <option value="course1">BS Information Technology</option>
-                        <option value="course2">BS Computer Science</option>
-                        <option value="course3">BS Biology</option>
-                        <option value="course4">BS Chemistry</option>
-                        <option value="course5">BS Meteorology</option>
+                        <option value="1">BS Information Technology</option>
+                        <option value="2">BS Computer Science</option>
+                        <option value="3">BS Biology</option>
+                        <option value="4">BS Chemistry</option>
+                        <option value="5">BS Meteorology</option>
                     </select>
                 </div>
             </div>
@@ -396,6 +396,7 @@
         const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
         const alterStatus = @json(route('users.status', ['userId' => ':userId']));
         const permissionFetch = @json(route('users.permissions', ['userId' => ':userId']));
+        
     </script>
     <script src="{{asset('js/admin-users.js')}}">
         

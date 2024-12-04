@@ -16,11 +16,12 @@
                 <div class="dropdown-container me-3">
                     <span class="me-2">Course</span>
                     <select class="course-dropdown" id="course-filter">
-                        <option value="course1" selected>BS Information Technology</option>
-                        <option value="course2">BS Computer Science</option>
-                        <option value="course3">BS Biology</option>
-                        <option value="course4">BS Chemistry</option>
-                        <option value="course5">BS Meteorology</option>
+                        <option value="" selected> (Choose course)</option>
+                        <option value="1" selected>BS Information Technology</option>
+                        <option value="2">BS Computer Science</option>
+                        <option value="3">BS Biology</option>
+                        <option value="4">BS Chemistry</option>
+                        <option value="5">BS Meteorology</option>
                     </select>
                 </div>
                 <button class="btn btn-outline-secondary custom" onclick="createShopPage()">Create Shop <i class="fa fa-plus"></i></button>
@@ -79,6 +80,7 @@
                     </div>
                     <div class="d-flex flex-column ">
                         <div class="mb-3 d-flex justify-content-center w-100">
+                            <input id="userId" hidden>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                                  class="profile-picture1"
                                  id="shopLogo"
@@ -99,7 +101,7 @@
                     </div>
                     <div class="modal-footer mt-2">
                         <button type="button" class="btn btn-secondary p-2" onclick="showDisableAccountModal()">Disable Shop</button>
-                        <button type="button" class="btn btn-primary p-2" onclick="updateShop()">Update Shop</button>
+                        <button type="button" class="btn btn-primary p-2" id="updateShopBtn" data-id="" >Update Shop</button>
                     </div>
                 </div>
             </div>
@@ -129,17 +131,29 @@
 <script>
     const imageBaseUrl = @json(asset('images'));
     const shopsData = @json($shops);
+
 </script>
 
 <script src="{{asset('js/admin-shops.js')}}" ></script>
 
+<!--
 <script>
     function createShopPage() {
         window.location.href = "{{ route('admin.createshop') }}";
     }
 
     function updateShop() {
-        window.location.href = "{{ route('admin.shops.update', $shop->id) }}";
+        const shopId = document.getElementById("updateShopBtn").getAttribute("data-id");
+        if (shopId) {
+        // Construct the URL using the shopId dynamically
+        const url = `/admin/shops/update/access/${shopId}`;
+
+        // Redirect to the update page
+        window.location.href = url;
+    } 
+    else {
+        alert("No shop ID found.");
+        }
     }
 
     function showDisableAccountModal() {
@@ -156,5 +170,5 @@
         shopModal.show();
     }
 </script>
-
+-->
 @endsection
