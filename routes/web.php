@@ -130,9 +130,6 @@ Route::middleware(['role:Admin'])->group(function () {
         // Route to update the shop (Form submission)
         Route::post('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
 
-
-
-
             });
             //Role Edit / Update
             Route::get('/users/{userId}/edit', [UserController::class, 'edit'])->name('users.edit'); // Fetch user and roles

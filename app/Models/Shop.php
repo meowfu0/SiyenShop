@@ -31,17 +31,17 @@ class Shop extends Model
     
     public function course()
     {
-        return $this->belongsTo(Course::class, 'course_id'); 
+        return $this->belongsTo(Course::class); 
     }
 
     public function status()
     {
-        return $this->belongsTo(Status::class, 'status_id');
+        return $this->belongsTo(Status::class );
     }
     
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public function g_cash_info()

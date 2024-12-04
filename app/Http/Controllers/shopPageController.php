@@ -57,7 +57,7 @@ class shopPageController extends Controller
     {
         $query = Shop::with(['course', 'status', 'user']); // Eager load relationships
 
-        // Apply search filter if the search query is provided (for names and role)
+        // Apply search filter if the search query is provided (for shops)
         if ($request->has('search') && !empty($request->search)) {
             $query->where(function($q) use ($request) {
                 $q->where('shop_name', 'like', '%' . $request->search . '%');

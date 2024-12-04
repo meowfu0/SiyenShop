@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\shopPageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -21,5 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/users', [UserController::class, 'runResults']);
-Route::get('/shops', [UserController::class, 'runResults']);
+Route::get('/shops', [shopPageController::class, 'runResults']);
 

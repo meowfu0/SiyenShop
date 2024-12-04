@@ -13,7 +13,7 @@ else {
 }
 
 // Fetch data from the API based on the search query and course filter
-async function fetchUsers(query = "", course = "") {
+async function fetchShops(query = "", course = "") {
     try {
         const url = '/api/shops'; // Full URL to your API endpoint
         const params = new URLSearchParams(); // Initialize URLSearchParams
@@ -26,19 +26,19 @@ async function fetchUsers(query = "", course = "") {
 
         const data = await response.json();
         console.log("Fetched:", data);
-        displayUsers(data); // Pass data to display
+        displayShops(data); // Pass data to display
     } 
     catch (error) {
         console.error('Error fetching data:', error);
     }
 }
 // Function to display users inside the results container (table rows)
-function displayUsers(shops) {
+function displayShops(shops) {
     shopsList.innerHTML = ""; // Clear previous results
 
     // Check if there are any users
     if (shops.length > 0) {
-        shops.forEach(user => {
+        shops.forEach(shop => {
             const row = document.createElement("tr");
 
             // Profile Picture
@@ -47,41 +47,36 @@ function displayUsers(shops) {
             shopLogo.classList.add("img-thumbnail");
             shopLogo.style.width = "40px";
             shopLogo.style.height = "40px";
-            shopLogo.src = `/storage/${shop.shop_logo}` || '/images/default-avatar.png';
+            shopLogo.src = `storage/shop_logos/${shop.shop_logo}`;
             shopLogoTd.appendChild(shopLogo);
             row.appendChild(shopLogoTd);
 
-            // Full Name
+            // Shop Name
             const shopName = document.createElement("td");
             shopName.textContent = `${shop.shop_name}`;
             row.appendChild(shopName);
 
-            // Email
-            const emailCell = document.createElement("td");
-            emailCell.textContent = user.email;
-            row.appendChild(emailCell);
-
-            // Role
-            const roleCell = document.createElement("td");
-            roleCell.textContent = user.role?.role_name || 'Unknown';
-            row.appendChild(roleCell);
-
             // Course
             const courseCell = document.createElement("td");
-            courseCell.textContent = user.course?.course_name || 'Unknown';
+            courseCell.textContent = shop.course?.course_name || 'Unknown';
             row.appendChild(courseCell);
 
             // Status
             const statusCell = document.createElement("td");
-            statusCell.textContent = user.status?.status_name || 'No status assigned';
+            statusCell.textContent = shop.status?.status_name || 'No status assigned';
             row.appendChild(statusCell);
+
+            // Business Manager
+            const busmngr = document.createElement("td");
+            busmngr.textContent = shop.user?.first_name || 'No status assigned';
+            row.appendChild(busmngr);
 
             // Actions
             const actionsCell = document.createElement("td");
             const viewButton = document.createElement("button");
             viewButton.classList.add("view-users-btn", "fs-2", "p-1", "px-2");
-            viewButton.setAttribute("data-user-id", user.id);
-            viewButton.textContent = "View Account ";
+            viewButton.setAttribute("data-user-id", shop.id);
+            viewButton.textContent = "View Shop ";
             const redirectIcon = document.createElement("img");
             redirectIcon.src = '/images/redirect.svg';
             viewButton.appendChild(redirectIcon);
@@ -94,7 +89,7 @@ function displayUsers(shops) {
     } 
     
     else {
-        shopsList.innerHTML = "<tr><td colspan='7'>No users found</td></tr>";
+        shopsList.innerHTML = "<tr><td colspan='7'>No shops found</td></tr>";
     }
 }
 
@@ -106,11 +101,11 @@ function handleSearchInput() {
 
 // Call fetchUsers with parameters only if there's input; otherwise, call without parameters to reset
 if (query || course) {
-    fetchUsers(query, course); // Fetch data based on search input
+    fetchShops(query, course); // Fetch data based on search input
 } 
 
 else {
-    fetchUsers(); // Reset to default state if no input
+    fetchShops(); // Reset to default state if no input
     }
 }
 
@@ -190,7 +185,7 @@ function shops(){
 }
 
 // Update display for the first Business Manager
-managerInput.addEventListener('change', () => {
+ managerInput.addEventListener('change', () => {
     const selectedOption = managerInput.options[managerInput.selectedIndex];
     const selectedOptionText = selectedOption.text;
 
@@ -210,6 +205,7 @@ managerInput.addEventListener('change', () => {
         gcashReceiver.textContent = "N/A";
     }
 });
+
 
 // Update display for the second Business Manager
 managerInput2.addEventListener('change', () => {

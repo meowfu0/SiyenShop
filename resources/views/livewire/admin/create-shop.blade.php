@@ -22,7 +22,7 @@
     <div id="profilePictureContainer">
         <img
             id="profileImage"
-            src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+            src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
             class="profile-picture1"
             style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
             alt="Profile Picture"
@@ -119,7 +119,7 @@
                 <div class="mb-3 d-flex justify-content-center w-100">
                     <img
                         id="displayProfileImage"
-                        src=""
+                        src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                         class="profile-picture1"
                         style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
                         alt="Profile Picture"
