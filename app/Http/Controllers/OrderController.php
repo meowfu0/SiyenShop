@@ -96,7 +96,6 @@ class OrderController extends Controller
         $variant_item = ProductVariant::all();
         $categories = Category::all();
         $customer = User::whereIn('id', $orders->pluck('user_id'))->get();
-        Log::debug("nigga");
         return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop', 'customer'));
     }
     public function updateStatus(Request $request)
@@ -140,13 +139,10 @@ class OrderController extends Controller
     }
     public function processDataTable(Request $request)
     {
-        // Retrieve the data from the request
         $dataTable = $request->all();
     
-        // Render the Blade view with the data
         $htmlContent = view('livewire.shop.order-print-layout', ['dataTable' => $dataTable])->render();
-    
-        // Return the rendered HTML as a JSON response
+
         return response()->json(['success' => true, 'htmlContent' => $htmlContent]);
     }
     

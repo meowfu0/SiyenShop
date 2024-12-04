@@ -352,92 +352,91 @@
         });
 
         function openModalYes(yesId, orderItem, category) {
-        // Modal field references
-        const backdrop = document.querySelector('.modal-backdrop.show');
-        backdrop.style.display = "block";
-        if(yesId.order_status_id === 12){
-            console.log(yesId.order_status_id);
-            document.getElementById('toRate').textContent = document.getElementById('multipleIndicator_'+yesId.id).textContent;
-            document.getElementById('denyReason').textContent = "";
-        }else if(yesId.order_status_id === 6){
-            document.getElementById('toRate').textContent = "Reason: ";
-            document.getElementById('denyReason').textContent = yesId.denial_reason;
-        }else{
-            document.getElementById('toRate').textContent ="";
-            document.getElementById('denyReason').textContent = "";
-        }
         
-        if(yesId.order_status_id === 12){
-            const rev = @json($reviews);
-            const unreviewedItems = @json($orderItems).filter(item => yesId.id === item.order_id && !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
-            let existingItem = [];
-                unreviewedItems.forEach(item => {
-                    if(existingItem.length === 0){  // Check if the array is empty
-                        existingItem.push(item.product_id);
+            const backdrop = document.querySelector('.modal-backdrop.show');
+            backdrop.style.display = "block";
+            if(yesId.order_status_id === 12){
+                console.log(yesId.order_status_id);
+                document.getElementById('toRate').textContent = document.getElementById('multipleIndicator_'+yesId.id).textContent;
+                document.getElementById('denyReason').textContent = "";
+            }else if(yesId.order_status_id === 6){
+                document.getElementById('toRate').textContent = "Reason: ";
+                document.getElementById('denyReason').textContent = yesId.denial_reason;
+            }else{
+                document.getElementById('toRate').textContent ="";
+                document.getElementById('denyReason').textContent = "";
+            }
+            
+            if(yesId.order_status_id === 12){
+                const rev = @json($reviews);
+                const unreviewedItems = @json($orderItems).filter(item => yesId.id === item.order_id && !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
+                let existingItem = [];
+                    unreviewedItems.forEach(item => {
+                        if(existingItem.length === 0){  
+                            existingItem.push(item.product_id);
+                        }
+                        if(!existingItem.includes(item.product_id)){  
+                            existingItem.push(item.product_id);
+                        }
+                    });
+                document.getElementById('rateButton').style.setProperty('display', 'block', 'important');   
+                document.getElementById('reasonButton').style.setProperty('display', 'none', 'important');
+                document.getElementById('rateButton').disabled = existingItem.length > 0 ? false : true;
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important');
+                    if(existingItem.length > 0){
+                        document.querySelector('.transact-col4').style.setProperty('margin-left', '-10%', 'important');
+                    }else{
+                    document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
                     }
-                    if(!existingItem.includes(item.product_id)){  // Check if product_id already exists in the array
-                        existingItem.push(item.product_id);
-                    }
-                });
-            document.getElementById('rateButton').style.setProperty('display', 'block', 'important');   
-            document.getElementById('reasonButton').style.setProperty('display', 'none', 'important');
-            document.getElementById('rateButton').disabled = existingItem.length > 0 ? false : true;
-            if (window.innerWidth <= 768) {
-                document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important');
-                if(existingItem.length > 0){
-                    document.querySelector('.transact-col4').style.setProperty('margin-left', '-10%', 'important');
-                }else{
-                document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
+                }
+            }else if(yesId.order_status_id == 6){
+                document.getElementById('rateButton').style.setProperty('display', 'none', 'important');
+                document.getElementById('reasonButton').style.setProperty('display', 'block', 'important');
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important'); 
+                    document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
+                }
+            }else{
+                document.getElementById('rateButton').style.setProperty('display', 'none', 'important');
+                document.getElementById('reasonButton').style.setProperty('display', 'none', 'important');
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important'); 
+                    document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
                 }
             }
-        }else if(yesId.order_status_id == 6){
-            document.getElementById('rateButton').style.setProperty('display', 'none', 'important');
-            document.getElementById('reasonButton').style.setProperty('display', 'block', 'important');
-            if (window.innerWidth <= 768) {
-                document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important'); 
-                document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
-            }
-        }else{
-            document.getElementById('rateButton').style.setProperty('display', 'none', 'important');
-            document.getElementById('reasonButton').style.setProperty('display', 'none', 'important');
-            if (window.innerWidth <= 768) {
-                document.querySelector('.transact-col3').style.setProperty('margin-left', '15%', 'important'); 
-                document.querySelector('.transact-col4').style.setProperty('margin-left', '2%', 'important');
-            }
-        }
+            
+            document.getElementById('orderDetailsLabel').textContent = yesId.shop.shop_name;
+            document.getElementById('shopImg').src = "/images/"+yesId.shop.shop_logo;
+            setStatus(yesId.order_status_id);
+
+            console.log('Current Order: '+yesId.shop.shop_logo);
+            const specificItems = orderItem.filter(orderItem => orderItem.order_id === yesId.id);
+            console.log(specificItems);
+
+            createModalTable(specificItems, category);
+
+            var modalOrderId = document.getElementById('modalOrderId');
+            var modalTotalAmount = document.getElementById('modalTotalAmount');
+            var modalProofOfPayment = document.getElementById('modalProofOfPayment');
+            var modalReferenceNumber = document.getElementById('modalReferenceNumber');
+            var modalDate = document.getElementById('modalDate');
+            var modalTime = document.getElementById('modalTime');
+            var modalItemCount = document.getElementById('modalItemCount');
+
         
-        document.getElementById('orderDetailsLabel').textContent = yesId.shop.shop_name;
-        document.getElementById('shopImg').src = "/images/"+yesId.shop.shop_logo;
-        setStatus(yesId.order_status_id);
+            modalOrderId.textContent = yesId.id;
+            modalTotalAmount.textContent = `₱ ${parseFloat(yesId.total_amount).toFixed(2)}`;
+            modalReferenceNumber.textContent = yesId.reference_number || "No reference available";
+                    
 
-        console.log('Current Order: '+yesId.shop.shop_logo);
-        const specificItems = orderItem.filter(orderItem => orderItem.order_id === yesId.id);
-        console.log(specificItems);
-
-        //Will Display the Order Items
-        createModalTable(specificItems, category);
-
-        var modalOrderId = document.getElementById('modalOrderId');
-        var modalTotalAmount = document.getElementById('modalTotalAmount');
-        var modalProofOfPayment = document.getElementById('modalProofOfPayment');
-        var modalReferenceNumber = document.getElementById('modalReferenceNumber');
-        var modalDate = document.getElementById('modalDate');
-        var modalTime = document.getElementById('modalTime');
-        var modalItemCount = document.getElementById('modalItemCount');
-
-    
-        modalOrderId.textContent = yesId.id;
-        modalTotalAmount.textContent = `₱ ${parseFloat(yesId.total_amount).toFixed(2)}`;
-        modalReferenceNumber.textContent = yesId.reference_number || "No reference available";
-                
-        // Format date and time
-        const orderDate = new Date(yesId.order_date);
-        const formattedDate = `${String(orderDate.getMonth() + 1).padStart(2, '0')}-${String(orderDate.getDate()).padStart(2, '0')}-${orderDate.getFullYear()}`;
-        const formattedTime = orderDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
-        modalDate.textContent = formattedDate;
-        modalTime.textContent = formattedTime;
-        console.log(yesId.total_items);
-        modalItemCount.textContent = yesId.total_items;
+            const orderDate = new Date(yesId.order_date);
+            const formattedDate = `${String(orderDate.getMonth() + 1).padStart(2, '0')}-${String(orderDate.getDate()).padStart(2, '0')}-${orderDate.getFullYear()}`;
+            const formattedTime = orderDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
+            modalDate.textContent = formattedDate;
+            modalTime.textContent = formattedTime;
+            console.log(yesId.total_items);
+            modalItemCount.textContent = yesId.total_items;
         
     }
     function createModalTable(orderItems, category) {
