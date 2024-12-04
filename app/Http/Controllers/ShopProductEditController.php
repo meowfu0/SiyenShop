@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ShopProductEditController extends Controller
 {
@@ -27,8 +28,7 @@ class ShopProductEditController extends Controller
 
         $variants = DB::table('product_variants')
             ->where('product_id', $id)
-            ->get();
-        
+            ->get();   
 
         return view('livewire.shop.shop-products-edit', compact('product', 'categories', 'shop', 'variants'));
     }
@@ -43,7 +43,7 @@ class ShopProductEditController extends Controller
 
         return $shop_id;
     
-    }
+    }   
 
     public function update(Request $request, $id)
     {
@@ -60,6 +60,9 @@ class ShopProductEditController extends Controller
             'supplier_price' => 'required|numeric',
             'retail_price' => 'required|numeric',
             'stocks' => 'nullable|integer',
+            'variants' => 'nullable|array', // The 'variants' array is optional
+            'variants.*.size' => 'nullable|string|max:50', // 'size' is optional but must be a string with max length 50 if provided
+            'variants.*.stocks' => 'nullable|integer|min:0',
         ]);
 
         // Handle the product image upload
@@ -67,11 +70,9 @@ class ShopProductEditController extends Controller
             $validated['product_image'] = $request->file('product_image')->store('products', 'public');
         }
 
-        // Determine the stocks value based on status_id
-        $stocks = null; // Default to null
-        if ($validated['status_id'] !== 9) {
-            $stocks = $validated['stocks']; // Only set stocks if status is not pre-order
-        }
+        // Determine stocks value
+        $stocks = $validated['status_id'] !== 9 ? ($validated['stocks'] ?? null) : null; // Set to null if pre-order
+        Log::info('Calculated stocks value', ['stocks' => $stocks]);
 
         // Update the product in the database
         DB::table('products')->where('id', $id)->update([
@@ -87,6 +88,62 @@ class ShopProductEditController extends Controller
             'stocks' => $stocks, // Use the determined stocks value
             'modified_at' => now(), // Update the timestamp
         ]);
+        
+
+        $variants = DB::table('product_variants')
+            ->where('product_id', $id)
+            ->get();   
+
+        // Edit product variants if provided
+        if ($variants->isEmpty()) {
+            Log::info('No variants found for this product.', ['product_id' => $id]);
+            Log::info('Product ID being used:', ['id' => $id]);
+
+        
+            $total_variant_stocks = 0;
+
+            foreach ($variants as $variant) {
+                // Safely access keys with null coalescing
+                $size = $variant->size ?? null;
+                $stocks = $variant->stock ?? 0;
+
+                // Skip processing if size is invalid
+                if (is_null($size)) {
+                    Log::warning('Skipping variant due to missing size', ['variant' => $variant]);
+                    continue;
+                }
+
+                if ($validated['status_id'] == 9) { // If pre-order with variants
+                    DB::table('product_variants')->where('id', $variant->id)->update([
+                        'product_id' => $id,
+                        'size' => $validated['variants.*.size'],
+                        'stock' => 0,
+                        'updated_at' => now(),
+                    ]);
+                } else if ($validated['status_id'] == 8) { // If on-hand with variants
+                    DB::table('product_variants')->where('id', $variant->id)->update([
+                        'product_id' => $id,
+                        'size' => $size,
+                        'stock' => $stocks,
+                        'updated_at' => now(),
+                    ]);
+                }
+
+                // Accumulate the total stocks for all variants
+                $total_variant_stocks += $stocks;
+                Log::info('Variant updated', ['size' => $size, 'stocks' => $stocks]);
+            }
+
+            // Update the total stocks in the products table
+            DB::table('products')
+                ->where('id', $id)
+                ->update(['stocks' => $total_variant_stocks]);
+
+            Log::info('Product stocks updated with variants', ['total_variant_stocks' => $total_variant_stocks]);
+        } else {
+            Log::info('No variants to process for this product.');
+        }
+
 
         return redirect()->route('shop.products')->with('message', 'Product updated successfully.');
     }

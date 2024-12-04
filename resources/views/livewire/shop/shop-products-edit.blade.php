@@ -147,14 +147,16 @@
                                 <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
                                     <p class="fw-bold m-0 text-primary">Size Variation</p>
                                     <label class="switch">
-                                        <input type="checkbox" id="variationToggle">
+                                        <input type="checkbox" id="variationToggle" disabled>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
 
-                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput">
+                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput" value="{{ $variants ? 'Variants Available' : 'disabled' }}">
                         </div>
 
+                        <!-- Pass the $hasVariants value to JavaScript -->
+                        <input type="hidden" id="hasVariantsFlag" value="{{ $variants ? 'true' : 'false' }}">
                         <!-- Hidden Fields -->
                         <div class="row g-3">
                             <div id="inputContainer" class="col-md-12">
@@ -182,18 +184,10 @@
                                                         <input type="number" class="form-control" value="{{$variant->stock}}" min="0" step="1">
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
-                                                        <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                                                    </button>
-                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
-                                        <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -239,6 +233,7 @@
 </div>
 
 <script>
+
     function toggleQuantity() {
         const statusSelect = document.getElementById('status_id');
         const stocksTitle = document.getElementById('stock'); 
@@ -266,6 +261,21 @@
 
 
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const hasVariantsFlag = document.getElementById('hasVariantsFlag').value;
+        const disabledInput = document.getElementById('disabledInput');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const variationToggle = document.getElementById('variationToggle');
+
+        // Show or hide the hidden fields based on whether variants exist
+        if (hasVariantsFlag === 'true') {
+            hiddenFields.style.display = 'block'; // Show hidden fields
+            variationToggle.checked = true; // Set the toggle to checked
+            disabledInput.style.display = 'none';  // Hide the disabled input
+        }
+    });
+
 
     document.addEventListener('DOMContentLoaded', function() {
         const statusSelect = document.getElementById('status_id');
