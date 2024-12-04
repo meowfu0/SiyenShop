@@ -128,7 +128,7 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::get('/update/{id}', [UpdateShopController::class, 'edit'])->name('admin.shops.edit');
         
         // Route to update the shop (Form submission)
-        Route::post('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
+        Route::put('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
 
             });
             //Role Edit / Update

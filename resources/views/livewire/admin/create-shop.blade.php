@@ -102,12 +102,12 @@
                         </div>
                         
                         
-                        <button class="btn btn-outline-primary hoverinvert d-flex align-items-center gap-2 px-3 fs-3" onclick="addManager(event)">Add 
+                        <button class="btn btn-outline-primary hoverinvert d-flex align-items-center gap-2 px-3 fs-3 d-none" onclick="addManager(event)">Add 
                             <img src="{{ asset('images/add.svg')}}" alt="">
                         </button>
                                 
                     
-                        <div class="d-flex gap-2 justify-content-end ">
+                        <div class="d-flex gap-2 justify-content-end mt-5 ">
                 <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
                 <button class="btn btn-primary p-2 px-4 fs-4" type="submit">Create</button>
             </div>
