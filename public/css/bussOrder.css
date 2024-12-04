@@ -214,7 +214,9 @@ th, td {
 }
 .modal-content .btn-close{
     position: absolute;
-    left: 740px;
+    top: 45px;  /* Adjust the top distance based on your design */
+    right: 50px;  /* Align the close button to the top right corner */
+
 }
 .modal-items{
     height: 200px;

@@ -156,11 +156,11 @@
                                     </label>
                                 </div>
 
-                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" disabled id="disabledInput" value="{{ $variants ? 'Variants Available' : 'disabled' }}">
+                            <input type="text" class="form-control mb-2" placeholder="Disabled" aria-label="Disabled input example" id="disabledInput" value="{{ $variants ? 'No Variants Available' : 'disabled' }}">
                         </div>
 
                         <!-- Pass the $hasVariants value to JavaScript -->
-                        <input type="hidden" id="hasVariantsFlag" value="{{ $variants ? 'true' : 'false' }}">
+                        <input type="hidden" id="hasVariantsFlag" value="{{ $variants->isNotEmpty() ? 'true' : 'false' }}">
                         <!-- Hidden Fields -->
                         <div class="row g-3">
                             <div id="inputContainer" class="col-md-12">
@@ -240,90 +240,71 @@
 
 <script>
 
-function toggleQuantity() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const hasVariantsFlag = document.getElementById('hasVariantsFlag')?.value;
+        const disabledInput = document.getElementById('disabledInput');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const variationToggle = document.getElementById('variationToggle');
+        const stocksInput = document.getElementById('stocks');
+        const stocksTitle = document.getElementById('stock');
         const statusSelect = document.getElementById('status_id');
-        const stocksTitle = document.getElementById('stock'); 
         const quantityTitle = document.getElementById('quantity_1');
-        const variationToggle = document.getElementById('variationToggle');
-        const stocksInput = document.getElementById('stocks');
+        const sizeInput = document.getElementById('size_1');
 
-        // Handle stocks input visibility
-        if (statusSelect.value === '9' || variationToggle.checked) { 
-            stocksInput.style.display = 'none';
-            stocksTitle.style.display = 'none';
-            if (statusSelect.value === '9' && (variationToggle.checked || !variationToggle.checked)) { 
+        // Consolidated logic for setting visibility
+        function updateVisibility() {
+            const statusValue = statusSelect?.value;
 
-                // Hide all variant stocks input fields
-                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
-                variantStocksInputs.forEach(input => {
-                    input.disabled = true; // Hide each variant stock input
-                });
-            }
-            else if (statusSelect.value === '8' && variationToggle.checked || !variationToggle.checked) { 
-
-                // Show all variant stocks input fields
-                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
-                variantStocksInputs.forEach(input => {
-                    input.disabled = false; // Show each variant stock input
-                });
-
-            }
-
-        } else if (statusSelect.value === '8') { 
-            stocksInput.style.display = 'block';
-            stocksTitle.style.display = 'block';
-            quantityTitle.style.display = 'block';
-        }
-
-
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const hasVariantsFlag = document.getElementById('hasVariantsFlag').value;
-        const disabledInput = document.getElementById('disabledInput');
-        const hiddenFields = document.getElementById('hiddenFields');
-        const variationToggle = document.getElementById('variationToggle');
-
-        // Show or hide the hidden fields based on whether variants exist
-        if (hasVariantsFlag === 'true') {
-            hiddenFields.style.display = 'block'; // Show hidden fields
-            variationToggle.checked = true; // Set the toggle to checked
-            disabledInput.style.display = 'none';  // Hide the disabled input
-        }
-        
-    });
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const statusSelect = document.getElementById('status_id');
-        const variationToggle = document.getElementById('variationToggle');
-        const hiddenFields = document.getElementById('hiddenFields');
-        const sizeInput = document.getElementById('size_1'); 
-        const quantityInput = document.getElementById('quantity_1'); 
-        const disabledInput = document.getElementById('disabledInput');
-        const stocksInput = document.getElementById('stocks');
-        const stocksTitle = document.getElementById('stock'); 
-
-        // Initial call to set visibility based on default selection
-        toggleQuantity();
-
-        variationToggle.addEventListener('change', function() {
-            if (variationToggle.checked) {
+            if (hasVariantsFlag === 'true') {
                 hiddenFields.style.display = 'block'; // Show hidden fields
-                disabledInput.style.display = 'none';  // Hide the disabled input
-                quantityInput.style.display = 'block'; // Show quantity input if toggle is on
-                stocksInput.style.display = 'none'; // Hide stocks input if toggle is on
-                stocksTitle.style.display = 'none'; // Hide stocks title if toggle is on
+                variationToggle.checked = true;
+                disabledInput.style.display = 'none';
+
+                if (statusValue === '9') { // Pre-order with variants
+                    stocksInput.style.display = 'none';
+                    stocksTitle.style.display = 'none';
+                    quantityTitle.style.display = 'none';
+                } else if (statusValue === '8') { // On-hand with variants
+                    stocksInput.style.display = 'none';
+                    stocksTitle.style.display = 'none';
+                    quantityTitle.style.display = 'block';
+                }
             } else {
                 hiddenFields.style.display = 'none'; // Hide hidden fields
-                disabledInput.style.display = 'block';  // Show the disabled input
-                toggleQuantity(); // Call toggleQuantity to handle visibility
+                variationToggle.checked = false;
+                disabledInput.style.display = 'block'; // Show disabled input
+
+                if (statusValue === '9') { // Pre-order with variants
+                    stocksInput.style.display = 'none';
+                    stocksTitle.style.display = 'none';
+                } else if (statusValue === '8') { // On-hand with variants
+                    stocksInput.style.display = 'block';
+                    stocksTitle.style.display = 'block';
+                }
+            }
+        }
+
+        // Event listener for the toggle
+        variationToggle?.addEventListener('change', function () {
+            if (variationToggle.checked) {
+                hiddenFields.style.display = 'block'; // Show hidden fields
+                disabledInput.style.display = 'none';
+                stocksInput.style.display = 'none';
+                stocksTitle.style.display = 'none';
+                quantityTitle.style.display = 'block'; // Always show for toggled on
+            } else {
+                hiddenFields.style.display = 'none'; // Hide hidden fields
+                disabledInput.style.display = 'block';
             }
         });
 
-        // Attach event listener to status select
-        statusSelect.addEventListener('change', toggleQuantity);
+        // Event listener for status change
+        statusSelect?.addEventListener('change', updateVisibility);
+
+        // Initial call to set visibility based on default state
+        updateVisibility();
     });
+
 
     // Updated Add Size fields
     let rowCount = 1; // Keeps track of the number of rows

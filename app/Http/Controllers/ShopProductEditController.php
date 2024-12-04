@@ -52,7 +52,7 @@ class ShopProductEditController extends Controller
     public function update(Request $request, $id)
     {
         $shop_id = $this->getShopId();
-
+       
         // Validate the form data
         $validated = $request->validate([
             'product_name' => 'required|string|max:255',
@@ -84,7 +84,6 @@ class ShopProductEditController extends Controller
 
         // Update the product in the database
         DB::table('products')->where('id', $id)->update([
-            'product_name' => $validated['product_name'],
             'shop_id' => $shop_id,
             'product_decription' => $validated['product_decription'],
             'product_image' => $validated['product_image'], // Retain or update the image
@@ -99,52 +98,57 @@ class ShopProductEditController extends Controller
 
         
         if (!empty($validated['variants'])) {
-            $total_variant_stocks = 0;
+            $total_variant_stocks = 0;  // Initialize total_variant_stocks variable
 
             foreach ($validated['variants'] as $variantData) {
-                $size = $variantData['size'] ?? null;
-                $stocks = $variantData['stocks'] ?? 0;
+                $id = $variantData['id'] ?? null;  // Get the variant's ID
+                $size = $variantData['size'] ?? null;  // Get the size
+                $stocks = $variantData['stocks'] ?? 0;  // Get the stocks
+
+                if (is_null($id)) {
+                    Log::warning('Skipping variant due to missing ID', ['variant' => $variantData]);
+                    continue;  // Skip if the ID is missing
+                }
 
                 if (is_null($size)) {
                     Log::warning('Skipping variant due to missing size', ['variant' => $variantData]);
-                    continue;
+                    continue;  // Skip if size is missing
                 }
 
-                $existingVariant = DB::table('product_variants')
-                    ->where('product_id', $id)
-                    ->where('size', $size)
-                    ->first();
+                // Add conditional logic based on status_id
+                if ($validated['status_id'] == '8') {
+                    $total_variant_stocks += $stocks;  // Add to total_variant_stocks if status_id is 8
+                }
 
-                if ($existingVariant) {
-                    DB::table('product_variants')->where('id', $existingVariant->id)->update([
-                        'size' => $size,
-                        'stock' => $validated['status_id'] == 9 ? 0 : $stocks,
-                        'updated_at' => now(),
+                if ($validated['status_id'] == '9') {
+                    $total_variant_stocks = null;  // Set total_variant_stocks to null if status_id is 9
+                }
+
+                // Update the specific variant based on its ID
+                $updated = DB::table('product_variants')
+                    ->where('id', $id)  // Find the variant by its ID
+                    ->update([
+                        'size' => $size,  // Update the size
+                        'stock' => $stocks,  // Update the stocks
+                        'updated_at' => now(),  // Update the timestamp
                     ]);
+
+                // Log the result of the update
+                if ($updated) {
+                    Log::info('Variant updated successfully', ['id' => $id, 'size' => $size, 'stocks' => $stocks]);
                 } else {
-                    DB::table('product_variants')->insert([
-                        'product_id' => $id,
-                        'size' => $size,
-                        'stock' => $validated['status_id'] == 9 ? 0 : $stocks,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-
-                if($validated['status_id'] == '8'){
-                    $total_variant_stocks += $stocks;
-                }
-                if($validated['status_id'] == '9'){
-                    $total_variant_stocks = null;
+                    Log::warning('Variant update failed or not found', ['id' => $id]);
                 }
             }
+            
+            DB::table('products')
+                ->where('id', $currentProduct->id)
+                ->update(['stocks' => $total_variant_stocks ?? 0]);
 
-            DB::table('products')->where('id', $id)->update(['stocks' => $total_variant_stocks]);
-        } else {
-            Log::info('No variants provided for update.');
-        }
+            Log::info('Total variant stocks: ' . $total_variant_stocks);  // Log the total variant stocks if needed
 
         return redirect()->route('shop.products')->with('message', 'Product updated successfully.');
+        }
     }
 
 }
