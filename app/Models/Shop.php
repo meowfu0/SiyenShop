@@ -56,5 +56,12 @@ class Shop extends Model
                 ->withTimestamps();
 }
 
+public function businessManagers()
+{
+    return $this->hasMany(GCashInfo::class, 'shop_id');
+}
+
+
+
 }
 
