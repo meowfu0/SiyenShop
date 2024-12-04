@@ -10,6 +10,7 @@ use App\Models\ProductVariant;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Review;
+use App\Models\DeniedOrder;
 
 class MyPurchasesController extends Controller
 {
@@ -20,10 +21,11 @@ class MyPurchasesController extends Controller
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
         $variant_item = ProductVariant::all();
         $reviews = Review::all();
+        $denied_orders = DeniedOrder::whereIn('order_id', $orders->pluck('id'))->get();
         $keyId = 0;
  
         $categories = Category::all();
-        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId'));
+        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId', 'denied_orders'));
     }
     public function mypurchases($keyId)
     {

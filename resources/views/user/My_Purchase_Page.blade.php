@@ -352,7 +352,8 @@
         });
 
         function openModalYes(yesId, orderItem, category) {
-        
+            const currentDenial = @json($denied_orders).find(den => den.order_id === yesId.id);
+            console.log(@json($denied_orders));
             const backdrop = document.querySelector('.modal-backdrop.show');
             backdrop.style.display = "block";
             if(yesId.order_status_id === 12){
@@ -361,7 +362,7 @@
                 document.getElementById('denyReason').textContent = "";
             }else if(yesId.order_status_id === 6){
                 document.getElementById('toRate').textContent = "Reason: ";
-                document.getElementById('denyReason').textContent = yesId.denial_reason;
+                document.getElementById('denyReason').textContent = currentDenial.denial_reason;
             }else{
                 document.getElementById('toRate').textContent ="";
                 document.getElementById('denyReason').textContent = "";
@@ -815,11 +816,11 @@
         var myModal = new bootstrap.Modal(document.getElementById('reasonModal'));
         myModal.show();
         var theId = parseInt(id);
-
+        const currentDenial = @json($denied_orders).find(den => den.order_id === theId);
         const currentOrder = @json($orders).find(order => order.id === theId);
 
-        document.getElementById('reasonHead').textContent = "Reason: "+currentOrder.denial_reason;
-        document.getElementById('sellerRem').textContent = currentOrder.denial_comment;
+        document.getElementById('reasonHead').textContent = "Reason: "+currentDenial.denial_reason;
+        document.getElementById('sellerRem').textContent = currentDenial.denial_comment;
         document.getElementById('reasonImg').src = "/images/"+currentOrder.proof_of_payment;
     }
     function closeReason(){

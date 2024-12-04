@@ -65,8 +65,8 @@
     <p>{{ $current_status }}</p>
 
     @if($order->order_status_id === 6)
-        <p>Reason for Denial: {{ $order->denial_reason ?? 'N/A' }}</p>
-        <p>Seller's Comment: {{ $order->denial_comment ?? 'N/A' }}</p>
+        <p>Reason for Denial: {{ $denial_reason ?? 'N/A' }}</p>
+        <p>Seller's Comment: {{ $denial_comment ?? 'N/A' }}</p>
     @endif
     <h3>Your Ordered Items</h3>
     <ul>

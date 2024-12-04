@@ -18,8 +18,10 @@ class OrderStatusUpdate extends Mailable
     public $categories;
     public $shop;
     public $variant_item;
+    public $denial_reason;
+    public $denial_comment;
 
-    public function __construct($user, $order, $orderItems, $categories, $shop, $variant_item)
+    public function __construct($user, $order, $orderItems, $categories, $shop, $variant_item, $denial_reason, $denial_comment)
     {
         $this->user = $user;
         $this->order = $order;
@@ -27,6 +29,8 @@ class OrderStatusUpdate extends Mailable
         $this->categories = $categories;
         $this->shop = $shop;
         $this->variant_item = $variant_item;
+        $this->denial_reason = $denial_reason;
+        $this->denial_comment = $denial_comment;
     }
 
     public function build()

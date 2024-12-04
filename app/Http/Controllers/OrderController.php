@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Shop;
 use App\Models\User;
+use App\Models\DeniedOrder;
 use App\Mail\OrderStatusUpdate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -96,7 +97,8 @@ class OrderController extends Controller
         $variant_item = ProductVariant::all();
         $categories = Category::all();
         $customer = User::whereIn('id', $orders->pluck('user_id'))->get();
-        return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop', 'customer'));
+        $denied_orders = DeniedOrder::whereIn('order_id', $orders->pluck('id'))->get();
+        return view('livewire.shop.shop-orders', compact('orders', 'orderItems', 'variant_item', 'categories', 'shop', 'customer', 'denied_orders'));
     }
     public function updateStatus(Request $request)
     {
@@ -111,11 +113,21 @@ class OrderController extends Controller
         $order = Order::find($validated['order_id']);
         $shop = Shop::where('user_id', auth()->id())->first();
         $order->order_status_id = $validated['status_id'];
+
+        /*
         $order->denial_reason = $validated['denial_reason'];
-        $order->denial_comment = $validated['denial_comment'];
-        
+        $order->denial_comment = $validated['denial_comment']; instead of putting this on the $order->denial, insert this on the denied_orders table
+        */
         $order->timestamps = false; 
         $order->save();
+
+        if ($validated['status_id'] == 6) { 
+            DeniedOrder::create([
+                'order_id' => $order->id,
+                'denial_reason' => $validated['denial_reason'],
+                'denial_comment' => $validated['denial_comment'],
+            ]);
+        }
 
         $id = $validated['currentCustomer'];
         $user = User::where('id', $id)->select('id', 'first_name', 'last_name', 'email')->first();
@@ -123,10 +135,11 @@ class OrderController extends Controller
         $categories = $orderItems->map(function ($orderItem) {
             return Category::where('id', $orderItem->product->category_id)->first();
         });
-        
+        $denial_reason = $validated['denial_reason'];
+        $denial_comment = $validated['denial_comment'];
         $variant_item = ProductVariant::all();
        
-        Mail::to($user->email)->send(new OrderStatusUpdate($user, $order, $orderItems, $categories, $shop, $variant_item));
+        Mail::to($user->email)->send(new OrderStatusUpdate($user, $order, $orderItems, $categories, $shop, $variant_item, $denial_reason, $denial_comment));
 
         return response()->json(['message' => 'Order status updated successfully']);
     }
@@ -134,7 +147,7 @@ class OrderController extends Controller
     {
         $shop = Shop::where('user_id', auth()->id())->first();
         $orders = Order::where('shop_id', $shop->id)->get();
-      
+        
         return response()->json($orders);
     }
     public function processDataTable(Request $request)
