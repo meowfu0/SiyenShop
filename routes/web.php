@@ -100,7 +100,7 @@ Route::middleware(['role:Business Manager'])->group(function () {
 //roles management module
 
 
-Route::middleware(['role:Business Manager'])->group(function () {
+Route::middleware(['role:Admin'])->group(function () {
 
     // admin routes
     Route::get('/admin', function () {

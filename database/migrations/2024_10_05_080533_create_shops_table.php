@@ -18,12 +18,12 @@ class CreateShopsTable extends Migration
 
             // Nullable timestamps
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('modified_at')->nullable()->useCurrentOnUpdate(); 
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate(); 
             $table->timestamp('deleted_at')->nullable();
             
             // Other fields
             $table->string('shop_name', 255); 
-            $table->string('shop_email', 255)->unique(); // Replacing shop_description with shop_email
+            $table->string('shop_description', 255); // Replacing shop_description with shop_email
             $table->string('shop_logo', 255)->nullable(); 
 
             // Foreign keys with not null and cascade on delete

@@ -51,6 +51,36 @@ class shopPageController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+        $query = Shop::with(['course', 'status', 'user']); // Eager load relationships
+
+        // Apply search filter if the search query is provided (for names and role)
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('shop_name', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Apply course filter if the course parameter is provided
+        if ($request->has('courseCall') && !empty($request->course)) {
+            $query->whereHas('course', function($q) use ($request) {
+                $q->where('course_name', $request->course);
+            });
+        }
+
+        // Return the filtered users
+        return $query->get();
+    }
+
+    public function runResults(Request $request)
+    {
+        // Get users from the search method
+        $shops = $this->search($request);
+
+        // Return the filtered users as JSON
+        return response()->json($shops);
+    }
 
     
 

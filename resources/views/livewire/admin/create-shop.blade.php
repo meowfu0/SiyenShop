@@ -119,7 +119,7 @@
                 <div class="mb-3 d-flex justify-content-center w-100">
                     <img
                         id="displayProfileImage"
-                        src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+                        src=""
                         class="profile-picture1"
                         style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
                         alt="Profile Picture"

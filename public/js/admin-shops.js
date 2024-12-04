@@ -25,6 +25,7 @@ async function fetchUsers(query = "", course = "") {
         const response = await fetch(`${url}?${params.toString()}`);
 
         const data = await response.json();
+        console.log("Fetched:", data);
         displayUsers(data); // Pass data to display
     } 
     catch (error) {
