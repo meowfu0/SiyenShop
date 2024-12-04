@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -39,32 +40,6 @@
                         </tr>
                     </thead>
                     <tbody id="display">
-                        <!--
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                    -->
                         @foreach($users as $user)
                         <tr>
                             <th scope="row">
@@ -142,9 +117,8 @@
                                                 <option value="role1" selected>Student</option>
                                                 <option value="role2">Business Manager</option>
                                             </select>
-                                            <!-- Hidden hyperlink that appears when Business Manager is selected -->
-                                            <a href="#" id="editPermissionsLink" data-bs-toggle="modal"
-                                                data-bs-target="#editPermissionsModal">
+                                            <a href="#" id="editPermissionsLink" style="display: none;"
+                                            data-user-id="userId">
                                                 Edit Permissions
                                             </a>
                                         </div>
@@ -165,7 +139,7 @@
     </div>
 
     <!-- Modal for Editing Permissions -->
-    <div class="modal fade" id="editPermissionsModal" tabindex="-1" aria-labelledby="editPermissionsModalLabel"
+    <div class="modal fade" id="editPermissionsModal" tabindex="-1" aria-labelledby="editPermissionsModalLabel" data-bs-toggle="modal" data-bs-target="#editPermissionsModal"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered custom-modal-size1">
             <div class="modal-content p-4">
@@ -181,90 +155,202 @@
                         <div class="col-md-6 ms-4" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Account & Profile</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="manageUsers">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-1" 
+                                    value="edit_profile" 
+                                    disabled
+                                    >
                                 <label class="form-check-label ms-2" for="editProfile">Edit Profile</label>
                             </div>
                             <div class="form-check mt-3">
                                 <h6 class="m-0 fs-4 fw-bold">Dashboard & Reports</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="accessDashboard">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-2" 
+                                    value="access_dashboard" 
+                                    disabled
+                                  >
                                 <label class="form-check-label ms-2" for="accessDashboard">Access Dashboard</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="viewSalesStats">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-3" 
+                                    value="view-sales-stats" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="viewSalesStats">View Sales Stats</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="generateReports">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-4" 
+                                    value="generate-reports" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="generateReports">Generate Reports</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="inventoryAlerts">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-5" 
+                                    value="inventory-alerts" 
+                                    disabled
+                                  >
                                 <label class="form-check-label ms-2" for="inventoryAlerts">Inventory Alerts</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="exportData">
-                                <label class="form-check-label ms-2" for="exportData">Export Data (Print, CSV, Excel,
-                                    PDF)</label>
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-6" 
+                                    value="export-data" 
+                                    disabled
+                                   >
+                                <label class="form-check-label ms-2" for="exportData">Export Data (Print, CSV, Excel, PDF)</label>
                             </div>
                             <div class="form-check mt-3">
                                 <h6 class="m-0 fs-4 fw-bold">Order & Payment Management</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="viewOrders">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-7" 
+                                    value="view-orders" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="viewOrders">View Orders</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="updateOrderStatus">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-8" 
+                                    value="update-order-status" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="updateOrderStatus">Update Order Status</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="confirmPayments">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-9" 
+                                    value="confirm-payments" 
+                                    disabled
+                                >
                                 <label class="form-check-label ms-2" for="confirmPayments">Confirm Payments</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="denyInvalidPayments">
-                                <label class="form-check-label ms-2" for="denyInvalidPayments">Deny Invalid
-                                    Payments</label>
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-10" 
+                                    value="deny-invalid-payments" 
+                                    disabled
+                                 >
+                                <label class="form-check-label ms-2" for="denyInvalidPayments">Deny Invalid Payments</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
-                                <input class="form-check-input ms-3" type="checkbox" id="sendPayment">
-                                <label class="form-check-label ms-2" for="sendPayment">Send Payment Confirmation
-                                    Notifications</label>
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-11" 
+                                    value="send-payment" 
+                                    disabled
+                                  >
+                                <label class="form-check-label ms-2" for="sendPayment">Send Payment Confirmation Notifications</label>
                             </div>
                         </div>
+                        
 
                         <!-- Right Div -->
                         <div class="col-md-8" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Products Management</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="addProducts">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-12" 
+                                    value="add-products" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="addProducts">Add Products</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="editProducts">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-13" 
+                                    value="edit-products" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="editProducts">Edit Products</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="deleteProducts">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-14" 
+                                    value="delete-products" 
+                                    disabled
+                               >
                                 <label class="form-check-label ms-2" for="deleteProducts">Delete Products</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="generateReports">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-15" 
+                                    value="generate-reports" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="generateReports">Generate Reports</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
-                                <input class="form-check-input ms-3" type="checkbox" id="markProduct">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-16" 
+                                    value="mark-product" 
+                                    disabled
+                                >
                                 <label class="form-check-label ms-2" for="markProduct">Mark Product Unavailable</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="lowStocksAlert">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-17" 
+                                    value="low-stocks-alert" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="lowStocksAlert">Low Stocks Alert</label>
                             </div>
                             <div class="form-check mt-3">
                                 <h6 class="m-0 fs-4 fw-bold">Inbox & Support</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="accessChatbox">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-18" 
+                                    value="access-chatbox" 
+                                    disabled
+                                >
                                 <label class="form-check-label ms-2" for="accessChatbox">Access Chatbox</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
-                                <input class="form-check-input ms-3" type="checkbox" id="studentQueries">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-19" 
+                                    value="student-queries" 
+                                    disabled
+                                  >
                                 <label class="form-check-label ms-2" for="studentQueries">Respond to Student
                                     Queries</label>
                             </div>
@@ -304,7 +390,11 @@
         </div>
     </div>
     <script> 
-        const usersData = @json($users);
+        //const usersData = @json($users);
+        const toEdit = @json(route('users.edit', ['userId' => ':userId']));
+        const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
+        const alterStatus = @json(route('users.status', ['userId' => ':userId']));
+        const permissionFetch = @json(route('users.permissions', ['userId' => ':userId']));
     </script>
     <script src="{{asset('js/admin-users.js')}}">
         

@@ -23,10 +23,20 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::guard($guard)->user();
+
+                // Redirect based on role
+                if ($user->role->role_name === 'Admin') {
+                    return redirect(route('admin.dashboard'));
+                }   
+                else if ($user->role->role_name === 'Business Manager') {
+                    return redirect(route('shop.dashboard'));
+                }
+
+            // Default redirection
+            return redirect(RouteServiceProvider::HOME);
             }
         }
-
         return $next($request);
     }
 }

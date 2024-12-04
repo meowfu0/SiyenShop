@@ -109,6 +109,7 @@ Route::middleware(['role:Admin'])->group(function () {
 
         Route::prefix('admin')->group(function () {
             Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
+            //Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
             Route::get('/users', [UserController::class, 'index'])->name('admin.users');
             Route::get('/shops', [shopPageController::class, 'index'])->name('admin.shops');
             Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
@@ -127,8 +128,10 @@ Route::middleware(['role:Admin'])->group(function () {
             Route::get('/users/{userId}/edit', [UserController::class, 'edit'])->name('users.edit'); // Fetch user and roles
             Route::put('/users/{userId}/update-role', [UserController::class, 'updateRole'])->name('users.updateRoles'); // Update role
             Route::put('/users/{userId}/status', [UserController::class, 'statusChange'])->name('users.status'); // Update role
+            Route::get('/users/{userId}/permissions', [UserController::class, 'getUserPermissions'])->name('users.permissions');
+            
 
-            Route::get('/users/{userId}/permissions', [UserController::class, 'showPermissions'])->name('permissions.show');  // Form for creating a shop
+            
     });
     
 

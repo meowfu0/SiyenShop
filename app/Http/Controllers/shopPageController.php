@@ -12,7 +12,7 @@ class shopPageController extends Controller
     public function index()
     {
          // Fetch all the user rows from the database
-         $shops = Shop::with(['user', 'course', 'status'])->get();
+         $shops = Shop::with(['user', 'course', 'status', 'g_cash_info'])->get();
          return view('livewire.admin.admin-shops', compact('shops'));
     }
 
@@ -24,7 +24,7 @@ class shopPageController extends Controller
     // Return the data as JSON
         return response()->json([
             'shop' => $shop,
-            'g_cash_info' => $shop->g_cash_info, // Include Gcash info along with shop
+
         ]);
     }
 

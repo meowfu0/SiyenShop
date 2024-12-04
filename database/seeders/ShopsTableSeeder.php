@@ -34,6 +34,7 @@ class ShopsTableSeeder extends Seeder
                 'status_id' => 1, // Active status
                 'course_id' => 2, // Corresponding course ID
                 'created_at' => Carbon::now(),
+                
             ],
             [
                 'shop_name' => 'BUCS CSC',

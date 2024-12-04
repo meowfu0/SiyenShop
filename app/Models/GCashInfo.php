@@ -21,9 +21,9 @@ class GCashInfo extends Model
         'user_id', 'shop_id'
     ];
 
-    public function user()
+    public function shops()
     {
-        return $this->belongsTo(User::class, 'user_id'); 
+        return $this->hasMany(Shop::class); 
     }
 
      /**
