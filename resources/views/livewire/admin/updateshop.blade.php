@@ -13,8 +13,8 @@
             
            
 <!-- FORM-->   
-            <form action="{{ route('admin.shops.update', ['id' => $shop->id]) }}" method="POST" enctype="multipart/form-data" id="shopForm">
-            @csrf
+<div id="update-shop-form">            
+    @csrf
             @method('PUT')
 <!--LOGO/PROFILE PIC--> 
 <div class="d-flex gap-1 ms-3">
@@ -51,10 +51,9 @@
             <!-- INPUT FIELDS--> 
                         <div class="form-group">
                             <label for="shopName" class="fw-bold mb-1">Shop Name</label>
+                            <input id="storeFetch" data-id="{{$shop->id}}" hidden>
                             <input type="text" class="form-control px-3 py-2" id="shopName" value="{{ old('shop_name', $shop->shop_name) }}" placeholder="Enter Shop Name" >
                         </div>
-                        
-                        
                         <div class="form-group">
                             <label for="course"  class="fw-bold mb-1">Course</label>
                             <select class="form-control px-3 py-2" id="course" name="course_id">
@@ -65,8 +64,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="shopEmail" class="fw-bold mb-1">Shop Email Address</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email"  value="{{ old('shop_email', $shop->user->email) }}" placeholder="Enter Shop Email Address" >
+                            <label for="shopEmail" class="fw-bold mb-1">Shop Description</label>
+                            <input type="text" class="form-control px-3 py-2" id="shopDescription" name="shop_description"  value="{{ $shop->shop_description }}" placeholder="Enter Description" >
                         </div>
                         <div class="form-group">
                             <label for="businessManager"  class="fw-bold mb-1 ">Assign Business Manager(s)</label>
@@ -106,7 +105,7 @@
                         
                       <!--  
 
-ADD BUTTON
+                        ADD BUTTON
 
                         <button class="btn btn-outline-primary hoverinvert d-flex align-items-center gap-2 px-3 fs-3" onclick="addManager(event)">Add 
                             <img src="{{ asset('images/add.svg')}}" alt="">
@@ -115,9 +114,9 @@ ADD BUTTON
                                 
                          <div class="d-flex gap-2 justify-content-end mt-5">
                 <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
-                <button class="btn btn-primary p-2 px-4 fs-4" type="submit" onclick="shops()">Save Changes</button>
+                <button class="btn btn-primary p-2 px-4 fs-4" type="submit" onclick="submitShopUpdate()">Save Changes</button>
             </div>    
-                    </form>
+        </div>
            
         </div>
         <div class="col d-flex align-items-center justify-content-center">
@@ -159,10 +158,11 @@ ADD BUTTON
 
 
 <script>
+    const uploadChange = @json(route('admin.shopUpdate.reflect', ['shopId' => ':shopId']));
+</script>
 
-    </script>
+<script src="{{asset('js/create-update-shops.js')}}" ></script>
 
-<script src="{{asset('js/admin-shops.js')}}" ></script>
 
 <script>
     function cancel(){

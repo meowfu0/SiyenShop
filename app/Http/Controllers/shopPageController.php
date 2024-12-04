@@ -54,26 +54,25 @@ class shopPageController extends Controller
     }
 
     public function search(Request $request)
-    {
-        $query = Shop::with(['course', 'status', 'user']); // Eager load relationships
+{
+    $query = Shop::with(['user:id,first_name,last_name', 'course', 'status']); // Eager load only the user relationship
 
-        // Apply search filter if the search query is provided (for shops)
-        if ($request->has('search') && !empty($request->search)) {
-            $query->where(function($q) use ($request) {
-                $q->where('shop_name', 'like', '%' . $request->search . '%');
-            });
-        }
-    
-        // Apply course filter if the course parameter is provided
-        if ($request->has('courseCall') && !empty($request->course)) {
-            $query->whereHas('course', function($q) use ($request) {
-                $q->where('course_name', $request->course);
-            });
-        }
-
-        // Return the filtered users
-        return $query->get();
+    // Apply search filter if the search query is provided (for shop names only)
+    if ($request->has('search') && !empty($request->search)) {
+        $query->where('shop_name', 'like', '%' . $request->search . '%');
     }
+
+    // Apply course filter if the course parameter is provided
+    if ($request->has('courseCall') && !empty($request->courseCall)) {
+        $query->whereHas('course', function($q) use ($request) {
+            $q->where('id', $request->courseCall);
+        });
+    }
+
+    // Return the filtered results (using pagination for example)
+    return $query->get(); // or use get() if you don't need pagination
+}
+
 
     public function runResults(Request $request)
     {
@@ -82,6 +81,18 @@ class shopPageController extends Controller
 
         // Return the filtered users as JSON
         return response()->json($shops);
+    }
+
+    public function edit($id)
+    {
+        // Fetch the shop with the given id
+        $shop = Shop::findOrFail($id);
+        
+        // You may also need other data for the form, like the courses for the dropdown
+        $courses = Course::all(); // Example, adjust based on your data structure
+        
+        // Return the view with the shop data and any other necessary data
+        return view('admin.shops.edit', compact('shop', 'courses'));
     }
 
     

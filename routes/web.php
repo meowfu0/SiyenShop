@@ -125,10 +125,13 @@ Route::middleware(['role:Admin'])->group(function () {
                 Route::post('/', [CreateShopController::class, 'store'])->name('admin.shops.store');  // Store shop data
 
         // Route to edit a shop (Form)
-        Route::get('/update/{id}', [UpdateShopController::class, 'edit'])->name('admin.shops.edit');
-        
+                Route::get('/update/access/{shopId}', [UpdateShopController::class, 'edit'])->name('admin.shops.edit');
+                Route::put('/update/change/{shopId}', [UpdateShopController::class, 'uploadUpdate'])->name('admin.shopUpdate.reflect'); 
+
         // Route to update the shop (Form submission)
-        Route::put('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
+            Route::put('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
+            Route::get('/shops/update/{id}', [shopPageController::class, 'edit'])->name('shops.update');
+            Route::get('/shops/update/view', [Updateshop::class, 'render'])->name('shops.update.view'); 
 
             });
             //Role Edit / Update
