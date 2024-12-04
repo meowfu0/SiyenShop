@@ -35,6 +35,7 @@ use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use App\Http\Controllers\CreateShopController;
 use App\Http\Controllers\Status;
+use App\Http\Controllers\UpdateShopController;
 
 
 Auth::routes();
@@ -122,6 +123,15 @@ Route::middleware(['role:Admin'])->group(function () {
                 Route::get('/shops/create', [CreateShopController::class, 'index'])->name('admin.createshop');
                 Route::get('/create', [CreateShopController::class, 'index'])->name('admin.shops.create');  // Form for creating a shop
                 Route::post('/', [CreateShopController::class, 'store'])->name('admin.shops.store');  // Store shop data
+
+        // Route to edit a shop (Form)
+        Route::get('/update/{id}', [UpdateShopController::class, 'edit'])->name('admin.shops.edit');
+        
+        // Route to update the shop (Form submission)
+        Route::post('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
+
+
+
 
             });
             //Role Edit / Update

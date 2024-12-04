@@ -14,8 +14,9 @@
             
            
 <!-- FORM-->   
-            <form action="{{ route('admin.shops.store') }}" method="POST" enctype="multipart/form-data" id="shopForm">
+            <form action="{{ route('admin.shops.update', ['id' => $shop->id]) }}" method="POST" enctype="multipart/form-data" id="shopForm">
             @csrf
+            @method('POST')
 <!--LOGO/PROFILE PIC--> 
 <div class="d-flex gap-1 ms-3">
     <!-- Profile Picture -->
@@ -142,9 +143,12 @@
     
 </div>
 
+<script>
 
+    </script>
 
 <script src="{{asset('js/admin-shops.js')}}" ></script>
+
 <script>
     function cancel(){
         

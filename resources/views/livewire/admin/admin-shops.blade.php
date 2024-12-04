@@ -133,7 +133,7 @@
     }
 
     function updateShop() {
-        window.location.href = "{{ route('admin.updateshop') }}";
+        window.location.href = "{{ route('admin.shops.update', $shop->id) }}";
     }
 
     function showDisableAccountModal() {
