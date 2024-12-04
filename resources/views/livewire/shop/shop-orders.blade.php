@@ -363,7 +363,7 @@
                         <div class="modal-footer d-flex justify-content-center">
                             <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadCSV()" style="width: 76px; height: 28px;">CSV</button>
                             <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadXLSX()" style="width: 76px; height: 28px;">XLSX</button>
-                            <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF()" style="width: 76px; height: 28px;">PDF</button>
+                            <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF(1)" style="width: 76px; height: 28px;">PDF</button>
                         </div>
 
                 </div>
@@ -389,7 +389,7 @@
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF()" style="width: 76px; height: 28px;">Print</button>
+                        <button type="button" class="export-btn" data-bs-dismiss="modal" onclick="downloadPDF(2)" style="width: 76px; height: 28px;">Print</button>
                     </div>
                 </div>
             </div>
@@ -586,8 +586,7 @@ function openOrderModal(order) {
     };
 
    
-    //Hide Deny Button if status is not pending
-    // Set the status label and class
+
     const statusLabel = statusLabels[order.order_status_id] ?? 'Unknown Status';
     const statusClass = statusClasses[order.order_status_id] ?? 'unknown-status';
 
@@ -637,12 +636,18 @@ document.getElementById('status-filter').addEventListener('change', function() {
         }
     });
 });
+function validateDate(validateKey) {
+    var startDate;
+    var endDate;
 
-
-function validateDate() {
-    const startDate = document.getElementById('export-from').value;
-    const endDate = document.getElementById('export-to').value;
-
+    if(validateKey === 1){
+        startDate = document.getElementById('export-from').value;
+        endDate = document.getElementById('export-to').value;
+    }else{
+        startDate = document.getElementById('print-from').value;
+        endDate = document.getElementById('print-to').value;
+    }
+    console.log("Starts with: "+ startDate +"Vakla"+endDate);
     // Check if either startDate or endDate is null or empty
     if (!startDate || !endDate) {
         return false; // Return false if either date is missing
@@ -651,7 +656,7 @@ function validateDate() {
     return true; // Return true if both dates are provided
 }
 
-function extractDataTable() {
+function extractDataTable(printKey) {
     const table = document.getElementById("order-table");
     const selectedStatus = document.getElementById('status-filter').value;
     let status;
@@ -683,10 +688,18 @@ function extractDataTable() {
 
     console.log("Selected Status:", status);
 
-    // Extract shop name and date range
+    
     const shopName = document.getElementById('shopName')?.innerText || "Shop Name";
-    const startDate = document.getElementById('export-from').value;
-    const endDate = document.getElementById('export-to').value;
+    var startDate = document.getElementById('export-from').value;
+    var endDate = document.getElementById('export-to').value;
+
+    if(printKey === 1){
+        startDate = document.getElementById('export-from').value;
+        endDate = document.getElementById('export-to').value;
+    }else{
+        startDate = document.getElementById('print-from').value;
+        endDate = document.getElementById('print-to').value;
+    }
 
     // Extract headers from the first row
     const headers = [...table.rows[0].cells].map(cell => cell.innerText);
@@ -728,13 +741,12 @@ function extractDataTable() {
     
 }
 
-
 function downloadCSV() {
     if(validateDate()){
         var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
 
         // Use the getDataTable() function to fetch the table data
-        const dataTable = extractDataTable(); // Assuming getDataTable() is a predefined function that returns the necessary table data
+        const dataTable = extractDataTable(1); // Assuming getDataTable() is a predefined function that returns the necessary table data
         const status = dataTable['status'];
         const startDate = dataTable['startDate'];
         const endDate = dataTable['endDate'];
@@ -802,7 +814,7 @@ function downloadXLSX() {
         var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
 
         // Use the extractDataTable() function to fetch the table data
-        const dataTable = extractDataTable(); // Assuming extractDataTable() is a predefined function that returns the necessary table data
+        const dataTable = extractDataTable(1); // Assuming extractDataTable() is a predefined function that returns the necessary table data
         const status = dataTable['status'];
         const startDate = dataTable['startDate'];
         const endDate = dataTable['endDate'];
@@ -856,9 +868,9 @@ function downloadXLSX() {
         alert("Please fill in the Dates.")
     }
 }
-function downloadPDF() {
-    if(validateDate()){
-        const dataTable = extractDataTable(); // Assuming this function extracts and formats your table data
+function downloadPDF(printKey) {
+    if(validateDate(printKey)){
+        const dataTable = extractDataTable(printKey); // Assuming this function extracts and formats your table data
         console.log(dataTable);
 
         // Pass to the OrderController using an AJAX request
@@ -876,11 +888,12 @@ function downloadPDF() {
                 printWindow.document.write(data.htmlContent);
                 printWindow.document.close();
                 printWindow.onload = function() {
-                // Focus the new window
-                    printWindow.focus();
-                    
-                    // Trigger the print dialog
-                    printWindow.print();
+                    if(printKey === 1){
+                        printWindow.print();
+                    }else{
+                        printWindow.focus();
+                        printWindow.print();
+                    }
                 };
         })
         .catch(error => {

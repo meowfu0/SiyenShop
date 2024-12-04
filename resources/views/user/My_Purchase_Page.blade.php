@@ -413,6 +413,8 @@
         console.log('Current Order: '+yesId.shop.shop_logo);
         const specificItems = orderItem.filter(orderItem => orderItem.order_id === yesId.id);
         console.log(specificItems);
+
+        //Will Display the Order Items
         createModalTable(specificItems, category);
 
         var modalOrderId = document.getElementById('modalOrderId');
@@ -423,7 +425,6 @@
         var modalTime = document.getElementById('modalTime');
         var modalItemCount = document.getElementById('modalItemCount');
 
-        // Fetch the order details
     
         modalOrderId.textContent = yesId.id;
         modalTotalAmount.textContent = `₱ ${parseFloat(yesId.total_amount).toFixed(2)}`;
@@ -440,10 +441,9 @@
         
     }
     function createModalTable(orderItems, category) {
-        // Get the modal table container
+        
         const modalTable = document.querySelector('.modal-item-table');
         
-        // Clear any existing content
         modalTable.innerHTML = '';
 
         // Loop through the order items
