@@ -170,22 +170,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($variants as $variant)
-                                                
-                                            
-                                            <tr id="inputRow_1">
+                                            @foreach ($variants as $index => $variant)
+                                            <tr id="inputRow_{{$index}}">
+                                                <input type="hidden" name="variants[{{$index}}][id]" value="{{$variant->id}}">
                                                 <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" value="{{$variant->size}}">
-                                                    </div>
+                                                    <input type="text" name="variants[{{$index}}][size]" class="form-control" value="{{$variant->size}}">
                                                 </td>
                                                 <td>
-                                                    <div class="form-group">
-                                                        <input type="number" class="form-control" value="{{$variant->stock}}" min="0" step="1">
-                                                    </div>
+                                                    <input type="number" name="variants[{{$index}}][stocks]" class="form-control" value="{{$variant->stock}}" min="0" step="1">
                                                 </td>
                                             </tr>
                                             @endforeach
+                                            
                                         </tbody>
                                     </table>
                                 </div>
