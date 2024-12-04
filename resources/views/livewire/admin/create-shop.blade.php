@@ -102,12 +102,12 @@
                         </div>
                         
                         
-                        <button class="btn btn-outline-primary hoverinvert d-flex align-items-center gap-2 px-3 fs-3" onclick="addManager(event)">Add 
+                        <button class="btn btn-outline-primary hoverinvert d-flex align-items-center gap-2 px-3 fs-3 d-none" onclick="addManager(event)">Add 
                             <img src="{{ asset('images/add.svg')}}" alt="">
                         </button>
                                 
                     
-                        <div class="d-flex gap-2 justify-content-end ">
+                        <div class="d-flex gap-2 justify-content-end mt-5 ">
                 <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
                 <button class="btn btn-primary p-2 px-4 fs-4" type="submit">Create</button>
             </div>
@@ -119,7 +119,7 @@
                 <div class="mb-3 d-flex justify-content-center w-100">
                     <img
                         id="displayProfileImage"
-                        src=""
+                        src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
                         class="profile-picture1"
                         style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
                         alt="Profile Picture"

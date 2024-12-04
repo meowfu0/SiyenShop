@@ -16,14 +16,14 @@
 <!-- FORM-->   
             <form action="{{ route('admin.shops.update', ['id' => $shop->id]) }}" method="POST" enctype="multipart/form-data" id="shopForm">
             @csrf
-            @method('POST')
+            @method('PUT')
 <!--LOGO/PROFILE PIC--> 
 <div class="d-flex gap-1 ms-3">
     <!-- Profile Picture -->
     <div id="profilePictureContainer">
         <img
             id="profileImage"
-            src="{{ $shop->user->profile_picture ? Storage::url('profile_pictures/' . $shop->user->profile_picture) : 'https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png' }}"
+            src="{{ $shop->shop_logo ? asset('storage/shop_logos/' . $shop->shop_logo) : asset('images/default-profile.png') }}"
             class="profile-picture1"
             style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
             alt="Profile Picture"
@@ -67,14 +67,15 @@
                         </div>
                         <div class="form-group">
                             <label for="shopEmail" class="fw-bold mb-1">Shop Email Address</label>
-                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" value="{{ old('shop_email', $shop->user->email) }}" placeholder="Enter Shop Email Address" >
+                            <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email"  value="{{ old('shop_email', $shop->user->email) }}" placeholder="Enter Shop Email Address" >
                         </div>
                         <div class="form-group">
                             <label for="businessManager"  class="fw-bold mb-1 ">Assign Business Manager(s)</label>
                                 <div class="align-items-center gap-3" id="managerRow1" style="display:flex;">
                                     <select class="form-control px-3 py-2" id="managerName1"  name="managers[]">
                                     @foreach($managers as $manager)
-                                        <option value="{{ $manager->id }}" {{ in_array($manager->id, old('managers', [])) ? 'selected' : '' }}>
+                                        <option value="{{ $manager->id }}" 
+                                            {{ $shop->businessManager && $shop->businessManager->id == $manager->id ? 'selected' : '' }}>
                                             {{ $manager->first_name }} {{ $manager->last_name }}
                                         </option>
                                     @endforeach
@@ -104,36 +105,42 @@
                                
                         </div>
                         
-                        
+                      <!--  
+
+ADD BUTTON
+
                         <button class="btn btn-outline-primary hoverinvert d-flex align-items-center gap-2 px-3 fs-3" onclick="addManager(event)">Add 
                             <img src="{{ asset('images/add.svg')}}" alt="">
                         </button>
+                        -->
                                 
-                            
-                    </form>
-            <div class="d-flex gap-2 justify-content-end ">
+                         <div class="d-flex gap-2 justify-content-end mt-5">
                 <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
                 <button class="btn btn-primary p-2 px-4 fs-4" type="submit" onclick="shops()">Save Changes</button>
-            </div>
+            </div>    
+                    </form>
+           
         </div>
         <div class="col d-flex align-items-center justify-content-center">
             <div class="d-flex flex-column  border border-primary p-5" style="border-radius: 1rem">
                 <div class="mb-3 d-flex justify-content-center w-100">
                     <img
                         id="displayProfileImage"
-                        src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+                        src="{{ $shop->shop_logo ? asset('storage/shop_logos/' . $shop->shop_logo) : asset('images/default-profile.png') }}"
                         class="profile-picture1"
                         style="margin-right: 20px; width: 200px; height: 200px; object-fit: contain;"
                         alt="Profile Picture"
                     />
                 </div>
                 <div class="d-flex flex-column justify-content-start px-5">
-                    <h3 id="displayShopName" class="fw-bold fs-7">Shop Name</h3>
-                    <p class="mb-0" id="displayCourse">Course</p>
-                    <p id="displayShopEmail">shopemail@email.com</p>
+                    <h3 id="displayShopName" class="fw-bold fs-7">{{ old('shop_name', $shop->shop_name) }}</h3>
+                    <p class="mb-0" id="displayCourse">{{$shop->course->name }}</p>
+                    <p id="displayShopEmail">{{ old('shop_email', $shop->user->email) }}</p>
                     <div class="text-start d-flex w-100 gap-3">
                         <div class="gcashDetails">
-                            <p class="mb-1"><strong id="displayManager">Business Manager Name</strong></p>
+                            <p class="mb-1"><strong id="displayManager">@foreach($shop->businessManagers as $businessManager)
+                                        {{ $businessManager->user->first_name }} {{ $businessManager->user->last_name }}<br>
+                                    @endforeach</strong></p>
                             <p class="m-0" id="gcashNum"></p>
                             <p class="m-0" id="gcashReceiver"></p>
                         </div>
