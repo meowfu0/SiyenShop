@@ -206,9 +206,13 @@ class PaymentPageController extends Controller
             $total_amount = $total->total_amount;
         }
 
+
         $overall_total_supplier_amount = $total_supplier_amount1 + $total_supplier_amount2;
         $overall_total_items = $total_items1 + $total_items2;
 
+
+        
+        // Insert order details into the orders table
         $orderId = DB::table('orders')->insertGetId([
             'user_id' => $userId,
             'shop_id' => $shop_id,
@@ -220,6 +224,9 @@ class PaymentPageController extends Controller
             'proof_of_payment' => $proofOfPaymentPath,
             'order_date' => \Carbon\Carbon::now('Asia/Manila'),
         ]);
+
+        
+        
 
         // Process CartItems and insert into order_items
         $processedProducts = [];
