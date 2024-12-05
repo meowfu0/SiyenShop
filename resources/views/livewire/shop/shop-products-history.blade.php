@@ -37,23 +37,6 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <div class="d-flex align-items-center gap-1">
-                    <!-- Print Icon -->
-                    <div>
-                        <img src="{{ asset('images/print.svg') }}" alt="Print" class="img-thumbnail" style="width: 35px; height: 35px;">
-                    </div>
-
-                    <!-- Export Dropdown -->
-                    <div class="btn-group">
-                        <img src="{{ asset('images/Export.svg') }}" alt="Export" class="img-thumbnail dropdown-toggle" 
-                            style="width: 35px; height: 35px;" data-bs-toggle="dropdown" aria-expanded="false">
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" id="exportCsv">Export as CSV</a></li>
-                            <li><a class="dropdown-item" href="#" id="exportXlsx">Export as XLSX</a></li>
-                            <li><a class="dropdown-item" href="#" id="exportPdf">Export as PDF</a></li>
-                        </ul>
-                    </div>
-                </div>
 
                 <!-- Restore Button based of checked checkboxes / Multiple delete -->
                 <a  class="text-decoration-none">
