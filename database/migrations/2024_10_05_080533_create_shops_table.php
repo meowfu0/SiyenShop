@@ -23,8 +23,7 @@ class CreateShopsTable extends Migration
             
             // Other fields
             $table->string('shop_name', 255); 
-            $table->text('shop_description'); 
-            $table->string('shop_logo', 255)->nullable(); 
+            $table->string('shop_logo', 255); 
 
             // Foreign keys with not null and cascade on delete
             $table->unsignedBigInteger('user_id'); 

@@ -23,21 +23,21 @@ class OrderItemsTableSeeder extends Seeder
                 'order_id' => 1,
                 'quantity' => 1,
                 'price' => 250.50,
-                'size' => 1,
+                'variant_id' => 1,
             ],
             [
                 'product_id' => 1,
                 'order_id' => 2,
                 'quantity' => 2,
                 'price' => 200,
-                'size' => null,
+                'variant_id' => null,
             ],
             [
                 'product_id' => 3,
                 'order_id' => 3,
                 'quantity' => 1,
                 'price' => 250.50,
-                'size' => 2,
+                'variant_id' => 2,
             ],
 
         ];

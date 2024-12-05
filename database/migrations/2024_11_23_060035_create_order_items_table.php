@@ -17,14 +17,16 @@ class CreateOrderItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('order_id');
+            
 
             $table->integer('quantity');
             $table->float('price');
-            $table->unsignedBigInteger('size')->nullable();
+            $table->unsignedBigInteger('variant_id')->nullable();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('size')->references('id')->on('product_variants')->onDelete('cascade'); // Add foreign key constraint
+            $table->foreign('variant_id')->references('id')->on('product_variants')->onDelete('cascade'); // Add foreign key constraint'
+
 
 
         });

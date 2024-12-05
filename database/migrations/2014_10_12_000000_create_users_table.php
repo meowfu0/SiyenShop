@@ -21,10 +21,6 @@
                 $table->string('password');
                 $table->rememberToken();
                 $table->timestamps();
-                $table->string('profile_picture')->nullable();
-                $table->timestamp('last_login')->nullable();
-                $table->string('gcash_name')->nullable();
-                $table->string('gcash_number')->nullable();
 
             });
         }

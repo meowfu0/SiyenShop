@@ -19,7 +19,6 @@ class ShopsTableSeeder extends Seeder
         $shops = [
             [
                 'shop_name' => 'Circuits',
-                'shop_description' => 'A store focused on electronics and circuitry components.',
                 'shop_logo' => 'circuits_logo.png',
                 'user_id' => 1, // Assume the user ID exists in the users table
                 'status_id' => 1, // Assume 1 corresponds to 'active' status in statuses
@@ -28,7 +27,6 @@ class ShopsTableSeeder extends Seeder
             ],
             [
                 'shop_name' => 'Access',
-                'shop_description' => 'An online store providing accessories and peripherals.',
                 'shop_logo' => 'access_logo.png',
                 'user_id' => 2, // Assume this user ID exists
                 'status_id' => 1, // Active status
@@ -37,7 +35,6 @@ class ShopsTableSeeder extends Seeder
             ],
             [
                 'shop_name' => 'CSC',
-                'shop_description' => 'Central Supplies Center for all student needs.',
                 'shop_logo' => 'csc_logo.png',
                 'user_id' => 3, // Assume this user ID exists
                 'status_id' => 1, // Active status

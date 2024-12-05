@@ -16,13 +16,11 @@ class AddColumnsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('first_name')->after('id'); 
             $table->string('last_name')->after('first_name'); 
-            $table->string('phone_number')->after('email')->nullable(); 
-            $table->string('course_bloc')->after('phone_number')->nullable(); 
+            $table->string('phone_number')->after('email'); 
+            $table->string('course_bloc')->after('phone_number'); 
             $table->string('year')->after('course_bloc'); 
             $table->unsignedBigInteger('course_id')->after('year');
-            $table->string('profile_picture', 255)->nullable(); 
-
-    
+            $table->string('profile_picture', 255); 
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }

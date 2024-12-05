@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id'); 
             $table->unsignedBigInteger('shop_id'); 
             $table->unsignedBigInteger('status_id');
+           
             
             $table->string('product_name', 255); 
             $table->text('product_decription'); 
@@ -31,12 +32,12 @@ class CreateProductsTable extends Migration
             $table->timestamp('created_at')->useCurrent(); 
             $table->timestamp('modified_at')->nullable()->useCurrentOnUpdate(); 
             $table->timestamp('deleted_at')->nullable(); 
-            
-            // Foreign Key Constraints (Cascade on Delete)
+
+            // Add foreign key constraints
+           
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
-            
         });
     }
 
