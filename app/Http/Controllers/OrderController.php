@@ -113,9 +113,10 @@ class OrderController extends Controller
             'denial_reason' => 'required|string',
             'denial_comment' => 'required|string' 
         ]);
-    
+        $gcash = GCashInfo::where('user_id', auth()->id())->first();
         $order = Order::find($validated['order_id']);
-        $shop = Shop::where('user_id', auth()->id())->first();
+        $shop = Shop::where('id', $gcash->shop_id)->first();
+
         $order->order_status_id = $validated['status_id'];
 
         /*
@@ -149,7 +150,8 @@ class OrderController extends Controller
     }
     public function getOrders()
     {
-        $shop = Shop::where('user_id', auth()->id())->first();
+        $gcash = GCashInfo::where('user_id', auth()->id())->first();
+        $shop = Shop::where('id', $gcash->shop_id)->first();
         $orders = Order::where('shop_id', $shop->id)->get();
         
         return response()->json($orders);
