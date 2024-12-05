@@ -78,7 +78,9 @@ class UpdateShopController extends Controller
         $shop->save();
         \Log::info('Shop updated successfully: ' . $shopId);
     
-        return response()->json(['success' => true, 'message' => 'Shop updated successfully!']);
+        return redirect(route('admin.shops'))->with('success', 'Shop updated successfully!');
+        
+        //response()->json(['success' => true, 'message' => 'Shop updated successfully!']);
     }
     
     
