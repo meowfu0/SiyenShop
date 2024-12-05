@@ -32,21 +32,26 @@ class MyPurchasesController extends Controller
         return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId', 'denied_orders'));
     }
     public function mypurchases($keyId)
-    {
+    {   
         $orders = Order::where('user_id', auth()->id())->get();
-
+    
+        // Check if the keyId exists in the orders' id
+        if (!$orders->pluck('id')->contains($keyId)) {
+            return redirect()->route('home'); // Redirect to the homepage if the keyId does not exist in the orders' ids
+        }
+    
         $orderItems = OrderItem::with(['product', 'productVariant'])
                                ->whereIn('order_id', $orders->pluck('id'))
                                ->get();
-
-
+    
         $variant_item = ProductVariant::all();
         $reviews = Review::all();
-        
         $categories = Category::all();
-
-        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId'));
+        $denied_orders = DeniedOrder::whereIn('order_id', $orders->pluck('id'))->get();
+    
+        return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId', 'denied_orders'));
     }
+    
     public function countOrders($orderId)
         {
 
