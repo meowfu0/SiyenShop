@@ -50,10 +50,10 @@
                     </div>
 
                     <!-- INPUT FIELDS -->
+                    <!-- INPUT FIELDS -->
                     <div class="form-group">
                         <label for="shopName" class="fw-bold mb-1">Shop Name</label>
-                        <input id="storeFetch" data-id="{{$shop->id}}" hidden>
-                        <input type="text" class="form-control px-3 py-2" id="shopName" value="{{ old('shop_name', $shop->shop_name) }}" placeholder="Enter Shop Name">
+                        <input type="text" class="form-control px-3 py-2" id="shopName" name="shop_name" value="{{ old('shop_name', $shop->shop_name) }}" placeholder="Enter Shop Name">
                     </div>
 
                     <div class="form-group">
@@ -67,13 +67,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="shopDescription" class="fw-bold mb-1">Shop Email</label>
-                        <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" value="{{ $shop->user->email }}" placeholder="Enter Description">
+                        <label for="shopEmail" class="fw-bold mb-1">Shop Email</label>
+                        <input type="text" class="form-control px-3 py-2" id="shopEmail" name="shop_email" value="{{ $shop->user->email }}" placeholder="Enter Shop Email">
                     </div>
 
                     <div class="form-group">
                         <label for="businessManager" class="fw-bold mb-1">Assign Business Manager(s)</label>
-                        <div class="align-items-center gap-3" id="managerRow1" style="display: flex;">
+                        <div id="managerRow1" class="align-items-center gap-3" style="display: flex;">
                             <select class="form-control px-3 py-2" id="managerName1" name="managers[]">
                                 @foreach($managers as $manager)
                                     <option value="{{ $manager->id }}" {{ $shop->businessManager && $shop->businessManager->id == $manager->id ? 'selected' : '' }}>
@@ -81,30 +81,12 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn1">
-                                <img src="{{ asset('images/trash.svg') }}" alt="">
-                            </button>
-                        </div>
-
-                        <!-- Hidden by default -->
-                        <div class="mt-2 align-items-center gap-3" id="managerRow2" style="display: none;">
-                            <select class="form-control px-3 py-2" id="managerName2" name="managers[]">
-                                <option value="" selected>Choose Business Manager</option>
-                                @foreach($managers as $manager)
-                                    <option value="{{ $manager->id }}" {{ in_array($manager->id, old('managers', [])) ? 'selected' : '' }}>
-                                        {{ $manager->first_name }} {{ $manager->last_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <button class="m-0 btn btn-outline-primary hoverinvert px-3 py-2" id="trash-btn2">
-                                <img src="{{ asset('images/trash.svg') }}" alt="">
-                            </button>
                         </div>
                     </div>
 
                     <div class="d-flex gap-2 justify-content-end mt-5">
                         <button class="btn btn-link text-primary fw-medium fs-4" type="reset" onclick="cancel()">Cancel</button>
-                        <button class="btn btn-primary p-2 px-4 fs-4" type="submit" onclick="submitShopUpdate()">Save Changes</button>
+                        <button class="btn btn-primary p-2 px-4 fs-4" type="submit">Save Changes</button>
                     </div>
                 </form>
             </div>
