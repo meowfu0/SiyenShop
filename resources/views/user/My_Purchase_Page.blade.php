@@ -127,8 +127,8 @@
                                         .then(response => response.json())
                                         .then(data => {
                                             const rev = @json($reviews);
-                                            console.log(rev.some(review => review.order_id === 3 && review.product_id === 3));
-                                            const unreviewedItems = @json($orderItems).filter(item => !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
+                                            
+                                            const unreviewedItems = @json($orderItems).filter(item => item.order_id === {{$order->id}} !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
                                             console.log(unreviewedItems);
                                             let existingItem = [];
                                             unreviewedItems.forEach(item => {
