@@ -12,6 +12,11 @@ class Product extends Model
     protected $fillable = ['category_id','status_id','shop_id','product_name','product_decription','product_image','supplier_price', 'retail_price',  'sales_count','stocks','created_at','modified_at', 'deleted_at'];
 
     use HasFactory;
+    // Define the inverse relationship with OrderItem
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id');
+    }
     
 
 

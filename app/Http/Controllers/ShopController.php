@@ -82,4 +82,6 @@ class ShopController extends Controller
     {
         //
     }
+    // In your controller method
+
 }

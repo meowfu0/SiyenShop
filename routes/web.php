@@ -45,6 +45,8 @@ use App\Http\Controllers\ShopProductEditController;
 use App\Http\Controllers\ShopProductDeleteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShopProductHistoryRestoreController;
+use App\Http\Controllers\OrderController;
+
 
 Auth::routes();
 
@@ -119,6 +121,10 @@ Route::get('/faqs', function () {
 
 // user purchases route
 Route::get('/mypurchases', [ MyPurchasesController::class, 'index'])->name('mypurchases');
+Route::post('/submit-review', [MyPurchasesController::class, 'submitReview'])->name('submit.review');
+Route::get('/count-orders/{orderId}', [MyPurchasesController::class, 'countOrders'])->name('count_orders');
+Route::post('/orders-pdf-print', [OrderController::class, 'processDataTable']);
+Route::get('/mypurchases/{orderId}', [MyPurchasesController::class, 'mypurchases'])->name('mypurchases-open');
 
 Route::get('/email', [ OrderEmailsController::class, 'index'])->name('email');
 
@@ -132,7 +138,27 @@ Route::get('/shop', function () {
 Route::prefix('shop')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ShopDashboard::class, 'render'])->name('shop.dashboard');
     Route::get('/products', [ShopProducts::class, 'render'])->name('shop.products');
+    Route::post('/orders/{id}/change-status', [OrderController::class, 'changeStatus']);
+
+
+
+    //ORDER MANAGEMENT
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
+    Route::post('/orders', [ShopOrders::class, 'store'])->name('shop.orders');//pang store order
+    
+    
+    Route::get('/orders', [OrderController::class, 'index']);
+    // Updated route to fetch the shop details for the authenticated user
+    Route::get('/shop', [OrderController::class, 'getShop'])->name('shop.index');
+    Route::get('shop/orders/take', [OrderController::class, 'getOrders']);
+
+    
+
+    Route::post('/orders/update-status', [OrderController::class, 'updateStatus'])
+    ->middleware('auth')
+    ->name('orders.update-status');
+
+
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
     // Add Product
@@ -194,6 +220,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 }); 
+
+//Updating Order Status
+
 Route::post('/restore-products', [ShopProductHistoryRestoreController::class, 'restoreProducts'])->name('restore.products');use App\Http\Controllers\MessageController;
 
 Route::middleware(['auth'])->group(function () {

@@ -163,10 +163,19 @@ th, td {
     color: #eb5757 !important;
     border: 1px solid #eb5757 !important;
 }
-#orderDetailsModal-pen .modal-dialog , #orderDetailsModal-prec .modal-dialog, #orderDetailsModal-fpick .modal-dialog,
-#orderDetailsModal-ocomp .modal-dialog, #orderDetailsModal-den .modal-dialog{
-    max-width: 800px !important; 
+#orderDetailsModal .modal-dialog{
+    max-width: 900px !important; 
 }
+#denial-options .modal-dialog{
+    max-width: 600px !important;
+}
+#msgModal img {
+    width: 70px;
+    height: 70px;
+    margin: 40px auto 0 auto; /* This centers the image horizontally */
+    display: block; /* Ensures the image is treated as a block element */
+}
+
 .modal-content{
     padding-top: 20px !important;
     padding-left: 20px !important;
@@ -180,6 +189,7 @@ th, td {
     width: 140px;
     border-radius: 7px !important;
     font-weight: 500 !important;
+
 }
 .modal-footer .btn.btn-light{
     color: #092C4C !important;
@@ -214,9 +224,13 @@ th, td {
 }
 .modal-content .btn-close{
     position: absolute;
+<<<<<<< HEAD
     top: 45px;  /* Adjust the top distance based on your design */
     right: 50px;  /* Align the close button to the top right corner */
 
+=======
+    left: 840px;
+>>>>>>> 152ac94e4f27f9410983a9db9406084000796497
 }
 .modal-items{
     height: 200px;
@@ -247,12 +261,17 @@ th, td {
 .modal-items::-webkit-scrollbar-button {
     display: none; /* Hides the arrows */
 }
-
 .img-holder{
     background-color:#ebe8dc;
     height: 100px;
     width: 100px;
-    margin-left: 40px;
+    margin-left: 20px;
+    border-radius: 5px;
+}
+.img-holder img{
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
 }
 .modal-rows{
     width: 100%;
@@ -264,31 +283,41 @@ th, td {
 }
 .modal-item-details{
     font-size: 12px;
-    width: 520px;
+    width: 570px;
     position: absolute;
-    top:60px;
+    top:40px;
     left: 160px;
     height: 40px;
+    table-layout: fixed;
+}
+.modal-item-details {
+    border: none;
+    border-collapse: collapse; /* Ensure borders between cells are also removed */
+}
+
+.modal-item-details th,
+.modal-item-details td {
+    border: none; /* Remove borders from table cells */
 }
 .transact-col1{
-    margin-left: 40px;
+    margin-left: 90px;
     display: inline-block;
     font-weight: 500;
 }
 .transact-col2{
-    margin-left: 40px;
+    margin-left: 90px;
     display: inline-block;
 }
 .transact-col3{
     position: absolute;
     font-weight: 500;
     top: 250px;
-    left: 450px;
+    left: 510px;
 }
 .transact-col4{
     position: absolute;
     top: 250px;
-    left: 530px;
+    left: 590px;
 }
 .modal fade{
     width: 515px;
@@ -304,4 +333,342 @@ th, td {
 }
 #to{
     margin-bottom: 10px;
+}
+#msgModal .modal-dialog{
+    max-width: 480px !important;
+}
+#msgModal .modal-footer .btn.btn-primary{
+    margin-right: 100px;
+}
+td.status-label {
+    padding: 2px;
+    text-align: center;
+    border: 1px solid #092C4C;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 180px;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+}
+
+td.status-label.denied-payment {
+    border-color: #eb5757;
+    color: #eb5757;
+}
+
+td.status-label.completed-order {
+    border-color: green;
+    color: green;
+}
+
+td.status-label.pending {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+td.status-label.received-payment {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+td.status-label.for-pickup {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+
+/* Hover effect to light up the border */
+td.status-label:hover {
+    border-color: lighten(#092C4C, 50%); /* Lighter border color on hover */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
+}
+
+
+
+
+
+/* F O R  M O D A L  D I T E S */
+#modalStatus {
+    padding-bottom: 25x;
+    
+    width:180px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #092C4C; /* Default border color */
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+#modalStatus.denied-payment {
+    border-color: #eb5757; 
+    color: #eb5757;
+}
+#modalStatus.completed-order {
+    border-color: green; 
+    color: green; 
+}
+#modalStatus.pending {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+#modalStatus.received-payment {
+    border-color: #28a745;
+    color: #28a745;
+}
+#modalStatus.for-pickup {
+    border-color: #ffc107; 
+    color: #ffc107; 
+}
+
+#modalStatus:hover {
+    background-color: #f5f5f5; 
+}
+
+.table-hover tbody tr {
+    border-bottom: 1px solid #dee2e6; /* Light gray color */
+}
+.table-hover thead th {
+    border-bottom: 2px solid #dee2e6; /* Slightly thicker border for header */
+}
+
+
+.footer-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer-btn p {
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.footer-btn .d-flex .page-link {
+    border: 1px solid gray;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin: 0 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.footer-btn .d-flex .page-link:hover {
+    color: white;
+}
+
+.footer-btn .d-flex .page-link.rounded-start {
+    border-radius: 5px 0 0 5px;  /* Rounded start (left) */
+}
+
+.footer-btn .d-flex .page-link.rounded-end {
+    border-radius: 0 5px 5px 0;  /* Rounded end (right) */
+}
+.footer-btn .d-flex .page-link[aria-label="Previous"] {
+    margin-left: 15px;
+}
+
+.footer-btn .d-flex .page-link[aria-label="Next"] {
+    margin-right: 15px;
+}
+
+.btn-group .dropdown {
+    border: 1px solid gray; /* Set border thickness and color */
+    border-radius: 5px;        /* Rounded corners */
+    padding: 5px;         /* Adjust padding to control the size */
+    font-size: 14px;    
+    width: 60px;       /* Adjust the font size */
+    height: 30px;
+    margin-left: -10px;
+}
+#search-box{
+    padding: 8px ;         
+    font-size: 14px; 
+    height: 30px;
+    width: 200px;
+}
+.modal-body{
+    margin-top:-30px;
+}
+.modal-header{
+    margin-bottom:-20px;
+}
+#modalgear{
+    margin-top: -20px;
+}
+.pagination-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 10px 10px 10px 10px;
+    font-size: 14px;
+    color: #000;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-link.active {
+    color: #fff;
+    background-color: #001f3f; /* Navy blue */
+    border-color: #001f3f;
+}
+
+.page-link:hover {
+    background-color: #f8f9fa; /* Light gray hover effect */
+    color: #000;
+}
+
+.page-link.rounded-start {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.page-link.rounded-end {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/*  MODAL */
+.modal-header {
+    margin: 0px 40px; /* Example: top-bottom 10px, left-right 20px */
+}
+
+/* Adjust margin for the modal body */
+.modal-body {
+    margin: 0px 30px; /* Example: top-bottom 15px, left-right 20px */
+}
+
+/* Adjust margin for the modal footer */
+.modal-footer {
+    margin: 0px 40px; /* Example: top-bottom 10px, left-right 20px */
+
+}
+.modal-item-table th {
+    text-align: left;
+}
+.modal-item-table td {
+    text-align: left;
+}
+
+.modal-list-inline {
+    list-style-type: none; 
+    padding: 0;           
+    margin: 0;            
+    display: flex;        
+    gap: 10px;      
+    margin-left: 210px;   
+    margin-top: 10px;  
+
+}
+/* Set the same width for all columns except the first one */
+.modal-item-details th:not(:first-child),
+.modal-item-details td:not(:first-child) {
+    width: 70px; 
+    padding-right: 10px;
+}
+
+.modal-item-details th:first-child,
+.modal-item-details td:first-child {
+    padding-right: 10px;
+    width: 140px; /* Adjust this value to your desired width */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any text that overflows the container */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
+}
+
+.modal-list-inline li {
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 80px;   
+}
+.modalinside2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 200px;
+    margin-right: 140px;
+}
+
+.modalinside2 p {
+    margin-right: -30px;
+}
+#modalQuantity{
+    margin-left: -70px;
+}
+#productImg{
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    margin-left: 40px;
+    margin-top: -20px;
+    border-radius: 10px;
+}
+#denial-options .btn.btn-light.dropdown-toggle{
+    width: 220px;
+    margin-left: 120px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: left !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;               /* Hide the overflowing text */
+    text-overflow: ellipsis;
+    height: 40px !important;
+}
+#denial-options .btn.btn-light.dropdown-toggle span {
+    display: inline-block;
+    max-width: 190px;               /* Limit the width of the text */
+    white-space: nowrap;            /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-size: 16px;
+    color: #092C4C;
+    /* Add ellipsis when text exceeds */
+}
+#denial-options .btn.btn-light.dropdown-toggle::after{
+    position: absolute;
+    top: 15px;
+    left: 190px !important;
+}
+#denial-options .dropdown-menu{
+    width: 220px !important;
+}
+#denial-options .btn.btn-light{
+    color: #092C4C !important;
+    border: 1px solid #092C4C !important;
+}
+#denial-options h3{
+    margin-left: 160px !important;
+}
+#denial-options textarea{
+    width: 430px;
+    resize: none;
+    height: 150px;
+    border-radius: 7px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.dropdown-menu li{
+    cursor: pointer;
+}
+.dropdown-item:hover{
+    background-color:rgb(190, 190, 190) !important;
+}
+#denyComment{
+    margin-left: 20px;
 }

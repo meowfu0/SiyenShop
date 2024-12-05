@@ -18,3 +18,4 @@ mix.js('resources/js/app.js', 'public/js')
 let mix = require('laravel-mix');
 
 mix.js('src/app.js', 'dist').setPublicPath('dist');
+
