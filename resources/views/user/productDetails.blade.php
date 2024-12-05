@@ -79,11 +79,12 @@
                                     @endif
 
                                     <button type="submit" 
-                                        class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
-                                        style="width:130px; height:48px">
-                                        <img src="{{ asset('images/cart.svg') }}" class="invert" style="width:15px; height:15px"> 
-                                        Add to Cart
-                                    </button>
+                                    class="btn btn-primary fw-medium d-flex align-items-center justify-content-center gap-2"
+                                    style="width:130px; height:48px"
+                                    {{ $product->stocks <= 0 && $product->status_id === 8 ? 'disabled' : '' }}>
+                                    <img src="{{ asset('images/cart.svg') }}" class="invert" style="width:15px; height:15px"> 
+                                    Add to Cart
+                                </button>
                                 </form>
                                 
                                 <form action="{{ route('productDetails.buy') }}" method="POST" id="buyNow">
@@ -94,7 +95,8 @@
                                     <input type="number" id="size" name="size" value="{{ $variants->first()->id }}" class="d-none">
                                     @endif
                                     <button type="submit" id="buyNowButton" class="btn btn-secondary fw-medium d-flex align-items-center justify-content-center gap-2"
-                                        style="width:130px; height:48px; color:white">
+                                        style="width:130px; height:48px; color:white"
+                                        {{ $product->stocks <= 0 && $product->status_id === 8 ? 'disabled' : '' }}>
                                         <img src="{{ asset('images/cart.svg') }}" class="invert" style="width: 15px; height:15px"> Buy Now
                                     </button>
                                 </form>
