@@ -8,7 +8,7 @@
 
             <div class="content-chatbox-chat" style="max-height: 100%; overflow-y: auto;">
                 <!-- Tabs (buttons) -->
-                <div class="container-chatbox" id="contacts_list" data-last-contact-id="{{ $contacts->first()->contact_id ?? '' }}" data-last-contact-name="{{ $contacts->first()->name ?? '' }}" data-last-contact-picture="{{ $contacts->first()->profile_picture ?? '' }}">
+                <div class="container-chatbox"   id="contacts_list" data-last-contact-id="{{ $contacts->first()->contact_id ?? '' }}" data-last-contact-name="{{ $contacts->first()->name ?? '' }}" data-last-contact-picture="{{ $contacts->first()->profile_picture ?? '' }}">
                 <div class="container d-flex justify-content-center mt-3">
                     <input type="text" id="search-user" placeholder="Search..." class="form-control" style="width: 100%;">
                 </div>
