@@ -10,6 +10,16 @@ body{
     height: 100%;
     width: 240px;
 }
+#no-order-indicator, #gotoShop{
+    font-size: 25px;
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+#gotoShop{
+    top: 55%;
+}
 #navigation{
     position: fixed;
     top: 0px;
@@ -1607,5 +1617,9 @@ body{
         top: 55%;
         font-size: 1rem;
         left: 15%;
+    }
+    #no-order-indicator, #gotoShop{
+        font-size: 0.7rem;
+        white-space: nowrap;
     }
 }

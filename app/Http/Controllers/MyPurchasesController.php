@@ -27,7 +27,7 @@ class MyPurchasesController extends Controller
         $reviews = Review::all();
         $denied_orders = DeniedOrder::whereIn('order_id', $orders->pluck('id'))->get();
         $keyId = 0;
- 
+        
         $categories = Category::all();
         return view('user.mypurchases', compact('orders', 'orderItems', 'categories', 'variant_item', 'reviews', 'keyId', 'denied_orders'));
     }

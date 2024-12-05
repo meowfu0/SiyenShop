@@ -27,7 +27,10 @@
     <div class="lineBar">
         <div id="dLine"></div>
     </div>
-            <!-- Orders Table -->
+            @if($orders->isEmpty())
+                <p id="no-order-indicator">Oops! It looks like you haven't ordered anything yet.</p>
+                <a id="gotoShop" href="{{ route('shopPage') }}">Shop Now</a>
+            @else
             <table id="ordersTable">
                 @foreach ($orders as $order)
                     <tr class="order-row" data-status="{{ $order->order_status_id }}"
@@ -66,20 +69,21 @@
                                 $currentItem = $orderItems->first(function($item) use ($order) {
                                     return $item->order_id == $order->id;
                                 });
-                                $currentCategory = $categories->first(function($categ) use ($currentItem){
-                                    return  $categ->id == $currentItem->product->category_id;
-                                });
-                                $currentVariant = $variant_item->first(function($var) use ($currentItem){
-                                    return  $var->id == $currentItem->variant_id;
-                                });
-                                
+
+                                if ($currentItem) {
+                                    $currentCategory = $categories->first(function($categ) use ($currentItem) {
+                                        return $categ->id == $currentItem->product->category_id;
+                                    });
+
+                                    $currentVariant = $variant_item->first(function($var) use ($currentItem) {
+                                        return $var->id == $currentItem->variant_id;
+                                    });
+                                }
                             @endphp
-                            <script>
-                                console.log(@json($currentVariant));
-                            </script>
                             <!-- Item Image -->
+                            
                             <div class="item-img">
-                                <img src="\images\{{ $currentItem->product->product_image }}">
+                                <img src="\images\{{ $currentItem->product->product_image ?? 'default-image.jpg' }}">
                             </div>
                             <!-- Order Details Table -->
                             <table class="dets">
@@ -91,6 +95,7 @@
                                     <th>Price</th>
                                 </tr>
                                 <tr>
+                                    @if($currentItem)
                                     <td data-label="Item">{{ $currentItem->product->product_name }}</td>
                                     <td data-label="Category">{{ $currentCategory->category_name }}</td>
                                     <td data-label="Variant/Size">
@@ -98,9 +103,10 @@
                                     </td>
                                     <td data-label="Quantity">{{ $currentItem->quantity }}</td>
                                     <td data-label="Price">₱ {{ number_format($currentItem->price, 2) }}</td>
+                                    @endif
                                 </tr>
                             </table>
-
+                           
                             <!-- Additional Order Info -->
                             <div class="other-content-low">
                                 <h5>TOTAL:</h5>
@@ -146,14 +152,16 @@
         
                                         });
                                 </script>
-                                
+                               
                             </div>
                         </td>
                     </tr>
-                @endforeach      
+                @endforeach
             </table>
+            @endif
             <!-- Modal -->
-            <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel-{{ $order->id }}" aria-hidden="true">
+             @if(!$orders->isEmpty())
+            <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsLabel-{{ $order->id ?? 'unknown' }} aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <!-- Modal Header -->
@@ -225,6 +233,7 @@
                     </div>
             </div>
     </div>
+    @endif
     <div id="modal-cover">
     </div>
     <div id="msg-modal" class="custom-modal">
