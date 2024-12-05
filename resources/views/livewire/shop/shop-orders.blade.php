@@ -742,7 +742,7 @@ function extractDataTable(printKey) {
 }
 
 function downloadCSV() {
-    if(validateDate()){
+    if(validateDate(1)){
         var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
 
         // Use the getDataTable() function to fetch the table data
@@ -810,7 +810,7 @@ function downloadCSV() {
 
 
 function downloadXLSX() {
-    if(validateDate()){
+    if(validateDate(1)){
         var shopName = document.getElementById('shopName')?.innerText || 'Shop Name'; // Default if shop name is not found
 
         // Use the extractDataTable() function to fetch the table data

@@ -127,8 +127,9 @@
                                         .then(response => response.json())
                                         .then(data => {
                                             const rev = @json($reviews);
-                                            const unreviewedItems = @json($orderItems).filter(item => {{ $order->id }} === item.order_id && !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
-                                            
+                                            console.log(rev.some(review => review.order_id === 3 && review.product_id === 3));
+                                            const unreviewedItems = @json($orderItems).filter(item => !rev.some(review => review.order_id === item.order_id && review.product_id === item.product_id));
+                                            console.log(unreviewedItems);
                                             let existingItem = [];
                                             unreviewedItems.forEach(item => {
                                                 if(existingItem.length === 0){  // Check if the array is empty
@@ -139,14 +140,13 @@
                                                     existingItem.push(item.product_id);
                                                 }
                                             });
-                                            console.log(existingItem.length);
+                                            
                                             if(@json($order->order_status_id) != 12){
                                                 if (data.distinct_item_count > 1) {
                                                     document.getElementById('multipleIndicator_{{ $order->id }}').textContent = "Multiple items available. Click 'View Details' to see more";
                                                 }
                                             }else{
                                                 document.getElementById('multipleIndicator_{{ $order->id }}').textContent =  unreviewedItems.length === 0 ? "" : existingItem.length+" item(s) to review";
-                                                document.get
                                                 document.getElementById('multipleIndicator_{{ $order->id }}').style.left = '200px';
                                             }
         
@@ -592,6 +592,7 @@
         var qtty = 0;
         var variants = "";
         var costz = 0;
+        console.log(prodId);
         filteredItems.forEach(itemz => {
             qtty+=itemz.quantity;
             variants += (itemz.product_variant && itemz.product_variant.size ? itemz.product_variant.size + ", " : "");
@@ -606,7 +607,7 @@
         const currentCateg = @json($categories).find(categ => currentItem.product.category_id === categ.id);
         currentId = id;
         console.log(currentId);
-
+        currentProductId = prodId;
         document.querySelector('#rateItemHolder img').src = "/images/"+currentItem.product.product_image;
         document.getElementById('rateItemName').textContent = name;
         document.getElementById('rateItemCategory').textContent = currentCateg.category_name;
@@ -631,13 +632,12 @@
 
     }
     function submitRate(){
-        const currentItem = @json($orderItems).find(name => currentId === name.id);
         var rateNum = selectedIndex+1;
         var reviewComment = (document.querySelector('#rateModal textarea').value === "" ? "N/A" : document.querySelector('#rateModal textarea').value);
 
         const reviewData = {
-            order_id: currentItem.order_id,
-            product_id: currentItem.product.id,
+            order_id: currentId,
+            product_id: currentProductId,
             ratings: rateNum,
             review: reviewComment,
         };
@@ -801,10 +801,10 @@
     }
     function setRateItem(item) {
         document.querySelector('#rateChoiceButton span').textContent = item.product.product_name;
-
         const link = document.getElementById('openRate');
         document.getElementById('selectIndicator').style.display = "none";
         link.disabled = false;
+        currentId = item.id;
         link.addEventListener('click', function() {
             showRate(item.product_id, item.order_id, item.id);
         });

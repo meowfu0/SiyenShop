@@ -10,6 +10,7 @@ use App\Models\Shop;
 use App\Models\User;
 use App\Models\DeniedOrder;
 use App\Mail\OrderStatusUpdate;
+use App\Models\GCashInfo;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -91,7 +92,10 @@ class OrderController extends Controller
     }
     public function index()
     {
-        $shop = Shop::where('user_id', auth()->id())->first();
+        $gcash = GCashInfo::where('user_id', auth()->id())->first();
+
+        $shop = Shop::where('id', $gcash->shop_id)->first();
+
         $orders = Order::where('shop_id', $shop->id)->get();
         $orderItems = OrderItem::with(['product', 'productVariant'])->whereIn('order_id', $orders->pluck('id'))->get();
         $variant_item = ProductVariant::all();

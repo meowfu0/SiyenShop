@@ -529,13 +529,14 @@ body{
     left: 60px;
 }
 #rateModal{
-    position: fixed;
+    position: absolute;
     background-color: white;
     border-radius: 10px;
     height: 700px;
     width: 560px;
-    top: 20px;
-    left: 480px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border: 1px solid rgb(219, 219, 219);
     z-index: 10000;
     display: none;
