@@ -1,0 +1,98 @@
+.add-icon {
+    transition: filter 0.3s ease;
+}
+
+.add-icon:hover {
+    filter: brightness(0) invert(1);
+}
+.add-icon{
+    align-items: center;
+}
+/* Ensure table cells are properly aligned */
+.img{
+    border-radius: 3px;
+}
+
+    /* Style for uniform checkbox size */
+.table .select-all,
+    .table .select-item {
+        width: 15px; /* Set desired width */
+        height: 15px; /* Set desired height */
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+    }
+    
+    .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+        border-radius: 2px;
+        background-color: #ffffff;
+        color: #0b0c0d;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .page-link:hover {
+        background-color: #092C4C;
+        color: #ffffff;
+        border-color: #092C4C;
+    }
+    
+    .page-link.active {
+        background-color: #092C4C;
+        color: #ffffff;
+        border-color: #092C4C;
+        font-weight: bold;
+    }
+    
+    .page-link[aria-disabled="true"] {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+    
+    .footer-btn p {
+        font-size: 14px;
+        color: #092C4C;
+        margin: 0;
+    }
+    
+    /* Specific Hover and Active Effects */
+    .page-link:hover, .page-link.active {
+        cursor: pointer;
+    }
+    .add-product-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        border: 2px solid #092C4C; /* Initial border color */
+        background-color: transparent;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #007bff; /* Initial text color */
+        transition: all 0.3s ease; /* Smooth transition */
+    }
+    
+    .add-product-btn .icon {
+        width: 14px;
+        height: 14px;
+        margin-bottom: 3px;
+        transition: transform 0.3s ease; /* Smooth transition for icon on hover */
+    }
+    
+    .add-product-btn:hover {
+        border-color: #092C4C; /* Darken border color on hover */
+        background-color: #092C4C; /* Change background color on hover */
+        color: #ffffff; /* Change text color to white on hover */
+        transform: scale(1.05); /* Slightly scale up the button */
+    }
+    

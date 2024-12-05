@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->float('supplier_price'); 
             $table->float('retail_price'); 
             $table->float('sales_count'); 
-            $table->integer('stocks'); 
+            $table->integer('stocks')->nullable();
             
             // Timestamps (Not Null)
             $table->timestamp('created_at')->useCurrent(); 

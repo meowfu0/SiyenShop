@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 namespace App\Http\Controllers;
@@ -8,6 +11,7 @@ class OrderEmailsController extends Controller
 {
     public function index()
     {
-        return view ('OrderEmails');
+        return view('user.productDetailswithSize');
     }
 }
+

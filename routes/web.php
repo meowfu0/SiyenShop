@@ -39,6 +39,12 @@ use App\Http\Controllers\GCashInfoController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FaqController;
 use App\Mail\MessageNotification;
+use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ShopProductsAddController;
+use App\Http\Controllers\ShopProductEditController;
+use App\Http\Controllers\ShopProductDeleteController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopProductHistoryRestoreController;
 
 Auth::routes();
 
@@ -118,8 +124,6 @@ Route::get('/email', [ OrderEmailsController::class, 'index'])->name('email');
 
 Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('profile.update');
 
-
-
 // Shop Routes Group
 //add middleware for authenticatio'n purposes
 Route::get('/shop', function () {
@@ -131,9 +135,33 @@ Route::prefix('shop')->middleware(['auth'])->group(function () {
     Route::get('/orders', [ShopOrders::class, 'render'])->name('shop.orders');
     Route::get('/chat', [ShopChat::class, 'render'])->name('shop.chat');
 
-    Route::get('/products/add', [ShopProductsAdd::class, 'render'])->name('shop.products.add');
-    Route::get('/products/edit', [ShopProductsEdit::class, 'render'])->name('shop.products.edit');
+    // Add Product
+    Route::get('products/add', [ShopProductsAddController::class, 'create'])->name('shop.products.add'); 
+    Route::post('products', [ShopProductsAddController::class, 'store'])->name('shop.products.store'); 
+
+    // Edit Product
+    Route::get('/products/edit/{id}', [ShopProductEditController::class, 'edit'])->name('shop.products.edit');
+    Route::put('/products/{id}', [ShopProductEditController::class, 'update'])->name('shop.products.update');
+
+    // Category
+    Route::post('categories/add', [CategoryController::class, 'add'])->name('categories.add');
+    
+    Route::get('/products/edit', [CategoryController::class, 'showCategorySelection']);
+    Route::put('/products/edit/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/products/edit/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.delete');
+
+    //Delete
+    Route::delete('/shop/products/delete/{id}', [ShopProductDeleteController::class, 'delete'])->name('shop.products.delete');
+    Route::post('/shop/products/delete/multiple', [ShopProductDeleteController::class, 'deleteMultiple'])->name('shop.products.delete.multiple');
+
+    //Product History
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
+    
+});
+
+Route::get('/api/categories', function () {
+    $categories = App\Models\Category::all(['id', 'category_name']); // Adjust fields as needed
+    return response()->json(['categories' => $categories]);
 });
 
 
@@ -166,8 +194,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/update', [Updateshop::class, 'render'])->name('admin.updateshop');
     });
 }); 
-
-use App\Http\Controllers\MessageController;
+Route::post('/restore-products', [ShopProductHistoryRestoreController::class, 'restoreProducts'])->name('restore.products');use App\Http\Controllers\MessageController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/fetch-messages/{recipient}', [MessageController::class, 'fetchMessages']);
@@ -190,8 +217,6 @@ Route::post('/getShopUserId', [MessageController::class, 'getShopUserId'])->name
 
 Route::post('/gcash/update/{id}', [GCashInfoController::class, 'update'])->name('gcash.update');
 Route::delete('/gcash/delete/{id}', [GCashInfoController::class, 'destroy'])->name('gcash.destroy');
-
-
 
 
 Route::post('/gcash/store', [GCashInfoController::class, 'store'])->name('gcash.store');

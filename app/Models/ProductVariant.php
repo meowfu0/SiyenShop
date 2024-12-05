@@ -9,6 +9,13 @@ class ProductVariant extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['product_id', 'size', 'stock'];
+
+    public function productvariant()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
     public function product()
 {
     return $this->belongsTo(Product::class);
