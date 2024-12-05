@@ -37,7 +37,7 @@ class orderSummaryPageController extends Controller
             ->join('shops as s', 'o.shop_id', '=', 's.id')
             ->join('categories as cat', 'p.category_id', '=', 'cat.id')
             ->leftJoin('product_variants as v', function ($join) use ($categoryId) {
-                $join->on('oi.size', '=', 'v.id')
+                $join->on('oi.variant_id', '=', 'v.id')
                 ->where('cat.id', '=', $categoryId); // Only join product_variants for the specific category
             })
             ->select(
@@ -50,7 +50,7 @@ class orderSummaryPageController extends Controller
                 'o.order_date',
                 'oi.quantity',
                 'oi.price',
-                'oi.size',
+                'oi.variant_id',
                 'p.product_name',
                 'p.supplier_price',
                 'p.retail_price',

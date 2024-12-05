@@ -241,7 +241,7 @@ class PaymentPageController extends Controller
                 'product_id' => $item->product_id,
                 'quantity' => $item->quantity,
                 'price' => $item->retail_price,
-                'size' => $item->size,
+                'variant_id' => $item->size,
             ]);
         }
 
