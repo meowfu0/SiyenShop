@@ -195,3 +195,6 @@ Route::delete('/gcash/delete/{id}', [GCashInfoController::class, 'destroy'])->na
 
 
 Route::post('/gcash/store', [GCashInfoController::class, 'store'])->name('gcash.store');
+
+
+Route::get('/search', [shopPageController::class, 'search'])->name('searchProducts');

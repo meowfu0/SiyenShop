@@ -31,10 +31,12 @@
         <!-- Right Side Of Navbar -->
         <div class="d-flex ms-auto gap-2 align-items-center">
             <!-- Search Icon -->
-            <a class="icons" href="{{ url('/') }}">
+            <form action="{{ route('shopPage') }}" method="GET" class="d-flex" id="searchForm">
+                <input type="text" name="query" class="form-control" placeholder="Search products..." aria-label="Search" id="searchInput" style="width: 300px; display: none;">
+            </form>
+            <a class="icons" href="#" id="searchIcon">
                 <img src="{{ asset('images/search.svg') }}" class="search-img">
             </a>
-
             <!-- Login Button -->
             <ul class="navbar-nav">
                 @guest
@@ -135,3 +137,33 @@
     </div>
 </nav>
 @endif
+<script>
+    // Get references to the search input and icon
+    const searchInput = document.getElementById('searchInput');
+    const searchIcon = document.getElementById('searchIcon');
+
+    searchIcon.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        if (searchInput.style.display === 'block') {
+            searchInput.style.display = 'none';
+        } else {
+            searchInput.style.display = 'block';
+            searchInput.focus();
+        }
+    });
+
+    searchInput.addEventListener('blur', function () {
+        if (searchInput.value.trim() === '') {
+            searchInput.style.display = 'block';
+        }
+    });
+
+    searchInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); 
+            document.getElementById('searchForm').submit(); 
+        }
+    });
+</script>
+    
