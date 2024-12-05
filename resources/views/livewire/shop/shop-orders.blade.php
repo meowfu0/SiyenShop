@@ -714,19 +714,33 @@ function extractDataTable(printKey) {
         if (selectedStatus === 'all' || row.querySelector(`.status-label.${selectedStatus}`)) {
             const rowData = {};
             headers.forEach((header, index) => {
-                const cellValue = row.cells[index]?.innerText || "";
+                var cellValue = row.cells[index]?.innerText || "";
+
+                // Extract the date part if the header contains "date"
+                if (header.toLowerCase().includes("date")) {
+                    cellValue = cellValue.split(' ')[0]; // Keep only the date part
+                }
+
                 rowData[header] = cellValue;
 
-                // Accumulate total sales if the column matches "Amount" or "Price"
+                // Add to total sales if the header includes "amount" or "price"
                 if (header.toLowerCase().includes("amount") || header.toLowerCase().includes("price")) {
                     const amount = parseFloat(cellValue.replace(/[^0-9.-]+/g, '')) || 0;
                     totalSales += amount;
                 }
             });
-            rows.push(rowData);
+
+            // Convert date strings to Date objects for comparison
+            const rowDate = new Date(rowData['Date']);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Push rowData if the date is within the range
+            if (rowDate >= start && rowDate <= end) {
+                rows.push(rowData);
+            }
         }
     }
-
     const reportData = {
         shopName,
         startDate,
@@ -736,7 +750,6 @@ function extractDataTable(printKey) {
         rows
     };
 
-    console.log(reportData);
     return reportData;
     
 }
