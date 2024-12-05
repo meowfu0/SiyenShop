@@ -3,22 +3,33 @@
 @section('content')
 <head>
     <link rel="stylesheet" href="{{ asset('css/toggleswitch.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <div class="flex-grow-1" style="width: 100%!important;">
-    @include('components.profilenav')
+     <div class="border-bottom d-flex align-items-center justify-content-end" style="height: 80px;">
+        <div class="d-flex gap-2 pe-5">
+            <img src="{{ asset('images/user.svg') }}" alt="">
+            @auth
+            <div class="text-primary fw-medium d-none d-md-block">
+                {{ Auth::user()->first_name }}
+            </div>
+            @endauth
+        </div>
+     </div>
      
      <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height: 70px">
         <div class="ps-3">
             <img src="{{ asset('images/Circuits.svg') }}" alt="">
         </div>
-        <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students</h2>
+        <h2 class="fw-bold m-0 text-primary">{{$shop->shop_name}}</h2>
      </div>
 
     <div class="d-flex justify-content-between px-5 py-3">
         <h2 class="fw-bold m-0 text-primary">Add Product</h2>
     </div>
+
+    <form action="{{ route('shop.products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
     <div class="d-flex px-5 py-4 flex-grow-1">
         <div class="container">
@@ -27,84 +38,162 @@
                 <div class="col-md-6 d-flex flex-column gap-3">
                     <div class="form-group mb-1">
                         <label for="product_name" class="fw-bold text-primary">Product Name</label>
-                        <input type="text" id="product_name" class="form-control" placeholder="Input product name" required>
+                        <input type="text" name="product_name" id="product_name" class="form-control" value="{{ old('product_name') }}" required>
+                         @error('product_name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group mb-1">
-                        <label for="product_description" class="fw-bold text-primary">Product Description</label>
-                        <textarea id="product_description" class="form-control" rows="4" placeholder="Input product description"></textarea>
+                        <label for="product_decription" class="fw-bold text-primary">Product Description</label>
+                        <textarea name="product_description" id="product_description" class="form-control" required>{{ old('product_description') }}</textarea>
+                        @error('product_description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="image_upload" class="fw-bold text-primary">Upload Image</label>
                         
                         <!-- Drag and Drop Zone -->
-                        <div id="drop_zone" class="border p-4 text-center" style="cursor: pointer;">
+                        <div id="drop_zone" class="border p-4 text-center position-relative" style="cursor: pointer;">
                             <p class="text-muted">Drag and drop an image here, or click to select one</p>
-                            <input type="file" id="image_upload" class="form-control-file d-none" accept="image/*">
+                            <input type="file" id="image_upload" name="product_image" class="form-control-file d-none" accept="image/*">
                             <img id="uploaded_image_preview" class="mt-3 d-none" src="" alt="Uploaded Image Preview" style="max-width: 100%; height: auto;">
+                            <button id="remove_image" class="btn btn-outline-primary d-none position-absolute" style="top: 5px; right: 5px;">X</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Column -->
+                <div class="col-md-6 d-flex flex-column gap-3"> 
+                    <div>
+                    <!-- Category Selection -->
+                    <div class="form-group mb-1">
+                        <label for="category" class="fw-bold text-primary">Category</label>
+                        <select name="category_id" id="category_id" class="form-select" required>
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->category_name }}
+
+        
+                                
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        {{-- <div class="dropdown">
+                            <button class="form-select w-100 text-start" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Category
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="category-dropdown">
+                                @foreach ($categories as $category)
+                                    <li class="dropdown-item d-flex justify-content-between align-items-center" data-category-id="{{ $category->id }}" onclick="selectCategory('{{ $category->category_name }}')">
+                                        <span>{{ $category->category_name }}</span>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn p-0" onclick="openEditModal('{{ $category->id }}', '{{ $category->category_name }}'); event.stopPropagation();">
+                                                <img src="{{ asset('images/edit.svg') }}" alt="edit" style="width: 15px; height: 15px; margin-right: 5px;">
+                                            </button>
+                                            <button type="button" class="btn p-0" onclick="deleteCategory('{{ $category->category_name }}'); event.stopPropagation();">
+                                                <img src="{{ asset('images/delete.svg') }}" alt="delete" style="width: 15px; height: 15px;">
+                                            </button>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @error('category_id') <span class="text-danger">{{ $message }}</span> @enderror --}}
+                    </div>
+
+                    <!-- Category Modal -->
+                    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editCategoryModalLabel">Edit Category</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form wire:submit.prevent="save">
+                                        <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                        <div class="form-group mb-2 d-flex align-items-center">
+                                            <input type="text" id="category_name" class="form-control me-2" wire:model="categoryName">
+                                        </div>
+                                        @error('categoryName') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                    <button type="submit" class="btn btn-primary" wire:click="save">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ADD Category Modal -->
+                    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add Category</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form wire:submit.prevent="save">
+                                        <label for="category_name" class="fw-bold text-primary me-2">Category Name</label>
+                                        <div class="form-group mb-2 d-flex align-items-center">
+                                            <input type="text" id="category_name" class="form-control me-2" wire:model="categoryName">
+                                        </div>
+                                        @error('categoryName') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
+                                    <button type="submit" class="btn btn-primary" wire:click="save">Save</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Second Column -->
-                <div class="col-md-6 d-flex flex-column gap-3"> 
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <p class="fw-bold m-0 text-primary">Organize</p>
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category
-                            <img src="{{ asset('images/add.svg') }}" alt=""></button>
-                    </div>
-        
-                    <div class="form-group mb-1">
-                        <label for="category" class="fw-bold text-primary">Category</label>
-                        <select id="category" class="form-select form-control" required>
-                            <option value="">Select Category</option>
-                            <option value="T-Shirt">T-Shirt </option>
-                            <option value="Lanyard">Lanyard</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group mb-1">
-                        <label for="shop_id" class="fw-bold text-primary">Organization</label>
-                       <!-- <input type="text" id="organization" class="form-control" 
-                            value="{{ Auth::user()->organization ?? 'No organization assigned' }}" readonly disabled> for backend part-->
-                            <input type="text" id="shop_id" class="form-control" value="Circle of Unified Information Technology Students" readonly disabled> <!-- For frontend part only-->
-                    </div>
-
+                <div class="form-group mb-1">
+                    <label for="shop_id" class="fw-bold text-primary">Organization</label>
+                    <input type="text" id="shop_id" class="form-control" 
+                        value="{{ $shop->shop_name ?? 'No organization assigned' }}" readonly disabled>
+                </div>
                     <div class="col-md-6 gap-3"> 
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             <p class="fw-bold m-0 text-primary">Inventory</p>
                         </div>
                     </div>
 
-                    <form>
+                    
                         <div class="row g-2"> 
                             <div class="col-md-6 mb-1"> 
-                                <div class="form-group">
-                                    <label for="status_id" class="fw-bold text-primary">Status</label>
-                                    <select id="status_id" class="form-select form-control" required>
-                                        <option value="">Select Status</option>
-                                        <option value="on-hand">On-Hand</option>
-                                        <option value="pre-order">Pre-Order</option>
-                                    </select>
-                                </div>
+                                <label for="status_id" class="form-label">Status</label>
+                                <select name="status_id" id="status_id" class="form-select" required>
+                                    <option value="" disabled selected>Select a status</option>
+                                    <!-- Example statuses -->
+                                    <option value="9" {{ old('status_id') == 9 ? 'selected' : '' }}>Pre-Order</option>
+                                    <option value="8" {{ old('status_id') == 8 ? 'selected' : '' }}>On-Hand</option>
+                                </select>
+                                @error('status_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="col-md-6 mb-1"> 
                                 <div class="form-group">
-                                    <label for="visibility" class="fw-bold text-primary">Visibility</label>
-                                    <select id="visibility" class="form-select form-control">
-                                        <option value="">Select Visibility</option>
-                                        <option value="visible">Visible</option>
-                                        <option value="hidden">Hidden</option>
+                                    <label for="visibility_id" class="form-label">Visibility</label>
+                                    <select name="visibility_id" id="visibility_id" class="form-select" required>
+                                        <option value="" disabled selected>Select visibility</option>
+                                        <!-- Example visibility options -->
+                                        <option value="1" {{ old('visibility_id') == 1 ? 'selected' : '' }}>Visible</option>
+                                        <option value="2" {{ old('visibility_id') == 2 ? 'selected' : '' }}>Hidden</option>
                                     </select>
+                                    @error('visibility_id') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
-                                <p class="fw-bold m-0 text-primary">Variation</p>
+                                <p class="fw-bold m-0 text-primary">Size Variation</p>
                                 <label class="switch">
                                     <input type="checkbox" id="variationToggle">
                                     <span class="slider round"></span>
@@ -126,27 +215,28 @@
                                                 <th class="text-end"></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="variantRows">
                                             <tr id="inputRow_1">
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="text" id="size_1" class="form-control" placeholder="e.g. XL">
+                                                        <input type="text" name="variants[1][size]" id="size_1" class="form-control" placeholder="e.g. XL" value="">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input type="number" class="form-control" placeholder="e.g. 10" min="0" step="1">
+                                                        <input type="number" name="variants[1][stocks]" id="variantStocks_1" class="form-control" placeholder="e.g. 10" min="0" step="1" value="">
                                                     </div>
                                                 </td>
                                                 <td>
-                                                <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
-                                                    <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-                                                </button>
+                                                    <button type="button" class="btn btn-sm" onclick="myDeleteFunction('inputRow_1')">
+                                                        <img src="http://localhost:8000/images/Delete.svg" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
+                                                    </button>
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                            
+                                    </tbody>
                                     </table>
-                                    <button id="addNewField" class="btn" type="button" onclick="myCreateFunction()">
+                                    <button id="addNewField" class="btn" type="button" onclick="addVariantRow()">
                                         <img src="{{ asset('images/add.svg') }}" alt="Add" style="width: 12px; height: 12px;"> Add New Size
                                     </button>
 
@@ -159,23 +249,26 @@
                         <div class="row g-2"> 
                             <div class="col-md-6 mt-3 mb-1"> 
                                 <div class="form-group">
-                                    <label for="supplier" class="fw-bold text-primary">Supplier Price</label>
-                                    <input id="supplier_price"  type="text" id="form2" class="form-control" required>
+                                    <label for="supplier_price" class="form-label">Supplier Price</label>
+                                    <input type="number" name="supplier_price" id="supplier_price" class="form-control" step="0.01" value="{{ old('supplier_price') }}" required>
+                                    @error('supplier_price') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6 mt-3"> 
                                 <div class="form-group">
-                                    <label for="price" class="fw-bold text-primary">Price</label>
-                                    <input id="price"  type="text" id="form2" class="form-control" required>
+                                    <label for="retail_price" class="form-label">Retail Price</label>
+                                    <input type="number" name="retail_price" id="retail_price" class="form-control" step="0.01" value="{{ old('retail_price') }}" required>
+                                    @error('retail_price') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label for="quantity" class="fw-bold text-primary">Quantity</label>
-                                    <div class="input-group quantity-selector quantity-selector-sm">
-                                        <input type="number" id="quantity_id" class="form-control" placeholder="e.g. 10" min="0" step="1" required>
+                            <div class="row g-2"> 
+                                <div class="col-md-6"> 
+                                    <div class="form-group">
+                                        <label for="stocks" id="stock" class="form-label">Stocks</label>
+                                        <input type="number" name="stocks" id="stocks" class="form-control" value="{{ old('stocks') }}">
+                                        @error('stocks') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -190,183 +283,201 @@
                 <a href="{{ route('shop.products') }}" class="btn btn-outline-primary me-2">Discard</a>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
-            
         </div>
     </div>
+    </form>
+    
 </div>
-
-<!-- Modal: Add New Category -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addCategoryModalLabel">Add New Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="category" class="fw-bold text-primary">Category Name</label>
-                    <input type="text" id="category" class="form-control" placeholder="Input Category Name">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Discard</button>
-                <button type="button" class="btn btn-primary">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const statusSelect = document.getElementById('status_id');
-    const categorySelect = document.getElementById('category');
-    const variationToggle = document.getElementById('variationToggle');
-    const hiddenFields = document.getElementById('hiddenFields');
-    const sizeInput = document.getElementById('size_1');
-    const quantityInput = document.getElementById('quantity_1');
-    const disabledInput = document.getElementById('disabledInput');
-    const quantity = document.getElementById('quantity_id');
-    const quantityTitle = document.getElementById('quantity');
-    
-    let currentStatus = '';
 
-    // Function to enable or disable the toggle based on category and status
-    function checkToggleAvailability() {
-        const category = categorySelect.value;
-        currentStatus = statusSelect.value;  // Save the current status
+    function toggleQuantity() {
+        const statusSelect = document.getElementById('status_id');
+        const stocksTitle = document.getElementById('stock'); 
+        const quantityTitle = document.getElementById('quantity_1');
+        const variationToggle = document.getElementById('variationToggle');
+        const stocksInput = document.getElementById('stocks');
 
-        if (category === 'T-Shirt' && (currentStatus === 'on-hand' || currentStatus === 'pre-order')) {
-            // Enable the toggle if category is T-Shirt and status is on-hand or pre-order
-            variationToggle.removeAttribute('disabled');
-            if (!variationToggle.checked) {
-                variationToggle.checked = true; // Ensure the toggle is on if it's not
-                disabledInput.style.display ='none';
-                hiddenFields.style.display = 'block';
-                
-                if (currentStatus === 'pre-order') {
-                    sizeInput.style.display = 'block'; 
-                    quantityInput.style.display = 'none';
-                } else if (currentStatus === 'on-hand') {
-                    sizeInput.style.display = 'block';
-                    quantityInput.style.display = 'block';
-                }
-            }
-            else {
-                variationToggle.checked = true; // Ensure the toggle is on if it's not
-                disabledInput.style.display ='none';
-                hiddenFields.style.display = 'block';
-                
-                if (currentStatus === 'pre-order') {
-                    sizeInput.style.display = 'block'; 
-                    quantityInput.style.display = 'none';
-                } else if (currentStatus === 'on-hand') {
-                    sizeInput.style.display = 'block';
-                    quantityInput.style.display = 'block';
-                }
-            
-            }
-            quantity.setAttribute('disabled', 'disabled'); // Disable quantity input
-        } else {
-            // If the category is changed to something else, handle the toggle accordingly
-            if (variationToggle.checked) {
-                variationToggle.checked = false; // Reset toggle to off if it was on
-            }
-            variationToggle.setAttribute('disabled', 'disabled'); // Disable toggle
-            hiddenFields.style.display = 'none'; 
-            sizeInput.style.display = 'none';
-            quantityInput.style.display = 'none';
-            quantity.removeAttribute('disabled'); // Enable quantity when toggle is off
+        // Handle stocks input visibility
+        if (statusSelect.value === '9' || variationToggle.checked) { 
+            stocksInput.style.display = 'none';
+            stocksTitle.style.display = 'none';
+            if (statusSelect.value === '9' && (variationToggle.checked || !variationToggle.checked)) { 
 
-            if (currentStatus === 'pre-order') {
-                quantity.setAttribute('disabled', 'disabled'); // Disable quantity
-            } else {
-                quantity.removeAttribute('disabled'); // Enable quantity if it's not pre-order
+                // Hide all variant stocks input fields
+                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
+                variantStocksInputs.forEach(input => {
+                    input.disabled = true; // Hide each variant stock input
+                });
             }
+            else if (statusSelect.value === '8' && variationToggle.checked || !variationToggle.checked) { 
+
+                // Show all variant stocks input fields
+                let variantStocksInputs = document.querySelectorAll('[id^="variantStocks_"]');
+                variantStocksInputs.forEach(input => {
+                    input.disabled = false; // Show each variant stock input
+                });
+
+            }
+
+        } else if (statusSelect.value === '8') { 
+            stocksInput.style.display = 'block';
+            stocksTitle.style.display = 'block';
+            quantityTitle.style.display = 'block';
         }
+
+
     }
 
-        categorySelect.addEventListener('change', checkToggleAvailability);
-        statusSelect.addEventListener('change', checkToggleAvailability);
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('status_id');
+        const variationToggle = document.getElementById('variationToggle');
+        const hiddenFields = document.getElementById('hiddenFields');
+        const sizeInput = document.getElementById('size_1'); 
+        const quantityInput = document.getElementById('quantity_1'); 
+        const disabledInput = document.getElementById('disabledInput');
+        const stocksInput = document.getElementById('stocks');
+        const stocksTitle = document.getElementById('stock'); 
 
+        // Initial call to set visibility based on default selection
+        toggleQuantity();
+
+        variationToggle.addEventListener('change', function() {
+            if (variationToggle.checked) {
+                hiddenFields.style.display = 'block'; // Show hidden fields
+                disabledInput.style.display = 'none';  // Hide the disabled input
+                quantityInput.style.display = 'block'; // Show quantity input if toggle is on
+                stocksInput.style.display = 'none'; // Hide stocks input if toggle is on
+                stocksTitle.style.display = 'none'; // Hide stocks title if toggle is on
+
+                 // Set the stocks input value to 0 when variation is checked
+                stocksInput.value = 0;
+            } else {
+                hiddenFields.style.display = 'none'; // Hide hidden fields
+                disabledInput.style.display = 'block';  // Show the disabled input
+                toggleQuantity(); // Call toggleQuantity to handle visibility
+
+                // Optionally reset the stocks value to empty or its old value
+                stocksInput.value = ""; 
+            }
+        });
+
+        // Attach event listener to status select
+        statusSelect.addEventListener('change', toggleQuantity);
     });
+
 
     //Updated Add Size fields
-    let rowCount = 1; // Keeps track of the number of rows
-    function myCreateFunction() {
-        var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+    let variantCount = 1;
 
-        var row = table.insertRow();
+    function addVariantRow() {
+        variantCount++;
+        const statusSelect = document.getElementById('status_id');
+        const statusValue = statusSelect ? statusSelect.value : null; // Get the selected status value
 
-        row.id = `inputRow_${++rowCount}`; // Set a unique ID for the row
+        let stocksField = `
+            <input type="number" 
+                name="variants[${variantCount}][stocks]" 
+                id="variantStocks_${variantCount}" 
+                class="form-control" 
+                placeholder="e.g. 10" 
+                min="0" 
+                step="1" 
+                value="">
+        `;
 
-        var sizeCell = row.insertCell(0);
-        var quantityCell = row.insertCell(1);
-        var deleteCell = row.insertCell(2); // For the delete button
+        // Add if-else condition for the stocks field
+        if (statusValue === '9') {
+            stocksField = `
+                <input type="number" 
+                    name="variants[${variantCount}][stocks]" 
+                    id="variantStocks_${variantCount}" 
+                    class="form-control" 
+                    placeholder="e.g. 10" 
+                    disabled 
+                    value="">
+            `;
+        } else if (statusValue === '8') {
+            // Optionally customize for active status
+            stocksField = `
+                <input type="number" 
+                    name="variants[${variantCount}][stocks]" 
+                    id="variantStocks_${variantCount}" 
+                    class="form-control" 
+                    placeholder="e.g. 10" 
+                    min="0" 
+                    step="1" 
+                    value="">
+            `;
+        }
 
-        // Populate the cells with input fields
-        sizeCell.innerHTML = `
-            <div class="form-group">
-                <input type="text" id="size_${rowCount}" class="form-control" placeholder="e.g. XL">
-            </div>`;
+        // Construct the new row
+        const newRow = `
+            <tr id="inputRow_${variantCount}">
+                <td>
+                    <div class="form-group">
+                        <input type="text" 
+                            name="variants[${variantCount}][size]" 
+                            id="size_${variantCount}" 
+                            class="form-control" 
+                            placeholder="e.g. XL" 
+                            value="">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        ${stocksField} <!-- Insert the conditionally generated stocks field -->
+                    </div>
+                </td>
+                <td>
+                    <button type="button" 
+                            class="btn btn-sm" 
+                            onclick="myDeleteFunction('inputRow_${variantCount}')">
+                        <img src="http://localhost:8000/images/Delete.svg" 
+                            alt="Remove" 
+                            style="width: 16px; height: 16px; margin-right: 5px;">
+                    </button>
+                </td>
+            </tr>
+        `;
 
-        // Check the current status to decide whether to show the quantity field
-        updateQuantityCell(quantityCell, rowCount);
-
-        quantityCell.classList.add('text-end');
-        deleteCell.innerHTML = `
-            <button type="button" class="btn btn-sm" onclick="myDeleteFunction('${row.id}')">
-                <img src="{{ asset('images/Delete.svg') }}" alt="Remove" style="width: 16px; height: 16px; margin-right: 5px;">
-            </button>`;
+        // Append the new row to the table
+        document.getElementById('myTable').insertAdjacentHTML('beforeend', newRow);
     }
 
-    // Function to update the quantity cell based on status
-    function updateQuantityCell(cell, rowCount) {
-        if (document.getElementById('status_id').value === 'pre-order') {
-            cell.innerHTML = ''; // Clear the cell for quantity if pre-order
-        } else {
-            cell.innerHTML = `
-                <div class="form-group">
-                    <input type="number" id="quantity_${rowCount}" class="form-control" placeholder="e.g. 10" min="0" step="1">
-                </div>`;
-        }
-    }
 
-    // Event listener to handle status change
-    document.getElementById('status_id').addEventListener('change', function() {
-        var rows = document.getElementById("myTable").getElementsByTagName('tbody')[0].rows;
-
-        for (var i = 0; i < rows.length; i++) {
-            var cell2 = rows[i].cells[1]; // Get the second cell (Quantity cell)
-            updateQuantityCell(cell2, i + 1); // Update quantity cell for each row
-        }
-    });
-
-    // Delete the specified row from the table
     function myDeleteFunction(rowId) {
-        var row = document.getElementById(rowId);
-            if (row) {
-                row.remove();
-            } else {
-                console.error('Row not found:', rowId);
+        const row = document.getElementById(rowId);
+        if (row) {
+            row.remove();
         }
     }
 
-    //Uploading Image
-    document.addEventListener('DOMContentLoaded', function() {
+        // Event listener to handle status change
+        document.getElementById('status_id').addEventListener('change', function() {
+            var rows = document.getElementById("myTable").getElementsByTagName('tbody')[0].rows;
+
+            for (var i = 0; i < rows.length; i++) {
+                var cell2 = rows[i].cells[1]; // Get the second cell (Quantity cell)
+                updateQuantityCell(cell2, i + 1); // Update quantity cell for each row
+            }
+        });
+
+        // Delete the specified row from the table
+        function myDeleteFunction(rowId) {
+            var row = document.getElementById(rowId);
+                if (row) {
+                    row.remove();
+                } else {
+                    console.error('Row not found:', rowId);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('image_upload');
         const imagePreview = document.getElementById('uploaded_image_preview');
+        const removeButton = document.getElementById('remove_image');
 
         // Click on drop zone triggers the file input click
         dropZone.addEventListener('click', () => {
@@ -403,11 +514,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.classList.remove('d-none');
+                    removeButton.classList.remove('d-none'); // Show the "X" button
                 }
                 reader.readAsDataURL(file);
             }
         }
+
+        // Remove image and hide button
+        removeButton.addEventListener('click', function() {
+            imagePreview.classList.add('d-none'); // Hide the image
+            removeButton.classList.add('d-none'); // Hide the button
+            fileInput.value = ''; // Clear the file input
+        });
     });
+    
 
 </script>
 
