@@ -38,6 +38,7 @@ use App\Http\Controllers\ShopProductDeleteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShopProductHistoryRestoreController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ProductExportController;
 
 Auth::routes();
 
@@ -109,6 +110,12 @@ Route::prefix('shop')->group(function () {
 
     //Product History
     Route::get('/products/history', [ShopProductsHistory::class, 'render'])->name('shop.products.history');
+
+    //Export
+    Route::get('/export-csv', [ProductExportController::class, 'exportCSV'])->name('export.csv');
+    Route::get('/export-xlsx', [ProductExportController::class, 'exportXLSX'])->name('export.xlsx');
+    Route::get('/export-pdf', [ProductExportController::class, 'exportPDF'])->name('export.pdf');
+    Route::get('/print-products', [ProductExportController::class, 'printProducts'])->name('print.products');
     
 });
 
