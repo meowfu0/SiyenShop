@@ -205,7 +205,6 @@ function cancel(){
 
 function submitShopUpdate() {
     // Gather form data
-
     const shopId = document.getElementById("storeFetch").getAttribute("data-id");
     console.log(shopId);
 
@@ -217,11 +216,12 @@ function submitShopUpdate() {
         // Add any other form fields here, such as profile picture
     };
 
+    console.log(shopData);
+
     // Handle file upload if present
     let fileInput = document.getElementById('fileInput');
     let formData = new FormData();
-    formData.append('_method', 'PUT');
-
+    
     // Append all the shop data to the form data object
     for (let key in shopData) {
         formData.append(key, shopData[key]);
@@ -234,9 +234,10 @@ function submitShopUpdate() {
 
     console.log('Form Data:', formData);
     console.log("Final URL:", uploadChange.replace(':shopId', shopId));
-    // Perform the fetch request
+
+    // Perform the fetch request with PUT method
     fetch(uploadChange.replace(':shopId', shopId), {
-        method: 'POST', // Using POST with _method spoofing for PUT
+        method: 'PUT',  // Now using PUT directly
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
         },
@@ -248,7 +249,6 @@ function submitShopUpdate() {
             alert('Shop updated successfully!');
             window.location.href = "{{ route('admin.shops') }}"; // Redirect after successful update
         } 
-        
         else {
             alert('Failed to update shop. Please try again.');
         }
@@ -258,6 +258,7 @@ function submitShopUpdate() {
         alert('An error occurred while updating the shop.');
     });
 }
+
 
 function addManager(event) {
     // Logic to add new manager row

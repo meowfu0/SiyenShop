@@ -18,6 +18,7 @@ class UpdateShopController extends Controller
     return view('livewire.admin.updateshop', compact('shop', 'managers', 'courses'));
 }
 
+    
     public function update(Request $request, $id)
     {
         // Find the shop or fail
@@ -30,31 +31,49 @@ class UpdateShopController extends Controller
         return view('livewire.admin.updateshop', compact('shop'));
     }
 
-    public function uploadUpdate(Request $request, $id)
-    {
-        try {
-            $shop = Shop::findOrFail($id);
-    
-            // Validate the incoming data
-            $data = $request->validate([
-                'shop_name' => 'required|string|max:255',
-                'course_id' => 'required|exists:courses,id',
-                'shop_description' => 'required|string|max:255',
-                'managers' => 'array|nullable',
-                'managers.*' => 'exists:users,id', // Ensure managers exist
-            ]);
-    
-            // Update the shop
-            $shop->update($data);
-    
-            // Return success response
-            return response()->json(['success' => true, 'message' => 'Shop updated successfully.']);
-        } 
-        catch (\Exception $e) {
-            \Log::error('Error updating shop: ' . $e->getMessage());  // Log the error
-            return response()->json(['success' => false, 'message' => 'An error occurred while updating the shop.'], 500);
+    public function uploadUpdate(Request $request, $shopId)
+{
+    // Find the shop record
+    $shop = Shop::findOrFail($shopId);
+
+    // Check if the request has a file upload
+    if ($request->hasFile('shop_logo')) {
+        // Validate file (optional)
+        $request->validate([
+            'shop_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle file upload
+        if ($shop->shop_logo) {
+            // Delete old logo if it exists
+            Storage::delete($shop->shop_logo);
         }
+
+        $filePath = $request->file('shop_logo')->store('logos', 'public');
+        $shop->shop_logo = $filePath;
     }
+
+    // Check for JSON or shopData in FormData
+    $shopData = $request->has('shopData')
+        ? json_decode($request->get('shopData'), true)
+        : $request->only(['shop_name', 'course_id', 'shop_description', 'managers']);
+
+    // Update shop details
+    $shop->shop_name = $shopData['shop_name'] ?? $shop->shop_name;
+    $shop->course_id = $shopData['course_id'] ?? $shop->course_id;
+    $shop->shop_description = $shopData['shop_description'] ?? $shop->shop_description;
+
+    /*
+    // Update managers if provided
+    if (!empty($shopData['managers'])) {
+        $shop->managers()->sync($shopData['managers']); // Assuming a many-to-many relationship
+    }
+*/
+    // Save updated shop
+    $shop->save();
+
+    return response()->json(['success' => true, 'message' => 'Shop updated successfully!']);
+}
     
 
 }
