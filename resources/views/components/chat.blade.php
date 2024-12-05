@@ -8,11 +8,11 @@
 
             <div class="content-chatbox-chat" style="max-height: 100%; overflow-y: auto;">
                 <!-- Tabs (buttons) -->
-                <div class="container-chatbox" id="contacts_list">
+                <div class="container-chatbox" id="contacts_list" data-last-contact-id="{{ $contacts->first()->contact_id ?? '' }}" data-last-contact-name="{{ $contacts->first()->name ?? '' }}" data-last-contact-picture="{{ $contacts->first()->profile_picture ?? '' }}">
                 <div class="container d-flex justify-content-center mt-3">
                     <input type="text" id="search-user" placeholder="Search..." class="form-control" style="width: 100%;">
                 </div>
-                    <div id="user-results" class="container d-flex flex-column align-items-center justify-content-center px-0">
+                    <div id="user-results" class="container d-flex flex-column align-items-center justify-content-center px-0" style="overflow-y: auto;">
                     <!-- Dynamic buttons for users -->
                         @if(isset($contacts) && count($contacts) > 0)                            
                          @foreach($contacts as $contact)
@@ -192,6 +192,17 @@
             sendMessage();
         }
     });
+
+    // Automatically open chat with the last contacted user
+    const contactsList = document.getElementById('contacts_list');
+    const lastContactId = contactsList.getAttribute('data-last-contact-id');
+    const lastContactName = contactsList.getAttribute('data-last-contact-name');
+    const lastContactPicture = contactsList.getAttribute('data-last-contact-picture');
+
+    if (lastContactId) {
+        showChat(lastContactId, lastContactName, lastContactPicture);
+    }
+
 
     // Re-sending message when coming online
     window.addEventListener("online", async function () {
