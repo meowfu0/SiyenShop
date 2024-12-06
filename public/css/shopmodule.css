@@ -44,6 +44,43 @@
         width: 100% !important; 
     }
 
+
+    .container-xxl form select {
+        
+        font-size: 10px;
+        height: 25px;
+        
+    }
+    
+
+}
+
+@media (max-width: 340px) {
+    .container {
+        width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .card {
+        width: 100% !important; 
+    }
+
+
+    .container-xxl form select {
+        
+        font-size: 10px;
+        height: 25px;
+        
+    }
+    .container-xxl .organization {
+        
+        font-size: 10px;
+        
+        
+    }
+    
+
 }
 
 .logo-img{
@@ -203,10 +240,8 @@
     height: auto;
     width: 215px;
     text-align: left;
-    padding-left: 14px;
-    padding-right: 14px;
-    padding-top: 14px;
-    border: 2px solid #cccccc;
+    padding: 16px;
+    border: 1px solid #cccccc;
     font-family: Satoshi;
     display: inline-block;
     position: relative;
@@ -220,10 +255,6 @@
     padding: 3px 8px;
     border-radius: 12px;
     border: 1px solid #092C4C;
-    position: absolute;  
-    top: 220px;          
-    left: 15px;          
-    margin-bottom: 20px; 
   }
 
 .block-7 .heading-2 {
@@ -231,14 +262,14 @@
     letter-spacing: 1px;
     font-weight: 600;
     text-align: left;
+    
 }
 .block-7 .price {
     margin: 0;
     padding: 0;
     display: block;
     text-align: left;
-    margin-left: -20px;
-    margin-top: -5px;
+
 }
 .block-7 .price sup {
     font-size: 8px;
@@ -254,8 +285,10 @@
     font-size: 16px;
     font-weight: 600;
     text-align: left;
-    margin-left: -20px;
-    margin-top: 5px;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .block-7 .label2 {
     text-transform: uppercase;
@@ -279,8 +312,7 @@
     letter-spacing: 1px;
     width: 175px;
     height: 35px;
-    margin-left: -20px;
-    margin-top: 20px;
+    margin-top: 10px;
     line-height: 1px;
 }
 .block-7 .btn-primary:hover,
@@ -297,6 +329,7 @@
 
 .card-header {
     width: 1300px;
+    margin-top: 20px;
 }
 form{
     padding-left: 13px;
@@ -312,10 +345,12 @@ select {
 .organization{
     padding-left: 15px;
     padding-top: 15px;
+    padding-right: 15px;
 }
 .category{
     padding-top: 15px;
     padding-left: 15px;
+    padding-right: 15px; 
 }
 
 .span {
@@ -326,8 +361,7 @@ select {
   .block-7 .ratings {
     align-items: center;
     display: flex;
-    margin-left: -24px;
-    margin-top: 10px; 
+
    
 }
   
