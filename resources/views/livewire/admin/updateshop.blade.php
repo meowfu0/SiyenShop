@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="businessManager" class="fw-bold mb-1">Assign Business Manager(s)</label>
+                        <label for="managerRow1" class="fw-bold mb-1">Assign Business Manager(s)</label>
                         <div id="managerRow1" class="align-items-center gap-3" style="display: flex;">
                             <select class="form-control px-3 py-2" id="managerName1" name="managers[]">
                                 @foreach($managers as $manager)

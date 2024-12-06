@@ -88,7 +88,7 @@
 
                     <!-- User Info Section -->
                     <div class="user-info-container">
-                        <input id="shopId" hidden>
+                        <input id="userId" value="" hidden>
                         <p class="user-name"><span id="modalName"></span></p>
                         <p><span id="modalStatus"></span></p>
                         <table class="user-info-table">

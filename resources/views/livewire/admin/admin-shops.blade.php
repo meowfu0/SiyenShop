@@ -78,7 +78,7 @@
                     </div>
                     <div class="d-flex flex-column ">
                         <div class="mb-3 d-flex justify-content-center w-100">
-                            <input id="shopId" hidden>
+                            <input id="shopId" value="" hidden>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                                  class="profile-picture1"
                                  id="shopLogo"
@@ -86,7 +86,6 @@
                                  style="width: 150px; height: 150px;">
                         </div>
                         <div class="d-flex flex-column justify-content-start px-5">
-                            <input id="userId" hidden>
                             <h3 class="fw-bold" id="org-name">CirCUITS</h3>
                             <p id="course-origin">Bachelor of Science in Information Technology</p>
                             <div class="text-start">
