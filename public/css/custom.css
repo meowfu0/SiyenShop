@@ -58,6 +58,13 @@
         width: 16px;
         height: 16px;
     }
+    .bgimage img {
+      display: none;
+    }
+
+    .fs-9.fw-semibold.mt-3.mb-5 {
+      text-align: center;
+  }
 }
 
 /* hero section code starts here */
@@ -71,7 +78,9 @@
 }
 
 .btn1-custom {
-    margin-top: 10px; 
+    margin-top: 10px;
+    width: 200px;
+  
 }
 .hero img {
     max-height: 55dvh;
