@@ -133,6 +133,7 @@ document.addEventListener('click', function(event) {
             document.getElementById('business_mngr').innerText = shopBusinessMngr;
             document.getElementById('gcash-num').innerText = gcashNum;
             document.getElementById('gcash-ctrl-name').innerText = gcashCtrl;
+            document.getElementById('shopId').value = shopAccess.id;
             const shopImg = document.getElementById('shopLogo');
             shopImg.src = `/storage/shop_logos/${shopPic}`;
 
@@ -197,6 +198,38 @@ function cancelDisableAccount() {
     if (disableAccountModal) disableAccountModal.hide();
     var shopModal = new bootstrap.Modal(document.getElementById('shopModal'));
     shopModal.show();
+}
+
+disablePrt.addEventListener('click', function(){
+    var shopId = document.getElementById('shopId').value; 
+    deactivate(shopId); 
+}); 
+
+function deactivate(shopId){
+    fetch(alterStatus.replace(':shopId', shopId), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify({ statusId: 2 })
+    })
+    .then(response => {
+        console.log('Response status:', response.status); // Log status code
+        if (response.ok) {
+            alert('User account deactivated successfully.');
+            location.reload();
+        } 
+        else {
+            return response.json().then(data => {
+                throw new Error(data.message || 'Deactivation failed');
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error deactivating user:', error);
+        alert('Error deactivating user. Shop ID: ' + userId + ', Status: ' + status + '. Error: ' + error.message);
+    });
 }
 // Cancel function to go back
 function cancel(){

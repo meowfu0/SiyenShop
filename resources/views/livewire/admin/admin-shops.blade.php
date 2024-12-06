@@ -80,7 +80,7 @@
                     </div>
                     <div class="d-flex flex-column ">
                         <div class="mb-3 d-flex justify-content-center w-100">
-                            <input id="userId" hidden>
+                            <input id="shopId" hidden>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                                  class="profile-picture1"
                                  id="shopLogo"
@@ -88,6 +88,7 @@
                                  style="width: 150px; height: 150px;">
                         </div>
                         <div class="d-flex flex-column justify-content-start px-5">
+                            <input id="userId" hidden>
                             <h3 class="fw-bold" id="org-name">CirCUITS</h3>
                             <p id="course-origin">Bachelor of Science in Information Technology</p>
                             <div class="text-start">
@@ -120,7 +121,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn custom-btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Disable</button>
+                        <button type="button" class="btn btn-primary" id="disablePrt">Disable</button>
                     </div>
                 </div>
             </div>
@@ -131,6 +132,7 @@
 <script>
     const imageBaseUrl = @json(asset('images'));
     const shopsData = @json($shops);
+    const alterStatus = @json(route('shops.deactivate', ['shopId' => ':shopId']));
 
 </script>
 

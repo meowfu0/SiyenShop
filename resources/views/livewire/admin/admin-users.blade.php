@@ -88,7 +88,7 @@
 
                     <!-- User Info Section -->
                     <div class="user-info-container">
-                        <input id="userId" hidden>
+                        <input id="shopId" hidden>
                         <p class="user-name"><span id="modalName"></span></p>
                         <p><span id="modalStatus"></span></p>
                         <table class="user-info-table">
@@ -131,9 +131,12 @@
 
                 </div>
                 <div class="modal-footer mt-1">
+                    <button type="button" class="btn fs-2 fw-bold" id="cancelBtn" style="display:none">Cancel</button>
                     <button type="button" class="btn fs-2 fw-bold" id="deactivateBtn">Deactivate Account</button>
                     <button type="button" class="btn btn-primary fs-2 fw-bold"
                         style="width: 130px; height: 40px; border-radius: 8px;" id="editBtn">Edit Account</button>
+                    <button type="button" class="btn btn-primary fs-2 fw-bold"
+                        style="width: 130px; height: 40px; border-radius: 8px; display:none" id="saveBtn">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -396,7 +399,7 @@
         const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
         const alterStatus = @json(route('users.status', ['userId' => ':userId']));
         const permissionFetch = @json(route('users.permissions', ['userId' => ':userId']));
-        
+
     </script>
     <script src="{{asset('js/admin-users.js')}}">
         

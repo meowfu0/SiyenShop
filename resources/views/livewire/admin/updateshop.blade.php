@@ -53,7 +53,7 @@
                     <!-- INPUT FIELDS -->
                     <div class="form-group">
                         <label for="shopName" class="fw-bold mb-1">Shop Name</label>
-                        <input type="text" class="form-control px-3 py-2" id="shopName" name="shop_name" value="{{ old('shop_name', $shop->shop_name) }}" placeholder="Enter Shop Name">
+                        <input type="text" class="form-control px-3 py-2" id="shopNameII" name="shop_name" value="{{ old('shop_name', $shop->shop_name) }}" placeholder="Enter Shop Name">
                     </div>
 
                     <div class="form-group">

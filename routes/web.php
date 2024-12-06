@@ -32,6 +32,7 @@ use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\MyPurchasesController;
 use App\Http\Controllers\shopPageController; // Use PascalCase
 use App\Http\Controllers\ProductDetailsController;
+use App\Http\Controllers\AdminShopsController;
 use App\Http\Controllers\ProductDetailswithSizeController;
 use App\Http\Controllers\CreateShopController;
 use App\Http\Controllers\Status;
@@ -112,7 +113,7 @@ Route::middleware(['role:Admin'])->group(function () {
             Route::get('/dashboard', [AdminDashboard::class, 'render'])->name('admin.dashboard');
             //Route::get('/users', [AdminUsers::class, 'render'])->name('admin.users');
             Route::get('/users', [UserController::class, 'index'])->name('admin.users');
-            Route::get('/shops', [shopPageController::class, 'index'])->name('admin.shops');
+            Route::get('/shops', [AdminShopsController::class, 'index'])->name('admin.shops');
             Route::get('/sidenav', [AdminSidenav::class, 'render'])->name('admin.sidenav');
             Route::get('/faqs', [AdminFaqs::class, 'render'])->name('admin.faqs');
             Route::get('/faqs-deleted', [AdminFaqs::class, 'deleted'])->name('admin.faqs-deleted');
@@ -130,7 +131,8 @@ Route::middleware(['role:Admin'])->group(function () {
 
         // Route to update the shop (Form submission)
             Route::put('/update/{id}', [UpdateShopController::class, 'update'])->name('admin.shops.update');
-            Route::get('/shops/update/{id}', [shopPageController::class, 'edit'])->name('shops.update');
+            Route::get('/shops/update/{id}', [AdminShopsController::class, 'edit'])->name('shops.update');
+            Route::put('/shops/deactivate/{shopId}', [AdminShopsController::class, 'statusChange'])->name('shops.deactivate');
             Route::get('/shops/update/view', [Updateshop::class, 'render'])->name('shops.update.view'); 
 
             });
