@@ -7,8 +7,17 @@
     <div class="d-flex border-bottom gap-3 ps-5 align-items-center" style="height:70px">
         <div class="ps-3">
             <img src="{{asset('images/Circuits.svg')}}" alt="">
+        <!--@if ($shop)
+            <h2 class="fw-bold m-0 text-primary"> {{$shop->shop_logo}} </h2>
+        @else
+            <p>No shop associated with this user.</p>
+        @endif -->
         </div>
-        <h2 class="fw-bold m-0 text-primary">Circle of Unified Information Technology Students </h2>
+        @if ($shop)
+            <h2 class="fw-bold m-0 text-primary"> {{$shop->shop_name}} </h2>
+        @else
+            <p>No shop associated with this user.</p>
+        @endif
     </div>
 
     <div class="d-flex justify-content-between px-5 py-3">
@@ -73,7 +82,7 @@
                     <img src="{{ asset('images/Export.svg') }}" alt="Export" class="img-thumbnail dropdown-toggle" 
                         style="width: 35px; height: 35px;" data-bs-toggle="dropdown" aria-expanded="false">
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('export.csv') }}" id="exportCsv">Export as CSV</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.csv') }}" id="exportCsv">Export as CSV</a></li>
                         <li><a class="dropdown-item" href="{{ route('export.xlsx') }}" id="exportXlsx">Export as XLSX</a></li>
                         <li><a class="dropdown-item" href="{{ route('export.pdf') }}" id="exportPdf">Export as PDF</a></li>
                     </ul>
