@@ -36,9 +36,9 @@
             <div class="col d-flex flex-column justify-content-center">
                 <h1 class="w-100 fw-bolder fs-10">Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
                 <p class="fs-4">Shop exclusive designs, limited editions, and rep your org with pride. <b>Don’t miss out!</b></p><br>
-                <a href="{{route('shopPage')}}" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom w-25">Shop Now</a>
+                <a href="{{route('shopPage')}}" class="text-white bg-secondary btn fw-medium ms-2   btn1-custom w-30">Shop Now</a>
             </div>
-            <div class=" col d-flex justify-content-center align-items-end">
+            <div class="bgimage  d-flex justify-content-center align-items-end">
                 <img src="{{ asset('images/bg.svg') }} " class="h-100" >
             </div>
         </div>
@@ -49,8 +49,7 @@
                     <h1>Unlock the Hottest Merch from your Favorite Campus Orgs</h1>
                     <p>Shop exclusive designs, limited editions, and rep your 
                     <br>org with pride.</b> <b>Don’t miss out!</b></p><br>
-                    <a href="#" 
-                    class="btn1-custom">Shop Now</a>
+                    <a href="#" class="btn1-custom">Shop Now</a>
                 </div>
                 <div class="">
                         <img src="{{ asset('images/bg.png') }}">
