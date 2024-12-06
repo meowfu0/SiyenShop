@@ -117,7 +117,7 @@
                                 <p class="dateLabel">Date:</p>
                                 <p class="date">{{ \Carbon\Carbon::parse($order->order_date)->format('m-d-Y') }}</p>
                                 <p class="time">{{ \Carbon\Carbon::parse($order->order_date)->format('h:i a') }}</p>
-                                <button class="btn btn-light" onclick="goChat()">Contact Seller</button>
+                                <button class="btn btn-light" onclick="goChat({{ $order->shop_id }})">Contact Seller</button>
                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" onclick="openModalYes({{ $order }}, {{ $orderItems }}, {{ $categories }})">View Details</button>
 
                                 <!-- Multiple Indicator -->
@@ -225,7 +225,7 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary" id="reasonButton" data-bs-dismiss="modal" onclick="reason(document.getElementById('modalOrderId').innerText)" style="display: none;">View Reason</button>
                                     <button type="button" class="btn btn-primary" id="rateButton" data-bs-dismiss="modal" onclick="chooseRate(document.getElementById('modalOrderId').innerText)">Rate Order</button>
-                                    <button type="button" class="btn btn-primary" onclick="goChat()">Contact Seller</button>
+                                    <button class="btn btn-light" onclick="goChat({{ $order->shop_id }})">Contact Seller</button>
 
                                 </div>
                             </div>
@@ -840,8 +840,37 @@
         myModal.show();
     }
 
-    function goChat() {
-        // Redirect to the 'shop.chat' route
-        window.location.href = "{{ route('shop.chat') }}";
-    }
+
+
+const userId = "{{ auth()->id() }}"; // Get the authenticated user's ID
+
+function goChat(shopId) {
+    const message = 'Hello! How can I assist you?';
+
+    fetch("{{ route('start.shop.chat') }}", { 
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            shop_id: shopId,
+            user_id: userId, // Include the user ID in the request
+            message: message,
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = "{{ route('start.chat') }}"; // Redirect to the chat page
+            console.log('Message sent by user:', data.sender_id);
+        } else {
+            alert(data.message); 
+        }
+    })
+    .catch(error => {
+        console.error('Error sending message:', error);
+    });
+}
+
 </script>

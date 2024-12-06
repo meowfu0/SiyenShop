@@ -62,7 +62,7 @@
                         </a>
                         <div class="dropdown d-md-none dropstart">
                             <button class="icons border-0 bg-white p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('images/user.svg') }}" class="user-img">
+                                <img src="{{Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('images/profile.svg')}}" class="user-img">
                             </button>
                             <ul class="dropdown-menu mt-4">
                                 <li><a href="{{ url('/profile') }}" class="dropdown-items nav-link flex-grow-1 px-3 ">Profile</a></li>
