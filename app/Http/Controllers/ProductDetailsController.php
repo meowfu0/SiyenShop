@@ -258,5 +258,17 @@ class ProductDetailsController extends Controller
     }
     
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('product_name', 'LIKE', "%{$query}%")
+            ->orWhereHas('category', function($q) use ($query) {
+                $q->where('category_name', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        return view('search_results', compact('products', 'query'));
+    }
+
 
 }

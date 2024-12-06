@@ -249,3 +249,7 @@ Route::delete('/gcash/delete/{id}', [GCashInfoController::class, 'destroy'])->na
 
 
 Route::post('/gcash/store', [GCashInfoController::class, 'store'])->name('gcash.store');
+
+
+Route::get('/search', [shopPageController::class, 'search'])->name('searchProducts');
+Route::post('/start-shop-chat', [MessageController::class, 'getShopUserId'])->name('start.shop.chat');

@@ -20,6 +20,7 @@ class shopPageController extends Controller
     // Get filter values from the request
     $shop = $request->get('shop_id', 'All');
     $category = $request->get('category_id', 'All');
+    $searchQuery = $request->get('query', ''); // Get the search query
 
     // Initialize the query with relationships
     $query = Product::with(['reviews' => function($query) {
@@ -37,11 +38,32 @@ class shopPageController extends Controller
         $query->where('category_id', $category);
     }
 
+    // Apply search filter if a search query is present
+    if (!empty($searchQuery)) {
+        $query->where('product_name', 'LIKE', "%{$searchQuery}%")
+              ->orWhereHas('category', function($q) use ($searchQuery) {
+                  $q->where('category_name', 'LIKE', "%{$searchQuery}%");
+              });
+    }
+
     // Retrieve filtered products
     $products = $query->get();
 
     // Pass data to the view
-    return view('user.shopPage', compact('products', 'shops', 'categories'));
-} 
+    return view('user.shopPage', compact('products', 'shops', 'categories', 'searchQuery'));
+}
+
+public function search(Request $request)
+{
+    $query = $request->input('query');
+    $products = Product::where('product_name', 'LIKE', "%{$query}%")
+        ->orWhereHas('category', function($q) use ($query) {
+            $q->where('category_name', 'LIKE', "%{$query}%");
+        })
+        ->get();
+
+    return view('search_results', compact('products', 'query'));
+}
+
 
 }
