@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\GCashInfo;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class CreateShopController extends Controller
 {

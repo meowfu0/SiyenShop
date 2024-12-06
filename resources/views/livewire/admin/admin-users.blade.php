@@ -22,6 +22,7 @@
                         <option value="3">BS Biology</option>
                         <option value="4">BS Chemistry</option>
                         <option value="5">BS Meteorology</option>
+                        <option value="6">College of Science</option>
                     </select>
                 </div>
             </div>
