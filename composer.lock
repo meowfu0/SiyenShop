@@ -406,7 +406,6 @@
         },
         {
             "name": "doctrine/dbal",
-<<<<<<< HEAD
             "version": "4.2.1",
             "source": {
                 "type": "git",
@@ -417,18 +416,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/dbal/zipball/dadd35300837a3a2184bd47d403333b15d0a9bd0",
                 "reference": "dadd35300837a3a2184bd47d403333b15d0a9bd0",
-=======
-            "version": "3.9.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/dbal.git",
-                "reference": "61446f07fcb522414d6cfd8b1c3e5f9e18c579ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/61446f07fcb522414d6cfd8b1c3e5f9e18c579ba",
-                "reference": "61446f07fcb522414d6cfd8b1c3e5f9e18c579ba",
->>>>>>> d199ac2e34874a147eee718e9a48238c15e46609
                 "shasum": ""
             },
             "require": {
@@ -440,14 +427,9 @@
             "require-dev": {
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
-<<<<<<< HEAD
                 "jetbrains/phpstorm-stubs": "2023.2",
                 "phpstan/phpstan": "1.12.6",
                 "phpstan/phpstan-phpunit": "1.4.0",
-=======
-                "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "1.12.6",
->>>>>>> d199ac2e34874a147eee718e9a48238c15e46609
                 "phpstan/phpstan-strict-rules": "^1.6",
                 "phpunit/phpunit": "10.5.30",
                 "psalm/plugin-phpunit": "0.19.0",
@@ -512,11 +494,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-<<<<<<< HEAD
                 "source": "https://github.com/doctrine/dbal/tree/4.2.1"
-=======
-                "source": "https://github.com/doctrine/dbal/tree/3.9.3"
->>>>>>> d199ac2e34874a147eee718e9a48238c15e46609
             },
             "funding": [
                 {
@@ -532,11 +510,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
             "time": "2024-10-10T18:01:27+00:00"
-=======
-            "time": "2024-10-10T17:56:43+00:00"
->>>>>>> d199ac2e34874a147eee718e9a48238c15e46609
         },
         {
             "name": "doctrine/deprecations",
