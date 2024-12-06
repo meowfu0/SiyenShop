@@ -89,6 +89,7 @@ class ShopProductEditController extends Controller
         // Update the product in the database
         DB::table('products')->where('id', $id)->update([
             'shop_id' => $shop_id,
+            'product_name' => $validated['product_name'],
             'product_decription' => $validated['product_decription'],
             'product_image' => $validated['product_image'], // Retain or update the image
             'category_id' => $validated['category_id'],
