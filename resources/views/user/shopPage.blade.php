@@ -4,7 +4,7 @@
 
 <div class="container-xxl">
     <div class="card-header">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center w-100 ">
             <!--Organizational Filter-->
                 <form id="filterForm" method="GET" action="{{ route('shopPage') }}">
                     <label class="organization fw-medium fs-4">Organization</label>
@@ -32,19 +32,25 @@
         @foreach ($products as $product)
         <div class="block-7">
             <img src="{{ Storage::exists('public/' . $product->product_image) ? Storage::url('public/' . $product->product_image) :  asset('images/sample.jpg') }}" class="img-fluid" style="width: 190px !important; height: 200px !important">
-            <div class="text-center p-4">
-                <div class="badge">{{$product->organization->shop_name}}</div>
-                <span class="excerpt d-block">{{$product->product_name}}</span>
-                <span class="price"><span class="number">₱{{$product->retail_price}}</span></span>
-                <div class="ratings d-flex align-items-center mt-0">
-                @for ($i = 1; $i <= 5; $i++)
-                    <i class="fa fa-star{{ $i <= floor($product->reviews->first()->average_rating ?? 0) ? ' rating-color' : '' }}"></i>
-                @endfor
-                <span class="solds">{{$product->sales_count}} solds</span>          
+            <div class="pt-2">
+                <div class="py-2">
+                    <div class="badge">{{$product->organization->shop_name}}</div>
+                        <div class="py-1">
+                            <span class="excerpt d-block">{{$product->product_name}}</span>
+                            <span class="price"><span class="number">&#8369; {{$product->retail_price}}</span></span>
+                            <div class="ratings d-flex align-items-center mt-0">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa fa-star{{ $i <= floor($product->reviews->first()->average_rating ?? 0) ? ' rating-color' : '' }}"></i>
+                                    @endfor
+                                <span class="solds">{{$product->sales_count}} solds</span>          
+                            </div>    
+                        </div>
+                        
                 </div>
-                <hr>
                 
-                <a href="{{ route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3">View Details<span style="margin-left: 5px;">&#8599;</span></a>
+                
+                <a href="{{ route('productDetails', ['id' => $product->id]) }}" class="btn btn-primary d-block px-2 py-3 w-100">View Details<span style="margin-left: 5px;">&#8599;</span>
+                </a>
             </div>
         </div>
         @endforeach
