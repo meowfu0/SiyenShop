@@ -3,9 +3,11 @@
 @section('content')
 
 <div class="d-flex ">
-    <div class="d-none d-md-flex flex-md-row">
+<div class="d-none d-md-flex flex-md-row">
+    @if(Auth::check() && Auth::user()->role_id == 1)
         @livewire('user-sidenav')
-    </div>
+    @endif
+</div>
     
     <div class="d-flex flex-column align-items-center p-5 w-100 " style="margin-top: -20px;">
 

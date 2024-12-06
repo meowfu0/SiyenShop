@@ -1,4 +1,4 @@
-<div class="border-bottom d-flex align-items-center justify-content-end w-100 bg-white" style="height: 80px; position: sticky; top: 0;">
+<div class="border-bottom d-flex align-items-center justify-content-end w-100 bg-white" style="height: 80px; position: sticky; top: 0; z-index: 9999;">
     <div class="d-flex gap-2 pe-5">
         <img src="{{asset('images/user.svg')}}" alt="">
         @auth

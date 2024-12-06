@@ -58,7 +58,7 @@
                         </div>
 
                         <!-- Accordion Section -->
-                        <div class="accordion-item w-100 border">
+                        <div class="accordion-item w-100 border z-negative">
                             <h2 class="accordion-header" id="heading{{ $faq->id }}">
                             <button class="accordion-button border-0 collapsed" 
                                     type="button" 
