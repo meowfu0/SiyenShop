@@ -2,7 +2,7 @@
 ////////CREATE SHOP AND UPDATE SHOP/////////
 
 // Get references to input fields
-const shopNameInput = document.getElementById('shopNameII');
+const shopNameInput = document.getElementById('shopName');
 const shopEmailInput = document.getElementById('shopEmail');
 const courseInput = document.getElementById('course');
 const managerInput = document.getElementById('managerName1');

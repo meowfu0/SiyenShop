@@ -54,9 +54,7 @@
                                 <td class="text-center align-middle">{{ $shop->shop_name }}</td>
                                 <td class="text-center align-middle">{{ $shop->course->course_name }}</td>
                                 <td class="text-center align-middle">
-                                    @foreach($shop->businessManagers as $businessManager)
-                                        {{ $businessManager->user->first_name }} {{ $businessManager->user->last_name }}<br>
-                                    @endforeach
+                                        {{ $shop->user->first_name }} {{ $shop->user->last_name }}<br>
                                 </td>
                                 <td class="text-center align-middle">{{ $shop->status->status_name ?? 'No status assigned' }}</td>
                                 <td class="text-center align-middle">
