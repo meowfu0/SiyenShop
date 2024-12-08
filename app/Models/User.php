@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->belongsTo(Course::class, 'course_id'); 
     }
 
+    public function status()
+{
+    return $this->belongsTo(Status::class, 'status_id');
+}
+
     /**
      * Ensure `modified_at` is updated manually when the profile is updated.
      */
