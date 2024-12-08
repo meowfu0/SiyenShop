@@ -61,8 +61,7 @@
                                 </button>
                             </td>
                         </tr>
-
-
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -392,6 +391,7 @@
             </div>
         </div>
     </div>
+    
     <script> 
         //const usersData = @json($users);
         const toEdit = @json(route('users.edit', ['userId' => ':userId']));
@@ -401,6 +401,6 @@
 
     </script>
     <script src="{{asset('js/admin-users.js')}}">
-        
     </script>  
+
 @endsection
