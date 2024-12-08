@@ -18,7 +18,7 @@ class CreateShopsTable extends Migration
 
             // Nullable timestamps
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('modified_at')->nullable()->useCurrentOnUpdate(); 
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate(); 
             $table->timestamp('deleted_at')->nullable();
             
             // Other fields

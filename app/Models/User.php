@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
+use App\Models\Course;
+use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
@@ -26,8 +29,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name', 'last_name', 'phone_number', 'course_bloc', 'course_id', 'year', 
-        'email', 'password', 'profile_picture', 'last_login', 'modified_at',];
+        'first_name', 'last_name', 'phone_number', 'course_bloc', 'course_id', 'year', 'email', 'password',
+        'role_id', 'status_id', 'profile_picture'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -64,6 +68,8 @@ class User extends Authenticatable
      */
     public static function boot()
     {
+        return $this->belongsTo(Role::class, 'role_id');
+    
         parent::boot();
 
         // Automatically update `modified_at` when the user is updated
@@ -79,9 +85,27 @@ class User extends Authenticatable
         });
     }
 
-    public function gcashInfo()
+    public function role()
     {
-        return $this->hasOne(GCashInfo::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function gcashInfo()
+        {
+        return $this->hasOne(GCashInfo::class, 'status_id');
+    }
+
+    public function permissions()
+    {
+        return $this->role->permissions();
+    }
+
+
+     public function shops()
+{
+    return $this->belongsToMany(Shop::class)
+                ->withPivot('gcash_name', 'gcash_number', 'gcash_limit')  // Attach extra fields
+                ->withTimestamps();
+}
 
 }

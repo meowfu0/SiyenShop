@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -10,22 +11,23 @@
             <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
                 <div class="search-container d-flex align-items-center rounded py-3">
                     <i class="fa fa-search"></i>
-                    <input type="search" class="searchbox ms-2" placeholder="Search" />
+                    <input type="search" class="searchbox ms-2" placeholder="Search" id="search-input" />
                 </div>
                 <div class="d-flex align-items-center ms-5 w-25">
                     <span class="me-2">Course</span>
-                    <select class="form-select custom-dropdown px-3 py-2 fw-bold rounded fs-2">
-                        <option value="course1" selected>BS Information Technology</option>
-                        <option value="course2">BS Computer Science</option>
-                        <option value="course3">BS Biology</option>
-                        <option value="course4">BS Chemistry</option>
-                        <option value="course5">BS Meteorology</option>
+                    <select class="form-select custom-dropdown px-3 py-2 fw-bold rounded fs-2" id="course-filter">
+                        <option value="" selected> (Choose course)</option>
+                        <option value="1">BS Information Technology</option>
+                        <option value="2">BS Computer Science</option>
+                        <option value="3">BS Biology</option>
+                        <option value="4">BS Chemistry</option>
+                        <option value="5">BS Meteorology</option>
                     </select>
                 </div>
             </div>
 
             <div class="container-fluid users-table-section p-1 mx-auto mt-9">
-                <table class="table table-hover text-center">
+                <table class="table table-hover text-center" >
                     <thead>
                         <tr>
                             <th scope="col">Profile Picture</th>
@@ -37,208 +39,24 @@
                             <th scope="col"> </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="display">
+                        @foreach($users as $user)
                         <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">image</th>
-                            <td>Shakira Regalado</td>
-                            <td>sbr2022-7072-51358@bicol-u.edu.ph</td>
-                            <td>Student</td>
-                            <td>BSIT 3</td>
-                            <td>Active</td>
-                            <td><button class="view-users-btn fs-2 p-1 px-2">View Account <img
-                                        src="{{ asset('images/redirect.svg') }}">
+                            <th scope="row">
+                                @if($user->profile_picture)
+                                <img src="{{ asset('storage/profile_pictures/' . $user->profile_picture) }}" alt="Profile Picture" class="img-thumbnail" style="border-radius: 50px; width: 50px; height: 50px;">
+                                @else
+                                <img src="https://cdn.britannica.com/59/204159-050-5055F2A9/Beyonce-2013.jpg" alt="Profile Picture" class="img-thumbnail" style="border-radius: 50px; width: 50px; height: 50px;">
+                                @endif
+                            </th>
+                            <td>{{ $user->first_name.' '. $user->last_name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role->role_name ?? 'Unknown'}}</td> <!-- Joined role name -->
+                            <td>{{ $user->course->course_name ?? 'Unknown'}}</td> <!-- Joined course name -->
+                            <td>{{ $user->status->status_name ?? 'No status assigned'}}</td>
+                            <td>
+                                <button class="view-users-btn fs-2 p-1 px-2" data-user-id="{{ $user->id }}">View Account 
+                                    <img src="{{ asset('images/redirect.svg') }}">
                                 </button>
                             </td>
                         </tr>
@@ -268,6 +86,7 @@
 
                     <!-- User Info Section -->
                     <div class="user-info-container">
+                        <input id="userId" hidden>
                         <p class="user-name"><span id="modalName"></span></p>
                         <p><span id="modalStatus"></span></p>
                         <table class="user-info-table">
@@ -297,9 +116,8 @@
                                                 <option value="role1" selected>Student</option>
                                                 <option value="role2">Business Manager</option>
                                             </select>
-                                            <!-- Hidden hyperlink that appears when Business Manager is selected -->
-                                            <a href="#" id="editPermissionsLink" data-bs-toggle="modal"
-                                                data-bs-target="#editPermissionsModal">
+                                            <a href="#" id="editPermissionsLink" style="display: none;"
+                                            data-user-id="userId">
                                                 Edit Permissions
                                             </a>
                                         </div>
@@ -320,7 +138,7 @@
     </div>
 
     <!-- Modal for Editing Permissions -->
-    <div class="modal fade" id="editPermissionsModal" tabindex="-1" aria-labelledby="editPermissionsModalLabel"
+    <div class="modal fade" id="editPermissionsModal" tabindex="-1" aria-labelledby="editPermissionsModalLabel" data-bs-toggle="modal" data-bs-target="#editPermissionsModal"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered custom-modal-size1">
             <div class="modal-content p-4">
@@ -336,90 +154,202 @@
                         <div class="col-md-6 ms-4" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Account & Profile</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="manageUsers">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-1" 
+                                    value="edit_profile" 
+                                    disabled
+                                    >
                                 <label class="form-check-label ms-2" for="editProfile">Edit Profile</label>
                             </div>
                             <div class="form-check mt-3">
                                 <h6 class="m-0 fs-4 fw-bold">Dashboard & Reports</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="accessDashboard">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-2" 
+                                    value="access_dashboard" 
+                                    disabled
+                                  >
                                 <label class="form-check-label ms-2" for="accessDashboard">Access Dashboard</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="viewSalesStats">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-3" 
+                                    value="view-sales-stats" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="viewSalesStats">View Sales Stats</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="generateReports">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-4" 
+                                    value="generate-reports" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="generateReports">Generate Reports</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="inventoryAlerts">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-5" 
+                                    value="inventory-alerts" 
+                                    disabled
+                                  >
                                 <label class="form-check-label ms-2" for="inventoryAlerts">Inventory Alerts</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="exportData">
-                                <label class="form-check-label ms-2" for="exportData">Export Data (Print, CSV, Excel,
-                                    PDF)</label>
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-6" 
+                                    value="export-data" 
+                                    disabled
+                                   >
+                                <label class="form-check-label ms-2" for="exportData">Export Data (Print, CSV, Excel, PDF)</label>
                             </div>
                             <div class="form-check mt-3">
                                 <h6 class="m-0 fs-4 fw-bold">Order & Payment Management</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="viewOrders">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-7" 
+                                    value="view-orders" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="viewOrders">View Orders</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="updateOrderStatus">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-8" 
+                                    value="update-order-status" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="updateOrderStatus">Update Order Status</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="confirmPayments">
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-9" 
+                                    value="confirm-payments" 
+                                    disabled
+                                >
                                 <label class="form-check-label ms-2" for="confirmPayments">Confirm Payments</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="denyInvalidPayments">
-                                <label class="form-check-label ms-2" for="denyInvalidPayments">Deny Invalid
-                                    Payments</label>
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-10" 
+                                    value="deny-invalid-payments" 
+                                    disabled
+                                 >
+                                <label class="form-check-label ms-2" for="denyInvalidPayments">Deny Invalid Payments</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
-                                <input class="form-check-input ms-3" type="checkbox" id="sendPayment">
-                                <label class="form-check-label ms-2" for="sendPayment">Send Payment Confirmation
-                                    Notifications</label>
+                                <input 
+                                    class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-11" 
+                                    value="send-payment" 
+                                    disabled
+                                  >
+                                <label class="form-check-label ms-2" for="sendPayment">Send Payment Confirmation Notifications</label>
                             </div>
                         </div>
+                        
 
                         <!-- Right Div -->
                         <div class="col-md-8" style="flex: 2;">
                             <div class="form-check">
                                 <h6 class="m-0 fs-4 fw-bold">Products Management</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="addProducts">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-12" 
+                                    value="add-products" 
+                                    disabled
+                                   >
                                 <label class="form-check-label ms-2" for="addProducts">Add Products</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="editProducts">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-13" 
+                                    value="edit-products" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="editProducts">Edit Products</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="deleteProducts">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-14" 
+                                    value="delete-products" 
+                                    disabled
+                               >
                                 <label class="form-check-label ms-2" for="deleteProducts">Delete Products</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="generateReports">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-15" 
+                                    value="generate-reports" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="generateReports">Generate Reports</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
-                                <input class="form-check-input ms-3" type="checkbox" id="markProduct">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-16" 
+                                    value="mark-product" 
+                                    disabled
+                                >
                                 <label class="form-check-label ms-2" for="markProduct">Mark Product Unavailable</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input ms-3" type="checkbox" id="lowStocksAlert">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-17" 
+                                    value="low-stocks-alert" 
+                                    disabled
+                                 >
                                 <label class="form-check-label ms-2" for="lowStocksAlert">Low Stocks Alert</label>
                             </div>
                             <div class="form-check mt-3">
                                 <h6 class="m-0 fs-4 fw-bold">Inbox & Support</h6>
-                                <input class="form-check-input ms-3" type="checkbox" id="accessChatbox">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-18" 
+                                    value="access-chatbox" 
+                                    disabled
+                                >
                                 <label class="form-check-label ms-2" for="accessChatbox">Access Chatbox</label>
                             </div>
                             <div class="form-check" style="white-space: nowrap;">
-                                <input class="form-check-input ms-3" type="checkbox" id="studentQueries">
+                                <input
+                                class="form-check-input ms-3" 
+                                    type="checkbox" 
+                                    id="allowable-19" 
+                                    value="student-queries" 
+                                    disabled
+                                  >
                                 <label class="form-check-label ms-2" for="studentQueries">Respond to Student
                                     Queries</label>
                             </div>
@@ -458,116 +388,15 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // View Users Button functionality
-            document.querySelectorAll('.view-users-btn').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    // Dummy user data for display (replace with actual dynamic data)
-                    const name = 'Shakira Regalado';
-                    const email = 'sbr2022-7072-51358@bicol-u.edu.ph';
-                    const role = 'Student';
-                    const course = 'BSIT 3';
-                    const status = 'Active';
-                    const block = 'B';
-
-                    // Course name and year extraction
-                    const courseName = course.startsWith('BSIT') ? 'BS Information Technology' :
-                        course;
-                    const year = course.split(' ')[1];
-                    const yearDisplay = {
-                        '1': '1st Year',
-                        '2': '2nd Year',
-                        '3': '3rd Year',
-                        '4': '4th Year'
-                    } [year] || '';
-
-                    // Insert data into modal
-                    document.getElementById('modalName').innerText = name;
-                    document.getElementById('modalStatus').innerText = status;
-                    document.getElementById('modalEmail').innerText = email;
-                    document.getElementById('modalCourse').innerText = courseName;
-                    document.getElementById('modalYear').innerText = yearDisplay;
-                    document.getElementById('modalBlock').innerText = block;
-
-                    // Show user info modal
-                    var myModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
-                    myModal.show();
-                });
-            });
-
-            // Edit/Deactivate Button functionality
-            const editBtn = document.getElementById('editBtn');
-            const deactivateBtn = document.getElementById('deactivateBtn');
-            let isEditing = false;
-
-            editBtn?.addEventListener('click', function() {
-                if (!isEditing) {
-                    editBtn.innerText = 'Save Changes';
-                    deactivateBtn.innerText = 'Cancel';
-                    isEditing = true;
-                } else {
-                    // Handle saving changes
-                    alert('Changes saved!');
-                    resetButtons();
-                }
-            });
-
-            deactivateBtn?.addEventListener('click', function() {
-                if (isEditing) {
-                    alert('Edit canceled!');
-                    resetButtons();
-                } else {
-                    var confirmDeactivateModal = new bootstrap.Modal(document.getElementById(
-                        'confirmDeactivateModal'));
-                    confirmDeactivateModal.show();
-                }
-            });
-
-            // Confirm deactivation
-            document.getElementById('confirmDeactivateBtn')?.addEventListener('click', function() {
-                alert('Account deactivated!');
-                var confirmDeactivateModal = bootstrap.Modal.getInstance(document.getElementById(
-                    'confirmDeactivateModal'));
-                confirmDeactivateModal.hide();
-            });
-
-            // Reset buttons function
-            function resetButtons() {
-                editBtn.innerText = 'Edit Account';
-                deactivateBtn.innerText = 'Deactivate Account';
-                isEditing = false;
-            }
-
-            // Role dropdown and permissions link
-            const roleDropdown = document.getElementById('modalRole');
-            const editPermissionsLink = document.getElementById('editPermissionsLink');
-
-            roleDropdown?.addEventListener('change', function() {
-                editPermissionsLink.style.display = (roleDropdown.value === 'role2') ? 'inline-block' :
-                    'none';
-            });
-
-            // Save changes in Edit Permissions modal
-            document.getElementById('saveChangesBtn')?.addEventListener('click', function() {
-                closeAndOpenModal('editPermissionsModal', 'userInfoModal');
-            });
-
-            // Close Edit Permissions modal and reopen User Info modal
-            document.getElementById('closeBtn')?.addEventListener('click', function() {
-                closeAndOpenModal('editPermissionsModal', 'userInfoModal');
-            });
-
-            // Utility function for closing one modal and opening another
-            function closeAndOpenModal(closeModalId, openModalId) {
-                var closeModal = bootstrap.Modal.getInstance(document.getElementById(closeModalId));
-                closeModal.hide();
-                setTimeout(function() {
-                    var openModal = new bootstrap.Modal(document.getElementById(openModalId));
-                    openModal.show();
-                }, 300);
-            }
-        });
+    <script> 
+        //const usersData = @json($users);
+        const toEdit = @json(route('users.edit', ['userId' => ':userId']));
+        const updateRoles = @json(route('users.updateRoles', ['userId' => ':userId']));
+        const alterStatus = @json(route('users.status', ['userId' => ':userId']));
+        const permissionFetch = @json(route('users.permissions', ['userId' => ':userId']));
+        
+    </script>
+    <script src="{{asset('js/admin-users.js')}}">
+        
     </script>
 @endsection

@@ -10,17 +10,18 @@
         <div class="top-section d-flex align-items-center w-85 mx-auto mb-2">
             <div class="search-container d-flex align-items-center rounded p-1" style="width: 300px;">
                 <i class="fa fa-search"></i>
-                <input type="search" class="searchbox ms-2" placeholder="Search" />
+                <input type="search" class="searchbox ms-2" placeholder="Search" id="search-input" />
             </div>
             <div class="button-container d-flex align-items-center">
                 <div class="dropdown-container me-3">
                     <span class="me-2">Course</span>
-                    <select class="course-dropdown">
-                        <option value="course1" selected>BS Information Technology</option>
-                        <option value="course2">BS Computer Science</option>
-                        <option value="course3">BS Biology</option>
-                        <option value="course4">BS Chemistry</option>
-                        <option value="course5">BS Meteorology</option>
+                    <select class="course-dropdown" id="course-filter">
+                        <option value="" selected> (Choose course)</option>
+                        <option value="1" selected>BS Information Technology</option>
+                        <option value="2">BS Computer Science</option>
+                        <option value="3">BS Biology</option>
+                        <option value="4">BS Chemistry</option>
+                        <option value="5">BS Meteorology</option>
                     </select>
                 </div>
                 <button class="btn btn-outline-secondary custom" onclick="createShopPage()">Create Shop <i class="fa fa-plus"></i></button>
@@ -41,22 +42,30 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row" class="align-middle">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s" 
-                                     alt="Profile Picture" 
-                                     class="img-fluid rounded-circle profile-data-table" 
-                                     style="width: 40px; height: 40px;">
-                            </td>
-                            <td class="text-center align-middle">CircUITS</td>
-                            <td class="text-center align-middle">BS Information Technology</td>
-                            <td class="text-center align-middle">Juan Dela Cruz</td>
-                            <td class="text-center align-middle">Active</td>
-                            <td class="text-center align-middle">
-                                <button class="btn btn-outline-secondary fs-2 p-1 px-2" data-bs-toggle="modal" data-bs-target="#shopModal">View Shop</button>
-                            </td>
-                        </tr>
+                    <tbody id="display">
+                        @foreach($shops as $shop)
+                            <tr>
+                                <td>
+                                    <img src="{{ $shop->shop_logo ? asset('storage/shop_logos/' . $shop->shop_logo) : asset('images/default-profile.png') }}" 
+                                        alt="Profile Picture" 
+                                        class="img-fluid rounded-circle profile-data-table" 
+                                        style="width: 40px; height: 40px;">
+                                </td>
+                                <td class="text-center align-middle">{{ $shop->shop_name }}</td>
+                                <td class="text-center align-middle">{{ $shop->course->course_name }}</td>
+                                <td class="text-center align-middle">
+                                    @foreach($shop->businessManagers as $businessManager)
+                                        {{ $businessManager->user->first_name }} {{ $businessManager->user->last_name }}<br>
+                                    @endforeach
+                                </td>
+                                <td class="text-center align-middle">{{ $shop->status->status_name ?? 'No status assigned' }}</td>
+                                <td class="text-center align-middle">
+                                    <button class="view-shops-btn btn btn-outline-secondary fs-2 p-1 px-2" data-user-id="{{ $shop->id }}">View Shop</button>
+                                </td>
+                            </tr>
+                            @endforeach
+
+                        
                     </tbody>
                 </table>
             </div>
@@ -71,18 +80,20 @@
                     </div>
                     <div class="d-flex flex-column ">
                         <div class="mb-3 d-flex justify-content-center w-100">
+                            <input id="userId" hidden>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                                  class="profile-picture1"
+                                 id="shopLogo"
                                  alt="Profile Picture"
                                  style="width: 150px; height: 150px;">
                         </div>
                         <div class="d-flex flex-column justify-content-start px-5">
-                            <h3 class="fw-bold">CirCUITS</h3>
-                            <p>Bachelor of Science in Information Technology</p>
+                            <h3 class="fw-bold" id="org-name">CirCUITS</h3>
+                            <p id="course-origin">Bachelor of Science in Information Technology</p>
                             <div class="text-start">
-                                <p class="mb-1"><strong>Archie Onoya</strong></p>
-                                <p class="m-0">GCash Number: 09123456789</p>
-                                <p class="m-0">GCash Receiver: Robert Rodejo</p>
+                                <p class="mb-1" id="business_mngr"><strong>Archie Onoya</strong></p>
+                                <p class="m-0" id="gcash-num">GCash Number: 09123456789</p>
+                                <p class="m-0" id="gcash-ctrl-name">GCash Receiver: Robert Rodejo</p>
                             </div>
                         </div>
                      
@@ -90,7 +101,7 @@
                     </div>
                     <div class="modal-footer mt-2">
                         <button type="button" class="btn btn-secondary p-2" onclick="showDisableAccountModal()">Disable Shop</button>
-                        <button type="button" class="btn btn-primary p-2" onclick="updateShop()">Update Shop</button>
+                        <button type="button" class="btn btn-primary p-2" id="updateShopBtn" data-id="" >Update Shop</button>
                     </div>
                 </div>
             </div>
@@ -118,12 +129,31 @@
 </div>
 
 <script>
+    const imageBaseUrl = @json(asset('images'));
+    const shopsData = @json($shops);
+
+</script>
+
+<script src="{{asset('js/admin-shops.js')}}" ></script>
+
+<!--
+<script>
     function createShopPage() {
         window.location.href = "{{ route('admin.createshop') }}";
     }
 
     function updateShop() {
-        window.location.href = "{{ route('admin.updateshop') }}";
+        const shopId = document.getElementById("updateShopBtn").getAttribute("data-id");
+        if (shopId) {
+        // Construct the URL using the shopId dynamically
+        const url = `/admin/shops/update/access/${shopId}`;
+
+        // Redirect to the update page
+        window.location.href = url;
+    } 
+    else {
+        alert("No shop ID found.");
+        }
     }
 
     function showDisableAccountModal() {
@@ -140,5 +170,5 @@
         shopModal.show();
     }
 </script>
-
+-->
 @endsection

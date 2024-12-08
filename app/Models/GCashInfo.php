@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Shop;
 
 class GCashInfo extends Model
 {
@@ -12,6 +14,37 @@ class GCashInfo extends Model
     // Disable timestamps
     public $timestamps = false;
 
-    protected $fillable = ['gcash_name', 'gcash_number', 'gcash_limit'];
+    protected $fillable = ['gcash_name', 'gcash_number', 'gcash_limit', 'user_id', 'shop_id'];
+
+    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    
+
+    public function shops()
+    {
+        return $this->hasMany(Shop::class); 
+    }
+
+     /**
+     * Relationship to the Role model.
+     */
+    // The table associated with the model (if it's not the default plural)
+    protected $table = 'g_cash_infos';
+
+    // Define the relationship
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, 'shop_id'); // shop_id is the foreign key in g_cash_infos
+    }
+    public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
 }
+
+}
+
 

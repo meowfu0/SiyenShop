@@ -15,4 +15,9 @@ class Status extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
 }

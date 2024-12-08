@@ -25,6 +25,7 @@ class RolesTableSeeder extends Seeder
                 'role_name' => 'Business Manager',
                 'created_at' => Carbon::now(),
             ],
+
             [
                 'role_name' => 'Admin',
                 'created_at' => Carbon::now(),
