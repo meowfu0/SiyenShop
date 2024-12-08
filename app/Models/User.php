@@ -68,7 +68,7 @@ class User extends Authenticatable
      */
     public static function boot()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        
     
         parent::boot();
 
