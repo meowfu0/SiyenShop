@@ -205,12 +205,12 @@ else {
             const roleDropdown = document.getElementById('modalRole');
             const confirmDeactivateBtn = document.getElementById('confirmDeactivateBtn'); 
             const cancelDeactBtn = document.getElementById('cancelDeactBtn');
+            const closeEditBtn = document.getElementById('closeEditBtn');
             let savedRoleValue = roleDropdown.value;
             let isEditing = false;
         
             // When the Edit button is clicked
             editBtn?.addEventListener('click', function () {
-                if (!isEditing) {
                     roleDropdown.disabled = false;
                     editBtn.style.display = 'none';
                     saveBtn.style.display = 'inline';
@@ -218,7 +218,6 @@ else {
                     cancelBtn.style.display = "inline"; 
                     document.querySelectorAll('.editable-field').forEach(field => field.disabled = false);
                     isEditing = true;
-                } 
             });
         
             // When Save Changes is clicked, update the role and save changes

@@ -79,8 +79,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => $roles,
         ]);
-    }   
-
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -158,11 +157,11 @@ public function updateRole(Request $request, $userId)
         }
     
         // Apply course filter if the course parameter is provided
-        if ($request->has('courseCall') && !empty($request->courseCall)) {
-            $query->whereHas('course', function($q) use ($request) {
-                $q->where('id', $request->course);
-            });
-        }
+    if ($request->has('courseCall') && !empty($request->courseCall)) {
+        $query->whereHas('course', function($q) use ($request) {
+            $q->where('id', $request->courseCall);
+        });
+    }
 
         // Return the filtered users
         return $query->get();
@@ -221,6 +220,11 @@ public function updateRole(Request $request, $userId)
      *
      * @return \Illuminate\Http\Response
      */
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getUserPermissions($userId)
     {
 
@@ -246,5 +250,6 @@ public function updateRole(Request $request, $userId)
         'permissions' => $assignedPermissions
     ]);
 }
+
 
 }

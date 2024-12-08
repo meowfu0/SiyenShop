@@ -22,6 +22,7 @@
                         <option value="3">BS Biology</option>
                         <option value="4">BS Chemistry</option>
                         <option value="5">BS Meteorology</option>
+                        <option value="6">College of Science</option>
                     </select>
                 </div>
                 <button class="btn btn-outline-secondary custom" onclick="createShopPage()">Create Shop <i class="fa fa-plus"></i></button>
@@ -54,9 +55,7 @@
                                 <td class="text-center align-middle">{{ $shop->shop_name }}</td>
                                 <td class="text-center align-middle">{{ $shop->course->course_name }}</td>
                                 <td class="text-center align-middle">
-                                    @foreach($shop->businessManagers as $businessManager)
-                                        {{ $businessManager->user->first_name }} {{ $businessManager->user->last_name }}<br>
-                                    @endforeach
+                                        {{ $shop->user->first_name }} {{ $shop->user->last_name }}<br>
                                 </td>
                                 <td class="text-center align-middle">{{ $shop->status->status_name ?? 'No status assigned' }}</td>
                                 <td class="text-center align-middle">
@@ -80,7 +79,7 @@
                     </div>
                     <div class="d-flex flex-column ">
                         <div class="mb-3 d-flex justify-content-center w-100">
-                            <input id="userId" hidden>
+                            <input id="shopId" value="" hidden>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjvKVPWNACMZqeZEIKjjn4_ihfsK1y9jUjiw&s"
                                  class="profile-picture1"
                                  id="shopLogo"
@@ -120,7 +119,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn custom-btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Disable</button>
+                        <button type="button" class="btn btn-primary" id="disablePrt">Disable</button>
                     </div>
                 </div>
             </div>
@@ -131,6 +130,7 @@
 <script>
     const imageBaseUrl = @json(asset('images'));
     const shopsData = @json($shops);
+    const alterStatus = @json(route('shops.deactivate', ['shopId' => ':shopId']));
 
 </script>
 
