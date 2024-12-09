@@ -6,6 +6,8 @@
 
 ## DESCRIPTION
 
+<h3><strong>This initiative is presented as a Final Project to <em>Prof. Ronalyn S. Ariola</em> in partial fulfillment of the requirements for the <em>Web Development course</em>.</strong></h3>
+
 This project is a **web-based e-commerce system** designed to provide a student-friendly platform for students of Bicol University to browse and purchase all kinds of merchandise from various student organizations within the Bicol University College of Science. It allows users to choose products to buy effectively, add them to the cart, and track orders.
 
 ## FEATURES
